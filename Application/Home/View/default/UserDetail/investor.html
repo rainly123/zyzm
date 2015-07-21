@@ -1,0 +1,303 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+<block name="body">
+<div class="main">
+  <div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+
+<div class="mcenter-right" id="mcenter-right">
+  <div class="ShowPath">
+    您现在的位置： 用户中心&nbsp;&gt;&nbsp;个人资料&nbsp;&gt;&nbsp;投资者基本信息
+  </div>
+  <div>
+  <div class="bs-docs-example" style="border: none;">
+      <form class="login-form form-horizontal" action="{:U('addDetail')}" method="post">
+        <input type="hidden" name="id" value="{$user.id}">
+        <input type="hidden" name="user_type" value="2">
+          <div class="control-group">
+            <label class="control-label">用户名</label>
+            <div class="controls">
+              <span type="text" class="span3 uneditable-input">{$user.nickname}</span>
+            </div>
+          </div>
+          <div class="control-group" style="display:none;">
+            <label for="inputType" class="control-label">用户类型</label>
+            <div class="controls">
+              <label class="radio inline"><input type="radio" value="1" name="investor_type" id="private" checked="checked" <notempty name="detail">disabled="true"</notempty>>投资人</label>
+              <label class="radio inline"><input type="radio" value="2" name="investor_type" id="company" <notempty name="detail">disabled="true"</notempty>>投资机构</label>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">头像</label>
+            <div class="controls">
+              <notempty name="user['photo_url']">
+                <img src="{$user['photo_url']}" alt="" style="height:120px; width:120px;float:left" id="head_img">
+                <else/>
+              <img src="/Uploads/Picture/Photo/photo_default.png" alt="" style="height:120px; width:120px;float:left" id="head_img">
+              </notempty>
+              <input type="button" id="showModal" class="btn" value="上传头像">
+              <input type="hidden" name="photo" id="cover_id_photo" nullmsg="请上传头像" datatype="*" value="{$user.photo}" />
+              <input type="hidden" name="photo_url" id="cover_url" value="{$user.photo_url}">
+              <span class="help-inline Validform_checktip"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label id="name_label" class="control-label" for="inputName">真实姓名</label>
+            <div class="controls">
+              <input <if condition="$userauth.status eq 9"> readonly</if> type="text" id="inputName" class="span3" placeholder="请填写真实姓名" errormsg="请填写2-6位真实姓名" nullmsg="请填写真实姓名" datatype="*1-6" name="name" value="{$detail.name}">
+              <span class="help-inline Validform_checktip"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label id="cardid_label" class="control-label" for="inputCardId">身份证号码</label>
+            <div class="controls">
+              <input <if condition="$userauth.status eq 9"> readonly</if> type="text" id="inputCardId" class="span3" placeholder="请填写身份证号" errormsg="请填写正确的身份证号码" nullmsg="请填写身份证号码" datatype="idcard" name="card_id" value="{$detail.card_id}">
+
+              <span class="help-inline Validform_checktip"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPhone">手机号码</label>
+            <div class="controls">
+              <input type="text" id="inputPhone" class="span3" placeholder="请填写手机号码" errormsg="请填写正确格式的手机号码" nullmsg="请填写手机号码" datatype="m" name="phone" value="{$detail.phone}">
+              <span class="help-inline Validform_checktip"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputArea">所在地区</label>
+            <div class="controls">
+              {:hook('J_China_City', array('province'=> $detail['province'], 'city'=>$detail['city']))}
+              <span class="help-inline Validform_checktip"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputAddress">详细地址</label>
+            <div class="controls">
+              <input type="text" id="inputAddress" class="span4" placeholder="请输入个人住址" errormsg="请填写1-30位的个人住址" nullmsg="请填写个人住址" datatype="*1-30" name="address" value="{$detail.address}">
+              <span class="help-inline Validform_checktip"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputDescribe">简介</label>
+            <div class="controls">
+              <textarea id="inputDescribe" class="span4" placeholder="简介" errormsg="请填写100字以内的简介" nullmsg="请填写简介100字以内" datatype="*1-100" name="describe">{$detail.describe}</textarea>
+              <span class="help-inline Validform_checktip"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label"></label>
+            <div class="controls back_error"></div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" class="btn btn-primary">确定</button>
+            </div>
+          </div>
+      </form>
+  </div>
+  </div>
+  </div>
+  </div>
+</section>
+<div id="uploadModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="modalTitle">上传头像</h3>
+  </div>
+  <div class="modal-body">
+    <div class="upload-btn">
+      <input type="file" accept="image/jpeg,image/png" name="download" id="download">
+      <div>上传头像</div>
+    </div>
+    <div class="pull-left" style="width:500px;height:300px">
+      <img id="baseImage" src="__IMG__/default_image.jpg" alt="">
+    </div>
+    <form action="{:U('User/changePhoto')}" method="Post">
+      <input type="hidden" name="photo" />
+      <input type="hidden" id="x" name="x" />
+      <input type="hidden" id="y" name="y" />
+      <input type="hidden" id="w" name="w" />
+      <input type="hidden" id="h" name="h" />
+      <input type="hidden" id="sw" name="sw">
+      <input type="hidden" id="sh" name="sh">
+      <input type="hidden" name="flag" value="1">
+      <input type="hidden" id="basepath" name="basepath">
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" id="btnCrop">确定</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+  </div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+  <link rel="stylesheet" href="__STATIC__/Jcrop/css/jquery.Jcrop.min.css" />
+  <script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+  <script type="text/javascript" src="__STATIC__/Jcrop/js/jquery.Jcrop.min.js"></script>
+	<script type="text/javascript">
+	
+	//导航高亮
+	highlight_subnav('{:U('UserDetail/investor')}');        
+
+  $("#download").change(function() {
+    $.upload({
+      url: '{:U("File/uploadPhoto")}', 
+      fileName: 'download', 
+      dataType: 'json',
+      // 上传之前回调,return true表示可继续上传
+      onSend: function() {
+          return true;
+      },
+      // 上传之后回调
+      onComplate: function(data) {
+        jcrop_api.enable();
+        jcrop_api.setImage(data.path);
+        $('.modal-body').find("input[name='photo']").val(data.id);
+        $('#basepath').val(data.path);
+        jcrop_api.setSelect([0,0,100,100]);
+      }
+    });
+  });
+  $("#btnCrop").click(function() {
+    var self = $(".modal-body").find('form');
+    if ($('#x').val() == '') {
+      alert('请选择图片区域，作为头像。');
+      return ;
+    }
+    $.post(self.attr("action"), self.serialize(), success, "json");
+    function success(data) {
+      if(data.status){
+        $("#cover_id_photo").val(data.photo);
+        $("#head_img").attr('src', data.photo_url + "?" + Math.random());
+        $("#cover_url").val(data.photo_url);
+      } else {
+        alert(data.info);
+      }
+      $("#uploadModal").modal("hide");
+    }
+  });
+  
+  var jcrop_api;
+  $(function(){
+     $('#baseImage').Jcrop({
+      aspectRatio: 1,
+      bgColor: '#eee',
+      onSelect: updateCoords,
+      onRelease: clearCoords
+    }, function(){
+      jcrop_api = this;
+      jcrop_api.disable();
+    });
+  });
+
+  function clearCoords(c) {
+    $('#x').val("");
+    $('#y').val("");
+    $('#w').val("");
+    $('#h').val("");
+  }
+  function updateCoords(c){
+    $('#x').val(c.x);
+    $('#y').val(c.y);
+    $('#w').val(c.w);
+    $('#h').val(c.h);
+  };
+  $("#showModal").click(function() {
+    $("#uploadModal").modal('show');
+  });
+
+    var form;
+		$(function(){
+      form = $(".login-form").Validform({tiptype:3, 
+        ajaxPost:true,
+        datatype: {//传入自定义datatype类型【方式二】;
+          "idcard":function(gets,obj,curform,datatype){
+            //该方法由佚名网友提供;
+            var Wi = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1 ];// 加权因子;
+            var ValideCode = [ 1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2 ];// 身份证验证位值，10代表X;
+            if (gets.length == 15) {   
+              return isValidityBrithBy15IdCard(gets);   
+            }else if (gets.length == 18){   
+              var a_idCard = gets.split("");// 得到身份证数组   
+              if (isValidityBrithBy18IdCard(gets)&&isTrueValidateCodeBy18IdCard(a_idCard)) {   
+                return true;   
+              }   
+              return false;
+            }
+            return false;
+            
+            function isTrueValidateCodeBy18IdCard(a_idCard) {   
+              var sum = 0; // 声明加权求和变量   
+              if (a_idCard[17].toLowerCase() == 'x') {   
+                a_idCard[17] = 10;// 将最后位为x的验证码替换为10方便后续操作   
+              }   
+              for ( var i = 0; i < 17; i++) {   
+                sum += Wi[i] * a_idCard[i];// 加权求和   
+              }   
+              valCodePosition = sum % 11;// 得到验证码所位置   
+              if (a_idCard[17] == ValideCode[valCodePosition]) {   
+                return true;   
+              }
+              return false;   
+            }
+            
+            function isValidityBrithBy18IdCard(idCard18){   
+              var year = idCard18.substring(6,10);   
+              var month = idCard18.substring(10,12);   
+              var day = idCard18.substring(12,14);   
+              var temp_date = new Date(year,parseFloat(month)-1,parseFloat(day));   
+              // 这里用getFullYear()获取年份，避免千年虫问题   
+              if(temp_date.getFullYear()!=parseFloat(year) || temp_date.getMonth()!=parseFloat(month)-1 || temp_date.getDate()!=parseFloat(day)){   
+                return false;   
+              }
+              return true;   
+            }
+            
+            function isValidityBrithBy15IdCard(idCard15){   
+              var year =  idCard15.substring(6,8);   
+              var month = idCard15.substring(8,10);   
+              var day = idCard15.substring(10,12);
+              var temp_date = new Date(year,parseFloat(month)-1,parseFloat(day));   
+              // 对于老身份证中的你年龄则不需考虑千年虫问题而使用getYear()方法   
+              if(temp_date.getYear()!=parseFloat(year) || temp_date.getMonth()!=parseFloat(month)-1 || temp_date.getDate()!=parseFloat(day)){   
+                return false;   
+              }
+              return true;
+            } 
+          }
+        },        
+        callback:function(data){
+          if (data.status == '1') {
+            $.messageBox({
+              msginfo:data.info,
+              cancel:function() { window.location.href = data.url;}
+            });
+          } else {
+            $('.back_error').html(data.info);
+          }
+        }, 
+
+      });
+
+      $("input[name='investor_type']").click(function() {
+        var val = $(this).val();
+        if (val == 2) {
+          $("#name_label").html("机构名称");
+          $("#cardid_label").html("营业执照号码");
+          $("#")
+        } else {
+          $("#name_label").html("真实姓名");
+          $("#cardid_label").html("身份证号码");
+        }
+      });
+    });
+	</script>
+</block>

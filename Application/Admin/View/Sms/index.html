@@ -1,0 +1,52 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>群发短信</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">项目编号<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text" id="project_id" name="project_id" value="">
+                <span style="margin-left:20px" id="project_name"></span>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">发送对象<span class="check-tips"></span></label>
+            <div class="controls">
+                <label for="type1" class="radio"><input type="radio" value="1" name="type" id="type1">关注用户</label>
+                <label for="type2" class="radio"><input type="radio" value="2" name="type" id="type2">未付款投资人</label>
+                <label for="type3" class="radio"><input type="radio" value="3" name="type" id="type3">已支付投资人</label>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">短信内容</label>
+            <div class="controls">
+                <textarea rows="5" name="content" cols="80"></textarea>
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post confirm" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('User/index')}');
+
+        $('#project_id').change(function() {
+
+            $.post('{:U('getname')}', {id:$(this).val()}, function(data) {
+                if (data.status == 1) {
+                    $("#project_name").html(data.info);
+                }else {
+                    $("#project_name").html('');
+                } 
+            });
+        });
+    </script>
+</block>

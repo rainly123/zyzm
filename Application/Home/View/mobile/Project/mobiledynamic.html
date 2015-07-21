@@ -1,0 +1,44 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="dynamic">
+        <!--<if condition="($uid eq $puid['uid'])">
+            <div name="test" class="header-toolbar">
+                <button class="btn post-dynamic" id="btn-link-post" data-href="{:U('project/dynamiclistadd?id=_id')}">发表动态</button>
+                <button class="btn edit-dynamic" id="btn-link-edit" data-href="{:U('project/dynamiclist/id/_id')}">编辑动态</button>
+            </div>
+        </if>-->
+        <div class="dynamic_con">
+            <ul>
+                <foreach name="dynamic" item="vo">
+                    <li>
+                        <em></em>
+                        <div class="font">
+                            <h1>{$vo.create_time|time_format='Y-m-d H:i'}</h1>
+                            <h2>
+                                <a href="{:U('project/projectdynamicdetail?id='.$vo['id'])}">
+                                    {$vo.title}
+                                </a>
+                            </h2>
+                            <div class="content">{$vo['content']}</div>
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+    </div>
+    <script>
+        var projectId = location.href.match(/pid\/(\d+)/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        $('#btn-link-post').click(function () {
+            location.href = $(this).data('href').replace('_id', projectId);
+        });
+        $('#btn-link-edit').click(function () {
+            location.href = $(this).data('href').replace('_id', projectId);
+        });
+    </script>
+</block>
+

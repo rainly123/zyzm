@@ -1,0 +1,143 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<link href="__CSS__/style.css" rel="stylesheet">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+	<!-- <include file="base-nav" /> -->
+<div class="fl w100 mainwrap mt25">
+	<div class="content">
+		<div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+        <div class="main mt20">
+         <form id="product_add"  method="Post" class="redound-edith">
+        	<dl class="cl">
+            <dd class="product">
+           
+            	<h2>填写项目信息</h2>
+                <h4>收款人信息</h4>
+                <div class="form ml80">
+					<ul>
+						<li class="ckpre">
+							<label></label>
+	
+							 
+							<empty name="type">
+								<a href="javascript:void(0)" id="one1" onclick="setTab('one',1,2)" class="choosecur">个人账户</a>
+								<a href="javascript:void(0)" style="margin-left:10px;" id="one2" onclick="setTab('one',2,2)">公司账户</a>
+							 	<input type="hidden" name="type" id="hidtype" value="0">
+							 <else/>
+							 	<eq name="type" value="0">
+									<a href="javascript:void(0)" id="one1" onclick="setTab('one',1,2)" class="choosecur">个人账户</a>
+									<a href="javascript:void(0)" style="margin-left:10px;" id="one2" onclick="setTab('one',2,2)">公司账户</a>
+								 	<input type="hidden" name="type" id="hidtype" value="0">
+							 	<else/>
+									<a href="javascript:void(0)" id="one1" onclick="setTab('one',1,2)">个人账户</a>
+									<a href="javascript:void(0)" style="margin-left:10px;" id="one2"  class="choosecur" onclick="setTab('one',2,2)">公司账户</a>
+								 	<input type="hidden" name="type" id="hidtype" value="1">
+							 	</eq>
+							 </empty>
+					 
+						</li>
+						<li>
+						  <label><em>*</em>收款人信息</label>
+						  <input type="text" class="c1" id="holderName" value="{$true_name}" name="true_name" datatype="*" nullmsg="请输入收款人信息" placeholder="请输入收款人信息">
+						</li>
+						<li>
+						  <label><em>*</em>开户行名称</label>
+						  <div class="select">
+							    <select class="c1" id="c"  name="bank_id" datatype="*" nullmsg="请选择开户银行">
+							      <option value="">请选择开户银行</option>
+									<foreach name="bankinfo" item="v">
+										<if condition="$v[id] eq $bank_id">
+											<option value="{$v.id}" selected>{$v.bank_name}</option>
+										<else />
+											<option value="{$v.id}">{$v.bank_name}</option>
+										</if>
+									</foreach>
+							    </select>
+						</div>
+						</li>
+						<li>
+						  <label><em>*</em>开户支行名称</label>
+						  <input type="text" class="c1" id="sub_branch" value="{$sub_branch}" name="sub_branch" datatype="*" nullmsg="请输入开户支行名称" placeholder="请输入开户支行名称">
+						</li>
+						<li>
+						  <label><em>*</em>开户行所在省</label>
+						  <input type="text" class="c1" id="bank_province" value="{$bank_province}" name="bank_province" datatype="*" nullmsg="请输入开户行所在省" placeholder="请输入开户行所在省">
+						  <span style="padding-left:1px;">填写时不带省或自治区，如北京、广西</span>
+						</li>
+						<li>
+						  <label><em>*</em>开户行所在市</label>
+						  <input type="text" class="c1" id="bank_city" value="{$bank_city}" name="bank_city" datatype="*" nullmsg="请输入开户行所在市" placeholder="请输入开户行所在市">
+						  <span style="padding-left:1px;">填写时不带市，如杭州</span>
+						</li>
+						
+						<li>
+						  <label><em>*</em>银行卡号</label>
+						  <input type="text" class="c1" id="card_number" value="{$card_number}" name="card_number" datatype="*" nullmsg="请输入银行卡号" placeholder="请输入银行卡号">
+						</li>
+						<li>
+						  <label><em>*</em>确认银行卡号</label>
+						  <input type="text" class="c1" id="confirm_card_number" value="{$card_number}" name="confirm_card_number" recheck="card_number" datatype="*" nullmsg="请确认银行卡号" placeholder="请确认银行卡号">
+						</li>
+				</div>
+
+            </dd>
+            </dl>
+			<div class="common_button">
+				<div class="risk_tips">
+					<b>温馨提示：</b>	
+					<p>请确认本页信息，并填写完整的银行信息，确保项目成功后您能快速拿到款项。</p>
+				</div>
+				<input type="submit" class="btn_red" value="发布项目">
+			</div>
+			</form>
+        </div>
+    </div>
+</div>
+
+</block>
+<block name="script">
+	<link href="__CSS__/validform.css" rel="stylesheet">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script type="text/javascript" src="__JS__/jQselect.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			//下拉框初始化
+			$("#c").selectbox();
+			
+			$("#product_add").Validform({
+				tiptype:3,
+				btnSubmit:"#confirm",
+				ajaxPost:true,
+				callback:function(data){
+					if (data.status==1) {
+						window.location.href = data.url;
+					}else{
+						alert(data.info);
+					}
+				}
+			});
+		})
+	
+		function setTab(name,cursel,n)
+		{
+			for(i=1;i<=n;i++){
+				var menu=document.getElementById(name+i);
+				menu.className=i==cursel?"choosecur":"";
+			}
+			
+			if(cursel==2){
+				$('#hidtype').val(1);
+			}else{
+				$('#hidtype').val(0);
+			}
+		}
+	</script> 
+
+</block>

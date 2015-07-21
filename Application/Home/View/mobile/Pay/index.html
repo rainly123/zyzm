@@ -1,0 +1,68 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link rel="stylesheet" href="__M_CSS__/dm.css">
+</block>
+<block name="body">
+    <div id="server-data" style="display: none;">
+        <if condition="$need_pay gt 0">
+            <input name="actionUrl" type="hidden" value="{:U('Pay/quickpay1?merorderid='.$data['merorderid'])}">
+            <else/>
+            <input name="actionUrl" type="hidden" value="{:U('Pay/usebalance?merorderid='.$data['merorderid'])}">
+        </if>
+    </div>
+
+    <form class="pay-remaining" action="{:U('querycard')}" method="post">
+        <input type="hidden" name="use_able" value="{$account.use_able}">
+        <input type="hidden" name="pay_amount" value="{$data.pay_amount}">
+        <input type="hidden" name="balance" value="{$need_pay}">
+
+        <div class="tac panel-flat mt-8 mb-5">
+            <div class="fz-30 c-blue">￥<span class="serif">{$data.pay_amount}</span>元</div>
+            <div>投资金额</div>
+        </div>
+        <if condition="$account.use_able gt 0">
+            <div class="panel-flat inline-label-text fz-18 mb-5">
+                <label class="">账户余额</label>
+                <span class="input"><span class="serif mr-5">{$account.use_able}</span>元</span>
+            </div>
+        </if>
+        <if condition="$need_pay gt 0">
+            <div class="panel-flat inline-label-text fz-18 mb-10">
+                <label class="">充值金额</label>
+                <span class="input"><span class="serif mr-5">{$need_pay}</span>元</span>
+            </div>
+        </if>
+
+        <button id="btn-pay" class="btn btn-longest fz-22">确定支付</button>
+
+    </form>
+
+</block>
+<block name="script">
+    <script type="text/javascript">
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+
+        $(function () {
+            $("#btn-pay").click(function () {
+                var $this = $(this);
+                $.get(serverData.actionUrl, $('.pay-remaining').serialize(), function (json) {
+                    if (json.status == 1) {
+                        if (json.info != '') {
+                            alert(json.info);
+                        }
+                        window.location.href = json.url;
+                    } else {
+                        alert(json.info);
+                        window.location.reload();
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
+</block>

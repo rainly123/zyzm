@@ -1,0 +1,75 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>购买列表</h2>
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+	<div class="data-table table-striped">
+<table class="">
+    <thead>
+    <tr>
+		<th class="">编号</th>
+		<th class="">股票名称</th>
+		<th class="">总份额</th>
+		<th class="">买入时间</th>
+		<th class="">买入价</th>
+		<th class="">买入数量</th>
+		<th class="">买入金额</th>
+		<th class="">卖出价</th>
+		<th class="">卖出时间</th>
+		<th class="">收益金额</th>
+		<th class="">收益率</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i}</td>
+			<td>{$vo.title}</td>
+			<td>{$vo.fund}</td>
+			<td><span>{$vo.buy_time|time_format="Y-m-d"}</span></td>
+			<td>{$vo.buy_price} 元</td>
+			<td>{$vo.buy_count} 股</td>
+			<td>{$vo.buy_amount} 元</td>
+			<td>{$vo.sell_amount} 元</td>
+			<td><span>{$vo.sell_time|time_format="Y-m-d"}</span></td>
+			<td>{$vo.rate_amount} 元</td>
+			<td>{$vo.rate} </td>
+			<td>{$vo.status_text} </td>
+			<td>
+				<if condition="$vo.status eq 0">
+					<a href="{:U('Stock/updatetatus?id='.$vo['id'])}" class="confirm ajax-get">撤销</a>
+				<elseif condition="$vo.status eq 1"/>
+					<a href="{:U('Stock/updatetatus?id='.$vo['id'])}" class="confirm ajax-get">撤销</a>|
+					<a href="{:U('buy?id='.$vo['id'].'&pid='.$vo['pid'])}" class="manage" alt="买入">买入</a>
+				<elseif condition="$vo.status eq 2"/>
+					<a href="{:U('sell?id='.$vo['id'].'&pid='.$vo['pid'])}" class="manage" alt="卖出">卖出</a>
+				</if>
+			</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="14" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<link rel="stylesheet" href="__CSS__/colorbox.css">
+	<script type="text/javascript">
+		$(".manage").colorbox();
+	</script>
+</block>

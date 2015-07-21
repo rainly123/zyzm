@@ -1,0 +1,44 @@
+<div class="addcards popup_content clearfix">
+  <div class="top"><header><b>充值</b></header></div>
+  <form id="form-recharge" method="POST" action="{:U('Account/recharge')}">
+    <ul class="list mt20">
+      <input type="hidden" name="type" value="{$type}">
+      <input type="hidden" name="id" value="{$_GET['id']}">
+      <li><dl><dt>充值金额：</dt>
+        <dd><input type="text" datatype="n1-8" nullmsg="请输入充值金额" errormsg="充值金额输入不正确" class="c1" name="amount"></dd>
+      </dl></li>
+      <li><dl><dt></dt>
+        <dd><div id="errormessage"></div></dd>
+      </dl></li>
+      <li><dl><dt>&nbsp;</dt>
+        <dd><input type="submit" value="确定" class="c3"></dd>
+      </dl></li>
+
+      <li><dl><dt>温馨提醒：</dt>
+        <dd>如果您准备用快捷支付充值，请填写小于10,000的金额。</dd>
+      </dl></li>
+    </ul>
+  </form>
+</div>
+
+<script type="text/javascript">
+  $("#form-recharge").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    callback: function(data) {
+      if (data.status == 1) {
+        window.location.href=data.url;
+        //layer.alert(data.info, 1, function(){window.location.reload();});
+      }
+    }
+  });
+</script>

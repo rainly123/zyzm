@@ -1,0 +1,131 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+	<section>
+	<div class="usercontent clearfix">
+	<include file="Public/sidebar"/>
+	<div class="mcenter-right" id="mcenter-right">
+			<div class="ShowPath">
+			您现在的位置： 用户中心&nbsp;&gt;&nbsp;个人资料&nbsp;&gt;&nbsp;身份验证 
+		</div>
+	<div>
+
+		<div class="bs-docs-example" style="border: none;">
+	        <form class="form-horizontal" action="{:U()}" method="post">
+	        <div class="con_point f_ora">
+				<span class="f_ora f_18">
+					<if condition="($user.investor_status eq 0) "> 
+						您还未申请身份认证！
+					<elseif condition="$user.investor_status eq 1"/>
+						您申请身份认证,认证中...！
+					<elseif condition="$user.investor_status eq 3"/>
+						您申请身份认证被拒绝,请重新申请！<a  style="color:#FF0000">拒绝理由【{$user.capacity_content}】</a>
+					<else /> 
+					您已通过身份认证！
+					</if>
+	
+				</span>
+				<br>
+				聚募网承诺：您的身份证信息，仅用于验证您的身份真实性！
+			</div>
+	        
+	        <div class="control-group">
+					<label for="" class="control-label">上传身份证照:</label>
+					<div class="controls">
+						<if condition="($user[investor_status] eq 0) or ($user[investor_status] eq 3)">
+						<div class="upload-btn">
+				      <input type="file" accept="image/jpeg,image/png" name="download" id="download">
+				      <div>上传身份证</div>
+				    </div>
+				    </if>
+						<div class="img-box" style="width:300px;height:200px;">
+							<notempty name="detail['card_photo']">
+								<img src="{$detail.card_photo|get_cover='path'}" alt="" width="100%">
+							<else/>
+								<img src="__IMG__/default_image.jpg" alt="" width="100%">
+							</notempty>
+							<input type="hidden" name="icon" id="icon" value="{$detail['card_photo']|default=''}"/>
+							<input type="hidden" name="card_photo_url" id="card_photo_url" value="{$detail.card_photo|get_cover='path'}"/>
+							
+							<span class="help-inline"></span>
+						</div>
+						<span class="help-inline Validform_checktip"></span>
+					</div>
+				</div>
+		
+	          <div class="control-group">
+	            <div class="controls">
+	        		<if condition="($user[investor_status] eq 0) or ($user[investor_status] eq 3)">
+						<button type="submit" class="btn">提 交</button>
+					</if>
+	              
+	            </div>
+	          </div>
+	        </form>
+		</div>
+	</div>
+		</div>
+		</div>
+</section>
+	</div>
+</div>
+
+</block>
+
+<block name="side"></block>
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+  <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+  <link rel="stylesheet" href="__STATIC__/uploadify/uploadify.css">
+  <script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+  
+	<script type="text/javascript">
+
+		//导航高亮
+		highlight_subnav('{:U('User/capacity')}');
+
+    	$("form").submit(function(){
+    		var self = $(this);
+    		$.post(self.attr("action"), self.serialize(), success, "json");
+    		return false;
+
+    		function success(data){
+    			if(data.status){
+    				window.location.href = data.url;
+    			} else {
+    				self.find(".Validform_checktip").text(data.info);
+    			}
+    		}
+    	});
+    	
+    	$("#download").change(function() {
+    	    $.upload({
+    	      url: "{:U('File/uploadPhoto',array('session_id'=>session_id()))}", 
+    	      fileName: 'download', 
+    	      dataType: 'json',
+    	      accept: '.jpg,.jpeg,.png,.gif',
+    	      // 上传之前回调,return true表示可继续上传
+    	      onSend: function() {
+    	          return true;
+    	      },
+    	      // 上传之后回调
+    	      onComplate: function(data) {
+    	      	if(data.status == 1) {
+    	      		$(".img-box img").attr('src', data.path);
+    	      		$(".img-box input[type='hidden' name='ico']").val(data.id);
+    	      		$(".img-box input[type='hidden' name='card_photo_url']").val(data.path);
+    	      		$("#icon").val(data.id);
+    	      		$("#card_photo_url").val(data.path);
+    	      	} else {
+    	      		alert(data.info);
+    	      	}
+    	      }
+    	    });
+    	  });
+    	
+	</script>
+</block>

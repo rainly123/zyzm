@@ -1,0 +1,145 @@
+<extend name="Public/base"/>
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/product-common.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/addstep2.css">
+</block>
+
+
+<block name="body">
+	<include file="base-nav" />
+	<div class="content">
+		<div class="">
+		        <div class="common_tit"><h1 class="common_tit_name">回报设置</h1></div>
+                            <table class="data-table table-striped" cellpadding="1" border="1">
+	                            <thead>
+		                        <tr>
+		                            <th width="60">序号</th>
+		                            <th width="100">支付金额</th>
+		                            <th width="80">名额</th>
+		                            <th width="290">回报内容</th>
+		                            <th width="130">回报时间</th>
+		                            <th width="110">运费</th>
+		                            <th>操作</th>
+		                        </tr>
+	                            </thead>
+		                        <tbody>
+		                        <foreach name="resultPrice" item="vo" >
+	                                <tr>
+		                                <td>{$vo.id}</td>
+		                                <td><span class="red">￥{$vo.amount}</span></td>
+		                                <td>
+	                                        <if condition="$vo['count'] eq 0">
+												无限制
+		                                    <else/>
+			                                    {$vo.count}
+		                                    </if>
+	                                    </td>
+		                                <td>
+		                                    {$vo.content}
+		                                </td>
+		                                <td>{$vo.afterday}</td>
+		                                <td><span class="red">￥{$vo.post_amount}元</span></td>
+		                                <td>
+		                                    <a href="#" data-pricedata="{:U('Product/getPriceUsedRevise?id='.$vo[id])}" class="revise-price">编辑</a>
+		                                    <a data-href="{:U('Product/deleteProductPrice?id='.$vo[id])}" class="delect-price" href="#">删除</a>
+		                                </td>
+		                            </tr>
+								</foreach>
+                            </tbody></table>
+		        <div class="module_con">
+		            <!-- 发起项目首页 -->
+		            <div class="module_item">
+		                <div class="tabList">
+	                    </div>
+		                <div class="w_addInfo">
+
+	                    	<form id="redound-edith" action="{:U('Product/addstep2?pid='.$pid)}" class="redound-edith">
+		                    <h4>添加回报选项:</h4>
+		                    <dl class="redound-type">
+		                        <dt>回报类别：</dt>
+		                        <dd>
+		                            <label for=""><input type="radio"  name="price_type" id="rt0" class="borno" value="0">实物回报</label>
+		                            <label for=""><input type="radio" name="price_type" id="rt1" class="borno" value="1">虚拟物品回报<em class="gray">（电子码等）</em></label>
+		                        </dd>
+		                    </dl>
+		                    <dl>
+		                        <dt>支持金额：</dt>
+		                        <dd>
+		                            <input type="text" datatype="n" errormsg="不多于13个字" class="span2" placeholder="不少于XX元" name="amount" id="amount" value="0"> 元
+		                        </dd>
+		                    </dl>
+		                    <dl>
+		                        <dt>回报内容：</dt>
+		                        <dd>
+		                            <textarea id="content" datatype="*" name="content"  placeholder="最多不超过200个字" class="textA490_1"></textarea>
+		                        </dd>
+		                    </dl>
+		                    <dl>
+		                        <dt>说明图片：</dt>
+		                        <dd>
+					            	<div class="clearfix">
+									    <div class="upload-btn pull-left">
+										      <input class="fileupload" ignore="ignore" type="file" data-fileurl="{:U('File/uploadProduct')}" name="upload" id="upload">
+										      <div>上传回报图片</div>
+									    </div><span class="pull-left" style="padding-left:20px;">支持jpg、jpeg、png、gif格式，大小不超过500KB 600*600</span>
+								    </div>
+								  	<div class="redound">
+										<img id="redoundImage" src="__IMG__/product/sl78_78.png" class="imgbox-78">
+								    	<input type="hidden" datatype="*" id="image" name="image" value=""  nullmsg="请上传回报图片">
+								    </div>
+		                        </dd>
+		                    </dl>
+		                    <dl>
+		                        <dt>限定名额：</dt>
+		                        <dd>
+		                            <input type="text" class="" datatype="n" placeholder="0" id="count" name="count" value="0">  <em class="gray">"0"为不限名额</em>
+		                        </dd>
+		                    </dl>
+		                    <dl>
+		                        <dt>运费：</dt>
+		                        <dd>
+		                            <input type="text" class="inp150" datatype="n" placeholder="0" id="post_amount" name="post_amount" value="0"> 元 <em class="gray">"0"为包邮</em>
+		                        </dd>
+		                    </dl>
+		                    <dl>
+		                        <dt>回报时间：</dt>
+		                        <dd>
+									项目结束后 <input type="text" datatype="n" class="inp80" id="afterday" name="afterday"> 天，将会向支持者发送回报
+		                        </dd>
+		                    </dl>
+
+				
+		                    <div class="ui-edith-button">
+			                    <!-- 确定 取消 -->
+			                    <input type="hidden" name="order_number" value="" id="price_id">
+			                    <input type="button" class="form_button" id="confirm" value="确定">
+			                    <input type="button" class="form_button" style="width:70px;" id="cancle" value="取消">
+		                    </div>
+
+	                    	</form>
+		                </div> <!-- w_addInfo end -->
+		                <div class="w_adda hide" style="padding-left:120px;">
+		                    <!-- 添加回报 -->
+		                    <button class="bgray" id="addBack">添加回报</button>
+		                    <button class="bgray" id="preview" ><a href="<?php print $_SERVER['SERVER_NAME']."/Product/viewDetail?pid=".$pid ;?>" target="_blank">预览</a></button>
+		                    <div style="clear: both;"></div>
+		                </div>
+		            </div>
+
+		            <div class="common_button">
+			                <a class="btn btn-large btn-primary" href="{:U('Product/addstep3?pid='.$pid)}" >下一步</a>
+    		            </div>
+		        </div>
+		    </div>
+
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__JS__/product/addstep2.js"></script>
+    <script type="text/javascript">
+	   highlight_subnav('{:U('Product/index')}');
+	</script>
+</block>

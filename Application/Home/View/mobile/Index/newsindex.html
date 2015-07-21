@@ -1,0 +1,77 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+<block name="body">
+    <script>
+        !function () {
+            var a = document.documentElement;
+            var b = a.clientWidth / 20;
+            a.style.fontSize = (b > 32 ? 32 : b) + "px"
+        }();
+    </script>
+
+    <link href="__M_CSS__/notice.css" rel="stylesheet">
+
+    <div id="ad">
+        <div style="-webkit-transform:translate3d(0,0,0);">
+            <div id="banner_box" class="box_swipe">
+                <ul style="cursor:-webkit-grab;">
+                    <foreach name="bannerList" item="vo" >
+                        <li>
+                            <a href="{$vo.extra}"><img src="{$vo.mobiel_img_id|get_cover='path'}" style="width:100%;"/></a>
+                        </li>
+                    </foreach>
+                </ul>
+                <ol>
+                    <li class="on"></li>
+                    <li ></li>
+                    <li ></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="carousel"></div>
+    <div class="tab-box">
+        <ul class="tab-list">
+            <li class="tab-item active"><a>公告</a></li>
+            <li class="tab-item"><a>资讯</a></li>
+        </ul>
+    </div>
+    <div class="panel-box">
+        <div class="panel-win">
+            <div class="panel-list">
+                <div class="panel notice-panel">
+                    <ul class="notice-list">
+                        <foreach name="notice" item="v">
+                            <li class="new"><a href="{:U('Info/notice?id='.$v['id'])}"><span class="title">{$v.title}</span><span class="date">{$v.create_time|time_format='Y-m-d'}</span></a></li>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="panel news-panel">
+                    <ul class="news-list">
+                        <foreach name="news" item="v">
+                            <li class="new">
+                                <a href="{:U('Info/notice?id='.$v['id'])}">
+                                    <div class="img" style="background-image: url('/')"></div>
+                                    <span class="title">{$v.title}</span>
+                                    <span class="date">{$v.create_time|time_format='Y-m-d'}</span>
+                                </a>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fixed-footer">
+        <div class="btn-list">
+            <a href="/" class="btn index">首页</a>
+            <a href="/Index/newsindex.html" class="btn news active">资讯</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="__M_JS__/swipe.js"></script>
+    <script src="__M_JS__/noticelist.js"></script>
+</block>

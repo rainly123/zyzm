@@ -1,0 +1,49 @@
+/*公共样式*/
+.z_container { width: 1000px; margin: 0 auto; }
+body.page-header { background: #f3f3f3; }
+.mt20 { margin-top: 20px; }
+textarea { resize: none; overflow: auto; }
+
+
+.module_wrap {
+    border: 1px solid #dedbdb;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+.common_tit { height: 59px; line-height: 59px; border-bottom: 1px solid #dedbdb; }
+.common_tit .common_tit_name { font-size: 22px; font-family: 'microsoft yahei'; padding: 0 20px; font-weight: normal; color: #444; }
+.module_con { color: #666; }
+.module_con dl { padding: 5px 0 5px 100px; line-height: 24px; margin: 0 20px;min-height: 24px;_height:24px; }
+.module_con dl dt { margin-left: -95px; float: left; width: 85px; text-align: right; color: #333; font-weight: bold; _display: inline; }
+.module_item { border-bottom: 1px dashed #e3e3e3; padding: 10px 0; }
+.risk_tips { margin: 24px 40px; border: 1px solid #edd28b; padding: 20px; background: #fffdee;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    }
+.risk_tips p { line-height: 18px; margin-top: 10px; }
+.common_button { text-align: center; padding: 24px 0; }
+.common_button button { width: 100px; height: 38px; font-size: 16px; font-family: "Microsoft Yahei"; background: #ff6559; text-decoration: none; border-radius: 4px; line-height: 38px; text-align: center; display: inline-block; color: #FFF; cursor:pointer;
+    border:none;
+}
+
+.module_item dl dd input{
+}
+.module_item dl dd label{
+    vertical-align: middle; 
+    display:  inline-block;
+    margin-top: 8px;
+}
+.module_item dl dd{
+    display: block;
+}
+
+.Validform_checktip{
+    color: red;
+    margin-left: 20px;
+}

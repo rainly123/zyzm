@@ -1,0 +1,67 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <link rel="stylesheet" type="text/css" href="__CSS__/ProductOrder/common.css">
+    <style type="text/css">
+	    .module_wrap{
+	    	margin-bottom: 20px;	
+	    }
+	    .module_item{
+	    	text-align: center;
+	    }
+	    .next_action{
+	    	font-size: 15px;
+	    	margin: 20px;
+	    }
+	    .next_action p{
+	    	float: left;
+	    }
+	    .link2{
+	    	float: left;
+	
+		}
+	    .next_action_box{
+	    	text-align: center;
+	    	margin: 0 auto;
+	    	margin:0 35% 0 35%;
+
+	    }
+    </style>
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+	<include file="base-nav" />
+	<div class="module_wrap mt20 content">
+
+	        <div class="module_con">
+		        <div class="module_item">
+			        <h1>恭喜您！支付成功</h1>
+		        </div>
+		        <div class="next_action">
+		        	<div class="next_action_box">
+		        		
+			        	<p>您可以：</p>
+			        	<div class="link2">
+				        	<a href="/">回到首页</a>
+				        	&nbsp;&nbsp;或者&nbsp;&nbsp;
+				        	<a href="{:U('List/index')}">浏览更多项目</a>
+			        	</div>
+		        	</div>
+		        </div>
+		        <div style="clear: both;"></div>
+	        </div>
+
+	</div>	
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/productOrder/info.js"></script>
+  <script type="text/javascript">
+  	$(document).ready(function(){
+
+  	});
+  </script>
+</block>

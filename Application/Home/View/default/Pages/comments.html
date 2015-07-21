@@ -1,0 +1,41 @@
+<ul id="comments" class="mes">
+    <foreach name="lists" item="v">
+        <li>
+            <dl>
+                <dd class="img"><a href="{:U('MCenter/profile?id='.$v['comment_user'])}"><img src="{$v.comment_user|get_memberface}" alt=""></a></dd>
+                <dd class="detail">
+                    <div class="from"><a href="{:U('MCenter/profile?id='.$v['comment_user'])}"><b>{$v.comment_user|get_membername}</b></a>{$v.create_time|change_date}</div>
+                    <notempty name="v.dynamicid">
+                        <div style="display: none" class="getDynamic">{v.dynamicid}</div>
+                    </notempty>
+                    <notempty name="v.parent">
+                        <div class="pllist clearfix">
+                            <ul>
+                                <volist name="v.parent" id="vo">
+                                <li>{$vo.comment_user|get_membername} 说：
+                                <p style="line-height:22px;margin:0;text-indent:1.5em">{$vo.content}</p></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </notempty>
+                    <div class="d">{$v.content}</div>
+                    <div class="panel" class="reply" style="display:none;">
+                        <input type="hidden" class="comment_id" value="{$v.id}">
+                        <textarea class="border1" maxlength="140" style="width:100%;"></textarea>
+                        <a href="#" class="btn-comment-comment">评论</a>
+                    </div>
+                </dd>
+                <dd class="cz"><a href="#" class="btn-slide">回复</a></dd>
+                <!--注意：增加删除-->
+                <dd>
+            </dl>
+        </li>
+    </foreach>
+</ul>
+
+<div id="pagectrl-comment" class="pagectrl pagectrl-comment">
+    {$Pages}
+</div>
+<script>
+    pageChangeComment();
+</script>

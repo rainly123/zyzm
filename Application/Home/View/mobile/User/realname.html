@@ -1,0 +1,93 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/validform.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+    <div id="server-data" style="display: none;">
+        <input name="mCenterUrl" value="{:U('/MCenter')}">
+    </div>
+    <section id="user_main">
+        <empty name="userauth">
+            <form id="form-realname" method="POST" action="{:U()}">
+                <div class="jm_login">
+                    <ul>
+                        <li>
+                            <div class="text" style="left: 0px;">
+                                <i class="user"></i>
+                                <input name="name" id="name" type="text" placeholder="真实姓名" datatype="*1-10"
+                                       nullmsg="请输入真实姓名" errormsg="真实姓名至少1个字符，最多8个字符">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="text">
+                                <i class="lock"></i>
+                                <input name="card_id" type="text" placeholder="身份证号" datatype="s" maxlength="20"
+                                       nullmsg="请输入身份证号码" errormsg="请输入正确的身份证号码">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="error-box">
+                    <span id="errormessage"></span>
+                </div>
+                <div class="recharge_qd1">
+
+                    <input name="" type="submit" class="recharge_qd" value="确&nbsp;&nbsp;定">
+                    <input name="" type="button" class="recharge_qd2" value="取&nbsp;&nbsp;消">
+                </div>
+            </form>
+            <else/>
+            <div class="user_ad">
+                <div class="user_phone">
+                    <h1>真实姓名：</h1>
+                    <p><a>{$detail.name}</a></p>
+                </div>
+            </div>
+            <div class="user_ad">
+                <div class="user_phone">
+                    <h1>身份证号：</h1>
+                    <p><a>{$detail.card_id}</a></p>
+                </div>
+            </div>
+        </empty>
+        <div class="user_name" style="margin:20px 5% 0 5%;">
+            <span>机构、外籍人士请联系客服认证<br>如需修改，也请联系客服</span>
+        </div>
+    </section>
+</block>
+<block name="script">
+    <script type="text/javascript" src="__JS__/sms.js"></script>
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript">
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+        $(function () {
+            $("ul li input").each(function () {
+                $(this).click(function () {
+                    $(this).parent().removeClass('text').addClass('text errorAnimate');
+                    $(this).parent().parent().siblings().children().removeClass('errorAnimate');
+                })
+            });
+            $("#form-realname").Validform({
+                tiptype: function (msg, o, cssctl) {
+                    var objtip = $("#errormessage");
+                    objtip.html("");
+                    if (o.type == 3) {
+                        objtip.text(msg);
+                    }
+                }, ajaxPost: true,
+                beforeSubmit: showWaiting,
+                callback: function (data) {
+                    if (data.status == 1) {
+                        location.href = sessionStorage.getItem('authRedirect') || data.url || serverData.mCenterUrl;
+                        sessionStorage.removeItem('authRedirect');
+                    }
+                }
+            });
+        });
+    </script>
+</block>

@@ -1,0 +1,210 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+</block>
+<block name="body">
+    <script type="text/javascript" src="__M_JS__/layer.m/layer.m.js"></script>
+
+    <div class="dynamic-detail">
+        <section class="dynamic-section">
+            <header>
+                <h1 class="proj-title" data-id="{$project.id}">
+                    <a href="{:U('project/detail/id/'.$project['id'])}">{$project.project_name}</a>
+                </h1>
+                <div class="author-line">
+                    {$dynamic.title}-发布时间：{$dynamic.update_time|time_format='Y-m-d'}
+                </div>
+            </header>
+            <div class="dynamic-content" data-dynamicid="{$dynamic.id}">
+                {$dynamic.content}
+            </div>
+        </section>
+        <section class="dynamic-comment-section">
+            <header>
+                <h2>动态评论</h2>
+            </header>
+            <form id="dynamic-comment-form" action="">
+                <label for="dynamic-comment-textarea">还可以输入 140 字</label>
+                <textarea id="dynamic-comment-textarea"></textarea>
+                <input type="submit">
+            </form>
+            <ul class="dynamic-comment-list comment-list">
+                <volist name="dynamicComment" id="v">
+                    <li class="dynamic-comment-item" id="item{$v.id}" data-id="{$v.id}">
+                        <div class="avatar-box">
+                            <img class="avatar-img" src="{$v.create_id|get_memberface}">
+                        </div>
+                        <div class="user-comment">
+                            <strong class="user-name">{$v.comment_user|get_membername}</strong>
+                            <!--<div class="comment-time">{$v.create_time|change_date}</div>-->
+                            <div class="comment-content">{$v.content}</div>
+                            <notempty name="v.old_content">
+                                <div class="quote-comment">
+                                    {$v.old_user|get_membername}说：{$v.old_content}
+                                </div>
+                            </notempty>
+                            <form class="reply-form">
+                                <textarea name=""></textarea>
+                                <button class="button-post-reply">回复</button>
+                            </form>
+                        </div>
+                        <button class="button-slide">回复</button>
+                    </li>
+                </volist>
+            </ul>
+        </section>
+        <section class="footer-buttons">
+            <button class="btn-post-dynamic-comment" data-href="{:U('project/postcomment/',array('pid'=>$project['id'],'dynamicid'=>$dynamic['id']))}">发表评论</button>
+        </section>
+    </div>
+
+
+    <!--<div class="fl w100 mt25 notice_main">
+        <div class="content">
+            <div class="rightmain">
+                <div class="title" data-id="{$project.id}">
+                    <a style="color: #000;" href="{:U('project/detail/id/'.$project['id'])}">{$project.project_name}</a>
+                </div>
+                <div class="mainintro">
+                    <div class="titleA">{$dynamic.title}-发布时间：{$dynamic.update_time|time_format='Y-m-d'}</div>
+                    <p>{$dynamic.content}</p>
+                </div>
+                <div class="dynamic-comment">
+                    <h4 class="c2"><i></i>动态评论</h4>
+                    <div class="c11 mintro xmpl" id="con_one_3" style="display: block;">
+                        <header>还可以输入 <span id="content-count">140</span> 字</header>
+                        <ul class="mes">
+                            <li>
+                                <div id="replyw" class="reply" style="margin-top:10px;">
+                                    <textarea id="project-comment" maxlength="140" name="" cols="" rows=""
+                                              class="border1" style="width:100%; height:150px;"
+                                              data-dynamicid="{$dynamic.id}"></textarea>
+                                    <a href="#" id="btn-project-comment">评论</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul id="comments" class="mes">
+                            <volist name="dynamicComment" id="v">
+                                <li>
+                                    <dl>
+                                        <dd class="img"><img src="{$v.create_id|get_memberface}" alt="众筹用户"></dd>
+                                        <dd class="detail">
+                                            <div class="from">
+                                                <b>{$v.comment_user|get_membername}</b>
+                                                {$v.create_time|change_date}
+                                            </div>
+                                            <div class="d">{$v.content}</div>
+
+                                            <notempty name="v.old_content">
+                                                <div class="pllist clearfix">
+                                                    <ul>
+                                                        <li>{$v.old_user|get_membername}说：{$v.old_content}</li>
+                                                    </ul>
+                                                </div>
+                                            </notempty>
+                                            <div class="panel" style="display:none;">
+                                                <input type="hidden" class="comment_id" value="{$v.id}">
+                                            <textarea name="" cols="" rows="" class="border1"
+                                                      style="width:100%;"></textarea>
+                                                <a href="#" class="btn-comment-comment">回复</a>
+                                            </div>
+                                        </dd>
+                                        &lt;!&ndash;暂时不添加此功能&ndash;&gt;
+                                        <dd class="cz"><a href="#" class="btn-slide">回复</a></dd>
+                                        <dd></dd>
+                                    </dl>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <a class="button"></a>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <script>
+        !function () {
+            var projectId = $('.proj-title').data('id'),
+                    dynamicid = $('.dynamic-content').data('dynamicid');
+            var config = {
+                projectCommentAPI: '/project/comment/'
+            };
+
+            // 回复(显示恢复输入框)
+            var bindCommentBtnEvent = function () {
+                $(".button-slide").unbind().click(function () {
+                    var $thisReplyForm = $(this).parent().find('.reply-form');
+                    if ($thisReplyForm.css('display') === 'none') {
+                        $('.reply-form').slideUp();
+                        $thisReplyForm.slideDown();
+                    }
+                    else {
+                        $thisReplyForm.slideUp();
+                    }
+                    $thisReplyForm.find('textarea').focus();
+                    location.hash = $thisReplyForm.parents('.dynamic-comment-item').attr('id');
+                    return false;
+                });
+                $('.button-post-reply').unbind().click(function () {
+                    var $form = $(this).parent(),
+                            $item = $form.parents('.dynamic-comment-item');
+
+                    var data = {
+                        project_id: projectId,
+                        dynamicid: dynamicid,
+                        content: $form.find('textarea').val(),
+                        reply_id: $item.data('id')
+                    };
+                    if (!data.content) {
+                        layer.open({
+                            content: '评论内容不能为空',
+                            style: 'text-align:center; border:none;',
+                            time: 2
+                        });
+                        return false;
+                    }
+                    $.post(config.projectCommentAPI, data, function (data) {
+                        if (data.status == 1) {
+                            location.reload()
+                        } else {
+                            layer.open({
+                                content: data.info,
+                                style: 'text-align:center; border:none;',
+                                time: 2
+                            });
+                        }
+                    });
+                    return false;
+                });
+            };
+            bindCommentBtnEvent();
+
+            // 剩余字数
+            !function () {
+                var txtElm = document.querySelector('#project-comment'),
+                        countElm = document.querySelector('#content-count');
+                var func = function () {
+                    var len = 140;
+                    countElm.innerHTML = len - this.value.length;
+                };
+
+                if (txtElm) {
+                    txtElm.onkeyup = func;
+                    txtElm.onblur = func;
+                }
+            }();
+
+            $('.dynamic-comment-section header').click(function () {
+                $('.dynamic-comment-list').slideToggle();
+                $(this).parent().toggleClass('closed')
+            });
+            $('.btn-post-dynamic-comment').click(function () {
+                location.href = $(this).data('href');
+            })
+        }();
+
+    </script>
+</block>
+

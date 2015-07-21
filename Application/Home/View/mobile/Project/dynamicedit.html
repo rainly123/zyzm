@@ -1,0 +1,82 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+
+<block name="side">
+</block>
+<block name="body">
+
+<section>
+	<div class="container mobileContent" style="">
+		<div id = "wlt-ForumPostPublish">
+			<h2 class="worklet-title">
+				<span class="title">编辑项目动态</span>
+			</h2>
+		
+			<div class="worklet-content" style="">
+				<div class="projectBox">
+					<div class="m-alert m-alert-info">
+						<p>
+							<strong>您正在发表关于以下项目的动态</strong>
+						</p>
+						<h2>
+						
+							<a href="{:U('Project/detail?id'.$peoject.id)}" rel="nofollow">{$dynamic.projectname}</a>
+						</h2>
+					</div>
+				</div>
+			
+				<form id="uForm_ForumPostPublish" class="form-inline" action="{:U('Project/dynamicedit')}" method="post">
+					<input type="hidden" name="projectid"  id= "{$dynamic.project_id}" value="{$dynamic.project_id}">
+					<input type="hidden" name="id"  id= "{$dynamic.id}" value="{$dynamic.id}">
+					<div class="control-group row-fluid">
+		            	<label class="control-label" for="inputPassword">动态标题:</label>
+		            	<div class="controls">
+			            	<input type="text" style="width:450px;" id="inputname" class="span3" placeholder="请输入标题"  errormsg="请填写1-20位标题" nullmsg="请输入标题" datatype="*1-20" value="{$dynamic.title}" name="title">
+			            	<span class="help-inline Validform_checktip"></span>
+		            	</div>
+		          	</div>
+		
+					<div class="control-group row-fluid">
+						<label for="" class="control-label">动态描述:</label>
+						<div class="controls">
+							<textarea name="description" class="span6">{$dynamic.content}</textarea>
+							{:hook('documentEditFormContent', array('name'=>'description', 'value'=>''))}
+						</div>
+					</div>
+							
+		          <div class="control-group row-fluid">
+		            <div class="controls">
+		              <button type="submit" class="btn btn-success">提 交</button>
+		            </div>
+		          </div>
+		        </form>
+        
+			</div>
+		</div>
+	</div>
+
+</section>
+</block>
+
+<block name="side"></block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script type="text/javascript">
+
+	$(function(){
+	      $(".form-inline").Validform({tiptype:3, 
+	        ajaxPost:true,
+	        callback:function(data){
+	          if (data.status == '1') {
+	            window.location.href = data.url;
+	          } else {
+	            $('.back_error').html(data.info);
+	            $(".reloadverify").click();
+	          }
+	        }
+	      });
+	});
+	</script>
+</block>

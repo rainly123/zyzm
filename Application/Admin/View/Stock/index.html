@@ -1,0 +1,96 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>股票项目</h2>
+	</div>
+		<div class="cf">
+			<div class="fl">
+          <a class="btn" href="{:U('add')}">新 增</a>
+    	</div>
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+	<div class="data-table table-striped">
+<table class="">
+    <thead>
+    <tr>
+		<th class="">编号</th>
+		<th class="">项目名称</th>
+		<th class="">创建时间</th>
+		<th class="">净资产</th>
+		<th class="">投资额</th>
+		<th class="">份额</th>
+		<th class="">净值</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i}</td>
+			<td>{$vo.name}</td>
+			<td><span>{$vo.create_time|time_format="Y-m-d"}</span></td>
+			<td>{$vo.amount} 元</td>
+			<td>{$vo.fund} 元</td>
+			<td>{$vo.operation_fund} 元</td>
+			<td>{$vo.assets|round=2}</td>
+			<td>
+				<a href="{:U('Stock/edit?id='.$vo['id'])}">编辑</a> |
+				<eq name="vo.status" value="0">
+					<a class="ajax-get confirm" href="{:U('changestatus?status=1&id='.$vo['id'])}">发布</a> |
+				<else />
+					<a class="ajax-get confirm" href="{:U('changestatus?status=0&id='.$vo['id'])}">撤消</a> |
+				</eq>
+				<a href="{:U('investorlist?id='.$vo['id'])}">投资人</a> |
+				<if condition="$vo.type eq 1">
+					<a href="{:U('Sm/manage?id='.$vo['id'])}" class="manage" alt="分派收益">收益</a> |
+					<a href="{:U('Sm/cash?id='.$vo['id'])}" alt='提现用户列表'>提现用户</a>|
+					<a href="{:U('update?id='.$vo['id'])}" class="ajax-get confirm" alt='排队资金归入总账'>合计</a> |
+				 <elseif condition="$vo.type eq 2"/>
+				 	<a href="{:U('Sm/cash?id='.$vo['id'])}" alt='提现用户列表'>提现用户</a>|
+				 	<a href="{:U('Stock/plan?id='.$vo['id'])}" alt='申购列表'>申购列表</a>
+				<elseif condition="$vo.type eq 3"/>
+				 	<a href="{:U('Sm/cash?id='.$vo['id'])}" alt='提现用户列表'>提现用户</a>|
+				 	<a href="{:U('Stock/individuallist?id='.$vo['id'])}" alt='申购列表'>购买列表</a>|
+				 	
+					<eq name="vo.is_freeze" value="0">
+						<a href="{:U('updatefreeze?status=0&id='.$vo['id'])}" class="ajax-get confirm" alt='排队资金归入总账'>冻结</a> |
+					<else />
+						<a class="ajax-get confirm" href="{:U('updateunfreeze?status=0&id='.$vo['id'])}">解冻</a> |
+					</eq>
+				
+				 <else/>
+					<a href="{:U('manage?id='.$vo['id'])}" class="manage" alt="分派收益">收益</a> |
+					<!-- <a href="{:U('update?id='.$vo['id'])}" class="ajax-get confirm" alt='排队资金归入总账'>合计</a> | -->
+					<a href="{:U('update_new?id='.$vo['id'])}" class="manage" alt='排队资金归入总账'>合计</a> |
+					<a href="{:U('Sm/cash?type=0&id='.$vo['id'])}" alt='提现用户列表'>提现用户</a> |
+				</if>
+				<a href="{:U('Sm/cashlist?id='.$vo['id'])}" alt='提现记录'>记录</a> 
+				<if condition="$vo.publish eq 1">
+				|<a class="ajax-get confirm" href="{:U('Stock/publish?id='.$vo['id'])}" alt='确认公布'>公布</a>
+				</if>
+			</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+<script src="__JS__/jquery.colorbox-min.js"></script>
+<link rel="stylesheet" href="__CSS__/colorbox.css">
+<script type="text/javascript">
+$(".manage").colorbox();
+</script>
+</block>

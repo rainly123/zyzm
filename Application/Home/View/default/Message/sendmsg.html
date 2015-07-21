@@ -1,0 +1,35 @@
+<div style="padding:20px 40px;">
+  <form action="{:U('Message/sendmsg?id='.$id)}" method="post" id="message-form">
+    <div class="control-group">
+      <label class="control-label">发送给</label>
+      <div class="controls pageusername"><span class="help-block"><b>{$id|get_membername}</b></span></div>
+      <div class="clear"></div>
+    </div>
+    <div class="control-group">
+
+      <textarea name="content" class="srk_box" rows="5"></textarea>
+    </div>
+    <div class="control-group">
+      <button class="btn btn-primary" type="submit">发送</button>
+    </div>
+  </form>
+
+  <script>
+    $("#message-form").submit(function(){
+      var self = $(this);
+      var content = $('[name="content"]').val();
+      if (content == '') {
+        layer.alert('消息内容不能为空。', 8);
+        return false;
+      }
+      $.post(self.attr("action"), self.serialize(), function(data) {
+        if (data.status == 1) {
+          layer.alert(data.info, 9, function(){window.location.reload();});
+        } else {
+          layer.alert(data.info, 8);
+        }
+      }, "json");
+      return false;
+    });
+  </script>
+</div>

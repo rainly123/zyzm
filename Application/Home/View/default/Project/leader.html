@@ -1,0 +1,118 @@
+<extend name="Base/common"/>
+
+<block name="style">
+<link href="__CSS__/detail.css" rel="stylesheet">
+<link href="__CSS__/validform.css" rel="stylesheet">
+<style>
+  .users {width: 300px;margin-left:20px;}
+  .user_face {border-radius:50%;width:60px;height:60px;overflow:hidden;float:left;}
+  .user_info {float:left;margin-left:20px;}
+  .main2 .rzxx dd span.user_name {display:block;font-size:24px;text-align:left;line-height:30px;}
+  .main2 .rzxx dd span.title{display:block;font-size:14px;color:#999;text-align:left;line-height:30px;}
+  .leader_info {border-radius:5px;border:1px solid #ed655a; margin:10px 0; padding:10px 20px;}
+  .leader_info h2 {color:#ed655a; margin-bottom: 10px}
+  .leader_info p {text-indent: 2em;font-size:14px; color:#ed655a;}
+</style>
+</block>
+<block name="body">
+<div class="fl w100 mainwrap mt25">
+  <div class="content">
+    <div class="main2 mt20">
+      <h4 style="color:#ed655a">申请领投<small style="font-size:16px;color:#999;margin-left:10px">({$project.project_name})</small></h4>
+      <dl class="rzxx mt25 cl">
+          <dt>融资信息</dt>
+          <dd><span>{$project.need_fund|change_fund}</span>融资目标额</dd>
+          <dd><span>{$project.follow_fund|change_fund}元</span>起投额</dd>
+          <dd class="clearfix" style="width:300px"><div class="users"><span class="user_face"><img src="{$project.uid|get_memberface}" alt=""></span>
+          <div class="user_info">
+            <span class="user_name" style="display:block">{$project.uid|get_membername}</span>
+            <span class="title">发起人</span>
+          </div>
+          </div>
+          </dd>
+      </dl>
+      <input type="hidden" id="follow_fund" value="{$project.follow_fund}">
+		<input type="hidden" id="need_fund" value="{$project.need_fund}">
+		<input type="hidden" id="valuation" value="{$project.final_valuation}">
+      <h4 class="c2"><i></i>您的领投金额</h4>
+      <div class="gt mt20">
+      <form action="{:U('Project/leader')}" id="form-inquiry" method="post" class="form-horizontal">
+      	<input type="hidden" name="id" value="{$project.id}">
+        <div class="left fl">
+          <div class="number">
+            <input type="button" value="-" onclick="opera('#myfund', false);" class="low"><input type="text" id="myfund" value = "{$project.follow_fund|round=0}" datatype="n" maxlength="7"  nullmsg="请输入投资金额" errormsg="投资金额必须为数字" name="fund" class="c3"/>
+            <input type="button" value="+" onclick="opera('#myfund', true);" class="up">
+          </div>
+          <div class="warr">投资理由</div>
+          <div>
+              <textarea name="message" style="font-size:14px" maxlength="500" class="d"></textarea>
+          </div>
+          <div class="agree">
+              <label for="agree"><input name="agree" id="agree" type="checkbox" value="1" checked>我同意并遵守投资规则</label>
+          </div>
+          <div>
+              <input type="submit" value="提交领投申请" class="s">
+          </div>
+        </div>
+        </form>
+        <div class="right ri">
+          <div class="tips"><b>重要提示</b>
+            众筹成功后，项目执行会需要一段时间，在此期间您还可以继续预订，成为产品正式上市后的第一批抢鲜用户。产品正式上市前，预订用户可以根据众筹支持者对产品的反馈及产品改进，自行决定是否取消购买。<br>
+            <a href="{:U('Info/show?key=shenmingshu')}" target="_blank">《投资风险提示书》</a>、<a href="{:U('Info/show?key=lead')}" target="_blank">《领投规则》</a>、<a href="{:U('Info/show?key=fenpei')}" target="_blank">《投资利益分配规则》</a>、<a href="{:U('Info/show?key=after')}" target="_blank">《投后管理规则》</a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>>
+<script>
+function opera(x, y) {
+  var rs = new Number($(x).val());
+  if (isNaN(rs)) {rs = 0;}
+  if (y) {rs = rs + 1000;} else {rs = rs - 1000;}
+  $(x).val(checkFund(rs));
+}
+
+function checkFund(v) {
+  var min_follow = new Number($('#follow_fund').val());
+  var max_follow = new Number($('#need_fund').val());
+  var valuation = new Number($('#valuation').val());
+
+  // 投资金额处理为1000的倍数
+  v = Math.ceil(v / 1000) * 1000;
+  if (v > max_follow) {
+  	v = max_follow;
+  } else if (v < min_follow) {
+  	v = min_follow;
+  }
+  return v;
+}
+$('#myfund').blur(function() {
+	var rs = new Number($("#myfund").val());
+  if (isNaN(rs)) {rs = 0;}
+  $("#myfund").val(checkFund(rs));
+});
+
+$('#form-inquiry').Validform({
+  tipSweep:true,
+  tiptype: function(msg, o, cssctl) {
+    if (o.type == 3 ) {layer.alert(msg, 8);}
+  }, ajaxPost: true,
+  beforeSubmit: function() {
+		var agree = $('#agree:checked').length;
+		if (agree == 0) { 
+			layer.alert('为了保障您的权益，请阅读并接受相关投资协议后，继续您的投资旅程。');
+			return false;}
+  },
+  callback:function(data) {
+  	if (data.status == 1) {
+  		layer.alert(data.info,9, function() {window.location.href=data.url;});
+  	}
+  }
+});
+
+</script>
+</block>

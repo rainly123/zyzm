@@ -1,0 +1,108 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="dynamic">
+        <!-- 编辑页面 -->
+        <if condition="($uid eq $puid['uid'])">
+            <div name="test" class="header-toolbar">
+                <button class="btn post-dynamic" id="btn-link-post"
+                        data-href="{:U('project/dynamiclistadd?id=_id')}">发表动态
+                </button>
+                <button class="btn cancel" id="btn-link-proj"
+                        data-href="{:U('project/detail/id/_id')}">取消
+                </button>
+            </div>
+        </if>
+        <div class="dynamic_con">
+            <ul>
+                <foreach name="dynamicInfo" item="vo">
+                    <li>
+                        <em></em>
+
+                        <div class="font">
+                            <h1>{$vo.update_time|time_format='Y-m-d H:i'}</h1>
+
+                            <h2>
+                                <a href="{:U('project/projectdynamicdetail?id='.$vo['id'])}">
+                                    {$vo.title}
+                                </a>
+                            </h2>
+
+                            <div class="content">{$vo['content']}</div>
+                        </div>
+                        <div class="buttons-wrapper">
+                            <if condition="$vo.status eq 0">
+                                <a href="{:U('Project/updateProjectDynamicStatus')}" class="btn-publish"
+                                   data-id="{$vo.id}" data-pid="{$vo.project_id}">发布</a>
+                            </if>
+                            <a href="{:U('Project/updateProjectDynamicInfo/id/'.$vo['id'])}">编辑</a>
+                            <a class="delete_dynamic"
+                               href="{:U('Project/dynamiclistdelete',array('id'=>$vo['id'],'pid'=>$_GET['id']))}">删除</a>
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+    </div>
+    <script>
+        var projectId = location.href.match(/id\/(\d+)/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        $('#btn-link-post').click(function () {
+            location.href = $(this).data('href').replace('_id', projectId);
+        });
+        $('#btn-link-proj').click(function () {
+            location.href = $(this).data('href').replace('_id', projectId);
+        });
+
+        $(".delete_dynamic").click(function () {
+            if (!confirm('您确定要删除该条记录吗？')) {
+                return false;
+            }
+            $.get($(this).attr('href'), function (data) {
+                if (data.status == 1) {
+                    layer.open({
+                        content: data.info,
+                        style: 'text-align:center; border:none;',
+                        time: 2
+                    });
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 1000);
+
+                } else {
+                    layer.open({
+                        content: data.info,
+                        style: 'text-align:center; border:none;',
+                        time: 2
+                    });
+                }
+            });
+            return false;
+        });
+        $('.btn-publish').click(function () {
+            var $this = $(this);
+            var data = {
+                id: $this.attr('data-id'),
+                status: 1,
+                project_id: $this.attr("data-pid")
+            };
+            $.post($this.attr('href'), data, function (json) {
+                if (json.status == 1) {
+                    layer.open({
+                        content: json.info,
+                        style: 'text-align:center; border:none;',
+                        time: 2
+                    });
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 1000);
+                }
+            }, 'json');
+            return false;
+        });
+    </script>
+</block>
+

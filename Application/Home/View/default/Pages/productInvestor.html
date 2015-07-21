@@ -1,0 +1,36 @@
+
+<!--         <ul class="cats">
+        	<li><b>| 分类</b></li>
+            <li><a href="#">全部</a></li>
+            <li><a href="#" class="cur">按时间</a></li>
+            <li><a href="#">按金额</a></li>
+        </ul> -->
+          <ul class="tzzlist cl">
+          <foreach name="lists" item="vo">
+        	<li>
+              <dl>
+                <dd class="img">
+                	<a href="{:U('MCenter/profile?id='.$vo['uid'])}" target="_blank" style="text-decoration:none;">
+                		<img src="{$vo.uid|get_memberface}">
+                	</a>
+                </dd>
+                <dd class="detail">
+                  <div class="from">
+                  	<a href="{:U('MCenter/profile?id='.$vo['uid'])}" target="_blank" style="text-decoration:none;">
+                  		<b>{$vo.uid|get_membername}</b>
+                  	</a>
+                  	</div>
+                  <div class="d">投资金额：{$vo.amount|round=2}元</div>
+                </dd>
+                <dd class="date">支持时间：{$vo.create_time|time_format="Y-m-d"}</dd>
+              </dl>
+            </li>
+          </foreach>
+          
+          </ul>
+<div id="pagectrl" class="pagectrl">
+	{$Pages}
+</div>
+     <script>
+	pageChange();
+</script>

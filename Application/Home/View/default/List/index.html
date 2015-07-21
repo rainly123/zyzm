@@ -1,0 +1,167 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+    <link href="__CSS__/home.css" rel="stylesheet">
+
+    <script type="text/javascript" src="__JS__/addons.js"></script>
+
+    <div class="bannerlist browse"></div>
+    <div class="fl w100 mt20">
+        <div class="content">
+            <!--分类搜索栏-->
+            <div class="selectPanel">
+                <div class="nav-title">分类</div>
+                <ul class="nav">
+                    <li><a
+                        <eq name="type" value="0">class='active'</eq>
+                        href="{:U('List/index',array('type'=>0,'status'=>$_GET['status'],'p'=>1))}">全部</a></li>
+                    <li><a
+                        <eq name="type" value="1">class='active'</eq>
+                        href="{:U('List/index',array('type'=>1,'status'=>$_GET['status'],'p'=>1))}">股权众筹</a></li>
+                    <li><a
+                        <eq name="type" value="2">class='active'</eq>
+                        href="{:U('List/index',array('type'=>2,'status'=>$_GET['status'],'p'=>1))}">实物众筹</a></li>
+                        
+                    <?php if (false): ?>
+                    <li><a
+                        <eq name="type" value="3">class='active'</eq>
+                        href="{:U('List/index',array('type'=>3,'status'=>$_GET['status'],'p'=>1))}">股票基金</a></li>
+                    <?php endif ?>
+                </ul>
+                <div style="clear:both"></div>
+                <div class="nav-title">分类</div>
+                <ul class="nav">
+                    <li><a
+                        <eq name="status" value="0">class='active'</eq>
+                        href="{:U('List/index',array('type'=>$_GET['type'],'status'=>0,'p'=>1))}">全部</a></li>
+                    <li><a
+                        <eq name="status" value="3">class='active'</eq>
+                        href="{:U('List/index',array('type'=>$_GET['type'],'status'=>3,'p'=>1))}">预热中</a></li>
+                    <li><a
+                        <eq name="status" value="1">class='active'</eq>
+                        href="{:U('List/index',array('type'=>$_GET['type'],'status'=>1,'p'=>1))}">筹资中</a></li>
+                    <li><a
+                        <eq name="status" value="2">class='active'</eq>
+                        href="{:U('List/index',array('type'=>$_GET['type'],'status'=>2,'p'=>1))}">筹资成功</a></li>
+                </ul>
+            </div>
+            <!--分类搜索栏-->
+
+            <div class="page-list">
+            </div>
+            <ul class="list2 content cl">
+                <foreach name="listOfProjects" item="v">
+
+                    <if condition="$v.stage eq 1">
+                        <li class="yrz">
+                            <!--<span class="proj-status yrz">{$v.stage|get_proj_stage}</span>-->
+                            <elseif condition="$v.stage eq 4"/>
+                        <li class="htz">
+                            <!--<span class="proj-status htz">{$v.stage|get_proj_stage}</span>-->
+                            <elseif condition="$v.stage eq 9"/>
+                        <li class="success">
+                            <!--<span class="proj-status success">众筹成功</span>-->
+                            <else/>
+                        <li>
+                    </if>
+
+                    <if condition='$v.finish_rate egt 100'>
+                        <span class="proj-status cm">众筹超募</span>
+                    </if>
+                    <div class="img">
+                        <a href="{:U('project/detail?id='.$v['id'])}">
+                            <img src="{$v['cover']|get_cover='path'}" alt="{$v.project_name}股权众筹">
+                        </a>
+                    </div>
+                    <div class="name">
+                        <span>股权</span>
+                        <a href="{:U('project/detail?id='.$v['id'])}" title="股权众筹">{$v.project_name}</a>
+                    </div>
+                    <div class="detail">
+                        <dl class="cl">
+                            <dd><span>{$v['need_fund']|change_fund}元</span>目标额</dd>
+                            <dd><span><eq name="v.stage" value="1">0
+                                <else/>
+                                {:round($v['finish_rate'])}
+                            </eq>%</span>已完成
+                            </dd>
+                            <dd><span>{$v.investor_count}</span>投资人</dd>
+                        </dl>
+                    </div>
+
+                    <if condition="$v.stage eq 1">
+                        <div class="progress-bar">
+                            <span class="yrz"></span><!-- 预热中 -->
+                        </div>
+                    <elseif condition="$v.stage eq 4" />
+                        <div class="prograss">
+                            <div class="bar animateBar"
+                                 data-animatetarget="{$v['finish_rate'] > 100 ? 100 :$v['finish_rate']}"
+                                 style="width:{$v['finish_rate'] > 100 ? 100 :$v['finish_rate']}%;">
+                            </div>
+                        </div>
+                    <elseif condition="$v.stage eq 9" />
+                        <div class="progress-bar">
+                            <span class="success"></span><!-- 众筹成功 -->
+                        </div>
+                    </if>
+                    <div class="city"><span>{:getDistrict($v['province'])}</span>
+                        <span>{:getDistrict($v['city'])}</span></div>
+                    <if condition="$v['stage'] eq 4">
+                        <div class="action"><a href="{:U('project/follow?id='.$v['id'])}">我要投资</a></div>
+                    </if>
+                    </li>
+                </foreach>
+
+                <foreach name="listOfProducts" item="v">
+                    <li>
+                        <div class="img"><a href="{:U('product/viewdetail?pid='.$v['id'])}" title="实物众筹"><img
+                                src="{$v['home_img']|get_cover='path'}" alt="{$v.name}实物众筹"></a></div>
+                        <div class="name"><a href="{:U('product/viewdetail?pid='.$v['id'])}"
+                                             title="实物众筹">{$v.name}</a></div>
+                        <div class="detail">
+                            <dl class="cl">
+                                <dd><span>{$v['amount']|change_fund}元</span>目标额</dd>
+                                <dd><span>{:round(($v['finish_amount']/$v['amount'])*100)}%</span>已完成</dd>
+                                <dd><span>{$v.supportCount}</span>购买人</dd>
+                            </dl>
+                        </div>
+                        <?php $finish_rate=round(($v['finish_amount']/$v['amount'])*100); $finish_rate = $finish_rate > 100 ? 100 : $finish_rate; ?>
+                        <div class="prograss">
+                            <div class="bar animateBar"
+                                 data-animatetarget="{$finish_rate}"
+                                 style="width:{$finish_rate}%;">
+                            </div>
+                        </div>
+                        <div class="tags"><span>{$v.tags}</span></div>
+                    </li>
+                </foreach>
+
+                <foreach name="listOfStocks" item="v">
+                    <li>
+                        <div class="img"><a href="{:U('stock/index/id/'.$v['id'])}" title="股票基金众筹"><img
+                                src="{$v['logo']|get_cover='path'}" alt="{$v.name}股票基金众筹"></a></div>
+                        <div class="name"><a href="{:U('stock/index/id/'.$v['id'])}">{$v.name}</a></div>
+                        <div class="detail">
+                            <dl class="cl">
+                                <dd><span>{$v['amount']|change_fund}元</span>总资产</dd>
+                                <dd><span>{$v.investor_count}人</span>已加入</dd>
+                                <dd><span>{$v['over']|change_fund}元</span>累计收益</dd>
+                            </dl>
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+            <div id="pagectrl" class="pagectrl"> {$page}</div>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+</block>

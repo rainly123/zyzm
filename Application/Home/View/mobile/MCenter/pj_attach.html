@@ -1,0 +1,76 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__M_CSS__/index.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+
+<section id="news_nav">
+  <a href="{:U('MCenter/pj_support')}">已支持</a>
+  <a class="physical_nav1">已收藏</a>
+</section>
+<empty name="data">
+<div style="font-size:18px;text-align:center;margin:20px">
+  您还没有收藏项目
+</div>
+</empty>
+<section id="physical_main">
+  <div class="list_cp1">
+    <!--item-->
+    <volist name="data" id="vo">
+    <div class="item selected">
+      <div class="list_zu">
+          <div class="physical_kuang">
+            <div class="list_zu1"> 
+              <a href="{:U('project/detail?id='.$vo[id])}"><img width="100%" height="100%" src="{$vo.cover|get_cover='path'}"></a>
+            </div>
+            <div class="list_zu2">
+              <ul>
+                <li><h3><a href="{:U('project/detail?id='.$vo[id])}">项目名称：{$vo.project_name}</a></h3></li>
+                <li><b>融资额：{$vo.need_fund|change_fund}</b><h2>状态：<if condition="$vo.stage eq 0">未上线
+      <elseif condition="$vo.stage eq 1" />预热中
+      <elseif condition="$vo.stage eq 2" />询价中
+      <elseif condition="$vo.stage eq 3" />推举领投
+      <elseif condition="$vo.stage eq 4" />和投中
+      <elseif condition="$vo.stage eq 5" />等待付款
+      <elseif condition="$vo.stage eq 8" />众筹失败
+      <elseif condition="$vo.stage eq 9" />众筹成功
+      </if></h2></li>
+                <li style="margin:10px 0 0">
+                  <span class="attr prograss">
+                  <div class="physical_bfb bar prograss_bar_yellow animateBar" data-animatetarget="{$vo.m_rate}" style="width: {$vo.m_rate}%;"></div>
+                  </span>
+                  <h4 class="animateNum" data-animatetarget="{$vo.rate}">{$vo.rate}</h4><h5>%</h5>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="physical_rtje">
+            <dd>已认投金额：<span class="physical_sz" data-animatetarget="{$vo.has_fund|change_fund}">{$vo.has_fund|change_fund}</span></dd>
+            <p><a href="{:U('project/detail?id='.$vo[id])}" class="r">查看</a><a href="{:U('project/attach?id='. $vo[id])}" id="btnattach">取消收藏</a></p>
+          </div>
+        </div>
+      </div>
+    </volist>
+  </div>
+</section>
+</block>
+<block name="script">
+<script type="text/javascript">
+$("#btnattach").click(function() {
+  var _this = $(this);
+  if (confirm('您确定要取消收藏该项目吗？')) {
+    $.post(_this.attr('href'), function(data) {
+      if (data.status == 1) {
+        alert('指定项目已从您的收藏夹中移除。');
+        window.location.reload();
+      }
+    });
+  }
+  return false;
+});
+</script>
+</block>
+
+
+

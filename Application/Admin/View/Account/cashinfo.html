@@ -1,0 +1,65 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>提现信息</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <input type="hidden" name="id" value="{$data.id}">
+        <div class="form-item">
+            <label class="item-label">真是姓名: <span class="info">{$data.name}</span></label>
+        </div>
+        <div class="form-item">
+            <label class="item-label">手机号码: <span class="info">{$data.phone}</span></label>
+        </div>
+        <div class="form-item">
+            <label class="item-label">提现金额: <span class="info">{$data.amount}</span></label>
+        </div>
+        <div class="form-item">
+            <label class="item-label">银行卡信息</label>
+            <div class="controls">
+                <p class="info">银行名称：<span>{$data.bank_name}</span></p>
+                <p class="info">所在省市：<span>{:getProvinceCity($data['province'], $data['city'])}</span></p>
+                <p class="info">所属支行：<span>{$data.sub_bank}</span></p>
+                <p class="info">银行卡号：<span>{$data.cardno}</span></p>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">备注</label>
+            <if condition="$vo.state eq 0">
+            <div class="controls">
+                <textarea name="remarks" id="" cols="30" rows="10"></textarea>
+            </div>
+            <else />
+            {$data.remarks}
+            </if>
+        </div>
+        <div class="form-item">
+            <label class="item-label">处理结果</label>
+            <if condition="$vo.state eq 0">
+            <div class="controls">
+                <label for="on_state"><input type="radio" id="on_state" name="state" value="1">通过</label>
+                <label for="off_state"><input type="radio" id="off_state" name="state" value="2">不通过</label>
+            </div>
+            <else />
+            <if condition="$data.state eq 1">已处理<else />不通过</if>
+            </if>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+<style>
+span.info {font-size:16px;font-weight:bolder;color:#aa3882;}
+p.info {margin-left: 40px;}
+p.info span {font-size: 16px;font-weight: bolder;color: #aa3882;}
+</style>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Account/cashlist')}');
+    </script>
+</block>

@@ -1,0 +1,62 @@
+<extend name="Base/common"/>
+<block name="header">
+</block>
+<block name="side">
+</block>
+<block name="body">
+<section>
+	<div class="container mobileContent" style="">
+		<div id = "wlt-ForumPostPublish">
+			<h2 class="worklet-title">
+				<span class="title">项目动态详细</span>
+			</h2>
+			<div class="worklet-content" style="">
+				<div class="projectBox">
+					<div class="m-alert m-alert-info">
+						<h3>
+							<a rel="nofollow">{$project.title}</a>
+						</h3>
+					</div>
+				</div>
+					<div class="control-group row-fluid">
+		        <label class="control-label" for="inputPassword"><h6><a style="color: #999;">对应项目:{$project.projectname}</a></h6></label>
+						<div class="lh25 clearfix">
+					<div class="c-left">
+						<span class="author"><h4><a href="#">{$project.create_id|get_membername}</a></h4></span> 
+						<span class="time"> / 发布于{$project.create_time|time_format}</span>
+						<span class="count"><i class="icon-eye-open icon-grey"></i>{$project.read_count}</span>
+					</div>
+					<div class="c-right">
+						<if condition="is_login() eq $project['create_id']">
+						<div class="operate">
+							<a href="{:U('Project/dynamicedit?id='.$project['id'].'&projectid='.$project['project_id'])}">编辑</a>
+							<span class="vline">|</span>
+							<a class="delete" href="{:U('Project/dynamicdel?id='.$project['id'].'&projectid='.$project['project_id'])}">删除</a>
+						</div>
+						</if>	                   
+					</div>
+				</div>
+		          	</div>
+		
+					<div class="control-group row-fluid">
+						<label for="" class="control-label"></label>
+						<div class="controls">
+						{$project.content}
+						</div>
+					</div>
+							
+		          <div class="control-group row-fluid">
+		            <div class="controls">
+		            	<a class="btn btn-success" href="{:U('Project/detail?id='. $project['project_id'])}">返回</a>
+		            </div>
+		          </div>
+			</div>
+		</div>
+	</div>
+
+</section>
+</block>
+
+<block name="side"></block>
+<block name="script">
+</block>

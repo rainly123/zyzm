@@ -1,0 +1,224 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/product/product-common.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/product/addstep1.css">
+</block>
+
+<block name="body">
+	<include file="base-nav" />
+
+	<div class="content">
+		<div class="">
+
+        <div class="module_con">
+            <form action="" method="post" id="frm" class="frm">
+            <div class="module_item" style="padding:30px 0;">
+                <h4 class="borno">项目信息</h4>
+                <input type="hidden" id="tagid" name="tagid" value="">
+<!--                 <dl>
+                    <dt>标签：</dt>
+                    <dd class="bq">
+
+                        <a href="javascript:changetag('item_cf_dm|item_cf_dm','4');" id="tagId_4" title="动漫" value="item_cf_dm|item_cf_dm">动漫</a>
+                    </dd>
+                </dl> -->
+                <dl>
+                    <dt>项目名称：</dt>
+                    <dd>
+                        <input id="projectName" maxlength="15" datatype="*1-15" errormsg="不多于15个字" name="name" value="{$name}" type="text" class="span5">
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>一句话说明：</dt>
+                    <dd>
+                        <input datatype="*" errormsg="请用一句话概括项目内容" id="projectAdWord" name="abstract" value="{$abstract}" type="text" class="span5">
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>筹资金额：</dt>
+                    <dd>
+                        <input datatype="mmoney" errormsg="只能填写数字" id="amount" name="amount" value="{$amount}" type="text" class="span2" > 元
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>筹资上限：</dt>
+                    <dd>
+                        <input id="toplimit"  datatype="mmoney" errormsg="只能填写数字" name="top_amount" value="{$top_amount}" type="text" class="span2"> % <font color="red">(填0是无上限)</font>
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>筹资天数：</dt>
+                    <dd>
+                        <input id="collectDays" datatype="n" errormsg="只能填写数字" name="days" value="{$days}" type="text" class="inp150" errormsg="10~60 天">
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl class="ui-img-box">
+                    <dt>首屏图片：</dt>
+                    <dd>
+	                    <div class="clearfix">
+						    <div class="upload-btn pull-left">
+							      <input data-imgcate="home" class="fileupload" type="file" accept="image/jpeg,image/png" name="upload-home" id="upload-home">
+							      <div>上传首屏图片</div>
+						    </div><span class="pull-left" style="padding-left:20px">支持jpg、jpeg、png、gif格式，大小不超过2M。建议尺寸：400 X 220px</span>
+					    </div>
+					    <div class="home">
+							<notempty name="home_img">
+								<img src="{$home_img|get_cover='path'}" class="imgbox-233" alt="" />
+							<else/>
+								 <img src="__IMG__/default_image.jpg" class="imgbox-233" alt="" />
+							</notempty>
+					    	<input type="hidden" name="home_img" value="{$home_img}" datatype="*" nullmsg="请上传首屏图片">
+					    </div>	
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+
+                <dl class="ui-img-box">
+                    <dt>预热图片：</dt>
+                    <dd>
+                    	<div class="clearfix">
+						    <div class="upload-btn pull-left">
+							      <input data-imgcate="hot" class="fileupload" type="file" accept="image/jpeg,image/png" name="upload-hot" id="upload-hot">
+							      <div>上传预热图片</div>
+						    </div><span class="pull-left" style="padding-left:20px">支持jpg、jpeg、png、gif格式，大小不超过2M。建议尺寸：235 X 235px</span>
+					    </div>
+					    <div class="hot">
+					    	<notempty name="hot_img">
+								<img src="{$hot_img|get_cover='path'}" class="imgbox-233" alt="" />
+							<else/>
+								 <img src="__IMG__/default_image.jpg" class="imgbox-233" alt="" />
+							</notempty>
+							<input type="hidden" name="hot_img" value="{$hot_img}"  datatype="*" nullmsg="请上传预热图片">
+					    </div>
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>项目图片：</dt>
+                    <dd>
+                   		<div class="clearfix">
+						    <div class="upload-btn pull-left">
+							      <input data-imgcate="project" class="fileupload" type="file" accept="image/jpeg,image/png" name="upload-project" id="upload-project">
+							      <div>上传项目图片</div>
+						    </div><span class="pull-left" style="padding-left:20px">支持jpg、jpeg、png、gif格式，大小不超过2M。建议尺寸：650 X 420px</span>
+					    </div>
+     					<div class="project">
+					    	<notempty name="aProductInfo.pro_img">
+								<img src="{$aProductInfo.pro_img|get_cover='path'}" class="imgbox-495" alt="" />
+							<else/>
+								 <img src="__IMG__/default_image.jpg" class="imgbox-495" alt="" />
+							</notempty>
+							<input type="hidden" name="project_img" value="{$aProductInfo.pro_img}"  datatype="*" nullmsg="请上传项目图片">
+					    </div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>移动端图片：</dt>
+                    <dd>
+                    	<div class="clearfix">
+						    <div class="upload-btn pull-left">
+							      <input data-imgcate="mobile" class="fileupload" type="file" accept="image/jpeg,image/png" name="upload-mobile" id="upload-mobile">
+							      <div>上传移动端图片</div>
+						    </div>
+						    <span class="pull-left" style="padding-left:20px">支持jpg、jpeg、png、gif格式，大小不超过2M。建议尺寸：600 X 288px</span>
+					    </div>
+     					<div class="mobile">
+					    	<notempty name="mobile_img">
+								<img src="{$mobile_img|get_cover='path'}" class="imgbox-495" alt="" />
+							<else/>
+								 <img src="__IMG__/default_image.jpg" class="imgbox-495" alt="" />
+							</notempty>
+							<input type="hidden" name="mobile_img" value="{$mobile_img}"  datatype="*" nullmsg="请上传移动端图片">
+					    </div>
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>视频介绍：</dt>
+                    <!-- 考虑是否用函数 getswf -->
+                    <dd>
+                        <input id="videoAddr" name="videoAddr" type="text" class="inp490" errormsg="请输入视频的播放页地址" value="{$aProductInfo.video_path}">
+                    </dd>
+                    <dd>
+                        <span>请填写视频的flash地址，flash地址以.swf结尾，如 http://player.youku.com/player.php/sid/XODM1NjI3MzEy/v.swf</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>项目简介：</dt>
+                    <dd>
+                        <textarea datatype="*" id="projectSummary" name="projectSummary" errormsg="最多不超过200个字" class="textA490">{$describe}</textarea>
+                        <span>项目简介是会显示在中瀛智募首页的~</span>
+                    </dd>
+                    <dd>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>项目详情：</dt>
+                    <dd>
+                        <textarea datatype="*" name="datail" class="span6" rows="5">{$aProductInfo.content}</textarea>
+                            {:hook('documentEditFormContent', array('name'=>'datail', $value=>'$info["datail"]'))}
+                    </dd>
+                </dl>
+            </div>
+            <div class="common_button">
+                <input type="submit" class="btn btn-large btn-primary" value="提交">
+            </div>
+            </form>
+        </div>
+    </div>
+	</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__JS__/product/addstep1.js"></script>
+	
+	<script type="text/javascript">
+	   highlight_subnav('{:U('Product/index')}');
+       // var fileUrl = '<?php print "http://".$_SERVER['HTTP_HOST']; ?>'./Home/File/uploadProduct.html
+
+	    $(".fileupload").change(function() {
+	        var imgCate = $(this).data("imgcate");
+	        var viewImg = '.' + imgCate +' img';
+	        var fileName = 'upload-' + imgCate;
+	        var hidfileName = '.'+imgCate + " input[type='hidden']";
+	
+	        $.upload({
+	          url: '{:U("File/uploadProduct")}', 
+	          fileName: fileName, 
+	          dataType: 'json',
+	          accept: '.jpg,.jpeg,.png,.gif',
+	          // 上传之前回调,return true表    示可继续上传
+	          onSend: function() {
+	              return true;
+	          },
+	          // 上传之后回调
+	          onComplate: function(data) {
+	  
+	            if(data.status == 1) {
+	            	$(viewImg).attr('src', data.path);
+	          		$(hidfileName).val(data.id);
+	          		
+	            } else {
+	                alert(data.info);
+	            }
+	          }
+	        });
+	      });
+	</script>
+</block>

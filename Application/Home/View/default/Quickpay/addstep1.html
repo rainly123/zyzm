@@ -1,0 +1,42 @@
+<div id="step2" class="form-list">
+  <form id="quickpay1" action="{:U('querycard')}" method="post">
+    <ul>
+      <li><dl class="clearfix">
+        <dt>银卡卡号：</dt>
+        <dd><input type="text" placeholder="请输入银行卡号" class="c1" value="" datatype="n" maxlength="30" name="cardNo" nullmsg="请输入银行卡号" errormsg="请输入正确的银行卡号">
+        <input type="hidden" name="merOrderId" value="{$merOrderId}"></dd>
+      </dl></li>
+      <dd><div id="errormessage"></div></dd>
+      </dl></li>
+    </ul>
+    <div class="btn-list"><a href="" class="btn_red2 pay-next" id="btn-quickpay1">
+    <span>下一步</span></a></div>
+  </form>
+</div>
+<script type="text/javascript">
+  $("#btn-quickpay1").click(function() {
+    form = $(this).parents('form');
+    form.submit();
+    return false;
+  });
+  $("#quickpay1").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    callback: function(data) {
+      if (data.status == 1) {
+        $("#next-content").load(data.url);
+      } else {
+        layer.alert(data.info);
+      }
+    }
+  });
+</script>

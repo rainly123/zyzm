@@ -1,0 +1,109 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$p_stage}</h2>
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+		<table class="">
+    		<thead>
+      			<tr>
+				<th class="">编号</th>
+				<th class="">项目名称</th>
+		    	<th class="">发起人</th>
+		    	<th class="">融资金额</th>
+		    	<th class="">已融金额</th>
+		    	<th class="">被关注人数</th>
+		    	<th class="">上线天数</th>
+				<th class="">创建时间</th>
+				<th class="">负责人</th>
+				<!-- <th class="">项目阶段</th> -->
+				<th class="">操作</th>
+			</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$vo.id} </td>
+			<td><a href="{:U('Project/preview?id=' . $vo['id'].'&step=1')}">{$vo.project_name}</a></td>
+            <td>{$vo.uid|get_membername}</td>
+            <td>{$vo.needfund|change_fund}</td>
+            <td>{$vo.hasfund|change_fund}</td>
+            <td>{$vo.attachqty}</td>
+            <td>{$vo.fundday}</td>
+			<td><span>{$vo.create_time|time_format}</span></td>
+			<!-- <td>{$vo.stage_text}</td> -->
+			<td>{$vo.mid|get_manager}</td>
+			<td>
+				<a href="{:U('Project/barcode?id=' . $vo['id'])}">群二维码</a>
+				<if condition="$vo.stage eq 0">
+					| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=1&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为预热吗?">预热</a>
+				<elseif condition="$vo.stage eq 1"/>
+				 	| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=4&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为快速合投吗?">合投</a>
+					<!-- | <a class="ajax-get confirm" href="{:U('Project/stagechange?status=2&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为询价认投吗?">认投</a> -->
+				<elseif condition="$vo.stage eq 2 "/>
+					| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=4&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为快速合投吗?">合投</a>
+				<elseif condition="$vo.stage eq 4 "/>
+					| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=5&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为等待付款吗?">等待付款</a>
+					| <a href="{:U('manage/seeInvestor?pj_id=' . $vo['id'])}" target="_blank" class="see-investor">查看投资人</a>
+				<elseif condition="$vo.stage eq 5 "/>
+					| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=8&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为募资成功吗?">失败</a>
+					| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=9&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为募资成功吗?">成功</a>
+					| <a href="{:U('manage/seeInvestor?pj_id=' . $vo['id'])}" target="_blank" class="see-investor">查看投资人</a>
+				<elseif condition="$vo.stage eq 8 "/>
+					| <a href="{:U('manage/seeInvestor?pj_id=' . $vo['id'])}" target="_blank" class="see-investor">查看投资人</a>
+				<elseif condition="$vo.stage eq 9 "/>	
+					| <a href="{:U('manage/seeInvestor?pj_id=' . $vo['id'])}" target="_blank" class="see-investor">查看投资人</a>
+				</if>
+				
+				<if condition="$vo.stage neq 8">
+					<empty name="vo.leader_id">
+						| <a href="{:U('setleader?id='.$vo['id'])}" class="setleader">指定领投人</a>
+					</empty>
+				</if>
+				<if condition="$vo.stage gt 4">
+					| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=4&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为快速合投吗?">返回合投</a>
+				</if>
+				
+					| <a class="ajax-get confirm" href="{:U('Project/stagechange?status=-1&id=' . $vo['id'])}" data-info="您确定要撤消该项目的众筹吗?">撤消</a>
+				</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<link rel="stylesheet" href="__CSS__/colorbox.css" />
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+    $(".setleader").colorbox({width:'500px', height:'300px'});
+    $(function(){
+    	$("#search").click(function(){
+    		var url = $(this).attr('url');
+    		var status = $('select[name=status]').val();
+    		var search = $('input[name=search]').val();
+    		if(status != ''){
+    			url += '/status/' + status;
+    		}
+    		if(search != ''){
+    			url += '/search/' + search;
+    		}
+    		window.location.href = url;
+    	});
+})
+</script>
+</block>

@@ -1,0 +1,55 @@
+<div>
+	<div><h3>可提现金额：<span style="color:red">{$data.amount}</span> <small>元</small></h3>
+		<input type="hidden" id="total" value="{$data.amount}">
+	</div>
+	<form action="{:U('Stock/cash_new')}" method="post">
+		<div class="control-group">
+			<h3>所占份额：<span style="color:red">{$data.operation_fund}</span> <small>份</small></h3>
+		</div>
+		<div class="control-group">
+			<h3>最大可提份额：<span style="color:red">{:round($maxoperation,2)}</span> <small>份</small></h3>
+		</div>
+		<div class="control-group">
+			<label for="" class="control-label">赎回份额</label>
+			<div class="controls">
+				<input type="number" class="numbers span4" id="operation" name="operation" placeholder="赎回份额">
+			</div>
+		</div>
+		<div class="control-group">
+			<input type="hidden" name="id" value="{$data.pid}">
+			<input type="hidden" name="maxoperation" id="maxoperation" value="{$maxoperation}">
+		</div>
+		<div class="control-group error">
+			<div class="controls"><span class="help-block" id="errormsg"></span></div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-primary" style="width:150px" id="btn-cash">提交</button>
+			</div>
+		</div>
+	</form>
+	<script>
+	$("#btn-cash").click(function() {
+		$("#errormsg").html('');
+		var operation = parseFloat($("#operation").val());
+		
+		if (operation == null || operation < 0) {
+			$("#errormsg").html('赎回份额必须大于0');
+			return false;
+		}
+		
+		var form = $(this).parents('form');
+		$.post(form.attr('action'), form.serialize(), function(data) {
+			if (data.status == 1) {
+				// 跳转到支付页面
+				//window.location.reload();
+				$("#messagebody").html(data.info);
+			} else {
+				// 错误处理
+				$("#errormsg").html(data.info);
+			}
+		});
+		return false;
+	});
+</script>
+</div>

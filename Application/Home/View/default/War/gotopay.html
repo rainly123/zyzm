@@ -1,0 +1,93 @@
+<div class="text-center" style="margin:30px auto" id="payway">
+	<if condition="isMobile()">
+	<a class="span4 btn btn-large btn-danger" id="quickpay" href="{:U('Quickpay/queryuser', $data)}" style="margin-bottom:30px">快捷支付</a>
+	<else />
+	<style>
+		.banklist{list-style: none; margin:-20px 10px 30px;}
+		.banklist li {float:left; border:2px solid #ccc;margin:3px 2px; position: relative;}
+		.banklist li:hover{border:2px solid #209777;}
+		.banklist li.active{border:2px solid #209777;}
+		.banklist li a {cursor: pointer;}
+		.icon-select{position: absolute;right: -2px;top: -2px;margin:0;border: none;display: none;}
+	</style>
+	<div>
+		<ul class="banklist clearfix">
+			<li><a class="use_bank" code="CCB">
+				<img src="/Public/Home/images/banklist/ccb.png" alt=""></a><img class="icon-select" src="/Public/Home/images/banklist/selected.png" alt=""></li>
+			<li><a class="use_bank" code="ABC">
+				<img src="/Public/Home/images/banklist/abc.png" alt=""></a></li>
+			<li><a class="use_bank" code="ICBC">
+				<img src="/Public/Home/images/banklist/icbc.png" alt=""></a></li>
+			<li><a class="use_bank" code="BOC">
+				<img src="/Public/Home/images/banklist/boc.png" alt=""></a></li>
+			<li><a class="use_bank" code="BCN">
+				<img src="/Public/Home/images/banklist/bcn.png" alt=""></a></li>
+			<li><a class="use_bank" code="GDB">
+				<img src="/Public/Home/images/banklist/gdb.png" alt=""></a></li>
+			<li><a class="use_bank" code="CMB">
+				<img src="/Public/Home/images/banklist/cmb.png" alt=""></a></li>
+			<li><a class="use_bank" code="CMSB">
+				<img src="/Public/Home/images/banklist/cmsb.png" alt=""></a></li>
+			<li><a class="use_bank" code="POST">
+				<img src="/Public/Home/images/banklist/post.png" alt=""></a></li>
+			<li><a class="use_bank" code="CITIC">
+				<img src="/Public/Home/images/banklist/citic.png" alt=""></a></li>
+			<li><a class="use_bank" code="CEB">
+				<img src="/Public/Home/images/banklist/ceb.png" alt=""></a></li>
+			<li><a class="use_bank" code="CIB">
+				<img src="/Public/Home/images/banklist/cib.png" alt=""></a></li>
+			<li><a class="use_bank" code="SPDB">
+				<img src="/Public/Home/images/banklist/spdb.png" alt=""></a></li>
+			<li><a class="use_bank" code="HZCB">
+				<img src="/Public/Home/images/banklist/hzcb.png" alt=""></a></li>
+			<li><a class="use_bank" code="BJRCB">
+				<img src="/Public/Home/images/banklist/bjrcb.png" alt=""></a></li>
+			<li><a class="use_bank" code="PAB">
+				<img src="/Public/Home/images/banklist/pab.png" alt=""></a></li>
+			<li><a class="use_bank" code="BOS">
+				<img src="/Public/Home/images/banklist/bos.png" alt=""></a></li>
+			<li><a class="use_bank" code="NBBANK">
+				<img src="/Public/Home/images/banklist/nbbank.png" alt=""></a></li>
+		</ul>
+		<input type="hidden" id="select_bank" value="">
+	</div>
+	<a class="span4 text-center btn btn-large btn-danger" id="normalpay" target="_blank" href="{:U('Stock/normalpay', $data)}" style="margin-bottom:30px" style="">
+	网银支付</a>
+	</if>
+</div>
+<div  id="payinfo" class="clearfix text-center hide" style="display:none;">
+	<div style="font-size:18px">
+		<p style="margin:40px 0">支付完成后，请点击下面按钮刷新页面</p>
+		<button class="btn btn-large btn-success" id="btn-refresh">立即刷新</button>
+	</div>
+</div>
+<script>
+	$(".banklist li a").click(function() {
+		var select = $(this);
+		$('.banklist li').removeClass('active');
+		var parent = select.parent();
+		parent.addClass('active'); // 添加选中状态框
+		var icon = $(".icon-select"); // 选中框标记
+		parent.append(icon);
+		icon.show();
+		$("#select_bank").val(select.attr('code'));
+	});
+
+	$("#normalpay").click(function() {
+		var select_bank = $('#select_bank').val();
+		if (select_bank == null || select_bank == "") {
+			alert("请选择支付银行。");
+			return false;
+		}
+
+		var my = $(this);
+		var url = my.attr('href')+ "?bankname=" + select_bank;
+		my.attr('href', url);
+
+		$("#payway").hide();
+		$("#payinfo").show();
+	});
+	$("#btn-refresh").click(function() {
+		window.location.reload();
+	});
+</script>

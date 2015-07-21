@@ -1,0 +1,221 @@
+<extend name="Base/common"/>
+<block name="header">
+	<link href="__CSS__/style.css" rel="stylesheet">
+	<style>
+		.up_file {
+			background: url('__IMG__/btn_addattach.jpg');
+			opacity: 0;
+			width: 72px;
+			height: 64px;
+			position: absolute;
+			margin-left: -78px;
+		}
+	</style>
+</block>
+<block name="side">
+</block>
+<block name="body">
+<div class="fl w100 mainwrap mt25">
+	<div class="content">
+    	<div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+        <div class="main mt20 mainleftbg">
+        	<dl class="cl">
+        	<dd class="leftbar">
+            	<div class="userhaed"><img src="{:get_memberface()}">{:get_membername(is_login())}</div>
+                <ul id="leftlist">
+                	<li><em id="c1"></em><a href="{:U('Project/addstep1?id='.$project_id)}">基本信息</a><span></span></li>
+                    <li><em id="c3"></em><a href="{:U('Project/addstep2?id='.$project_id)}">项目介绍</a></li>
+                    <li  class="cur"><em id="c2"></em><a href="{:U('Project/addstep3?id='.$project_id)}">团队介绍</a></li>
+                    <li><em id="c4"></em><a href="{:U('Project/addstep4?id='.$project_id)}">项目资料</a></li>
+                    <li><em id="c5"></em><a href="{:U('Project/addstep5?id='.$project_id)}">融资信息</a></li>
+                    <li><em id="c6"></em><a href="{:U('Project/addstep6?id='.$project_id)}">提交项目</a></li>
+                </ul>
+            </dd>
+            <dd class="rightbar">
+            	<h2>团队介绍</h2>
+            	<form name="project_add" id="project_add" action="" method="POST" class="form">
+					<ul>
+					<div class="tjtd">
+						<foreach name="team" item="v">
+							<li class="xmms">
+								<div class="fl2"><img src="{$v.header_img|get_cover='path'}" style=""></div>
+					    		<ul class="fr2">
+									<li>姓名：{$v.name}</li>
+					            	<li>职务：{$v.postion}</li>
+					               	<li>简介：{$v.member_info}</li>
+					               	<li class="bs">
+					               		<a href="#" data-pricedata="{:U('project/getmemberinfo?id='.$v['id'])}" class="bj edit_member">编辑</a>
+					               		<a href="{:U('project/delmember?id='.$v['id'])}" class="del_member">删除</a>
+					               	</li>
+								</ul>
+							</li>
+						</foreach>
+					
+						
+				   		<div class="w_adda hide">
+				     		<input type="button" class="btn_red" id="addBack" value="添加团队成员">
+				      	</div>
+						<div class="w_addInfo" style="display: none;">
+				  			<li class="addattach">
+					      		<label><em>*</em>上传头像</label>
+					       		<span class="fl">
+									<a href="#">
+										<img src="__IMG__/btn_addattach.jpg" class="fl" width="72" height="64" style="margin-right:10px;">
+										<input type="file" class="up_file" name ="header_img" id="header_img" onchange="upload_image('header_img');">
+									</a>
+									
+									<notempty name="header_img">
+										<img id = "header_img_view" src="{$header_img|get_cover='path'}"  alt="" style="width:100px;height:100px;" />
+									<else/>
+										<img id = "header_img_view" src=""  alt="" style="" />
+									</notempty>
+									大小不超过2M，建议尺寸：180*180px
+								</span>
+								<input type="hidden" name="header_img" id="hidheader_img" value="{$header_img}" datatype="*" nullmsg="请上传头像">
+				       		</li>
+				   			<li>
+				        		<label><em>*</em>姓名：</label>
+								<input type="text" class="c1" id="name" value="" name="name" placeholder="请输入团队人员姓名" datatype="*1-10" nullmsg="请输入团队人员姓名" errormsg="姓名不能超过10个汉字">
+				           	</li>
+				         	<li>
+				         		<label><em>*</em>职务：</label>
+				          		<input type="text" class="c1" id="postion" value="" name="postion" placeholder="请输入团队人员职务" datatype="*" nullmsg="请输入团队人员职务" >
+				         	</li>
+				         	<li>
+				         		<label>排序：</label>
+				          		<input type="text" class="c1" id="sort" value="0" name="sort" >(越小越靠前，默认0)
+				         	</li>
+				       		<li>
+				        		<label><em>*</em>简介：</label>
+				           		<textarea name="member_info" id="member_info" cols="" rows="" class="c2" placeholder="请输入团队人员简介" datatype="*" nullmsg="请输入团队人员简介"></textarea>
+				          	</li>
+				       		<li class="bq">
+				        		<input type="hidden" name ="team_id" id="team_id" value="">
+				            	<input type="button" value="取消" id="cancle" class="qx">
+				            	<input type="submit" value="添加" class="s">
+				        	</li>
+						</div>
+					</div>
+					<li class="save">
+					  <a href="{:U('Project/addstep4?id='.$project_id)}"><input type="button" class="s" value="下一步"></a>
+					</li>
+				</ul>
+			</form>
+            </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+</block>
+<block name="script">
+	<link href="__CSS__/validform.css" rel="stylesheet">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script type="text/javascript" src="__JS__/jQselect.js"></script>
+  <script type="text/javascript">
+
+	//上传缩略图
+	function upload_image(upfile_name){
+		var viewImg = '#' + upfile_name + '_view';
+		var hidfileName = '#hid' + upfile_name;
+      $.upload({
+	          url: '{:U("File/uploadProj")}', 
+	          fileName: upfile_name, 
+	          dataType: 'json',
+	          accept: '.jpg,.jpeg,.png,.gif',
+	          // 上传之前回调,return true表    示可继续上传
+	          onSend: function() {
+	              return true;
+	          },
+	          // 上传之后回调
+	          onComplate: function(data) {
+	            if(data.status == 1) {
+	            	$(viewImg).attr('src', data.path);
+	            	$(viewImg).attr('style', 'width:100px;height:100px;');
+	          		$(hidfileName).val(data.id);
+	            } else {
+	                alert(data.info);
+	            }
+	          }
+		});
+	}
+	
+  $(function(){
+	  //显示添加部分
+	  $("#addBack").click(function(){
+	    $(".w_adda").hide(function(){
+	      $(".w_addInfo").fadeIn();
+	    });
+	  });
+	  //隐藏部分
+	  $("#cancle").click(function(){
+  	  	$("#team_id").attr('value','');
+		$("#hidheader_img").attr('value','');
+		$("#header_img_view").attr('src','');
+		$("#header_img_view").attr('style', '');
+		$("#name").attr('value','');
+		$("#postion").attr('value','');
+		$("#member_info").html('');
+		$("#sort").attr('value','0');
+		
+	    $(".w_addInfo").fadeOut(function(){
+	      $(".w_adda").show();
+	    });
+	  });
+
+		$(".del_member").click(function() {
+			  if (!confirm('您确定要删除该条记录吗？')) {return false;}
+			  $.get($(this).attr('href'), function(data) {
+			    if (data.status == 1) {
+			      layer.alert(data.info, 1, function() {window.location.reload();});
+			    } else {
+			      layer.alert(data.info, 5);
+			    }
+			  });
+			  return false;
+			});
+
+		
+	  // 编辑。。。。
+	  $(".edit_member").click(function(){
+		 	$.get($(this).data('pricedata'),function(data){
+	   
+	      if (data.status==1) {
+	    	  	$("#team_id").attr('value',data.info.id);
+				$("#hidheader_img").attr('value',data.info.header_img);
+				$("#header_img_view").attr('src',data.info.image_url);
+				$("#header_img_view").attr('style', 'width:100px;height:100px;');
+				$("#name").attr('value',data.info.name);
+				$("#postion").attr('value',data.info.postion);
+				$("#member_info").html(data.info.member_info);
+				$("#sort").attr('value',data.info.sort);
+				//layer.alert(data.info, 1, function() {window.location.reload();});
+	      }else{
+	    	  //layer.alert(data.info, 5);
+	        return false;
+	      };
+	    });
+
+	    $(".w_adda").hide(function(){
+	      $(".w_addInfo").fadeIn();
+	    });
+	  });
+
+		
+	})
+	$("#project_add").Validform({
+			tiptype:3,
+			ajaxPost:true,
+			callback:function(data){
+				if (data.status == 1) {
+					//alert('添加成功');
+					//window.location.href = data.url;
+					window.location.reload();
+				}else{
+					alert(data.info);
+				}
+			}
+		}); 
+
+	</script>
+</block>

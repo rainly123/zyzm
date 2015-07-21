@@ -1,0 +1,70 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>外部投资人</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+      <a class="btn" href="{:U('index')}">所有投资人</a>
+      <a class="btn" href="{:U('index?state=1')}">已处理</a>
+      <a class="btn" href="{:U('add?state=0')}">未处理</a>
+    </div>
+   </div>
+    <!-- 数据列表 -->
+  <div class="data-table table-striped">
+	<table class="">
+    <thead>
+      <tr>
+		<th class="">ID</th>
+		<th class="">项目名称</th>
+		<th class="">姓名</th>
+		<th class="">手机号码</th>
+		<th class="">投资金额</th>
+		<th class="">支付状态</th>
+		<th class="">处理状态</th>
+		<th class="">来源</th>
+		<th class="">投资时间</th>
+		<th class="">操作</th>
+	  </tr>
+    </thead>
+    <tbody>
+		<notempty name="data">
+		<volist name="data" id="vo">
+		<tr>
+			<td>{$i} </td>
+			<td>{$vo.project_name}</td>
+			<td>{$vo.real_name}</td>
+			<td>{$vo.phone}</td>
+			<td>{$vo.fund}</td>
+			<td><if condition="$vo.pay_flag eq 0 "> 未支付 <else/> 已支付</if></td>
+			<td><if condition="$vo.state eq 0 "> 未处理 <else/> 已处理</if></td>
+			<td>{$vo.from_way}</td>
+			<td>{$vo.create_time|time_format}</td>
+			<td>
+				<if condition="($vo.pay_flag eq 1) AND ($vo.state eq 0)">
+				<a href="{:U('invest?id='.$vo['id'])}" class="btn ajax-get confirm">确认投资</a>
+				</if>
+				<if condition="($vo.out_state eq -2) AND ($vo.state eq 1)">
+				<a href="{:U('cancel?id='.$vo['id'])}" class="btn confirm">取消投资</a>
+				</if>
+			</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+    //导航高亮
+    highlight_subnav('{:U('Notice/index')}');
+	</script>
+</block>

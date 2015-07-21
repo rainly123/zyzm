@@ -1,0 +1,113 @@
+<extend name="Base/common"/>
+<block name="header">
+    <link href="__CSS__/usercenter.css" rel="stylesheet">
+    <style>
+        .dd-link {
+            cursor: pointer;
+        }
+    </style>
+</block>
+<block name="side">
+</block>
+<script>
+    $(function(){
+        $('#title, #nl').bind({
+            focus:function(){
+                if (this.value == this.defaultValue){
+                    this.value="";
+                    $(this).attr("style","color:#000;");
+                }
+            },
+            blur:function(){
+                if (this.value == ""){
+                    this.value = this.defaultValue;
+                    $(this).attr("style","color:#a9a9a9;");
+                }
+            }
+        });
+    });
+    function setTab(name,cursel,n)
+    {
+        for(i=1;i<=n;i++){
+            var menu=document.getElementById(name+i);
+            menu.className=i==cursel?"choosecur":"";
+        }
+    }</script>
+<block name="body">
+    <div class="fl w100 mt25 dt">
+        <div class="content border1">
+            <div class="dtmain cl">
+                <dl class="top">
+                    <dt><img src="{$projectInfo.cover|get_cover='path'}" alt="{$projectInfo.project_name}" width="310" height="186"></dt>
+                    <dd>
+                        <b>{$projectInfo.project_name}</b>
+                        <a href="{:U('/project/dynamiclistadd',array('id'=>$_GET['id']))}" class="add">添加动态</a>
+                    </dd>
+                </dl>
+            </div>
+            <div class="dtlist cl">
+                <h4 class="c2"><i></i>项目动态</h4>
+                <ul>
+                    <foreach name="dynamicInfo" item="vo">
+                        <li>
+                            <dl>
+                                <dt>{$vo.update_time|time_format='Y-m-d'}<br>{$vo.update_time|time_format='H:i'}</dt>
+                                <dd class="dd-link" data-href="{:U('Project/projectdynamicdetail/id/'.$vo['id'].'.html')}">
+                                    <b>{$vo.title}</b>
+                                    <p>{:mb_substr(strip_tags($vo['content']), 0,100,'utf-8')}</p>
+                                    <div class="goto">
+                                    <if condition="$vo.status eq 0" >
+                                        <a href="{:U('Project/updateProjectDynamicStatus')}" class="btn-publish" data-id="{$vo.id}" data-pid="{$vo.project_id}">发布</a>
+                                    </if>
+                                        <a href="{:U('Project/updateProjectDynamicInfo/id/'.$vo['id'])}">编辑</a>
+                                        <a class="delete_dynamic" href="{:U('Project/dynamiclistdelete',array('id'=>$vo['id'],'pid'=>$_GET['id']))}">删除</a>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </li>
+                    </foreach>
+                    <div id="dialog" style="display: none"></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+    <script type="text/javascript">
+
+        $(".delete_dynamic").click(function() {
+            if (!confirm('您确定要删除该条记录吗？')) {return false;}
+            $.get($(this).attr('href'), function(data) {
+                if (data.status == 1) {
+                    layer.alert(data.info, 9, function() {window.location.reload();});
+                } else {
+                    layer.alert(data.info, 8);
+                }
+            });
+            return false;
+        });
+        $('.btn-publish').click(function () {
+            var $this = $(this);
+            var data = {
+                id: $this.attr('data-id'),
+                status: 1,
+                project_id : $this.attr("data-pid")
+            };
+            $.post($this.attr('href'), data, function (json) {
+                if (json.status == 1) {
+                    layer.alert('动态发布成功。', 9, function() {location.reload();});
+                    
+                }
+
+            }, 'json');
+            return false;
+        });
+
+        $('.dd-link').click(function (){
+            location.href = $(this).data('href')
+        })
+
+    </script>
+</block>

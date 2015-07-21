@@ -1,0 +1,95 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+		<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;项目管理
+	</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<div class="con_btn">
+				<div class="nav-bar">
+					<div class="content">
+						<ul class="menu">
+							<li><a href="{:U('Manage/foundlist')}">我的项目</a></li>
+							<li><a href="{:U('Manage/foundinquiry')}">询价信息</a></li>
+							<li class="active">领投信息</li>
+							<li><a href="{:U('Manage/foundfollow')}">跟投信息</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 数据列表 -->
+			<div class="data-table">
+				<table class="tt">
+					<thead>
+						<tr>
+						<th class="">序号</th>
+						<th class="">项目名称</th>
+						<th class="">项目投资人</th>
+						<th class="">他的估值</th>
+						<th class="">投资金额</th>
+						<th class="">投资时间</th>
+						<th class="">状态</th>
+						<th class="">身份</th>
+						</tr>
+				    </thead>
+				    <tbody>
+						<volist name="projects" id="vo">
+						<tr>
+				      <td>{$i} </td>
+							<td><a href="{:U('Project/detail?id='.$vo['project_id'])}">{$vo.project_name}</a></td>
+							<td><a href="{:U('MCenter/profile?id='.$vo['investor_id'])}">{$vo.investor_id|get_membername}</a></td>
+							<td>{$vo.project_valuation|change_fund}元</td>
+							<td>{$vo.fund|change_fund}元</td>
+							<td><span>{$vo.create_time|time_format='Y-m-d'}</span></td>
+							<td>
+								<if condition="$vo.status eq 1 ">未认可
+								<elseif condition="$vo.status eq 2 "/>已认可
+								<elseif condition="$vo.status eq 3 "/>已接受
+								<elseif condition="$vo.status eq 4 "/>已确认投资
+								<elseif condition="$vo.status eq 9 "/>已支付
+								<else />已拒绝</if>
+							</td>
+							<td>
+								<if condition="$vo.lead_type eq 2 ">候选领投人
+								<elseif condition="$vo.lead_type eq 9 "/>领投人
+								<else /></if>
+							</td>
+						</tr>
+						</volist>
+					</tbody>
+				    </table>
+		
+			</div>
+			<!-- 分页 -->
+			<div class="page">{$_page}</div>
+			<!-- /分页 -->
+		</div>
+	</div>
+		</div>
+		</div>
+</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('Manage/foundlist')}');
+	</script>
+</block>

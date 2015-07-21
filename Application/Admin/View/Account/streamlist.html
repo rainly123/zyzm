@@ -1,0 +1,75 @@
+<extend name="Public/base" />
+
+<block name="body">
+<style>
+.label {padding:3px 5px;border-radius:1px; color:#fff;}
+.label-success {background-color: #5cb85c;}
+.label-danger {background-color: #d9534f;}
+.label-warning {background-color: #f0ad4e;}
+.label-info {background-color: #5bc0de;}
+</style>
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>提现申请</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+      <a class="btn label-danger" href="{:U('payadd?uid='.$uid)}">线下充值</a>
+      <a class="btn" href="{:U('streamlist?uid='.$uid)}">全部</a>
+      <a class="btn" href="{:U('streamlist?type=0&uid='.$uid)}">充值</a>
+      <a class="btn" href="{:U('streamlist?type=1&uid='.$uid)}">支付</a>
+      <a class="btn" href="{:U('streamlist?type=2&uid='.$uid)}">赎回</a>
+      <a class="btn" href="{:U('streamlist?type=3&uid='.$uid)}">提现</a>
+    </div>
+  </div>
+    <!-- 数据列表 -->
+  <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="" style="width:30px">编号</th>
+		<th class="" style="width:50px">类型</th>
+		<th class="" style="min-width:70px">姓名</th>
+		<th class="" style="width:100px">手机号码</th>
+		<th class="" style="min-width:100px;">金额</th>
+		<th class="" style="min-width:130px">时间</th>
+		<th class="">备注</th>
+		<th class="" style="min-width:50px">状态</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i} </td>
+			<td><if condition="$vo.type eq 0"><span class="label label-danger">充值</span>
+			<elseif condition="$vo.type eq 1" /><span class="label label-info">支付</span>
+			<elseif condition="$vo.type eq 2" /><span class="label label-warning">赎回</span>
+			<elseif condition="$vo.type eq 3" /><span class="label label-success">提现</span></if></td>
+			<td>{$vo.name}</td>
+			<td>{$vo.phone}</td>
+			<td>{$vo.amount}</td>
+			<td>{$vo.create_time|time_format='Y-m-d H:i'}</td>
+			<td>{$vo.remarks}</td>
+			<td><if condition="$vo.state eq 0"> 未处理 <elseif condition="$vo.state eq 1" />已处理<elseif condition="$vo.state eq 2" />未通过</if></td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+    //导航高亮
+    highlight_subnav('{:U('Account/index')}');
+	</script>
+</block>

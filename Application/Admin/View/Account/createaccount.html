@@ -1,0 +1,18 @@
+<div style="margin:20px 30px">
+	<div>手机号码：<input type="text" id="mobile" name="mobile" class="text"></div>
+	<div><button href="{:U('createaccount')}" class="btn btn-create">提交</button></div>
+</div>
+
+<script type="text/javascript">
+$(".btn-create").click(function() {
+	var _this = $(this);
+	$.post(_this.attr('href'), {'mobile':$('#mobile').val()}, function(data) {
+		if (data.status == 1) {
+			alert(data.info);
+			window.location.reload();
+		} else {
+			alert(data.info);
+		}
+	});
+});
+</script>

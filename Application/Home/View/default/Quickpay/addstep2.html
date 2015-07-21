@@ -1,0 +1,100 @@
+<div id="step3" class="form-list">
+  <form action="{:U()}" method="post" id="quickpay2">
+    <ul>
+      <li><dl class="clearfix">
+        <dt>银卡卡号：</dt><dd><span>{$card.cardno}</span></dd>
+        <input type="hidden" name="merOrderId" value="{$merOrderId}">
+        <input type="hidden" name="id" value="{$card.id}">
+        <input type="hidden" name="cardNo" id="cardNo" value="{$card.cardno}">
+        <input type="hidden" name="bankNo" value="{$card.bankno}">
+        <input type="hidden" name="storableCardNo" value="{$card.storablecardno}">
+        <input type="hidden" name="amount" id="amount" value="{$amount}" >
+      </dl></li>
+      <li><dl class="clearfix">
+        <dt>姓名：</dt><dd><input type="text" name="custName" class="c1" placeholder="请输入持卡人姓名"></dd>
+      </dl></li>
+      <li><dl class="clearfix">
+        <input type="hidden" name="custIdType" value="0">
+        <dt>身份证号码：</dt><dd><input type="text" name="custIdNo" class="c1" placeholder="请输入身份证号码"></dd>
+      </dl></li>
+      <if condition="$card.cardtype eq 0">
+      <li><dl class="clearfix">
+        <dt>有效日期：</dt><dd>
+          <input type="text" name="expiredMonth" class="c2" placeholder="月份" maxlength="2"><span style="width:10px">/</span><input type="text" name="expiredYear" class="c2" placeholder="年份" maxlength="2"></dd>
+      </dl></li>
+      <li><dl class="clearfix">
+        <dt>卡效验码：</dt><dd><input type="text" maxlength="3" name="cvv2" class="c1" placeholder="信用卡背后3位号码"></dd>
+      </dl></li>
+      </if>
+      <li><dl class="clearfix">
+        <dt>手机号码：</dt><dd><input type="text" name="phoneNo" class="c1" placeholder="与银行中所存号码一致"></dd>
+      </dl></li>
+      <li><dl class="clearfix">
+        <dt>验证码：</dt><dd><input type="hidden" name="phoneToken" id="phoneToken" value="">
+                <input type="text" name="phoneVerCode" id="phoneVerCode" class="c3" placeholder="输入手机验证码">
+                <a href="{:U('getcode')}" class="btn_blue paycode">发送验证码</a>
+         </dd>
+      </dl></li>
+    </ul>
+    <div class="btn-list"><a href="#" class="btn_red2" id="btn-quickpay2">
+    <span>支 付</span></a></div>
+  </form>
+</div>
+<script type="text/javascript">
+  $("#btn-quickpay2").click(function() {
+    form = $(this).parents('form');
+    form.submit();
+    return false;
+  });
+  $("#quickpay2").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    beforeSubmit:showWaiting,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 9, function(){window.location.href=data.url;});
+      } else {
+        layer.alert(data.info);
+      }
+    }
+  });
+
+  var longtime = 0;
+  var id ;
+  $(".paycode").click(function() {
+    var code = $(this);
+    var form = code.parents('form');
+    if (longtime > 0) {return false;}
+    showWaiting();
+    $.post(code.attr('href'), form.serialize(), function(data) {
+      if (data.status == 1) {
+        longtime = 40;
+        $('.paycode').html('请稍等'+ longtime +'秒');
+        // 倒计时
+        id = setInterval(uptime, 1000);
+        $("#phoneToken").val(data.phoneToken);
+      } else {
+        alert(data.info);
+      }
+    });
+    return false;
+  });
+
+  function uptime() {
+    $('.paycode').html('请稍等'+ longtime +'秒');
+    longtime = longtime - 1;
+    if (longtime <= 0) {
+      clearInterval(id);
+      $('.paycode').html('获取验证码');
+    }
+  }
+</script>

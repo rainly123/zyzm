@@ -1,0 +1,255 @@
+<extend name="Base/common"/>
+<block name="header">
+	<link href="__CSS__/style.css" rel="stylesheet">
+	<style>
+		.up_file {
+			background-image: url(__IMG__/btn_addattach.jpg);
+			opacity: 0;
+			width: 72px;
+			height: 64px;
+			position: absolute;
+			margin-left: -140px;
+		}
+		
+		[class^="icon-"], [class*=" icon-"] {
+			display: inline-block;
+			width: 14px;
+			height: 14px;
+			margin-top: 1px;
+			line-height: 14px;
+			vertical-align: text-top;
+			background-image:url(__IMG__/glyphicons-halflings.png);
+			background-position: 14px 14px;
+			background-repeat: no-repeat;
+		}
+		
+		.icon-arrow-left {
+			background-position: -240px -96px;
+		}
+		.icon-arrow-right {
+			background-position: -264px -96px;
+		}
+		.icon-remove {
+			background-position: -312px 0;
+		}
+		
+		.form dl dd span.xmtp {
+			border: 2px dashed #d9d9d9;
+			padding: 15px 10px;
+			width: 338px;
+			float: left;
+			text-align: center;
+		}
+		.form dl dd input.c1 {
+			border: 1px solid #d9d9d9;
+			padding: 10px 10px;
+			width: 340px;
+			font-size: 14px;
+			color: #a9a9a9;
+			border-radius: 3px;
+		}
+		.form dl dd input {
+			float: left;
+		}
+		.form dl dd.save {
+			border-top: 1px solid #DDDDDD;
+			color: #ED655A;
+			font-size: 12px;
+			margin-top: 20px;
+			padding: 20px 0;
+			text-align: right;
+		}
+		.form dl dd input.s {
+			background: #ed655a;
+			border: none;
+			color: #fff;
+			font-size: 14px;
+			padding: 10px 30px;
+			cursor: pointer;
+			margin-left: 10px;
+			float: none;
+		}
+
+		.form dl dd {
+			padding: 5px 0;
+			float: left;
+			width: 100%;
+		}
+	</style>
+</block>
+<block name="side">
+</block>
+<block name="body">
+	<div class="fl w100 mainwrap mt25">
+	<div class="content">
+    	<div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+        <div class="main mt20 mainleftbg">
+        	<dl class="cl">
+        	<dd class="leftbar">
+            	<div class="userhaed"><img src="__IMG__/default_userhead.jpg">用户昵称</div>
+                <ul id="leftlist">
+                	<li><em id="c1"></em><a href="{:U('Project/addstep1?id='.$project_id)}">基本信息</a><span></span></li>
+                    <li><em id="c3"></em><a href="{:U('Project/addstep2?id='.$project_id)}">项目介绍</a></li>
+                    <li class="cur"><em id="c4"></em><a href="{:U('Project/addstep3?id='.$project_id)}">项目资料</a></li>
+                    <li><em id="c5"></em><a href="{:U('Project/addstep4?id='.$project_id)}">融资信息</a></li>
+                    <li><em id="c6"></em><a href="{:U('Project/addstep5?id='.$project_id)}">提交项目</a></li>
+                </ul>
+            </dd>
+            <dd class="rightbar">
+            	<h2>项目资料</h2>
+            	<form name="project_add" id="project_add" action="" method="POST" class="form-horizontal">
+				<div class="form">
+				<dl>
+					<dd>
+					  <label>宣传图片</label>
+					  <span class="xmtp">
+					  	<a href="#">
+							<input type="file" class="up_file" style="width:338px;height:40px;" name="download" id="download" onchange="upload_image('download');">
+						 </a>上传宣传图片
+					  </span>
+					</dd>
+					<dd>
+					<ul class="imglist clearfix">
+					    <foreach name="temp" item="v">
+					    	<li>
+					    		<div class="image-box">
+					            	<img src="{$v.info_key|get_cover='path'}" alt="">
+					            </div>
+					           	<input type="hidden" name="temp[]" value="{$v.info_key}" class="pathid">
+					            <div class="box-tools">
+					                <a class="arrow arrow-left" href="javascript:void(0)"><i class="icon-arrow-left"></i></a>
+					                <a class="arrow arrow-right" href="javascript:void(0)"><i class="icon-arrow-right"></i></a>
+					                <a class="remove" href="javascript:void(0)"><i class="icon-remove"></i></a>
+					            </div>
+					        </li>
+					    </foreach>
+					    </ul>
+					</dd>
+					<dd>
+					  <label>相关视频</label>
+					  <input type="text" class="c1" id="title" name="temp-move" value="{$temp_move}" placeholder="仅适用于优酷、土豆、酷六视频链接">
+					</dd>
+					<dd class="save">
+					  <input type="submit" value="保存" class="s">
+					</dd>
+				</dl>
+			</div>
+			</form>
+    	</dd>
+    	</dl>
+    </div>
+    </div>
+</div>
+	<ul style="display:none;">
+		<li class="image-temp">
+			<div class="image-box">
+				<img src="" alt="">
+			</div>
+			<input type="hidden" name="temp[]" class="pathid">
+			<div class="box-tools">
+				<a class="arrow arrow-left" href="javascript:void(0)"><i class="icon-arrow-left"></i></a>
+				<a class="arrow arrow-right" href="javascript:void(0)"><i class="icon-arrow-right"></i></a>
+				<a class="remove" href="javascript:void(0)"><i class="icon-remove"></i></a>
+			</div>
+		</li>
+	</ul>
+</block>
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script type="text/javascript" >
+	
+		$("#project_add").Validform({
+			tiptype:3,
+			btnSubmit:"#confirm",
+			ajaxPost:true,
+			beforeCheck:function(curform){
+				//在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
+				//这里明确return false的话表单将不会提交;	
+				var length = $(".imglist li").length;
+				if (length == 0) {
+					alert('请至少添加一张宣传图片。');
+					return false;
+				}
+				
+			},
+			callback:function(data){
+				if (data.status == 1) {
+					alert('添加成功');
+					window.location.href = data.url;
+				}else{
+					alert(data.info);
+				}
+			}
+		});
+		
+		//上传缩略图
+		function upload_image(upfile_name){
+	        $.upload({
+		          url: '{:U("File/uploadProj")}', 
+		          fileName: upfile_name, 
+		          dataType: 'json',
+		          accept: '.jpg,.jpeg,.png,.gif',
+		          // 上传之前回调,return true表    示可继续上传
+		          onSend: function() {
+		              return true;
+		          },
+		          // 上传之后回调
+		          onComplate: function(data) {
+		        	  uploadPhoto(data);
+		          }
+			});
+		}
+		
+		function uploadPhoto(data){
+		    var src = '';
+		    if(data.status){
+		    	var clone = $(".image-temp").clone(true);
+		    	clone.find('.pathid').val(data.id);
+		    	clone.removeClass('image-temp')
+		      	src = data.url || '__ROOT__' + data.path;
+		    	clone.find('img').attr('src', src);
+		    	$(".imglist").append(clone);
+		    	clone.show('500');
+		    } else {
+		      alert('上传失败');
+		    }
+		}
+		
+	    $(document).ready(function() {
+	    	// 宣传图片位置调整(往前调整)
+	    	$(".arrow-left").click(function() {
+	    		var my = $(this).parents("li");
+	      		var prev = $(my).prev('li');
+		      	if (prev != null && prev.is('li')) {
+		    			$(my).hide('500', function() {
+		      			$(prev).before($(my));
+		        		$(my).show('500');
+		    			});
+		      	}
+	    	});
+
+	    	// 宣传图片删除
+	    	$(".remove").click(function() {
+	    		var my = $(this).parents("li");
+	    		$(my).hide('500', function() {
+	    			$(my).remove();
+	    		});
+	    	});
+	        
+	    	$(".arrow-right").click(function() {
+	    		var my =$(this).parents("li");
+	    		var next = $(my).next('li');
+	      	
+	      	if (next != null && next.is('li')) {
+	    			$(my).hide('500', function() {
+	      		
+	        		$(next).after($(my));	
+	        		$(my).show('500');
+	        	});
+	    	  }
+	      });
+	        
+	    });
+	</script>
+</block>

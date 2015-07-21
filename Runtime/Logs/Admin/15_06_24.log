@@ -1,0 +1,560 @@
+[ 2015-06-24T09:20:54+08:00 ] ::1 /admin.php
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.000988s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001330s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000545s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000726s ]
+
+[ 2015-06-24T09:20:54+08:00 ] ::1 /admin.php?s=/Public/login.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001330s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000332s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000427s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000093s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000195s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.051741s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.051844s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000243s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000321s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000472s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000555s ]
+
+[ 2015-06-24T09:20:54+08:00 ] ::1 /admin.php?s=/Public/verify.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001300s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001728s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000369s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000458s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000590s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000708s ]
+
+[ 2015-06-24T09:21:04+08:00 ] ::1 /admin.php?s=/Public/login.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001541s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002258s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000401s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000496s ]
+NOTIC: [8] Undefined index: lite D:\wamp\www\ThinkPHP\Library\Think\Db.class.php 第 37 行.
+SQL: SHOW COLUMNS FROM `jm_member` [ RunTime:0.0818s ]
+SQL: SELECT `uid`,`oid`,`position`,`real_name`,`nickname`,`sex`,`birthday`,`qq`,`score`,`login`,`reg_ip`,`reg_time`,`last_login_ip`,`last_login_time`,`status` FROM `jm_member` WHERE `uid` = 1 LIMIT 1   [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `jm_action` [ RunTime:0.0552s ]
+SQL: SELECT * FROM `jm_action` WHERE `name` = 'user_login' LIMIT 1   [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `jm_action_log` [ RunTime:0.0599s ]
+SQL: INSERT INTO `jm_action_log` (`action_id`,`user_id`,`action_ip`,`model`,`record_id`,`create_time`,`remark`) VALUES ('1','1','0','member','1','1435108863','admin在2015-06-24 09:21登录了后台') [ RunTime:0.0102s ]
+SQL: SELECT * FROM `jm_action` WHERE `name` = 'user_login' LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined offset: 1 D:\wamp\www\Application\Common\Common\function.php 第 716 行.
+NOTIC: [2] array_key_exists() expects parameter 2 to be array, null given D:\wamp\www\Application\Common\Common\function.php 第 716 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_action_log` WHERE `action_id` = 1 AND `user_id` = 1 AND `create_time` > 1435022463 LIMIT 1   [ RunTime:0.0028s ]
+SQL: UPDATE `jm_member` SET `login`=`login`+1,`last_login_time`='1435108863',`last_login_ip`='0' WHERE `uid` = 1 [ RunTime:0.0004s ]
+
+[ 2015-06-24T09:21:06+08:00 ] ::1 /admin.php?s=/Index/index.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000037s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001586s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002208s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000356s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000460s ]
+SQL: SHOW COLUMNS FROM `jm_menu` [ RunTime:0.0503s ]
+SQL: SELECT `id`,`title`,`url` FROM `jm_menu` WHERE `pid` = 0 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0004s ]
+SQL: SELECT `pid` FROM `jm_menu` WHERE ( pid !=0 AND url like '%Index/index%' ) LIMIT 1   [ RunTime:0.0235s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000129s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000223s ]
+INFO: [ AdminIndex ] --START--
+SQL: SHOW COLUMNS FROM `jm_addons` [ RunTime:0.0212s ]
+SQL: SELECT `config` FROM `jm_addons` WHERE `name` = 'SiteStat' AND `status` = 1 LIMIT 1   [ RunTime:0.0100s ]
+SQL: SHOW COLUMNS FROM `jm_member` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_member` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_action_log` [ RunTime:0.0040s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_action_log` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_document` [ RunTime:0.0225s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_document` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_category` [ RunTime:0.0280s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_category` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_model` [ RunTime:0.0214s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_model` LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000060s ]
+INFO: [ template_filter ] --END-- [ RunTime:-0.166555s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.017770s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.017908s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000249s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000328s ]
+INFO: Run Addons\SiteStat\SiteStatAddon [ RunTime:0.153571s ]
+SQL: SELECT `config` FROM `jm_addons` WHERE `name` = 'SystemInfo' AND `status` = 1 LIMIT 1   [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000066s ]
+INFO: [ template_filter ] --END-- [ RunTime:-1.926954s ]
+SQL: select version() as v; [ RunTime:0.0142s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.055158s ]
+INFO: [ view_parse ] --END-- [ RunTime:-1.733403s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000024s ]
+INFO: [ view_filter ] --END-- [ RunTime:-1.788326s ]
+INFO: Run Addons\SystemInfo\SystemInfoAddon [ RunTime:1.788380s ]
+SQL: SELECT `config` FROM `jm_addons` WHERE `name` = 'DevTeam' AND `status` = 1 LIMIT 1   [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000062s ]
+INFO: [ template_filter ] --END-- [ RunTime:-1.979468s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008234s ]
+INFO: [ view_parse ] --END-- [ RunTime:-1.794406s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000035s ]
+INFO: [ view_filter ] --END-- [ RunTime:-1.802452s ]
+INFO: Run Addons\DevTeam\DevTeamAddon [ RunTime:0.014151s ]
+INFO: [ AdminIndex ] --END-- [ RunTime:1.956302s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008766s ]
+INFO: [ view_parse ] --END-- [ RunTime:-1.794406s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000020s ]
+INFO: [ view_filter ] --END-- [ RunTime:-1.802917s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000719s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000884s ]
+
+[ 2015-06-24T09:21:10+08:00 ] ::1 /admin.php?s=/Config/group.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001413s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000469s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000622s ]
+SQL: SHOW COLUMNS FROM `jm_menu` [ RunTime:0.0302s ]
+SQL: SELECT `id`,`title`,`url` FROM `jm_menu` WHERE `pid` = 0 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0004s ]
+SQL: SELECT `pid` FROM `jm_menu` WHERE ( pid !=0 AND url like '%Config/group%' ) LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `jm_menu` WHERE `id` = 68 LIMIT 1   [ RunTime:0.0003s ]
+SQL: SELECT DISTINCT  `group` FROM `jm_menu` WHERE `group` <> '' AND `pid` = 68  [ RunTime:0.0004s ]
+SQL: SELECT `id`,`url` FROM `jm_menu` WHERE `pid` = 68 AND `hide` = 0  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '系统设置' AND `pid` = 68 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '数据备份' AND `pid` = 68 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0004s ]
+SQL: SHOW COLUMNS FROM `jm_config` [ RunTime:0.0072s ]
+SQL: SELECT `id`,`name`,`title`,`extra`,`value`,`remark`,`type` FROM `jm_config` WHERE `status` = 1 AND `group` = 1 ORDER BY sort  [ RunTime:0.0485s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000173s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000267s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.180168s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.180312s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000350s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000434s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000734s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001267s ]
+
+[ 2015-06-24T09:21:13+08:00 ] ::1 /admin.php?s=/Infomation/index.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000039s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001581s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002242s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000384s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000483s ]
+SQL: SHOW COLUMNS FROM `jm_menu` [ RunTime:0.2192s ]
+SQL: SELECT `id`,`title`,`url` FROM `jm_menu` WHERE `pid` = 0 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0003s ]
+SQL: SELECT `pid` FROM `jm_menu` WHERE ( pid !=0 AND url like '%Infomation/index%' ) LIMIT 1   [ RunTime:0.0007s ]
+SQL: SELECT * FROM `jm_menu` WHERE `id` = 186 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT DISTINCT  `group` FROM `jm_menu` WHERE `group` <> '' AND `pid` = 186  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`url` FROM `jm_menu` WHERE `pid` = 186 AND `hide` = 0  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '文案管理' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0005s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '协议管理' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '短信服务' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0004s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '第三方平台' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_infomation` [ RunTime:0.0058s ]
+SQL: SELECT * FROM `jm_infomation` ORDER BY status desc,level desc,id desc  [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000280s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000441s ]
+NOTIC: [8] Undefined variable: meta_title D:\wamp\www\Runtime\Cache\Admin\fd2b3db3d8a45fa3e6ed1d5571bd3739.php 第 5 行.
+NOTIC: [8] Undefined variable: cate_id D:\wamp\www\Runtime\Cache\Admin\fd2b3db3d8a45fa3e6ed1d5571bd3739.php 第 98 行.
+NOTIC: [8] Undefined variable: _page D:\wamp\www\Runtime\Cache\Admin\fd2b3db3d8a45fa3e6ed1d5571bd3739.php 第 145 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.090287s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.090405s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000262s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000342s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000780s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000977s ]
+
+[ 2015-06-24T09:21:15+08:00 ] ::1 /admin.php?s=/Config/group.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001449s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001974s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000369s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000457s ]
+SQL: SHOW COLUMNS FROM `jm_config` [ RunTime:0.2504s ]
+SQL: SELECT `id`,`name`,`title`,`extra`,`value`,`remark`,`type` FROM `jm_config` WHERE `status` = 1 AND `group` = 1 ORDER BY sort  [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000199s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000293s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.049301s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.049453s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000284s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000390s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000683s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000848s ]
+
+[ 2015-06-24T09:21:49+08:00 ] ::1 /admin.php?s=/Config/save.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000046s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001437s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002002s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000408s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000529s ]
+SQL: SHOW COLUMNS FROM `jm_config` [ RunTime:0.0063s ]
+SQL: UPDATE `jm_config` SET `value`='中瀛众创' WHERE `name` = 'WEB_SITE_TITLE' [ RunTime:0.0003s ]
+SQL: UPDATE `jm_config` SET `value`='中瀛众创' WHERE `name` = 'WEB_SITE_DESCRIPTION' [ RunTime:0.0001s ]
+SQL: UPDATE `jm_config` SET `value`='1' WHERE `name` = 'WEB_SITE_CLOSE' [ RunTime:0.0001s ]
+SQL: UPDATE `jm_config` SET `value`=',众筹,股权众筹,实物众筹' WHERE `name` = 'WEB_SITE_KEYWORD' [ RunTime:0.0002s ]
+SQL: UPDATE `jm_config` SET `value`='' WHERE `name` = 'WEB_SITE_ICP' [ RunTime:0.0002s ]
+SQL: UPDATE `jm_config` SET `value`='default_color' WHERE `name` = 'COLOR_STYLE' [ RunTime:0.0002s ]
+
+[ 2015-06-24T09:21:50+08:00 ] ::1 /admin.php?s=/Config/group.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001260s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001650s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000349s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000439s ]
+SQL: SHOW COLUMNS FROM `jm_config` [ RunTime:0.0067s ]
+SQL: SELECT `type`,`name`,`value` FROM `jm_config` WHERE `status` = 1  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`name`,`title`,`extra`,`value`,`remark`,`type` FROM `jm_config` WHERE `status` = 1 AND `group` = 1 ORDER BY sort  [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000165s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000260s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.044244s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.044363s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000301s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000382s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000870s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001035s ]
+
+[ 2015-06-24T11:25:14+08:00 ] ::1 /admin.php
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001249s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001590s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000395s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000495s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000205s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000359s ]
+INFO: [ AdminIndex ] --START--
+SQL: SHOW COLUMNS FROM `jm_addons` [ RunTime:0.0202s ]
+SQL: SELECT `config` FROM `jm_addons` WHERE `name` = 'SiteStat' AND `status` = 1 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_member` [ RunTime:0.0212s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_member` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_action_log` [ RunTime:0.0058s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_action_log` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_document` [ RunTime:0.0068s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_document` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_category` [ RunTime:0.0074s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_category` LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `jm_model` [ RunTime:0.0061s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `jm_model` LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000058s ]
+INFO: [ template_filter ] --END-- [ RunTime:-0.095740s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.005422s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005565s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000384s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000523s ]
+INFO: Run Addons\SiteStat\SiteStatAddon [ RunTime:0.085571s ]
+SQL: SELECT `config` FROM `jm_addons` WHERE `name` = 'SystemInfo' AND `status` = 1 LIMIT 1   [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000064s ]
+INFO: [ template_filter ] --END-- [ RunTime:-0.137548s ]
+SQL: select version() as v; [ RunTime:0.0002s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.022926s ]
+INFO: [ view_parse ] --END-- [ RunTime:-0.035976s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000023s ]
+INFO: [ view_filter ] --END-- [ RunTime:-0.058446s ]
+INFO: Run Addons\SystemInfo\SystemInfoAddon [ RunTime:0.058424s ]
+SQL: SELECT `config` FROM `jm_addons` WHERE `name` = 'DevTeam' AND `status` = 1 LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000060s ]
+INFO: [ template_filter ] --END-- [ RunTime:-0.161915s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.005284s ]
+INFO: [ view_parse ] --END-- [ RunTime:-0.060806s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000026s ]
+INFO: [ view_filter ] --END-- [ RunTime:-0.065646s ]
+INFO: Run Addons\DevTeam\DevTeamAddon [ RunTime:0.007166s ]
+INFO: [ AdminIndex ] --END-- [ RunTime:0.151364s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.005709s ]
+INFO: [ view_parse ] --END-- [ RunTime:-0.060806s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000020s ]
+INFO: [ view_filter ] --END-- [ RunTime:-0.066036s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000730s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000897s ]
+
+[ 2015-06-24T11:25:16+08:00 ] ::1 /admin.php?s=/Infomation/index.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001060s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001425s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000288s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `jm_infomation` [ RunTime:0.0069s ]
+SQL: SELECT * FROM `jm_infomation` ORDER BY status desc,level desc,id desc  [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000156s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000248s ]
+NOTIC: [8] Undefined variable: meta_title D:\wamp\www\Runtime\Cache\Admin\fd2b3db3d8a45fa3e6ed1d5571bd3739.php 第 5 行.
+NOTIC: [8] Undefined variable: cate_id D:\wamp\www\Runtime\Cache\Admin\fd2b3db3d8a45fa3e6ed1d5571bd3739.php 第 98 行.
+NOTIC: [8] Undefined variable: _page D:\wamp\www\Runtime\Cache\Admin\fd2b3db3d8a45fa3e6ed1d5571bd3739.php 第 145 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.041455s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.041544s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000249s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000327s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000744s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000992s ]
+
+[ 2015-06-24T11:25:18+08:00 ] ::1 /admin.php?s=/Banner/index.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001040s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001368s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000290s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000378s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+SQL: SHOW COLUMNS FROM `jm_menu` [ RunTime:0.0088s ]
+SQL: SELECT `id`,`title`,`url` FROM `jm_menu` WHERE `pid` = 0 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0003s ]
+SQL: SELECT `pid` FROM `jm_menu` WHERE ( pid !=0 AND url like '%Banner/index%' ) LIMIT 1   [ RunTime:0.0007s ]
+SQL: SELECT * FROM `jm_menu` WHERE `id` = 186 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT DISTINCT  `group` FROM `jm_menu` WHERE `group` <> '' AND `pid` = 186  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`url` FROM `jm_menu` WHERE `pid` = 186 AND `hide` = 0  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '文案管理' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '协议管理' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '短信服务' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`pid`,`title`,`url`,`tip` FROM `jm_menu` WHERE `group` = '第三方平台' AND `pid` = 186 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0002s ]
+NOTIC: [8] Undefined variable: pid D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 26 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0201s ]
+SQL: SELECT * FROM `jm_banner` WHERE `status` <> -1 ORDER BY sort asc,id desc  [ RunTime:0.0098s ]
+NOTIC: [8] Undefined variable: pid D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 30 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000150s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000243s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.072647s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.072742s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000250s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000327s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000450s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000561s ]
+
+[ 2015-06-24T11:25:20+08:00 ] ::1 /admin.php?s=/Banner/edit/id/2.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000036s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001922s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002523s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000473s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0181s ]
+SQL: SELECT * FROM `jm_banner` WHERE `id` = 2 LIMIT 1   [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000198s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000295s ]
+SQL: SHOW COLUMNS FROM `jm_picture` [ RunTime:0.0058s ]
+SQL: SELECT * FROM `jm_picture` WHERE `status` = 1 AND `id` = 7 LIMIT 1   [ RunTime:0.0002s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.082763s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.082854s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000286s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000364s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000452s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000563s ]
+
+[ 2015-06-24T11:25:53+08:00 ] ::1 /admin.php?s=/File/uploadPicture/session_id/qsrhaso50e63omupld1dj610d6.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.001010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001348s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000322s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000423s ]
+SQL: SHOW COLUMNS FROM `jm_menu` [ RunTime:0.0058s ]
+SQL: SELECT `id`,`title`,`url` FROM `jm_menu` WHERE `pid` = 0 AND `hide` = 0 ORDER BY sort asc  [ RunTime:0.0004s ]
+SQL: SELECT `pid` FROM `jm_menu` WHERE ( pid !=0 AND url like '%File/uploadPicture%' ) LIMIT 1   [ RunTime:0.0009s ]
+SQL: SHOW COLUMNS FROM `jm_picture` [ RunTime:0.0040s ]
+SQL: SELECT `id`,`path`,`url`,`md5`,`sha1`,`status`,`create_time` FROM `jm_picture` WHERE `md5` = '89125d501b8de643bff0385e72fde916' AND `sha1` = 'eea8327bbf770fb0bcab1f7c80c2183c6628b22f' LIMIT 1   [ RunTime:0.0002s ]
+SQL: INSERT INTO `jm_picture` (`md5`,`sha1`,`path`,`status`,`create_time`) VALUES ('89125d501b8de643bff0385e72fde916','eea8327bbf770fb0bcab1f7c80c2183c6628b22f','/Uploads/Picture/2015-06-24/558a23417c971.jpg','1','1435116353') [ RunTime:0.0003s ]
+
+[ 2015-06-24T11:25:55+08:00 ] ::1 /admin.php?s=/Banner/edit.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.002218s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002650s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000628s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000717s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0150s ]
+
+[ 2015-06-24T11:26:01+08:00 ] ::1 /admin.php?s=/Banner/edit.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.002143s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002556s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000606s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000685s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0140s ]
+SQL: UPDATE `jm_banner` SET `name`='test',`extra`='test',`remark`='test',`img_id`='19',`mobiel_img_id`='0',`sort`='0',`update_time`='1435116361' WHERE `id` = 2 [ RunTime:0.0099s ]
+
+[ 2015-06-24T11:26:02+08:00 ] ::1 /admin.php?s=/Banner/index.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000035s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.002428s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003125s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000689s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000796s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+NOTIC: [8] Undefined variable: pid D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 26 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0057s ]
+SQL: SELECT * FROM `jm_banner` WHERE `status` <> -1 ORDER BY sort asc,id desc  [ RunTime:0.0003s ]
+NOTIC: [8] Undefined variable: pid D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 30 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000192s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000299s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.045669s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.045766s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000511s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000590s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001178s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001315s ]
+
+[ 2015-06-24T11:26:05+08:00 ] ::1 /admin.php?s=/Banner/edit/id/3.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.002049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002471s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000612s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000705s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0068s ]
+SQL: SELECT * FROM `jm_banner` WHERE `id` = 3 LIMIT 1   [ RunTime:0.0003s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000209s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000306s ]
+SQL: SHOW COLUMNS FROM `jm_picture` [ RunTime:0.0192s ]
+SQL: SELECT * FROM `jm_picture` WHERE `status` = 1 AND `id` = 8 LIMIT 1   [ RunTime:0.0002s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.065585s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.065703s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001076s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001205s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000964s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001098s ]
+
+[ 2015-06-24T11:26:11+08:00 ] ::1 /admin.php?s=/File/uploadPicture/session_id/qsrhaso50e63omupld1dj610d6.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.002027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002440s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000618s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000723s ]
+SQL: SHOW COLUMNS FROM `jm_picture` [ RunTime:0.0065s ]
+SQL: SELECT `id`,`path`,`url`,`md5`,`sha1`,`status`,`create_time` FROM `jm_picture` WHERE `md5` = 'b40b9b0d91e6eb011bf65f304c2e4a56' AND `sha1` = '164e33cddf066733821f9b11610a63f844006ddb' LIMIT 1   [ RunTime:0.0005s ]
+SQL: INSERT INTO `jm_picture` (`md5`,`sha1`,`path`,`status`,`create_time`) VALUES ('b40b9b0d91e6eb011bf65f304c2e4a56','164e33cddf066733821f9b11610a63f844006ddb','/Uploads/Picture/2015-06-24/558a235364175.jpg','1','1435116371') [ RunTime:0.0003s ]
+
+[ 2015-06-24T11:26:14+08:00 ] ::1 /admin.php?s=/Banner/edit.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.002116s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002547s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000634s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000712s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0062s ]
+SQL: UPDATE `jm_banner` SET `name`='test',`extra`='test',`remark`='test',`img_id`='20',`mobiel_img_id`='0',`sort`='0',`update_time`='1435116374' WHERE `id` = 3 [ RunTime:0.0003s ]
+
+[ 2015-06-24T11:26:16+08:00 ] ::1 /admin.php?s=/Banner/index.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.002132s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002572s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000623s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000716s ]
+NOTIC: [2048] Declaration of Admin\Controller\BannerController::setStatus() should be compatible with Admin\Controller\AdminController::setStatus($Model = 'Banner') D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 17 行.
+NOTIC: [8] Undefined variable: pid D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 26 行.
+SQL: SHOW COLUMNS FROM `jm_banner` [ RunTime:0.0055s ]
+SQL: SELECT * FROM `jm_banner` WHERE `status` <> -1 ORDER BY sort asc,id desc  [ RunTime:0.0003s ]
+NOTIC: [8] Undefined variable: pid D:\wamp\www\Application\Admin\Controller\BannerController.class.php 第 30 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000319s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000507s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.052685s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.052785s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000580s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000661s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000979s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001117s ]
+

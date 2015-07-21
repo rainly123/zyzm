@@ -1,0 +1,346 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__CSS__/usercenter.css" rel="stylesheet">
+</block>
+
+<block name="body">
+    <div class="fl w100 mainwrap usercenter">
+        <input type="hidden" id="myid" name="myid" value="{:is_login()}">
+        <input type="hidden" id="user-profile-url" value="{:U('MCenter/profile?id='._id_)}">
+        <header>
+            <div class="content">
+                <img src="{$userphoto}" class="userhead">
+                <b id="user-name">{$userinfo.user.id|get_membername}</b>
+                <!--<a href="{:U('Message/sendmsg?id='.$userinfo['user']['id'])}" class="pm poplight">发送私信</a>-->
+                <dd id="addBankBtn" class="user-drawings-add-bank">
+
+                </dd>
+
+                <p>{$userinfo.users_detail.describe}</p>
+
+                <div class="links">
+                    <ul>
+                        <if condition="($userinfo['is_investor'] eq 3)"></if>
+                        <!--<li><a href="#" id="one0" class="cur">首页</a></li>-->
+                        <li><a href="#" id="one1" class="cur">投资项目</a></li>
+                        <li><a href="#" id="one2" class="">收藏项目</a></li>
+                        <li><a href="#" id="one3" class="">项目评论</a></li>
+                        <li data-name="friend"><a href="#" id="one4" class="">投资人关注</a></li>
+                    </ul>
+                </div>
+                <div class="friend-toolbox">
+                    <div class="fans-num">
+                        <p class="fans-num-text">0</p>
+                        <span>粉丝</span>
+                    </div>
+                    <div class="follow-num">
+                        <p class="follow-num-text">0</p>
+                        <span>关注</span>
+                    </div>
+                    <br>
+                    <button class="btn btn-msg">私信</button>
+                    <div class="btn-follow-box">
+                        <button class="btn btn-follow">关注</button>
+                        <button class="btn btn-followed">已关注</button>
+                        <button class="btn btn-no-follow">取消关注</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <article class="mt100 tab-content-wrapper">
+            <div class="content">
+                <div class="hover" id="con_one_1">
+                    <ul class="usercenter_xmlist">
+                        <foreach name="userinfo.investor" item="investor">
+                            <li>
+                                <dl>
+                                    <dt><img src="{$investor.path}" width="146" height="110"></dt>
+                                    <dd>
+                                        <p>
+                                            认投了项目【 <a href="{:U('Project/detail?id='.$investor['project_id'])}">{$investor.project_name}</a>】,投资金额{$investor.fund}元。
+                                            <em>{$investor.create_time|time_format}</em>
+                                        </p>
+                                    </dd>
+                                </dl>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="hover" id="con_one_2" style="display:none;">
+                    <ul class="usercenter_xmlist">
+                        <foreach name="userinfo.attach" item="attach">
+                            <li>
+                                <dl>
+                                    <dt>{$v.create_time|time_format}</dt>
+                                    <dd><p>{$userinfo.user.id|get_membername} 关注收藏了项目【 <a
+                                            href="{:U('Project/detail?id='.$attach['project_id'])}">{$attach.project_name}</a>
+                                        】</p></dd>
+                                </dl>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="hover" id="con_one_3" style="display:none;">
+                    <ul class="usercenter_xmlist">
+                        <foreach name="userinfo.comment" item="v">
+                            <li>
+                                <dl>
+                                    <dt><img src="{$v.path}" width="146" height="110"></dt>
+                                    <dd>
+                                        <p class="comment-header">
+                                            评论了项目【 <a href="{:U('Project/detail?id='.$v['project_id'])}">{$v.project_name}</a>】。
+                                            <em>{$investor.create_time|time_format}</em>
+                                        </p>
+
+                                        <p class="comment-quote">
+                                            {$v.content}
+                                        </p>
+                                    </dd>
+
+                                    <!--<div class="comment"  data-user="{$v.user_name}" id="{$v.user_name}"> 
+
+                                        <div class="row-fluid" id="base-comment"> 
+                                            <div class="span1"> 
+                                                <img class="thumbnail" src="{$v.path}" alt=""> 
+                                                &lt;!&ndash; todo 用户头像获取 &ndash;&gt; 
+                                            </div> 
+                                            <div class="span11"> 
+                                                <div class="row-fluid"> 
+                                                    <div class="message-writer pull-left"  id="username">{$userinfo.user.nickname}</div>                                             <div class="pull-left muted" id="when"> 
+                                                        {$v.user_id|get_membername}评论了项目【 <a href="{:U('Project/detail?id='.$v['project_id'])}">{$v.project_name}</a> 】
+                                                    </div> 									 
+                                                    <div class="pull-left muted"  id="when">{$v.create_time|time_format}</div> 
+                                                </div> 
+                                                <div> 
+                                                    <div id="comment_info">{$v.content}</div> 
+                                                </div> 
+
+
+                                            <div class="clear"></div>
+                                        </div> 
+                                    </div>
+                                    </div>-->
+                                </dl>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="hover friend-view" id="con_one_4" style="display:none;">
+                    <ul class="tab-title-list">
+                        <li class="tab-title curr-tab" data-name="favs">关注好友（<span class="follow-num-text">0</span>）
+                        </li>
+                        <li class="tab-title" data-name="fans">粉丝（<span class="fans-num-text">0</span>）</li>
+                    </ul>
+                    <ul class="friend-list"></ul>
+                    <div class="page-box">
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+    <div id="dialog" style="display:none">
+        <div style="padding:20px 40px;">
+            <form action="{:U('Message/sendmsg?id=_id_')}" method="post" id="message-form">
+                <div class="control-group">
+                    <label class="control-label">发送给</label>
+
+                    <div class="controls pageusername"><span class="help-block"><b id="msg-target-name"></b></span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="control-group">
+                    <textarea name="content" class="srk_box" rows="5"></textarea>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" type="submit">发送</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script src="__STATIC__/jquery.simplePagination.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            // 指定左侧选中菜单
+            var submenu = "{:U('Account/index')}";
+            var $tabTitles = $('.links a'),
+                    $tabContents = $('.content .hover');
+            $tabTitles.click(function () {
+                var $this = $(this),
+                        tabName = $this.parent().data('name');
+                $tabTitles.removeClass('cur');
+                $this.addClass('cur');
+                $tabContents.hide();
+                $tabContents.eq($this.parent().index()).show();
+                if (tabName === 'friend') {
+                    getFollows($('.friend-view .curr-tab').data('name'));
+                }
+                return false;
+            });
+
+            var userId = location.href.match(/id\/(\d+)/);
+            userId = parseInt(userId && userId[1]) || 0;
+
+            // 获取关注与粉丝数量
+            var updateFriendCount = function () {
+                $.getJSON('/follows/getFollowsBoth', {uid: userId}).then(function (json) {
+                    if (json.success) {
+                        $('.follow-num-text').text(json.followingcount);
+                        $('.fans-num-text').text(json.followerscount);
+                    }
+                });
+            };
+            updateFriendCount();
+            $.getJSON('/follows/getRelation', {uid: userId}).then(function (json) {
+                if (json.success) {
+                    $('.friend-toolbox .btn-follow-box').addClass('followed');
+                }
+            });
+            // 删除自己 profile 的私信与关注按钮
+            !function () {
+                var myId = $('#myid').val();
+                if (userId == myId) {
+                    $('.friend-toolbox').find('.btn').remove();
+                }
+            }();
+
+            // 关注与私信按钮
+            var follow = function (uid, $button) {
+                var postAPI = '/follows/add';
+                if ($button.hasClass('followed')) {
+                    postAPI = postAPI = '/follows/delete'
+                }
+                $.post(postAPI, {
+                    id: uid
+                }, 'json').then(function (json) {
+                    layer.msg(json.info, 1, -1);
+                    if (json.success) {
+                        $button.toggleClass('followed');
+                        updateFriendCount();
+                    }
+                })
+            };
+            var openSendMsgForm = function (uid, targetName) {
+                var $form = $('#dialog').find('form'),
+                        sendMsgAPI = $form.attr('action');
+                $form.attr('action', sendMsgAPI.replace('_id_', uid));
+                $('#msg-target-name').html(targetName);
+                $.layer({
+                    type: 1,
+                    title: false,
+                    area: ['600px', '360px'],
+                    page: {dom: "#dialog"},
+                    fadeIn: 300
+                });
+            };
+            $('.friend-toolbox .btn-follow-box').click(function () {
+                follow(userId, $(this))
+            });
+            $('.friend-toolbox .btn-msg').click(function () {
+                openSendMsgForm(userId, $('#user-name').text())
+            });
+            var bindButtonsEvent = function () {
+                $('.friend-list .btn-follow-box').unbind().click(function () {
+                    var $this = $(this);
+                    var uid = $this.parents('.friend-item').data('uid');
+                    follow(uid, $this);
+                });
+                $('.friend-list .btn-msg').unbind().click(function () {
+                    var $this = $(this),
+                            $item = $this.parents('.friend-item');
+                    var uid = $item.data('uid'),
+                            userName = $item.find('.username').text();
+                    openSendMsgForm(uid, userName);
+                });
+            };
+            bindButtonsEvent();
+
+
+            // 获取列表
+            var itemsOnPage = 4;
+            var getFollows = function (type, page) {
+                var _api = '/follows/getFollowing';
+                if (type === 'fans') _api = '/follows/getFollowers';
+                $.getJSON(_api, {uid: userId, number: itemsOnPage, page: page}).then(function (json) {
+                    if (json.success) {
+                        buildDOM(json, page);
+                    } else {
+                        layer.msg(json.info, 2, -1)
+                    }
+                })
+            };
+            var buildPageDOM = function (items, currentPage) {
+                if (currentPage == null) {
+                    currentPage = 1
+                }
+                $('.page-box').pagination({
+                    items: items,
+                    itemsOnPage: itemsOnPage,
+                    currentPage: currentPage,
+                    prevText: '<<',
+                    nextText: '>>',
+                    onPageClick: function (pageNumber, event) {
+                        getFollows($('.friend-view .curr-tab').data('name'), pageNumber);
+                    }
+                });
+            };
+            var buildDOM = function (json, currentPage) {
+                var myId = $('#myid').val(),
+                        html = '',
+                        userProfileUrl = $('#user-profile-url').val();
+                if (!json.users) json.users = [];
+                for (var i = 0, len = json.users.length; i < len; i++) {
+                    var userInfo = json.users[i],
+                            _href = userProfileUrl.replace('_id_', userInfo.id);
+                    html += '<li class="friend-item" data-uid="' + userInfo.id + '"><div class="avatar"><a href="' + _href + '"><img src="' + userInfo.photo_url +
+                    '"></a></div><div class="user-box"><div class="username"><a href="' + _href + '">' + userInfo.nickname +
+                    '</a></div><div class="signature"><a href="' + _href + '"></a></div></div><div class="toolbox">';
+                    if (myId != userInfo.id) {
+                        html += '<div class="btn-follow-box' + (userInfo.relation ? ' followed' : '') + '"><button class="btn btn-follow">关注</button><button class="btn btn-followed">已关注</button><button class="btn btn-no-follow">取消关注</button></div>';
+                        html += '<button class="btn btn-msg">私信</button>'
+                    }
+                    html += '</div></li>';
+
+                }
+                $('.friend-list').html(html);
+                bindButtonsEvent();
+                if (json.total > 1) {
+                    buildPageDOM(json.total, currentPage)
+                } else {
+                    $('.page-box').empty();
+                }
+            };
+
+            var $friendTabTitle = $('.friend-view .tab-title').click(function () {
+                $friendTabTitle.removeClass('curr-tab');
+                var $this = $(this);
+                $this.addClass('curr-tab');
+                getFollows($this.data('name'));
+            });
+
+            $("#message-form").submit(function () {
+                var self = $(this);
+                var content = $('[name="content"]').val();
+                if (content == '') {
+                    layer.alert('消息内容不能为空。', 8);
+                    return false;
+                }
+                $.post(self.attr("action"), self.serialize(), "json").then(function (json) {
+                    if (json.status == 1) {
+                        layer.alert(json.info, 9, function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.alert(json.info, 8);
+                    }
+                });
+                return false;
+            });
+        })
+    </script>
+</block>
+

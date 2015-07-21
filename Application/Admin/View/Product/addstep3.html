@@ -1,0 +1,120 @@
+<extend name="Public/base"/>
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/product-common.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/addstep3.css">
+</block>
+
+
+
+<block name="body">
+	<include file="base-nav" />
+	<div class="content ">
+		<div class="">
+		<div class="common_tit"><h1 class="common_tit_name">收款人信息维护</h1></div>
+		<div class="module_con">
+	        	<!-- 发起项目首页 -->
+	        	<!-- <div class="module_item">
+                    <h4 class="borno">账户信息</h4>
+                    <dl>
+                        <dt>真实姓名：</dt>
+                        <dd></dd>
+                    </dl>
+                    <dl>
+                        <dt>邮箱地址：</dt>
+                        <dd>chenyihao17@qq.com</dd>
+                    </dl>
+                    <dl>
+                        <dt>联系电话：</dt>
+                        <dd>13858038315</dd>
+                    </dl>
+                </div> -->
+                <!-- TODO -->
+                <div class="module_item" style="border-bottom:0;">
+                	<form action="{:U('Product/addstep3?pid='.$pid)}" method="post" id="frm" class="frm">
+                    	<h4 class="borno">收款信息</h4>
+	                    <dl>
+	                        <dt></dt>
+	                           <dd>
+	                                <label for=""><input type="radio" datatype="*"  name="type" datatype="radio" value="0" <?php ($type==0)?print 'checked':print '';?> > <label style="margin-right:10px;">个人账户</label></label>
+	                                <label for=""><input type="radio" name="type" value="1" <?php ($type==1)?print 'checked':print '';?>> 公司账户</label>
+	                            </dd>
+	                    </dl>
+
+	                     <div id="tbodyId">
+	                         <dl>
+	                             <dt>收款人姓名：</dt>
+	                             <dd>
+	                                 <input type="text" name="true_name" datatype="*" id="holderName" class="span3" value="{$true_name}"><em id="holderNameEm" class="red"></em>
+	                             </dd>
+	                         </dl>
+	                         <dl>
+	                             <dt>银行：</dt>
+	                             <dd>
+									<select name="bank_id" datatype="*" nullmsg="请选择开户银行">
+										<option value="">请选择开户银行</option>
+										<foreach name="bankinfo" item="v">
+											<if condition="$v[id] eq $bank_id">
+												<option value="{$v.id}" selected>{$v.bank_name}</option>
+											<else />
+												<option value="{$v.id}">{$v.bank_name}</option>
+											</if>
+										</foreach>
+									</select>
+					
+	                                 
+	                             </dd>
+	                         </dl>
+	                         <dl title="请填写完整的支行信息 示：北京中国建设银行 西单支行">
+	                             <dt>支行：</dt>
+	                             <dd>
+	                                 <input type="text" name="sub_branch" datatype="*" id="sub_branch" class="span3" value="{$sub_branch}"><em class="red"></em>
+	                             </dd>
+	                         </dl>
+	                    	<dl title="填写时，不带“省”或“自治区”，如 广东，广西，内蒙古等。直辖市这里填市名">
+	                             <dt>开户行所在省：</dt>
+	                             <dd>
+	                                 <input type="text" name="bank_province" datatype="*" id="bank_province" class="span3" value="{$bank_province}"><em class="red"></em>
+	                             </dd>
+									填写时，不带“省”或“自治区”，如 广东，广西，内蒙古等。直辖市这里填市名 
+	                         </dl>
+	                    	<dl title="填写时，不带“市”，如 广州，南宁等。 直辖市这里填区。">
+	                             <dt>开户行所在市：</dt>
+	                             <dd>
+	                                 <input type="text" name="bank_city" datatype="*" id="bank_city" class="span3" value="{$bank_city}"><em class="red"></em>
+	                             </dd>
+									填写时，不带“市”，如 广州，南宁等。 直辖市这里填区。
+	                         </dl>
+	                         
+	                         <dl>
+	                             <dt>银行卡号：</dt>
+	                             <dd>
+	                                 <input type="text" name="card_number" datatype="n" id="card_number" class="span3" value="{$card_number}"><em class="red"></em>
+	                             </dd>
+	                         </dl>
+	                         <dl>
+	                             <dt>确认银行卡号：</dt>
+	                             <dd>
+	                                 <input type="text" name="confirm_card_number" datatype="*" recheck="card_number" id="confirm_card_number" class="span3" value="{$card_number}"><em class="red"></em>
+	                             </dd>
+	                         </dl>
+	                    </div>
+                	
+	                <div class="common_button">
+		                <input type="submit" class="btn btn-large btn-primary" value="提交">
+		            </div>
+                </form>
+                </div>
+	        </div>
+		</div>
+	</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__JS__/product/addstep3.js"></script>
+    <script type="text/javascript">
+	   highlight_subnav('{:U('Product/index')}');
+	</script>
+</block>

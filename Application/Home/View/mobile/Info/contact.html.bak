@@ -1,0 +1,45 @@
+<extend name="Base/common"/>
+<block name="style">
+    <style>
+        .body {
+            padding: 5%;
+            font-size: 16px;
+            font-family: "Hiragino Sans GB", "Microsoft YaHei","WenQuanYi Micro Hei", sans-serif
+        }
+        p {
+            margin: 1em 0;
+        }
+        .qr-box {
+            text-align: center;
+        }
+        .qr-img {
+            width: 80%;
+            max-width: 360px;
+        }
+        a {
+            color: #72C2E5;
+        }
+        .footer {
+            margin-top: 5%;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+            color: #C8C8C8;
+            line-height: 3;
+            font-size: 14px;
+        }
+    </style>
+</block>
+<block name="body">
+    <div class="body">
+        <p>官方微信：</p>
+        <p class="qr-box"><img class="qr-img" src="/Public/Mobile/images/Q640PX.jpg"></p>
+        <p>新浪微博：<a href="http://weibo.com/jumuzhongchou">聚募众筹</a></p>
+        <p>联系电话：0571-86858285</p>
+        <p>联系地址：杭州市上城区南星街道凤凰山脚路7号凤凰御元A1</p>
+        <p>邮箱地址：<a href="mailto:service@dreammove.cn">service@dreammove.cn</a></p>
+    </div>
+    <div class="footer">
+        Copyright © 2014 杭州募聚网络科技有限公司
+    </div>
+</block>

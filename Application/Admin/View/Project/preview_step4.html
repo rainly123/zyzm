@@ -1,0 +1,46 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+	<link rel="stylesheet" href="__CSS__/colorbox.css" />
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+</block>
+<block name="body">
+<include file="preview_header" />
+	<div class="under-line">
+		<div class="com-info">
+			<div class="sub-title">宣传图片</div>
+			<div class="edit-info">
+			<foreach name="projectTemp" item="v">
+				<if condition="$v.temp_type eq 1">
+				<a class="ui-colorbox-group ui-img-modal" href="{$v.info_key|get_cover='path'}"><img src="{$v.info_key|get_cover='path'}" alt="" style="width:200px"></a>
+				</if>
+			</foreach>
+			</div>
+		</div>
+	</div>
+	<div class="under-line">
+		<div class="com-info">
+			<div class="sub-title">相关视频</div>
+			<div class="edit-info">
+			<foreach name="projectTemp" item="v">
+				<if condition="$v.temp_type eq 0">
+					<embed src="{$v.info_key}" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+					<br />
+				</if>				
+			</foreach>
+			</div>
+			<div class="clearfix" style="padding-top:20px"></div>
+		</div>
+	</div>
+	<include file="preview_footer" />
+</block>
+<block name="script">
+<script>
+	$(document).ready(function(){
+		$(".ui-colorbox-group").colorbox({rel:'ui-colorbox-group', width:'70%', height:'80%'});
+	});
+highlight_subnav('{:U('Project/index')}');
+</script>
+</block>

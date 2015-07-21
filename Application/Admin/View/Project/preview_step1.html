@@ -1,0 +1,110 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+</block>
+
+<block name="body">
+<include file="preview_header" />
+	<div class="main bg-white">
+		<div class="content clearfix">
+			<div class="pull-left">
+			<div class="form-horizontal">
+				<div class="under-line">
+				<div class="control-group">
+					<label for="" class="control-label">项目名称</label>
+					<div class="controls">
+						{$project_name}						
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">联系电话</label>
+					<div class="controls">
+						{$link_man}						
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">项目类型</label>
+					<div class="controls">
+						<if condition="$type eq 0">
+							股权投资
+						<else />
+							兴趣合营
+						</if>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">所属行业</label>
+					<div class="controls">
+						{$industry}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目描述</label>
+					<div class="controls">
+						{$abstract}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">查看权限</label>
+					<div class="controls">
+						<if condition="$open_flag eq 1">
+							所有投资人
+						<else />
+							审核通过的投资人
+						</if>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目图片</label>
+					<div class="controls">
+						<div style="display:inline;border:1px solid #eee;">
+							<img src="{$cover|get_cover='path'}" alt="" style="width:300px">
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">所处阶段</label>
+					<div class="controls">
+						{$project_phase}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">团队人数</label>
+					<div class="controls">
+						{$member_count}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">所在城市</label>
+					<div class="controls">
+						{:getProvinceCity($province,$city)}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">公司地址</label>
+					<div class="controls">
+						{$address}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目网址</label>
+					<div class="controls">
+						{$project_url}
+					</div>
+				</div>
+				</div> <!-- under-line end -->
+				</div>
+			</div>
+
+		</div>
+	</div>
+<include file="preview_footer" />
+
+</block>
+<block name="script">
+<script>
+	highlight_subnav('{:U('Project/index')}');
+</script>
+</block>

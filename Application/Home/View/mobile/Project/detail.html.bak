@@ -1,0 +1,530 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/project.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div id="server-data" style="display: none;">
+        <input type="hidden" name="projectId" value="{$project['id']}">
+        <input type="hidden" name="favAPI" value="{:U('project/attach')}">
+    </div>
+    <script>
+        var serverData = {};
+        var inputs = document.querySelector('#server-data').children;
+        Array.prototype.slice.call(inputs).forEach(function (input, idx) {
+            serverData[input.name] = input.value;
+        });
+    </script>
+
+    <div class="wrapper" style="padding-bottom:60px;">
+        <div class="dbanner">
+            <!--  <div class="share"><a href="#"></a></div>-->
+            <div class="digg">
+                <b class="if if-p--1 icon-star fav">{$project.attach_count}</b>
+                <b class="if if-p--1 icon-comment">{$project.com_count}</b>
+                <b class="if if-p--1 icon-eye">{$project.read_record}</b>
+            </div>
+            <div class="bg"><img src="{$project.cover|get_cover='path'}"/></div>
+        </div>
+        <div class="detail">
+            <div class="item">
+                <div class="head">
+                    <h2> {$project.project_name}</h2>
+                    <a href="{:U('project/mobiledynamic/pid/'.$project['id'])}" class="df">动态</a>
+                </div>
+                <div class="body">
+                    {$project.abstract}
+                    <div class="tag">
+                        <span>{:getDistrict($project['province'])}</span>
+                        <span>{:getDistrict($project['city'])}</span>
+                    </div>
+                    <div class="info">
+                        <div class="nums">
+                            <div class="num">
+                                <ul>
+                                    <li>
+                                        <h3><big>{$project.fund.need_fund|change_fund}</big></h3>
+                                        <h4>目标额</h4>
+                                    </li>
+                                    <li>
+                                        <h3><big>{$project.fund.follow_fund|change_fund}</big>元</h3>
+                                        <h4>起投额</h4>
+                                    </li>
+                                    <li>
+                                        <h3><big class="animateNum"
+                                                 data-animatetarget="{$project.fund.has_fund/$project.fund.need_fund}">
+                                            <eq name="project.stage" value="1">0
+                                                <else/>
+                                                {$project.fund.has_fund|change_fund}
+                                            </eq>
+                                        </big>
+                                        </h3>
+                                        <h4>认投额</h4>
+                                    </li>
+                                </ul>
+                            </div>
+                            <if condition="$project['stage'] egt 4">
+                                <div class="tips">
+                                    <dl>
+                                        <dt><img src="__M_IMG__/img47.png"/></dt>
+                                        <dd>出让股权比例：{:round($project['fund']['need_fund'] /
+                                            $project['fund']['final_valuation'] * 100,2);}%
+                                        </dd>
+
+                                    </dl>
+                                    <dl>
+                                        <dt><img src="__M_IMG__/img48.png"/></dt>
+                                        <dd>项目估值：{$project.fund.final_valuation|change_fund}</dd>
+                                    </dl>
+                                </div>
+                            </if>
+                        </div>
+                        <div class="circle-progress">
+                            <eq name="project.stage" value="1">
+                                <input type="hidden" id="finish_progress"
+                                       value="0">
+                                <else/>
+                                <input type="hidden" id="finish_progress"
+                                       value="{:round($project['fund']['has_fund'] / $project['fund']['need_fund'] * 100);}">
+                            </eq>
+                            <div id="circle-progress" class="percent">
+                                <p><span>0</span>%</p>
+                            </div>
+                            <svg viewBox="0,0,70,70">
+                                <circle class="circle-bg" cx="35" cy="35" r="29"></circle>
+                                <circle class="circle-animate" cx="35" cy="35" r="29"></circle>
+                            </svg>
+                        </div>
+                        <script src="__M_JS__/circle.js"></script>
+                        <!--<div class="canvas">
+                            <canvas id="myCanvas" width="100" height="100"></canvas>
+                        </div>-->
+
+                    </div>
+                </div>
+            </div>
+            <div class="nav">
+                <ul>
+                    <!-- <li class="lft">
+                        <a href="#"><span class="dp">我的梦想</span></a>
+                    </li> -->
+                    <li class="rgt" style="width:99%">
+                        <a href="{:U('Project/intro?id='. $project['id'])}">
+                            <i class="icon dtl"></i>
+                            <span class="zz">查看项目详情</span>
+                            <i class="icon rit"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <div class="head">
+                    <h2 class="pf">项目评分</h2>
+                    <a href="{:U('ProjectScores/index?id='. $project['id'])}" class="df">打分</a>
+                </div>
+                <div class="body propf">
+                    <div class="canvas">
+                        <div id="canvas" height="260px" width="260px"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="peoples">
+                <ul>
+                    <li>
+                        <a href="{:U('MCenter/profile?id='. $project['uid'])}">
+                            <div class="img">
+                                <img src="{$project.uid|get_memberface}">
+                            </div>
+                            <h2>{$project.uid|get_membername}</h2>
+                            <span>发起人</span>
+                        </a>
+                    </li>
+                    <eq name="project.vote_leader" value="2">
+                        <li>
+                            <a href="{:U('MCenter/profile?id='. $project['leader']['leader_id'])}">
+                                <div class="img">
+                                    <img src="{$project['leader']['leader_id']|get_memberface}">
+                                </div>
+                                <h2>{$project['leader']['leader_id']|get_membername}</h2>
+                                <span>领投人</span>
+                            </a>
+
+
+                        </li>
+                    </eq>
+
+                </ul>
+            </div>
+            <div class="results">
+                <div class="text">
+                    <big>{$project['investor_count']}</big>
+                    人参与投资
+                </div>
+                <div class="imgs">
+                    <ul>
+
+                        <foreach name="project.investors" item="investor">
+                            <li>
+                                <a href="{:U('MCenter/profile?id='. $investor['investor_id'])}"> <img
+                                        src="{$investor['investor_id']|get_memberface}"></a>
+                            </li>
+                        </foreach>
+
+                    </ul>
+                    <a href="{:U('Project/mbMoreInvestors?pid='. $project['id'])}" class="more"></a>
+                </div>
+            </div>
+            <div class="item">
+                <div class="head">
+                    <h2 class="hb"><i id="giftIcon">&nbsp;</i>股东回报</h2>
+                    <em></em></div>
+                <div class="body">
+                    {$project.fund.extra}
+                </div>
+            </div>
+            <div class="item">
+                <div class="head">
+                    <h2 class="qun">项目讨论群(按二维码添加)</h2>
+                    <em></em></div>
+                <div class="body">
+                    <div class="qrcode">
+                        <img src="{$project.barcode}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="body">
+                    <div class="attitudes-wrapper">
+                        <div class="smile-bar">
+                            <button id="btn-pos" class="btn btn-pos"></button>
+                            <div class="bar">
+                                <div class="score-bar"></div>
+                                <div class="ball-wrapper">
+                                    <div class="ball"></div>
+                                </div>
+                            </div>
+                            <button id="btn-neg" class="btn btn-neg"></button>
+                        </div>
+
+                        <div class="score"><span id="pos-count">0</span>:<span id="neg-count">0</span></div>
+
+                        <div class="label-bar">
+                            <label class="label" for="btn-pos">支持</label>
+
+                            <div class="count">已有<span id="attitude-count">6</span>位用户参与</div>
+                            <label class="label" for="btn-neg">反对</label>
+                        </div>
+
+                        <div class="plus-wrapper">
+                            <div class="plus plus-positive">+1</div>
+                            <div class="placeholder"></div>
+                            <div class="plus plus-negative">+1</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="head">
+                    <h2 class="pl">项目评论</h2>
+                    <em></em></div>
+                <div class="body">
+                    <div class="comments">
+                        <ul>
+                            <foreach name="project.comments" item="v">
+                                <li id="comment{$v['id']}">
+                                    <div class="img">
+                                        <a href="{:U('MCenter/profile?id='. $v['comment_user'])}"><img
+                                                src="{$v['comment_user']|get_memberface}"></a>
+                                    </div>
+                                    <div class="text">
+                                        <div class="addpost"><a class="btn-slide"
+                                                                href="{:U('project/makereply',array('project_id'=>$v['project_id'],'reply_id'=>$v['id']))}">回复</a>
+                                        </div>
+                                        <h2 class="comment-user-name">{$v['comment_user']|get_membername}</h2>
+
+                                        <notempty name="v.parent">
+                                            <volist name="v.parent" id="vo">
+                                                <div class="pllist clearfix reply">
+                                                    {$vo.comment_user|get_membername}说：{$vo.content}
+                                                </div>
+                                            </volist>
+                                        </notempty>
+                                        <p>{$v.content}</p>
+                                    </div>
+                                    <div class="c-c"><input type="hidden" class="comment_id"
+                                                            value="{$v.id}"><textarea maxlength="140"></textarea><br>
+                                        <button class="btn-c-c">回复</button>
+                                    </div>
+                                </li>
+                            </foreach>
+
+                        </ul>
+                        <div class="more">
+                            <a href="{:U('project/morecomment/pid/'.$project['id'])}">查看更多评论</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="head">
+                    <h2 class="tj">推荐项目</h2>
+                    <em></em></div>
+                <div class="body">
+                    <ul class="pros">
+                        <foreach name="recomendList['project']" item="v">
+                            <li>
+                                <a href="{:U('project/detail?id='.$v['id'])}" title="聚募股权众筹">
+                                    <div class="img">
+                                        <img src="{$v['cover']|get_cover='path'}">
+                                    </div>
+                                    <h2>{$v.project_name}</h2>
+                                </a>
+                            </li>
+                        </foreach>
+                        <foreach name="recomendList['product']" item="v">
+                            <li>
+                                <a href="{:U('product/viewdetail/pid/'.$v['id'])}" title="聚募实物众筹">
+                                    <img class="img" src="{$v['home_img']|get_cover='path'}">
+
+                                    <h2>{$v.name}</h2>
+                                </a>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="fixed-footer-proj">
+        <a class="lnk lnk-index if icon-home-o" href="{:U('/')}">首页</a>
+        <a class="lnk lnk-comment if icon-comment-o" href="{:U('project/postcomment/pid/'.$project['id'])}">评论</a>
+        <if condition="($project['stage'] eq 1) AND ($project['vote_leader'] eq 0)">
+            <a class="btn btn-find-leader if icon-leader"
+               href="{:U('project/leader_info?id='.$project['id'])}">领投人虚位以待</a>
+            <else/>
+            <a class="btn btn-follow if icon-coin-stack" id="btn-follow"
+               href="{:U('project/follow?id='.$project['id'])}">我要跟投</a>
+        </if>
+    </div>
+    <div id="average-score-values" style="display: none;">
+        {$project.averageScores.group},{$project.averageScores.market},{$project.averageScores.creative},{$project.averageScores.profitablity},{$project.averageScores.evaluation}
+    </div>
+    <div id="my-score-values" style="display: none;">
+        {$userScores.group},{$userScores.market},{$userScores.creative},{$userScores.profitablity},{$userScores.evaluation}
+    </div>
+    <script src="__M_JS__/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="__M_JS__/highcharts.js"></script>
+    <script type="text/javascript" src="__M_JS__/exporting.js"></script>
+    <script type="text/javascript" src="__M_JS__/highcharts-more.js"></script>
+    <script>
+        var projectId = location.href.match(/id\/(\d+)\.html/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        var config = {
+            projectCommentAPI: '/project/comment/',
+            positiveAPI: '/attitude/positive',
+            negativeAPI: '/attitude/negative',
+            getAttitudesCountAPI: '/attitude/getNumberOfAttitudes'
+        };
+        var averageScore = [],
+                myScore = [];
+        $.each($.trim($('#average-score-values').text()).split(','), function (i, v) {
+            averageScore.push(parseInt(v))
+        });
+        $.each($.trim($('#my-score-values').text()).split(','), function (i, v) {
+            myScore.push(parseInt(v))
+        });
+
+        // 支持反对
+        var getAttitudeCount = function () {
+            $.getJSON(config.getAttitudesCountAPI, {pid: projectId}).then(function (json) {
+                if (json.success) {
+                    updateAttitudeCount(json.info);
+                }
+            });
+        };
+        var updateAttitudeCount = function (json) {
+            var negCount = parseInt(json.negative),
+                    posCount = parseInt(json.positive),
+                    attitudeCount = negCount + posCount;
+            $('#pos-count').text(posCount);
+            $('#neg-count').text(negCount);
+            $('#attitude-count').text(attitudeCount);
+            var percent = posCount / attitudeCount * 100;
+            if (attitudeCount === 0) {
+                percent = 50;
+            }
+            $('.score-bar').css('width', percent + '%');
+            $('.ball').css('left', percent + '%');
+        };
+        getAttitudeCount();
+        var changeVoteStatus = function () {
+            localStorage.setItem('attitudeToProj' + projectId, true);
+            $('.attitudes-wrapper .btn').addClass('disabled').unbind().click(function () {
+                return false;
+            });
+        };
+        var showPlusAnimation = function (isPositive) {
+            $('.plus-wrapper').addClass('show');
+            var $elm = null;
+            if (isPositive) {
+                $elm = $('.plus-positive');
+            } else {
+                $elm = $('.plus-negative');
+            }
+            $elm.addClass('show').width();
+            $elm.addClass('go');
+        };
+        !function () {
+            var voted = localStorage.getItem('attitudeToProj' + projectId);
+            if (voted) {
+                $('.attitudes-wrapper .btn').addClass('disabled').click(function () {
+                    return false;
+                });
+            } else {
+                $('#btn-pos').click(function () {
+                    $.post(config.positiveAPI, {pid: projectId}, 'json').then(function (json) {
+                        if (json.success) {
+                            getAttitudeCount();
+                            showPlusAnimation(true);
+                        } else {
+                            layer.open({
+                                content: json.info,
+                                style: 'text-align:center;',
+                                time: 2
+                            });
+                        }
+                        changeVoteStatus();
+                    });
+                });
+                $('#btn-neg').click(function () {
+                    $.post(config.negativeAPI, {pid: projectId}, 'json').then(function (json) {
+                        if (json.success) {
+                            getAttitudeCount();
+                            showPlusAnimation(false);
+                        } else {
+                            layer.open({
+                                content: json.info,
+                                style: 'text-align:center;',
+                                time: 2
+                            });
+                        }
+                        changeVoteStatus();
+                    });
+                })
+            }
+        }();
+        $('#canvas').highcharts({
+            chart: {
+                polar: true,
+                type: 'line'
+            },
+            colors: ['#7cb5ec', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+            plotOptions: {
+                area: {
+                    fillOpacity: 0.3
+                }
+            },
+            credits: {enabled: false},
+            exporting: {enabled: false},
+            title: {text: '', x: -80},
+            pane: {size: '80%'},
+            xAxis: {
+                categories: ['团队', '市场', '竞争', '盈利', '创意'],
+                tickmarkPlacement: 'on',
+                lineWidth: 0
+            },
+            yAxis: {
+                max: 100,
+                gridLineInterpolation: 'polygon',
+                lineWidth: 0,
+                min: 0
+            },
+            series: [{
+                type: 'area',
+                name: '综合评分',
+                data: averageScore,
+                pointPlacement: 'on'
+            }, {
+                name: '用户评分',
+                data: myScore,
+                pointPlacement: 'on'
+            }]
+        });
+
+
+        $('.btn-slide').click(function () {
+            var $this = $(this),
+                    $cc = $(this).parents('.text').next();
+            /*location.hash = $(this).parents('.text').parent().attr('id');*/
+            if ($cc.css('display') === 'none') {
+                $this.text('取消');
+                $cc.slideDown().find('textarea').focus();
+            } else {
+                $cc.slideUp();
+                $this.text('回复')
+            }
+
+            return false;
+        });
+
+        $('.btn-c-c').click(function () {
+            var $textarea = $(this).parent().find('textarea'),
+                    commentId = $textarea.prev().val();
+
+            var data = {
+                project_id: projectId,
+                content: $textarea.val(),
+                reply_id: commentId
+            };
+            if (data.content.trim()) {
+                $.post(config.projectCommentAPI, data, function (data) {
+                    showCommentComment(data);
+                    $textarea.val('');
+                });
+            } else {
+                layer.open({
+                    content: '请输入评论内容',
+                    style: 'text-align:center; border:none;',
+                    time: 2
+                });
+                $textarea.focus();
+            }
+            return false;
+        });
+
+        function showCommentComment(data) {
+            location.reload();
+        }
+        $('#btn-follow').click(function () {
+            sessionStorage.setItem('loginRedirect', $(this).attr('href'))
+        });
+
+        $('.digg .fav').click(function () {
+            var $this = $(this);
+            $.get(serverData.favAPI, {id: serverData.projectId}, function (data) {
+                if (data.status == 1) {
+                    if (data.attach_status == 0) {
+                        $this.removeClass('c-blue');
+                        var oFavNum = parseInt($this.text());
+                        if (oFavNum > 0) $this.text(oFavNum - 1);
+                    } else {
+                        $this.addClass('c-blue');
+                        $this.text(parseInt($this.text()) + 1);
+                    }
+                } else {
+                    layer.alert(data.info, 8, function () {
+                        window.location = data.url
+                    });
+                }
+            });
+            return false;
+        });
+    </script>
+
+</block>

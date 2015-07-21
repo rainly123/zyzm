@@ -1,0 +1,60 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+	<div class="mcenter-right" id="mcenter-right">
+		<div class="ShowPath">
+			您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;领投报告
+		</div>
+		<h3 style="text-align:center;margin-top:10px">
+			{$project.project_name} <small>领投报告</small></h3>
+		<div class="data-table bs-docs-example" style="border:none;">
+			<form action="{:U('Leader/report?id=' . $info['project_id'])}" method="post">
+				<div class="com-info">
+					<div class="sub-title">项目评价</div>
+					<div class="edit-info">
+						<textarea name="project_comment" rows="5">{$info.project_comment}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'project_comment', 'value'=>'$info["description"]'))}
+					</div>
+				</div>
+				<div class="com-info">
+					<div class="sub-title">团队评价</div>
+					<div class="edit-info">
+						<textarea name="team_comment" rows="5">{$info.team_comment}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'team_comment', 'value'=>'$info["team_comment"]'))}
+					</div>
+				</div>
+				<div class="com-info">
+					<div class="sub-title">领投报告</div>
+					<div class="edit-info">
+						<textarea name="report" rows="5">{$info.report}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'report', 'value'=>'$info["report"]'))}
+					</div>
+				</div>
+				<div>
+					<input type="submit" value="确 定" class="btn-red btn-middle">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</section>
+</div>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav('{:U('MCenter/project')}');
+</script>
+</block>

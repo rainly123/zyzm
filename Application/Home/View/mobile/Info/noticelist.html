@@ -1,0 +1,38 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+<block name="body">
+
+    <link href="__M_CSS__/notice.css" rel="stylesheet">
+
+    <div class="notice-list-box">
+        <ul class="notice-list">
+            <foreach name="notice" item="v">
+                <li class="notice-item">
+                    <div class="ball"></div>
+                    <div class="date">{$v.create_time|time_format='Y-m-d'}</div>
+                    <a class="title" href="{:U('Info/notice?id='.$v['id'])}" title="中瀛智募公告">{$v.title}</a>
+                </li>
+            </foreach>
+        </ul>
+    </div>
+
+    <!--<div class="fl w100 mt25 notice_main">
+        <div class="content">
+            <div class="rightmain">
+                <div class="mainintro">
+                    <ul>
+                        <foreach name="notice" item="v">
+
+                            <li>
+                                <a href="{:U('Info/notice?id='.$v['id'])}" title="中瀛智募公告">{$v.title}</a><em>{$v.create_time|time_format='Y-m-d'}</em></a>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+</block>

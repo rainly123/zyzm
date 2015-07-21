@@ -1,0 +1,53 @@
+<extend name="Base/common"/>
+<block name="header">
+<link href="__CSS__/style.css" rel="stylesheet">
+</block>
+<block name="side">
+</block>
+<block name="body">
+	<div class="fl w100 mainwrap mt25">
+  <div class="content">
+    <div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+    <div class="main mt20 mainleftbg">
+      <dl class="cl">
+        <dd class="leftbar">
+          <div class="userhaed"><img src="__IMG__/default_userhead.jpg">用户昵称</div>
+          <ul id="leftlist">
+                	<li><em id="c1"></em><a href="{:U('Project/addstep1?id='.$project_id)}">基本信息</a><span></span></li>
+                    <li><em id="c3"></em><a href="{:U('Project/addstep2?id='.$project_id)}">项目介绍</a></li>
+                    <li><em id="c4"></em><a href="{:U('Project/addstep3?id='.$project_id)}">项目资料</a></li>
+                    <li><em id="c5"></em><a href="{:U('Project/addstep4?id='.$project_id)}">融资信息</a></li>
+                    <li class="cur"><em id="c6"></em><a href="{:U('Project/addstep5?id='.$project_id)}">提交项目</a></li>
+          </ul>
+        </dd>
+        <dd class="rightbar">
+          <h2>项目名称：{$project.project_name}</h2>
+          <div class="form">
+          <ul class="center"> 
+          <li><img src="__IMG__/end.png" width="66" height="126"></li>
+          <h3>您的项目信息填写完成！是否立即申请上线审核？</h3>
+          <li class="center ">
+    		<a href="{:U('Project/online?id='.$project_id)}" class="online"><input type="button" value="确认提交审核" class="s"></a>
+          </li>
+          </ul></div>
+      </dl>
+    </div>
+  </div>
+</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		$(".online").click(function() {
+			$.get($(this).attr('href'), function(data) {
+				if(data.status==1){
+					window.location.href = data.url;
+				}else{
+					alert(data.info);
+				}
+			});
+			return false;
+		});
+	</script>
+
+	
+</block>

@@ -1,0 +1,63 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>提现记录</h2>
+
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th>
+		<th class="">交易流水</th>
+        <th class="">金额</th>
+		<th class="">提交日期</th>
+		<th class="">银行账号</th>
+		<th class="">账户名称</th>
+		<th class="">处理时间</th>
+		<th class="">备注</th>
+		<th class="">结算状态</th>
+		<th class="">交易状态</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+			<td>{$vo.id}</td>
+			<td>{$vo.bussflowno}</td>
+            <td>{$vo.amount}</td>
+			<td>{$vo.submitdate}</td>
+			<td>{$vo.acctno}</td>
+			<td>{$vo.acctname}</td>
+			<td>{$vo.proctime}</td>
+			<td>{$vo['remark']}</td>
+			<td>{$vo['state_text']}</td>
+			<td>{$vo['status_text']}</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$page}
+    </div>
+</block>
+
+<block name="script">
+
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+        <script type="text/javascript">
+    $(function(){
+		highlight_subnav("{:U('Product/index')}");
+	})
+	</script>
+</block>

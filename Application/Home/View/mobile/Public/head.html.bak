@@ -1,0 +1,49 @@
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="telephone=no" >
+<meta name="keywords" content="创业,投资,理财,众筹,融资" />  
+<meta name="description" content="聚募众筹：
+	生于西子湖畔，长于苏堤之间，骨子里透着岳飞的气概，形而间又有着苏轼的豪放。
+	
+	他，活跃在商道，相信天道酬勤、人道酬善、商道酬信、业道酬精。
+	
+	他，经营的是信念, 汇聚大众之力，助力大众。
+	
+	他，带给你互联网社交驱动下的好玩，让你体会项目方和投资人之间的紧密相连。
+	
+	这是一个因梦而舞，为梦而动的平台；
+	
+	这是一个让梦想者靠近梦想，坚持梦想，实现梦想的平台；
+	
+	这是一个让支持者品味梦想，见证梦想，助力梦想的平台。"/>
+
+<link rel="stylesheet" href="__M_CSS__/css.css">
+<link href="/Public/favicon.ico" type="image/x-icon" rel="shortcut icon">
+<block name="style"></block>
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" src="__M_JS__/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="__M_JS__/jquery.mobile-1.0.1.min.js"></script>
+<!--<script type="text/javascript" src="__M_JS__/jquery.placeholder.js"></script>-->
+<script type="text/javascript" src="__M_JS__/ios.js"></script>
+<script type="text/javascript" src="__M_JS__/addons.js"></script>
+<script type="text/javascript" src="__M_JS__/layer.m/layer.m.js"></script>
+<script type="text/javascript" src="__M_JS__/common.js"></script>
+<title><empty name="pageTitle">聚募众筹<else />{$pageTitle}</empty></title>
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?c18b08cac9b94bf4628c0277d3a4d7de";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+    // 计算 rem
+    !function(){var a=document.documentElement;var b=a.clientWidth/16;a.style.fontSize=(b>40?40:b)+"px"}();
+</script>
+
+<!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
+{:hook('pageHeader')}

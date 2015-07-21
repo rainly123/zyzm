@@ -1,0 +1,65 @@
+<div style="height:200px;width:400px;padding:30px">
+<form action="{:U('manage')}" method="post">
+	<div style="margin:15px"><label for="">今日净值：</label><input style="padding:5px" type="text" name="amount" id="amount"></div>
+	<div style="margin:15px"><label  class="label-title">结算日期：</label>
+		<input type="text" name="setday" id="setday" class="text date" placeholder="请选择日期" />
+	</div>
+	
+	<input type="hidden" name="id" id="id" value="{$id}">
+	<div style="padding-left:84px"><button class="btn" id="btn-over">确定</button></div>
+	</form>
+</div>
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script>
+$('.date').datetimepicker({
+    format: 'yyyy-mm-dd',
+    language:"zh-CN",
+    minView:2,
+    endDate:new Date(),
+    autoclose:true
+});
+$('#btn-over').click(function() {
+	var form1 = $(this).parents('form');
+	var amount = $('#amount').val();
+	var setday = $('#setday').val();
+	if(amount==''){
+		alert('请输入净值');
+		return false;
+		
+	}
+	if(setday==''){
+		alert('请输入日期');
+		return false;
+		
+	}
+	
+	$.post(form1.attr('action'), form1.serialize(), function(data) {
+		if (data.status == '1') {
+			alert(data.info);
+			window.location.reload();
+		} else {
+			alert(data.info);
+		}
+	});
+	return false;
+});
+
+/* 	$('#btn-over').click(function() {
+		var id = $('#id').val();
+		var amount = $('#amount').val();
+		var setday = $('#amount').val();
+		$.post($(this).attr('href'), {'id':id, 'amount':amount}, function(data) {
+			if (data.status == '1') {
+				alert(data.info);
+				window.location.reload();
+			} else {
+				alert(data.info);
+			}
+		});
+		return false;
+	}); */
+</script>

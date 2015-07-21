@@ -1,0 +1,133 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/index.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div style="display: none;" id="server-data">
+        <input type="hidden" name="qsStatus" value="{$_GET['status']}">
+    </div>
+    <script>
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+    </script>
+    <div class="wrapper">
+        <div class="main">
+            <section>
+                <div id="tab" class="tab">
+                    <a href="{:U('list/mobileproject/status/0')}" data-status="0">全部项目</a>
+                    <a href="{:U('list/mobileproject/status/1')}" data-status="1">众筹中</a>
+                    <a href="{:U('list/mobileproject/status/2')}" data-status="2">预热中</a>
+                    <a href="{:U('list/mobileproject/status/3')}" data-status="3">已成功</a>
+                    <script>
+                        !function () {
+                            $('#tab').find('[data-status=' + serverData.qsStatus + ']').addClass('selected')
+                        }()
+                    </script>
+                </div>
+                <div class="list">
+
+                    <foreach name="projectsList" item="project">
+                        <a href=" {:U('Project/detail',array('id'=>$project['id']))}">
+                            <div class="item">
+                                <if condition="$project.stage eq 4">
+                                    <input type="hidden" class="detail_url"
+                                           value="{:U('Project/detail?id=' . $project['id'])}">
+                                </if>
+                                <div class="img">
+                                    <img src="{$project['cover']|get_cover='path'}">
+
+                                    <div class="stamp">
+                                    </div>
+                                    <if condition="$project['finish_rate'] gt 100">
+                                        <div class="tag">
+                                        </div>
+                                    </if>
+
+                                    <div class="digg">
+                                        <b class="if icon-star">{$project.attach_count}</b>
+                                        <b class="if icon-comment">{$project.comment_count}</b>
+                                        <b class="if icon-eye">{$project.read_record}</b>
+                                    </div>
+
+                                    <if condition="($project.stage eq 1) and ($project.leader_id eq 0)">
+                                        <div class="leader-magnifier"><a
+                                                href="{:U('project/leader_info?id='.$project['id'])}">寻找领投人</a></div>
+                                    </if>
+                                </div>
+                                <div class="text">
+                                    <div class="title">
+                                        <i class="gq">&nbsp;</i>
+                                        {$project.project_name}
+                                    </div>
+                                    <div class="prograss">
+                                        <eq name="project.stage" value="1">
+                                            <div class="bar animateBar" data-animatetarget="0" style="width:0%;"></div>
+                                            <else/>
+                                            <div class="bar animateBar"
+                                                 data-animatetarget="{$project['finish_rate'] > 100 ? 100 :$project['finish_rate']}"
+                                                 style="width:{$project['finish_rate'] > 100 ? 100 :$project['finish_rate']}%;"></div>
+                                        </eq>
+
+                                    </div>
+                                    <div class="attr">
+                                        <dl>
+                                            <dd class="d1">
+                                                <h4>目标额</h4>
+                                                <h3><span class="animateNum"
+                                                          data-animatetarget="{:round($project['need_fund']/10000,2)}">{:round($project['need_fund']/10000,2)}</span>万
+                                                </h3>
+                                            </dd>
+                                            <dd class="d2">
+                                                <h4>已完成</h4>
+                                                <h3>
+                                                    <eq name="project.stage" value="1">
+                                                        <span class="animateNum" data-animatetarget="0"> 0</span>
+                                                        <else/>
+                                                        <span class="animateNum"
+                                                              data-animatetarget="{$project['finish_rate']|round=2}"> {$project.finish_rate|round=2}</span>
+                                                    </eq>
+                                                    %
+                                                </h3>
+                                            </dd>
+                                            <dd class="d3">
+                                                <h4>已认投</h4>
+                                                <h3>
+                                                    <eq name="project.stage" value="1">
+                                                        <span class="animateNum" data-animatetarget="0">0</span>
+                                                        <else/>
+                                                        <span class="animateNum"
+                                                              data-animatetarget="{:round($project['has_fund']/10000,2)}">{:round($project['has_fund']/10000,2)}</span>
+                                                    </eq>
+                                                    万
+                                                </h3>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="tags">
+                                        <span>{:getDistrict($project['province'])}</span>
+                                        <span>{:getDistrict($project['city'])}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </foreach>
+                    <!--//item-->
+
+                </div>
+            </section>
+
+            <if condition="$_GET['status'] eq 1">
+                <div class="fund_fot" style="display:none">
+                    <div class="fund">
+                        <a class="btn-buy" href="#">我要投资</a>
+                    </div>
+                </div>
+            </if>
+        </div>
+    </div>
+
+</block>

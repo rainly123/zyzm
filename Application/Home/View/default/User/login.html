@@ -1,0 +1,286 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__CSS__/login.css" rel="stylesheet">
+</block>
+
+<block name="body">
+    <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+    <div id="server-data" style="display: none;">
+        <input name="mCenterUrl" value="{:U('/MCenter')}">
+    </div>
+    <div class="main-container">
+        <div class="login-section">
+            <img src="__IMG__/login_shuff.png">
+            <span class="poster-slogan">加入中瀛众创－梦随心&nbsp;动起来</span>
+            <div class="login-form-container">
+                <div class="bind-header">
+                    <div class="h1">你的微信还未绑定中瀛众创帐号</div>
+                    <div class="h2">请输入您的手机号完成登录或注册</div>
+                </div>
+                <form name="login-form" id="login-form" action="" method="POST">
+                    <div id="errormessage" class="error"></div>
+                    <input type="text" name="username" class="login-input usericon username" placeholder="用户名/手机号码"
+                           value="">
+                    <div id="input-tip"></div>
+                    <input type="password" name="password" class="login-input usericon2 password" placeholder="密码">
+                    <div class="sms">
+                        <input type="text" name="verify" class="login-input input-sms" placeholder="短信验证码" datatype="n"
+                               nullmsg="请输入短信验证码">
+                        <a title="发送验证码" href="/User/sendsms.html" id="cellcode_send" class="send-sms">发送验证码</a>
+                    </div>
+
+                    <div class="options-box">
+                        <input type="checkbox" name="remember-user" checked="checked">
+                        <span>记住用户名</span>
+                        <a href="{:U('User/forget')}" title="忘记密码" class="btn-forget" style="">忘记密码?</a></div>
+                    <button type="submit" class="login-submit-btn">登&nbsp;录</button>
+                    <p class="register-box">
+                        还没有帐号？
+                        <a href="register.html" title="还没有帐号？马上注册">马上注册</a>
+                    </p>
+                    <div class="social-login-box">
+                    <!--    <a href="#" title="微信二维码登陆" class="wx-login-button">微信二维码登陆</a>	-->
+                    </div>
+
+                </form>
+                <!-- 二维码 DOM -->
+                <div id="login_container"></div>
+                <!-- 注册成功 DOM -->
+                <div id="register-success">
+                    <p>注册成功！</p>
+                    <p><strong>密码为您手机后六位。</strong></p>
+                    <p>请前往<a href="{:U('User/savecenter')}">个人中心</a>修改密码或<a id="loginRedirect" href="{:U('Index/index')}">前往投资</a>。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //@formatter:off
+        if (!window.btoa || !window.atob) {
+            !function(){function t(t){this.message=t}var r="undefined"!=typeof exports?exports:this,e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";t.prototype=new Error,t.prototype.name="InvalidCharacterError",r.btoa||(r.btoa=function(r){for(var o,n,a=String(r),i=0,c=e,d="";a.charAt(0|i)||(c="=",i%1);d+=c.charAt(63&o>>8-i%1*8)){if(n=a.charCodeAt(i+=.75),n>255)throw new t("'btoa' failed: The string to be encoded contains characters outside of the Latin1 range.");o=o<<8|n}return d}),r.atob||(r.atob=function(r){var o=String(r).replace(/=+$/,"");if(o.length%4==1)throw new t("'atob' failed: The string to be decoded is not correctly encoded.");for(var n,a,i=0,c=0,d="";a=o.charAt(c++);~a&&(n=i%4?64*n+a:a,i++%4)?d+=String.fromCharCode(255&n>>(-2*i&6)):0)a=e.indexOf(a);return d})}();
+        }
+        //@formatter:on
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+        !function () {
+            var config = {
+                bindAPI: '/weixin/bindAccount',
+                registerAPI: '/weixin/createnewuser'
+            };
+            var getQS = function (key) {
+                var value = location.pathname.match(new RegExp('/' + key + '/([^/\.]+)'));
+                return value && decodeURIComponent(value[1]);
+            };
+            var type = getQS('type');
+            if (type === 'bind') {
+                var userInfo = {},
+                        formData = {};
+                try {
+                    userInfo = JSON.parse(atob(getQS('userinfo')));
+                    formData = {
+                        openid: userInfo.openid,
+                        nickname: userInfo.nickname,
+                        headimgurl: userInfo.headimgurl
+                    };
+                } catch (e) {
+                }
+                var lastMobile = 0;
+                var showInputPassword = function () { // 输入密码
+                    $('.login-form-container').removeClass('show-sms').addClass('show-password');
+                    $('#input-tip').text('您的手机号已经注册, 请输入密码登录');
+                    $('.password').focus();
+                    $('.login-submit-btn').removeAttr('disabled').removeClass('disabled').click(function () {
+                        formData.username = $('input[name=username]').val();
+                        formData.password = $('input[name=password]').val();
+                        if (!formData.username || !formData.password) {
+                            layer.msg('请输入用户名和密码', 1, -1);
+                            return false;
+                        }
+                        var $button = $(this);
+                        $button.attr('disabled', 'disabled').addClass('disabled').text('正在绑定...');
+                        $.getJSON(config.bindAPI, formData).then(function (json) {
+                            if (json.success) {
+                                $button.text('绑定成功 √');
+                                location.href = sessionStorage.getItem('loginRedirect') || json.url || serverData.mCenterUrl;
+                                sessionStorage.removeItem('loginRedirect');
+                                return 'success';
+                            } else if (json.errorcode === 1) {
+                                layer.alert(json.info, -1, function () {
+                                    location.href = sessionStorage.getItem('loginRedirect') || json.url || serverData.mCenterUrl;
+                                    sessionStorage.removeItem('loginRedirect');
+                                });
+                            } else {
+                                layer.msg(json.info, 2, -1);
+                                return json.info
+                            }
+                        }, function () {
+                            return 'fail';
+                        }).always(function (result) {
+
+                            if (result === 'success') {
+
+                            } else {
+                                $button.removeAttr('disabled').removeClass('disabled').text('下一步')
+                            }
+                        });
+                        return false;
+                    });
+                };
+                var showInputSMS = function () { // 输入短信验证码
+                    $('.login-form-container').removeClass('show-password').addClass('show-sms');
+                    $('#input-tip').text('您的手机号尚未注册, 请验证您的手机号码');
+                    $('.input-sms').focus();
+
+                    var longtime = 0;
+                    var $btnSendSMS = $('#cellcode_send');
+                    var uptime = function () {
+                        $btnSendSMS.html('请稍等' + longtime + '秒');
+                        longtime = longtime - 1;
+                        if (longtime <= 0) {
+                            clearInterval(id);
+                            $btnSendSMS.html('获取验证码');
+                        }
+                    };
+                    $btnSendSMS.click(function () {
+                        var phone = $('.username').val();
+                        if (longtime > 0) {
+                            return false;
+                        }
+                        $.post($(this).attr('href'), {'phone': phone}, function (data) {
+                            if (data.status == 1) {
+                                longtime = 120;
+                                $('#cellcode_send').html('请稍等' + longtime + '秒');
+                                // 倒计时
+                                id = setInterval(uptime, 1000);
+                            } else {
+                                alert(data.info);
+                            }
+                        });
+                        return false;
+                    });
+                    $('.login-submit-btn').removeAttr('disabled').removeClass('disabled').click(function () {
+                        formData.mobile = $('input[name=username]').val();
+                        formData.verify = $('input[name=verify]').val();
+                        var $button = $(this);
+                        $button.attr('disabled', 'disabled').addClass('disabled').text('正在验证...');
+                        $.post(config.registerAPI, formData).then(function (json) {
+                            /*$('#register-success').html('<pre>' + JSON.stringify(json, null, 4), +'</pre>');*/
+
+                            if (json.success) {
+                                $button.text('注册成功 √');
+                                $.layer({
+                                    type: 1,
+                                    area: ['400px', '300px'],
+                                    title: false,
+                                    closeBtn: false,
+                                    page: {dom: '#register-success'}
+                                });
+
+                                return 'success';
+                            } else {
+                                layer.msg(json.info, 2, -1);
+                                return json.info
+                            }
+                        }, function () {
+                            return 'fail';
+                        }).then(function (result) {
+                            if (result === 'success') {
+
+                            } else {
+                                $button.removeAttr('disabled').removeClass('disabled').text('重试')
+                            }
+                        });
+                        return false;
+                    });
+                };
+                var checkMobile = function (showErr) {
+                    var $this = $(this);
+                    setTimeout(function () {
+                        var val = $this.val();
+                        if (val === lastMobile) return;
+
+                        if (val.match(/^(0|86|17951)?(1[3578])[0-9]{9}$/)) {
+                            lastMobile = val;
+                            var $username = $('.username').attr('disabled', 'disabled').addClass('disabled').click(function () {
+                                $(this).removeClass('disabled')
+                            });
+                            $('#input-tip').text('检查手机号...');
+                            $.get('/weixin/checkBindMobile', {mobile: $this.val()}).then(function (json) {
+                                $username.removeAttr('disabled');
+                                if (json.success) {
+                                    if (json.exist) { // 已存在, 输入密码
+                                        showInputPassword()
+                                    } else { // 不存在, 输入验证码
+                                        showInputSMS()
+                                    }
+                                } else {
+
+                                }
+                            })
+                        } else {
+
+                        }
+                    }, 0);
+                };
+                var showInputMobile = function () { // 第一步: 输入手机号
+                    $('.login-form-container').addClass('bind');
+                    $('.username').attr('placeholder', '手机号码').focus().bind('input propertychange', checkMobile);
+                    $('.login-submit-btn').text('下一步').attr('disabled', 'disabled').addClass('disabled');
+                    $('form').submit(function () {
+                        return false;
+                    })
+                };
+                showInputMobile();
+            } else {
+                var wxLogin = function () {
+                    new WxLogin({
+                        id: "login_container",
+                        appid: "wxc828421ba4322f23",
+                        scope: "snsapi_login",
+                        redirect_uri: "http://www.dreammove.cn/Weixin/loginWx",
+                        state: "dreammove2015",
+                        style: "black",
+                        href: ""
+                    });
+                };
+                $("form").submit(function () {
+                    var self = $(this);
+                    $.post(self.attr("action"), self.serialize(), success, "json");
+                    return false;
+
+                    function success(data) {
+                        if (data.status) {
+                            window.location.href = data.url;
+                        } else {
+                            self.find("#errormessage").html(data.info);
+                        }
+                    }
+                });
+                $('.wx-login-button').click(function () {
+                    wxLogin();
+                    $.layer({
+                        type: 1,
+                        area: ['300px', '409px'],
+                        title: false,
+                        border: [0],
+                        shadeClose: true,
+                        page: {dom: '#login_container'}
+                    });
+                    return false;
+                });
+
+            }
+            var loginRedirect = sessionStorage.getItem('loginRedirect');
+            if (loginRedirect) {
+                $('#loginRedirect').attr('href', loginRedirect);
+                sessionStorage.removeItem('loginRedirect');
+            }
+        }();
+
+
+    </script>
+</block>
+

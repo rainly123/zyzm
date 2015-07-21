@@ -1,0 +1,100 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__CSS__/validform.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__M_CSS__/login.css" />
+</block>
+<block name="body">
+<section id="data_main">
+  <form action="{:U()}" method="POST" class="form">
+  <div class="user_datatt">
+    <div class="user_data">
+      <h2><b>昵&nbsp;&nbsp;称：</b>
+      <input name="user[nickname]" type="text" placeholder="请输入你的昵称" datatype="s1-30" maxlength="30" 
+       nullmsg="请输入您的昵称" value="{$user.nickname}" errormsg="昵称至少3个字符，最多30个字符" class="recharge_je"></h2>
+    </div>
+  </div>
+  <div class="user_datatt">
+    <div class="user_data">
+      <h2>
+      <b>性&nbsp;&nbsp;别：</b>
+      <label class="dcwj1"><input type="radio" name="detail[sex]" <eq name="detail.sex" value="1">checked</eq> value="1" id="sex1">男</label>
+        <label class="dcwj1"><input type="radio" name="detail[sex]" <eq name="detail.sex" value="2">checked</eq> value="2" id="sex2">女</label>
+        <label class="dcwj1"><input type="radio" name="detail[sex]" <eq name="detail.sex" value="0">checked</eq> value="0" id="sex0">保密</label>
+      </h2>
+    </div>
+  </div>
+  <div class="user_datatt">
+    <div class="user_data">
+      <h2><b>出生日期：</b>
+      <input name="detail[birthday]" type="text" placeholder="日期如1981-08-08" datatype="*" maxlength="10" 
+       nullmsg="请输入生日" value="{$detail.birthday}" class="recharge_je" id="">
+      </h2>
+    </div>
+    
+  </div>
+  <div class="user_datatt">
+    <div class="user_data">
+      <h2><b>邮&nbsp;&nbsp;箱：</b>
+      <input name="detail[email]" maxlength="40" datatype="e" nullmsg="请输入电子邮箱" type="text" placeholder="请输入你的电子邮箱" value="{$detail.email}" class="recharge_je" id="mail"></h2>
+    </div>
+    
+  </div>
+  
+  
+  <div class="user_datatt">
+    <div class="user_data">
+      <h2><b>所在地：</b>
+      <div class="select">
+        {:hook('J_China_City', array('province'=>$detail['province'], 'city'=>$detail['city']))}
+        </div>
+      </h2>
+    </div>
+    
+  </div>
+  
+  <div class="user_datatt">
+    <div class="user_data">
+      <h2><b>详细地址：</b>
+      <input name="detail[address]" type="text" placeholder="请填写详细地址"  class="recharge_je" id="address" value="{$detail.address}"></h2>
+    </div>
+  </div>
+  <div class="user_datatt">
+    <div class="user_data">
+      <h2><b>微博地址：</b>
+      <input name="detail[weibo]" type="text" placeholder="请输入你的微博地址"  class="recharge_je" id="weibo" value="{$detail.weibo}"></h2>
+    </div>
+  </div>
+    <div class="error-box">
+      <span id="errormessage"></span>
+    </div>
+  <div class="recharge_qd1">
+  <input name="" type="submit" class="recharge_qd" value="保&nbsp;&nbsp;存">
+  </div>
+    </form>
+</section>
+</block>
+<block name="script">
+<script type="text/javascript" src="__JS__/laydate/laydate.js"></script>
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script>
+$("select").addClass('data_sf');
+$(function() {
+  $(".form").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text('');
+      if (o.type == 3) {
+        objtip.text(msg);
+      }
+    }, ajaxPost: true,
+    beforeSubmit:showWaiting,
+    callback: function(data) {
+      if (data.status == 1) {
+        alert(data.info);
+        window.location.href="{:U('MCenter/index')}"
+      }
+    }
+  });
+});
+</script>
+</block>

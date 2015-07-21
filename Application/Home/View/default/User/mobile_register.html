@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<!--移动端版本兼容 -->
+<script type="text/javascript">
+	var phoneWidth = parseInt(window.screen.width);
+	var phoneScale = phoneWidth/640;
+
+	var ua = navigator.userAgent;
+	if (/Android (\d+\.\d+)/.test(ua)){
+		var version = parseFloat(RegExp.$1);
+		// andriod 2.3
+		if(version>2.3){
+			document.write('<meta name="viewport" content="width=640, minimum-scale = '+phoneScale+', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
+		// andriod 2.3以上
+		}else{
+			document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+		}
+		// 其他系统
+	} else {
+		document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+	}
+</script>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="">
+<meta name="format-detection" content="telephone=no">
+<title>注册</title>
+<link rel="stylesheet" href="__STATIC__/mobile/css/style.css">
+<!--[if lt IE 9]>
+<script src="__STATIC__/mobile/js/html5.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+<!--<![endif]-->
+<script type="text/javascript" src="__STATIC__/mobile/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="__STATIC__/mobile/js/jquery.mobile-1.0.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__/mobile/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="__STATIC__/mobile/js/ios.js"></script>
+<script type="text/javascript" src="__STATIC__/mobile/js/addons.js"></script>
+<script type="text/javascript">
+
+(function() {
+	$('#register').live('click',function(event){
+		$('.login-form').find('.errorAnimate').removeClass('errorAnimate');
+		$(".c_red").text('');
+		//用户名
+		var username = $('#username').val();
+		if(username==''){
+			$(".c_red").text('用户名不能为空');
+			$("#username").parent().addClass('errorAnimate');
+			$("#username").focus();
+			errorAnimate();
+			return false;
+		}else{
+			$("#username").parent().removeClass('errorAnimate');
+		}
+		//密码
+		var password = $('#password').val();
+		if(password==''){
+			$(".c_red").text('密码不能为空');
+			$("#password").parent().addClass('errorAnimate');
+			$("#password").focus();
+			errorAnimate();
+			return false;
+		}else{
+			var re = /^[\s\S]{6,20}$/;
+		     if(re.test(password)){
+		    	 $("#password").parent().removeClass('errorAnimate');
+		     }else{
+					$(".c_red").text('密码长度6-20位');
+					$("#password").parent().addClass('errorAnimate');
+					$("#password").focus();
+					errorAnimate();
+					return false;
+		     }
+		}
+		//重复密码
+		var repassword = $('#repassword').val();
+		if(repassword==''){
+			$(".c_red").text('重复密码不能为空');
+			$("#repassword").parent().addClass('errorAnimate');
+			$("#repassword").focus();
+			errorAnimate();
+			return false;
+		}else{
+			var re = /^[\s\S]{6,20}$/;
+		     if(re.test(repassword)){
+		    	 $("#repassword").parent().removeClass('errorAnimate');
+		     }else{
+					$(".c_red").text('密码长度6-20位');
+					$("#repassword").parent().addClass('errorAnimate');
+					$("#repassword").focus();
+					errorAnimate();
+					return false;
+		     }
+		}
+		//邮箱
+		var email = $('#email').val();
+		if(email==''){
+			$(".c_red").text('邮箱不能为空');
+			$("#email").parent().addClass('errorAnimate');
+			$("#email").focus();
+			errorAnimate();
+			return false;
+		}else{
+			var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+			if (re.test(email))
+			{
+				$("#email").parent().removeClass('errorAnimate');
+		    }else 
+		    {
+				$(".c_red").text('邮箱格式不正确');
+				$("#email").parent().addClass('errorAnimate');
+				$("#email").focus();
+				errorAnimate();
+				return false;
+			}
+
+			$("#email").parent().removeClass('errorAnimate');
+		}
+		//手机号
+		var mobile = $('#mobile').val();
+		if(mobile==''){
+			$(".c_red").text('手机号不能为空');
+			$("#mobile").parent().addClass('errorAnimate');
+			$("#mobile").focus();
+			errorAnimate();
+			return false;
+		}else{
+			var re = /^1\d{10}$/;
+			if (re.test(mobile))
+			{
+				$("#mobile").parent().removeClass('errorAnimate');
+		    }else 
+		    {
+				$(".c_red").text('手机号格式不正确');
+				$("#mobile").parent().addClass('errorAnimate');
+				$("#mobile").focus();
+				errorAnimate();
+				return false;
+			}
+		}
+		//验证码
+	
+		var verify = $('#verify').val();
+		if(verify==''){
+			$(".c_red").text('验证码不能为空');
+			$("#verify").parent().addClass('errorAnimate');
+			$("#verify").focus();
+			errorAnimate();
+			return false;
+		}else{
+			$("#verify").parent().removeClass('errorAnimate');
+		}
+		
+  		var self = $(this);
+		$.post(self.attr("action"), $('.login-form').serialize(), success, "json");
+		
+		return false;
+
+		function success(data){
+
+			if(data.status == 1){
+				//alert(data.info);
+				window.location.href = data.url;
+			} else {
+				$(".c_red").text(data.info);
+			}
+		}
+
+	});
+	
+	
+	
+})();
+</script>
+
+</head>
+
+<body>
+
+<div class="wrapper footerFixed">
+<header>
+	<h2>注册</h2>
+	<div class="lft">
+    	<a href="{:U('User/login')}" class="back">登录</a>
+    </div>
+</header>
+<div class="form">
+	<form id="login-form" class="login-form form-horizontal" action="{:U('register')}" method="post">
+    <ul>
+    	<li>
+        	<div class="text">
+            	<i class="user"></i>
+                <input id="username" name="username" maxlength="16" type="text" placeholder="用户名">
+            </div>
+        </li>
+    	<li>
+        	<div class="text">
+            	<i class="lock"></i>
+                <input id="password" name="password" maxlength="20" type="password" placeholder="请输入密码">
+            </div>
+        </li>
+    	<li>
+        	<div class="text">
+            	<i class="lock"></i>
+                <input id="repassword" name="repassword" maxlength="20" type="password" placeholder="请再次输入密码">
+            </div>
+        </li>
+		<li>
+        	<div class="text">
+            	<i class="mail"></i>
+                <input id="email" name="email" type="text" placeholder="邮箱">
+            </div>
+        </li>
+        <li>
+        	<div class="text">
+            	<i class="mobile"></i>
+                <input id="mobile" name="phone" maxlength="11" type="text" placeholder="手机号码">
+            </div>
+        </li>
+    	<li>
+        	<div class="text">
+            	<i class="mail"></i>
+                <input id="verify" name="code" type="text" placeholder="短信验证码" style="width:290px;">
+                <input type="button" href="{:U('sendsms')}" value="获取验证码" class="getcode" id="getcode">
+            </div>
+        </li>
+    	<li>
+        	<span class="c_red"></span>
+        </li>
+        <li>
+        	<input id="register" type="button" class="btn" value="注册">
+        </li>
+    </ul>
+    </form>
+</div>
+<footer>
+	<p><span>©聚募  dreammove.cn</span>     <span>浙ICP备14030231号-1</span><br>
+	  <a href="{:U('Info/show?key=about')}">关于我们</a>    <a href="#">0571-86858285</a></p>
+</footer>
+</div>
+</body>
+</html>
+

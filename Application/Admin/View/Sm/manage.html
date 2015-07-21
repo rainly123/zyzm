@@ -1,0 +1,50 @@
+<div style="height:300px;width:500px;padding:30px">
+<style>
+	.label-title {width: 120px;text-align: right;display: inline-block;}
+	.comment-span {display:block;margin-left:120px;}
+</style>
+<form action="{:U('manage')}" method="post">
+	<div style="margin:15px"><label class="label-title">今日净值：</label><input style="padding:5px" type="text" name="amount" id="amount"></div>
+	<div style="margin:15px">
+		<label class="label-title">是否涨停：</label>
+		<label class="checkbox" for="full"><input type="checkbox" name="full" id="full" value="1">涨停</label>
+	</div>
+	<div style="margin:15px"><label  class="label-title">收益率：</label>
+		<input style="padding:5px" type="text" name="rate" id="rate">
+		<span class="comment-span">填写百分比后的数值，不用填写%</span>	
+	</div>
+	<div style="margin:15px"><label  class="label-title">下一推选日：</label>
+		<input type="text" name="setday" class="text date" placeholder="请选择日期" />
+		<span class="comment-span">一般为当天后的第二个交易日（后2天）</span>	
+	</div>
+
+	<input type="hidden" name="id" id="id" value="{$id}">
+	<div style="padding-left:84px"><button class="btn" id="btn-over">确定</button></div>
+</form>
+</div>
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script>
+	$('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        startDate:new Date(),
+        autoclose:true
+    });
+	$('#btn-over').click(function() {
+		var form1 = $(this).parents('form');
+		$.post(form1.attr('action'), form1.serialize(), function(data) {
+			if (data.status == '1') {
+				alert(data.info);
+				window.location.reload();
+			} else {
+				alert(data.info);
+			}
+		});
+		return false;
+	});
+</script>

@@ -1,0 +1,348 @@
+<extend name="Base/common"/>
+
+<block name="header">
+<link href="__CSS__/style.css" rel="stylesheet">
+<style>
+	.up_file {
+		background-image: url(__IMG__/btn_addattach.jpg);
+		opacity: 0;
+		width: 72px;
+		height: 64px;
+		position: absolute;
+		margin-left: -82px;
+	}
+.hidden {
+	visibility: hidden
+}
+</style>
+</block>
+
+<block name="side"></block>
+
+<block name="body">
+<div class="fl w100 mainwrap mt25">
+	<div class="content">
+		<div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+		<!-- 	<include file="base-nav" /> -->
+        <div class="main mt20">
+        <form name="product_add" id="product_add" action="" method="POST">
+        	<dl class="cl">
+            <dd class="product">
+            	<h2>填写项目信息</h2>
+                <h4>项目及发起人信息</h4>
+
+                <div class="form ml80">
+					<ul>
+						<li>
+						  <label><em>*</em>项目分类</label>
+							<span class="bq">
+							<foreach name="pj_type" item="vo" >
+								<a href="#" id="{$vo.id}" <in name="vo.id" value="$types">class='cur'</in> >{$vo.type_name}</a>
+							</foreach>
+								<span class="Validform_checktip Validform_wrong pjtype hidden">项目分类不能为空</span>
+							</span>
+							<input type="hidden" name="types" id="hidtype" value="{$types}">
+						</li>
+						<li>
+						  <label><em>*</em>项目标题</label>
+						  <input type="text" class="c1" id="name" name="name" value="{$name}" placeholder="请输入你的项目标题（25个字内）" datatype="*1-25" nullmsg="项目标题不能为空" errormsg="项目标题不能超过25个字！">
+						</li>
+
+						<li>
+						  <label><em>*</em>项目简介</label>
+						  <input type="text" class="c1" id="abstract" name="abstract" value="{$abstract}" datatype="*1-150" placeholder="请用一句话描述项目内容（1-150个字）" nullmsg="项目简介不能为空" errormsg="项目简介1-150个字！">
+						</li>
+						<li>
+						  <label><em>*</em>筹资金额</label>
+						  <input type="text" class="c1" id="je" name="amount" value="{$amount|round=2}" placeholder="请输入筹资金额" datatype="n" nullmsg="请输入筹资金额" errormsg="筹资金额只能是数字">
+						</li>
+						<li>
+						  <label><em>*</em>筹资上限</label>
+						  <input type="text" class="c1" id="title" name="top_amount" value="{$top_amount|round=0}" placeholder="请输入筹资上限" datatype="n" nullmsg="请输入筹资上限" errormsg="筹资上限只能是数字">
+						  <label style="padding-left:1px;">% 填0是无上限</label>
+						</li>
+						<li>
+						  <label><em>*</em>筹资天数</label>
+						  <input type="text" class="c1" id="title" name="days" value="{$days}" placeholder="请输入筹资天数" datatype="n" nullmsg="请输入筹资天数" errormsg="筹资天数只能是数字">
+						  <label style="padding-left:1px;width:10px;">天</label>
+						</li>
+						
+						<li class="addattach">
+							<label><em>*</em>首屏图片</label>
+							<span class="fl">
+								<a href="#">
+									<img src="__IMG__/btn_addattach.jpg" class="fl" width="72" height="64" style="margin-right:10px;">
+									<input type="file" class="up_file" name="home_img" id="home_img" onchange="upload_image('home_img');">
+								</a>
+								<input type="hidden" name="home_img" id="hidhome_img" value="{$home_img}" datatype="*" nullmsg="请上传首屏图片">
+								
+								<notempty name="home_img">
+									<img id = "home_img_view" src="{$home_img|get_cover='path'}"  alt="" style="width:200px;height:150px;" />
+								<else/>
+									<img id = "home_img_view" src=""  alt="" style="" />
+								</notempty>
+								大小不超过2M，建议尺寸：400*220px
+							</span>
+							<span class="ri">
+							<a onmouseover="ddd('aa', 'show');" onmouseout="ddd('aa', 'hide');" class="wenhao"><img src="__IMG__/addattchintro.jpg"></a> 
+							<div class="intro" style="display:none;" id="aa"><em></em>在此处上传图片，支持格式png、jpeg、jpg，尺寸400*220px</div>
+							</span>
+						</li>
+						<li class="addattach">
+							<label><em>*</em>项目图片</label>
+							<span class="fl">
+								<a href="#">
+									<img src="__IMG__/btn_addattach.jpg" class="fl" width="72" height="64" style="margin-right:10px;">
+									<input type="file" class="up_file" name="project_img" id="project_img" onchange="upload_image('project_img');">
+								</a>
+								<input type="hidden" name="pro_img" id="hidproject_img" value="{$aProductInfo.pro_img}" datatype="*" nullmsg="请上传项目图片">
+								<notempty name="aProductInfo.pro_img">
+									<img id = "project_img_view" src="{$aProductInfo.pro_img|get_cover='path'}"  alt="" style="width:200px;height:150px;" />
+								<else/>
+									<img id = "project_img_view" src=""  alt="" style="" />
+								</notempty>
+								大小不超过2M，建议尺寸：650*420px
+							</span>
+							<span class="ri">
+							<a onmouseover="ddd('bb', 'show');" onmouseout="ddd('bb', 'hide');" class="wenhao"><img src="__IMG__/addattchintro.jpg"></a> 
+							<div class="intro" style="display:none;" id="bb"><em></em>在此处上传图片，支持格式png、jpeg、jpg，尺寸650*420px</div>
+							</span>
+						</li>
+						<li class="addattach">
+							<label><em>*</em>移动端图片</label>
+							<span class="fl">
+								<a href="#">
+									<img src="__IMG__/btn_addattach.jpg" class="fl" width="72" height="64"  style="margin-right:10px;">
+									<input type="file" class="up_file" name="mobile_img" id="mobile_img" onchange="upload_image('mobile_img');">
+								</a>
+								<input type="hidden" name="mobile_img" id="hidmobile_img" value="{$mobile_img}" datatype="*" nullmsg="请上传移动端图片">
+								<notempty name="mobile_img">
+									<img id = "mobile_img_view" src="{$mobile_img|get_cover='path'}"  alt="" style="width:200px;height:150px;" />
+								<else/>
+									<img id = "mobile_img_view" src=""  alt="" style="" />
+								</notempty>
+								大小不超过2M，建议尺寸：600*288px
+							</span>
+							<span class="ri">
+							<a onmouseover="ddd('cc', 'show');" onmouseout="ddd('cc', 'hide');" class="wenhao"><img src="__IMG__/addattchintro.jpg"></a> 
+							<div class="intro" style="display:none;" id="cc"><em></em>在此处上传图片，支持格式png、jpeg、jpg，尺寸600*288px</div>
+							</span>
+						</li>
+						<li>
+						  <label>视频介绍</label>
+						  <input type="text" class="c1" id="videoAddr" name="videoAddr" placeholder="请填写视频的flash地址" value="{$aProductInfo.video_path}">
+						  <span style="float: left;padding-left:120px;">flash地址以.swf结尾，如 http://player.youku.com/player.php/sid/XODM1NjI3MzEy/v.swf</span>
+						</li>
+						<li>
+						  <label><em>*</em>项目介绍</label>
+						  <textarea id="projectSummary" name="projectSummary" cols="" rows="" class="c2" datatype="*10-200" placeholder="请输入你的项目介绍（10-200个字）" nullmsg="项目介绍不能为空" errormsg="项目介绍10-200个字！">{$describe}</textarea>
+						</li>
+						<li>
+						  <table><tbody><tr>
+							<td><label><em>*</em>项目详情</label></td>
+							<td>
+								<link href="__STATIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+				                <!-- 配置文件 -->
+				                <script type="text/javascript" src="__STATIC__/umeditor/umeditor.config.js"></script>
+				                <!-- 编辑器源码文件 -->
+				                <script type="text/javascript" src="__STATIC__/umeditor/umeditor.min.js"></script>
+								<!-- 加载编辑器的容器 -->
+								<txtarear id="datail" name="datail">{$aProductInfo.content}</txtarear>
+				            </td>
+							</tr><tr></tr></tbody></table>
+						</li>
+						<li>
+							<label>项目标签</label>
+							<input type="text" class="c1 tagname" id="title sp" name="tag" maxlength="5" onblur="show1(this.value)" onfocus="show2()" value="请输入您的项目标签（最多5个）">
+							<span class="sp" style="">
+								<notempty name="arry_tag">
+										<foreach name="arry_tag" item="vo" >
+											<a class="tag" name="{$vo}" href="javascript:void(0)" onclick="del(this)">{$vo}<em>×</em></a>
+											<input type="hidden" id="{$vo}" name="tags[]" value="{$vo}">
+					
+									</foreach>
+								</notempty>
+							
+							</span>
+						</li>
+
+				</div>
+
+            </dd>
+            </dl>
+			<div class="common_button">
+				<input type="submit" class="btn_red" value="下一步">
+			</div>
+		</form>
+        </div>
+    </div>
+</div>
+
+</block>
+<block name="script">
+	<link href="__CSS__/validform.css" rel="stylesheet">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+
+	<script type="text/javascript">
+	
+		<!-- 实例化编辑器 -->
+	    var um = UM.getEditor('datail', {
+			initialFrameWidth :660,
+			initialFrameHeight :250
+		});
+    
+		//隐藏类型
+		var type_Arr = new Array();
+		//项目分类选择		
+		$(document).ready(function() {
+			$("#product_add").Validform({
+					tiptype:3,
+					btnSubmit:"#confirm",
+					ajaxPost:true,
+					beforeCheck:function(curform){
+						//在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
+						//这里明确return false的话表单将不会提交;	
+						if($("#hidtype").val() ==''){
+							$(".pjtype").removeClass('hidden');
+							$("#title").focus();
+							return false;
+						}
+					},
+					callback:function(data){
+						if (data.status == 1) {
+							window.location.href = data.url;
+						}else{
+							alert(data.info);
+						}
+					}
+				});
+			
+		
+			$(".bq a").click(function() {
+				var my = $(this);
+				var type_id = my.attr('id');
+				
+				if (my.hasClass('cur')) {
+					my.removeClass('cur');
+					deltype(type_id);
+				} else {
+					var count = $(".bq a.cur").length;
+					if (count >= 3) {
+						alert("项目分类不能超过3个");
+					} else {
+						$(".pjtype").addClass('hidden');
+						my.addClass('cur');
+						type_Arr[type_Arr.length] = type_id;
+						sethidtype();
+					}
+				}
+			});
+		});
+	
+		//上传缩略图
+		function upload_image(upfile_name){
+			var viewImg = '#' + upfile_name + '_view';
+			var hidfileName = '#hid' + upfile_name;
+	        $.upload({
+		          url: '{:U("File/uploadProduct")}', 
+		          fileName: upfile_name, 
+		          dataType: 'json',
+		          accept: '.jpg,.jpeg,.png,.gif',
+		          // 上传之前回调,return true表    示可继续上传
+		          onSend: function() {
+		              return true;
+		          },
+		          // 上传之后回调
+		          onComplate: function(data) {
+		            if(data.status == 1) {
+		            	$(viewImg).attr('src', data.path);
+		            	$(viewImg).attr('style', 'width:200px;height:150px;');
+		          		$(hidfileName).val(data.id);
+		            } else {
+		                alert(data.info);
+		            }
+		          }
+			});
+		}
+		
+		//删除	
+		function deltype(id)
+		{
+			var hidtype = $('#hidtype').val();
+			
+			if(type_Arr.length==0){
+				if(hidtype !='')
+				{ 
+					hidtype = hidtype + "";
+					result = hidtype.split(",");
+					
+					for(var i in result){
+						type_Arr[i]=result[i];
+					}
+				}
+			}
+			
+			for (var i in type_Arr){
+				if(type_Arr[i]==id){
+					type_Arr.splice(i,1);
+				}
+			}
+			
+			sethidtype();
+		};
+		
+		//保存变化的值
+		function sethidtype(){
+
+			var media_id='';
+			for(var i in type_Arr){
+				media_id +=',' + type_Arr[i];
+			}
+			
+			media_id=media_id.substring(1)?media_id.substring(1):''; 
+			
+			$('#hidtype').val(media_id);
+		};
+
+		//添加项目标签
+		function show1(_tagname){
+			if(_tagname ==""){
+				$('.tagname').val('请输入您的项目标签（最多5个字）');
+			}else{
+				var count = $(".tag").length;
+				
+				if(count>5){
+					alert('最多只能添加五个标签');
+				}else{
+					var html='<a class="tag" href="javascript:void(0)" onclick="del(this)">'+_tagname+'<em>×</em></a>';
+					
+					html= html + '<input type="hidden" name="tags[]" value="'+_tagname+'">';
+					
+					$('.sp').append(html);
+					$('.tagname').val('请输入您的项目标签（最多5个字）');	
+				}
+			}
+		}
+
+		//焦点进入
+		function show2(){
+			$('.tagname').val('');
+		}
+
+		//删除标签
+		function del(_this){
+			//删除隐藏控件
+			$('#'+_this.name).remove();
+			//删除
+			_this.remove();
+		}
+
+		function ddd(obj, sType) { 
+			var oDiv = document.getElementById(obj); 
+			if (sType == 'show') { oDiv.style.display = 'block';} 
+			if (sType == 'hide') { oDiv.style.display = 'none';} 
+		} 
+	</script>
+
+</block>

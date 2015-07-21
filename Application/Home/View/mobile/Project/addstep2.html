@@ -1,0 +1,120 @@
+<extend name="Base/common"/>
+<block name="header">
+<link href="__CSS__/style.css" rel="stylesheet">
+</block>
+<block name="side">
+</block>
+<block name="body">
+	<div class="fl w100 mainwrap mt25">
+	<div class="content">
+    	<div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+        <div class="main mt20 mainleftbg">
+      
+        	<dl class="cl">
+        	<dd class="leftbar">
+            	<div class="userhaed"><img src="__IMG__/default_userhead.jpg">用户昵称</div>
+                <ul id="leftlist">
+                	<li><em id="c1"></em><a href="{:U('Project/addstep1?id='.$project_id)}">基本信息</a><span></span></li>
+                    <li class="cur"><em id="c3"></em><a href="{:U('Project/addstep2?id='.$project_id)}">项目介绍</a></li>
+                    <li><em id="c4"></em><a href="{:U('Project/addstep3?id='.$project_id)}">项目资料</a></li>
+                    <li><em id="c5"></em><a href="{:U('Project/addstep4?id='.$project_id)}">融资信息</a></li>
+                    <li><em id="c6"></em><a href="{:U('Project/addstep5?id='.$project_id)}">提交项目</a></li>
+                </ul>
+            </dd>
+            <dd class="rightbar">
+            	<h2>项目介绍</h2>
+                  <form name="project_add" id="project_add" action="" method="POST" class="form">
+                <ul>
+                    <li class="xmms">
+	                    <div class="ms">
+	                    	<div class="title">项目描述</div>
+							<!-- 加载编辑器的容器 -->
+							<txtarear id="description" name="description">{$info.description}</txtarear>
+	                    </div>
+                    </li>
+                    <li class="xmms"><div class="ms">
+                    	<div class="title">公司未来规划</div>
+						<!-- 加载编辑器的容器 -->
+					    <txtarear id="plan" name="plan">{$info.plan}</txtarear>
+                    </div></li>
+                    <li class="xmms"><div class="ms">
+                    	<div class="title">目标客户</div>
+            			<!-- 加载编辑器的容器 -->
+					    <txtarear id="custom" name="custom">{$info.custom}</txtarear>
+                    </div></li>
+                    <li class="xmms"><div class="ms">
+                    	<div class="title">盈利模式</div>
+                   		<!-- 加载编辑器的容器 -->
+					    <txtarear id="yingli_mode" name="yingli_mode">{$info.yingli_mode}</txtarear>
+                    </div></li>
+                    <li class="xmms"><div class="ms">
+                    	<div class="title">同行竞争</div>
+ 						<!-- 加载编辑器的容器 -->
+					   	<txtarear id="jingzheng" name="jingzheng">{$info.jingzheng}</txtarear>
+                    </div></li>
+                    <li class="xmms"><div class="ms">
+                    	<div class="title">竞争优势</div>
+						<!-- 加载编辑器的容器 -->
+					    <txtarear id="avantages" name="avantages">{$info.avantages}</txtarear>
+                    </div></li>
+                    <li class="save">
+                      <input type="submit" value="保存" class="s">
+                    </li>
+                </ul>
+            </form>
+            </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+</block>
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<link href="__STATIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+	<!-- 配置文件 -->
+	<script type="text/javascript" src="__STATIC__/umeditor/umeditor.config.js"></script>
+	<!-- 编辑器源码文件 -->
+	<script type="text/javascript" src="__STATIC__/umeditor/umeditor.min.js"></script>
+				      	
+	<script type="text/javascript">
+		var um = UM.getEditor('description', {
+			initialFrameWidth :660,
+			initialFrameHeight :250,
+		});
+		
+		var um = UM.getEditor('plan', {
+			initialFrameWidth :660,
+			initialFrameHeight :250,
+		});
+		var um = UM.getEditor('custom', {
+			initialFrameWidth :660,
+			initialFrameHeight :250,
+		});
+		var um = UM.getEditor('yingli_mode', {
+			initialFrameWidth :660,
+			initialFrameHeight :250,
+		});
+		var um = UM.getEditor('jingzheng', {
+			initialFrameWidth :660,
+			initialFrameHeight :250,
+		});
+		var um = UM.getEditor('avantages', {
+			initialFrameWidth :660,
+			initialFrameHeight :250,
+		});
+		
+		$("#project_add").Validform({
+			tiptype:3,
+			btnSubmit:"#confirm",
+			ajaxPost:true,
+			callback:function(data){
+				if (data.status == 1) {
+					alert('添加成功');
+					window.location.href = data.url;
+				}else{
+					alert(data.info);
+				}
+			}
+		});
+	</script>
+</block>

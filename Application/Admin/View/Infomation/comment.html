@@ -1,0 +1,95 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题 -->
+	<div class="main-title">
+		<h2>评论列表</h2>
+	</div>
+	<div class="main-title">
+		<h2>评论对象：{$infomation.title}</h2>
+	</div>
+	<!-- 按钮工具栏 -->
+	<div class="cf">
+		<div class="fl">
+			<button class="btn document_add" url="{:U('Infomation/addcomment?pid='.$infomation['id'])}">新 增</button>
+		</div>
+	</div>
+
+	<!-- 数据表格 -->
+    <div class="data-table">
+		<table>
+            <!-- 表头 -->
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评论人</th>
+                    <th>评论时间</th>
+                    <th>状态</th>
+                    <th>内容</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+                <volist name="info" id="vo">
+                    <tr>
+                    	<td>{$i}</td>
+                    	<td>{$vo.comment_by}</td>
+                    	<td><span>{$vo.comment_time|time_format="Y-m-d H:i"}</span></td>
+                    	<td>{$vo.status_text}</td>
+                    	<td>{$vo.content}</td>
+                    	<td>
+                    		<a href="{:U('Infomation/editcomment?id='.$vo['id'])}">编辑</a> |
+                    		<if condition="$vo.status eq '0'">
+                    			<a class="ajax-get confirm" href="{:U('Infomation/changecomment?id='.$vo['id'].'&status=-1&pid='.$vo['pid'])}">撤销</a>
+                    		<else/>
+                    			<a class="ajax-get confirm" href="{:U('Infomation/changecomment?id='.$vo['id'].'&status=0&pid='.$vo['pid'])}">启用</a>
+                    		</if>
+                    	</td>
+                    </tr>
+                </volist>
+            </tbody>
+        </table>
+	</div>
+	<!-- 分页 -->
+    <div class="page">
+        {$_page}
+    </div>
+</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript">
+	//导航高亮
+    highlight_subnav("{:U('Infomation/index')}");
+		$(function(){
+			//只有一个模型时，点击新增
+			$('.document_add').click(function(){
+				var url = $(this).attr('url');
+				if(url != undefined && url != ''){
+					window.location.href = url;
+				}
+			});
+		
+			//点击排序
+			$('.list_sort').click(function(){
+				var url = $(this).attr('url');
+				var ids = $('.ids:checked');
+				var param = '';
+				if(ids.length > 0){
+					var str = new Array();
+					ids.each(function(){
+						str.push($(this).val());
+					});
+					param = str.join(',');
+				}
+		
+				if(url != undefined && url != ''){
+					window.location.href = url + '/ids/' + param;
+				}
+			});
+		
+		})
+	</script>
+</block>

@@ -1,0 +1,46 @@
+<style type="text/css">
+	.data-box{
+		margin: 20px;
+		font-size: 17px;
+		padding: 10px;
+	}
+
+</style>
+<div class="data-box">
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td><b>投资人:</b></td>
+				<td>{$investor_id|get_membername}</td>
+			</tr>
+			<tr>
+				<td><b>投资人估值:</b></td>
+				<td>{$project_valuation}元</td>
+			</tr>
+			<tr>
+				<td><b>投资金额:</b></td>
+				<td>{$fund}元</td>
+			</tr>
+			<tr>
+				<td><b>投资理由:</b></td>
+				<td>
+					<empty name="reason">
+						暂无理由
+					<else />
+						{$reason}
+					</empty>
+				</td>
+			</tr>
+			<tr>
+				<td><b>提供帮助:</b></td>
+				<td>
+					<empty name="other">
+						暂无帮助
+					<else />
+						{$other}
+					</empty>
+				</td>
+			</tr>		
+		</tbody>
+	</table>
+</div>

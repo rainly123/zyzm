@@ -1,0 +1,86 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+<block name="submenu">
+<ul>
+  <li class="cur"><a href="{:U('MCenter/pr_support')}">支持的项目</a></li>
+  <li><a href="{:U('MCenter/pr_create')}">发起的项目</a></li>
+ <!--  <li><a href="{:U('MCenter/pr_attach')}">收藏的项目</a></li> -->
+</ul>
+<span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+<table>
+  <thead>
+    <tr>
+    <th colspan="2">项目详情</th>
+    <th>支持日期</th>
+    <th style="text-align:center;">实付金额</th>
+    <th>幸运号码</th>
+    <th>状态</th>
+    <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <volist name="supportList" id="vo">
+      <tr>
+	    <td width="120" class="img">
+			<a href="{:U('Product/viewdetail?pid='.$vo['id'])}"><img src="{$vo.home_img|get_cover='path'}"></a>
+		</td>
+	    <td width="200">
+	    	<a href="{:U('Product/viewdetail?pid='.$vo['id'])}">{$vo.name}</a>
+	    	<em class="z">{$vo.stage_text}</em>
+	    	<em class="z">{$vo.shareno}</em>
+	    </td>
+	    <td>{$vo.create_time|time_format="Y-m-d"}</td>
+	    <td style="text-align:center;">¥{$vo.amount}<br>（运费：¥{$vo.post_amount}）</td>
+	    <td><b class="f14">{$vo.luckno}</b></td>
+	    <td><!-- 状态 回报相关id（0:购买成功、1:支付成功、-1:撤消 -2没有购买名额了） -->
+			<if condition="$vo['status'] eq 0"> 购买成功
+				<elseif condition="$vo['status'] eq 1"/>支付成功
+				<elseif condition="$vo['status'] eq -1"/>已撤销
+				<elseif condition="$vo['status'] eq -2"/>无购买名额
+			</if>
+		</td>
+	    <td class="cz">
+	 		<if condition="$vo['status'] eq 0">
+				<a class="btn btn-warning btn-small" href="{:U('ProductOrder/confirm?customId='.$vo['customid'])}" >支付</a>
+				<a class="IxD-revocation" href="#" data-url="{:U('ProductOrder/revocation?customId='.$vo['customid'])}" >撤销</a>
+			<elseif condition="$vo['status'] eq 1"/>
+				<!-- 	<a href="#">交易详情</a> -->
+				<eq name="vo.is_share" value="2">
+					<a href="{:U('ProductOrder/share?id='.$vo['customid'])}">分享</a>
+				</eq>
+			</if>
+	    </td>
+	   </tr>
+    </volist>
+    </tbody>
+ 
+</table>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+  // 指定左侧选中菜单
+  var submenu = "{:U('MCenter/pr_support')}";
+  
+	$(".IxD-revocation").click(function(){
+		if (confirm('确定撤销本订单？')) {
+			$.post($(this).data('url'),function(data){
+				if (data.status) {
+					alert(data.info);
+					window.location.reload();
+				}else{
+					alert(data.info);
+					return false;
+				};
+			});
+		};
+
+	});
+	
+</script>
+</block>

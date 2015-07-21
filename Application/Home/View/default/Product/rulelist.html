@@ -1,0 +1,122 @@
+<div class="addcards mt20 cl" id="addnewaddress" style="margin:20px; 20px 0 10px">
+  <div class="top">
+    <header><b>添加/修改限购范围</b></header>
+  </div>
+  <form id="form-modify-addr" method="POST" action="{:U('Product/modify_rule')}">
+    <input type="hidden" name="id" value="{$detail.id}">
+    <ul class="list mt20">
+      <li><dl><dt>所在地区：</dt>
+        <dd><div class="select">
+          {:hook('J_China_City', array('province'=>$detail['province'], 'city'=>$detail['city']))}
+        </div></dd>
+      </dl></li>
+		<li class="ckpre"><dl><dt>投资类别：</dt>
+        <dd>
+        	<a href="javascript:void(0)" id="touzi0" onclick="setTab('touzi',0,3)" class="choosecur">不限</a>
+       		<a href="javascript:void(0)" style="margin-left:10px;" id="touzi1" onclick="setTab('touzi',1,3)" >股权投资</a>
+			<a href="javascript:void(0)" style="margin-left:10px;" id="touzi2" onclick="setTab('touzi',2,3)">实物投资 </a>
+			<input type="hidden" name="touzi" id="hidtype" value="0">
+		</dd>
+      </dl></li>
+      							
+      <li><dl><dt>投资金额：</dt>
+        <dd>
+          <div class="select">
+		    <select class="c3" id="cc1" style="display: none;">
+				<option value="0">-不限-</option>
+		      	<option value="1">1000以上</option>
+		      	<option value="2">5000以上</option>
+		      	<option value="3">10000以上</option>
+		    </select>
+		  </div>
+        </dd>
+      </dl></li>
+      <li>
+      <dl>
+      	<dt>分享人数：</dt>
+      	<dd>
+      	<input name="shareno" type="text" value="{$detail.postno}" class="c1" id="shareno">
+      	(0表示不限)
+      	</dd>
+      </dl>
+      </li>
+
+      <li><dl><dt></dt>
+        <dd><div id="errormessage"></div></dd>
+      </dl></li>
+      <li class="mt25"><dl><dt>&nbsp;</dt>
+        <dd><input type="button" value="保存更新" class="c2"></dd>
+      </dl></li>
+    </ul>
+  </form>
+</div>
+<link href="__CSS__/style.css" rel="stylesheet">
+<script type="text/javascript">
+$(function() {
+	$("#c, #cc1, #cc2").selectbox();
+	
+	//下一步
+	$(".c2").click(function(){
+		var province = $('#J_province').val();
+		var city = $('#J_city').val();
+		
+		var touzi = $('#hidtype').val();
+		var cc1 = $('#cc1').val();
+
+		var showmsg='';
+		if(province =='' && city=='' && touzi=='0' && cc1=='0'){
+			showmsg='不限';
+		}else{
+			if(province !=''){
+				var province_txt = $("#J_province").find("option:selected").text();
+			}else{
+				var province_txt ='';
+			}
+			
+			if(city !=''){
+				var city_txt = $("#J_city").find("option:selected").text();
+			}else{
+				var city_txt='';
+			}
+			
+			if(touzi =='1'){
+				var touzi_txt = '投资类别:股权投资';
+			}else if(touzi =='2'){
+				var touzi_txt = '投资类别:实物投资';
+			}else{
+				var touzi_txt='';
+			}
+			if(cc1 !='0'){
+				var cc1_txt = '投资金额：'+ $("#cc1").find("option:selected").text();
+			}else{
+				var cc1_txt='';
+			}
+			
+			showmsg = '(限购范围：' + province_txt + ' ' + city_txt + ' '+ touzi_txt +' '+ cc1_txt +')';
+		}
+		
+
+		document.getElementById('buy_rule').innerText=showmsg;
+ 
+		$('#hidprovince').val(province);
+		$('#hidcity').val(city);
+		$('#hidtype').val(touzi);
+		$('#hidselect').val(cc1);
+
+		layer.close(index);
+
+	});
+	
+});
+
+	//选择实物或虚拟回报
+	function setTab(name,cursel,n)
+	{
+		for(i=0;i<n;i++){
+			var menu=document.getElementById(name+i);
+			menu.className=i==cursel?"choosecur":"";
+		}
+		$('#hidtype').val(cursel);
+
+	}
+</script>

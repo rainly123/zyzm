@@ -1,0 +1,34 @@
+<div style="height:200px;width:400px;padding:30px">
+	<div style="margin:15px">
+		<label for="">可用资金：</label>
+		{$total_money}元
+	</div>
+	<div style="margin:15px">
+		<label for="">申购数量：</label>
+		<input style="padding:5px" type="text" name="purchase_count" id="purchase_count">输入整数
+	</div>
+	<div style="margin:15px">
+		<label for="">申购金额：</label>
+		<input style="padding:5px" type="text" name="purchase_amount" id="purchase_amount">元
+	</div>
+	<input type="hidden" name="id" id="id" value="{$id}">
+	<input type="hidden" name="pid" id="pid" value="{$pid}">
+	<div style="padding-left:84px"><button class="btn" href="{:U('purchase')}" id="btn-over">确定</button></div>
+</div>
+<script>
+	$('#btn-over').click(function() {
+		var id = $('#id').val();
+		var pid = $('#pid').val();
+		var amount = $('#purchase_amount').val();
+		var count = $('#purchase_count').val();
+		$.post($(this).attr('href'), {'id':id, 'pid':pid, 'amount':amount, 'count':count}, function(data) {
+			if (data.status == '1') {
+				alert(data.info);
+				window.location.reload();
+			} else {
+				alert(data.info);
+			}
+		});
+		return false;
+	});
+</script>

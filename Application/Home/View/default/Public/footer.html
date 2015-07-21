@@ -1,0 +1,39 @@
+<!-- 底部================================================== -->
+
+<!-- 新加 -->
+<div class="fl w100 foot">
+    <div class="foot_warp">
+        <!--<div class="foot_top"><img src="/Public/Home/images/foot_smile.png"></div>-->
+        <!--<h1>智汇于众，募瀛天下</h1>-->
+        <ul class="foot_text">
+            <li><a target="_blank" href="{:U('Info/show?key=about')}">关于我们</a> 丨</li>
+            <li><a target="_blank" href="{:U('Info/show?key=xinshouzhiyin')}">新手指引</a> 丨</li>
+            <li><a target="_blank" href="{:U('Info/show?key=agreement')}">用户协议</a> 丨</li>
+            <li><a target="_blank" href="{:U('Info/show?key=shenmingshu')}">风险提示</a> 丨</li>
+            <li><a target="_blank" href="{:U('Info/show?key=fenpei')}">利益分配</a></li>
+   <!--         <li><a target="_blank" href="http://bbs.dreammove.cn">聚慧社区</a></li>	-->
+        </ul>
+        <div style="clear:both;"></div>
+        <div class="foot_bottom">
+            <ul class="foot_tg">
+                <li class="wx">
+                    <a target="_blank" class="footer-weixin">微信</a>
+                    <span class="weixin-qrcode"><img src="/Public/Home/images/weixin.jpg" alt=""></span>
+                </li>
+    <!--            <li class="wb"><a href="http://weibo.com/jumuzhongchou" target="_blank">新浪微博</a></li>	-->
+                <li class="dh">021-65800910</li>
+                <li class="yx"><a target="_blank" href="mailto:service@e5656.cn">service@e5656.cn</a></li>
+            </ul>
+        </div>
+        <div class="foot_tag">Copyright (c) 2015 中瀛智募（上海）文化传媒有限公司 沪ICP备15008911号</div>
+    </div>
+</div>
+<!-- 新加 -->
+<include file="Public/var"/>
+<block name="script"></block> <!-- 用于加载js代码 -->
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hook('pageFooter', 'widget')}
+<div class="hidden" style="display:none;"><!-- 用于加载统计代码等隐藏元素 -->
+    <script src="http://s6.cnzz.com/z_stat.php?id=1253481980&web_id=1253481980" language="JavaScript"></script>
+    <block name="hidden"></block>
+</div>

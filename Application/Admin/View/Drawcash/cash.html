@@ -1,0 +1,64 @@
+<extend name="Public/base"/>
+<block name="body">
+    <div class="main-title">
+        <h2>提现</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+    	<div>可提现金额：<span style="font-size:25px;font-weight:bolder;color:red">{$amount|number_format}</span>元</div>
+        <div class="form-item">
+            <label class="item-label">开户行<span class="check-tips"></span></label>
+            <div class="controls">
+                <select name="bank_type" id="bank_type">
+                    <option value="">请选择</option>
+                    <volist name="bankinfo" id="vo">
+                    <option value="{$vo.bank_type}">{$vo.bank_name}</option>
+                    </volist>
+                </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">银行卡<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" value="6226227702472329" class="text input-large" name="card_number" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">户名<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" value="陈宇" class="text input-large" name="true_name" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">开户行名称<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" value="天目山支行" class="text input-large" name="sub_branch" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">开户省<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" value="浙江" class="text input-large" name="bank_province" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">开户市<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" value="杭州" class="text input-large" name="bank_city" >
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Info/index')}');
+    </script>
+</block>

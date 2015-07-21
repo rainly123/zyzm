@@ -1,0 +1,148 @@
+@charset "UTF-8";
+.body, #dialog { font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; }
+
+.body-bg { background: #F6F6F6; padding-bottom: 5em; }
+
+.foot { margin-top: 0; }
+
+.body { width: 100%; max-width: 960px; padding: 20px 0; margin-left: auto; margin-right: auto; font-size: 14px; }
+
+a { color: inherit; }
+
+.clearfix { *zoom: 1; }
+.clearfix:after { content: "​"; display: block; height: 0; clear: both; }
+
+.btn { border-radius: 4px; border: 1px solid #ddd; cursor: pointer; background: transparent; font-size: inherit; font-family: inherit; }
+.btn:hover { border: 1px solid #72C2E5; background: #72C2E5; color: white; }
+
+.breadcrumbs { color: #333; margin: 20px 2px; }
+.breadcrumbs a:hover { color: #72C2E5; }
+
+.panel { border-radius: 4px; border: 1px solid #DDDDDD; background: white; padding: 30px; }
+.panel .header { margin: 20px 0 20px; padding-bottom: 15px; padding-left: 1em; border-bottom: 1px solid #ddd; position: relative; }
+.panel .header .title-label { display: none; font-size: 18px; font-weight: bold; padding-right: 20px; margin-right: 20px; border-right: 1px solid #ddd; }
+.panel .header .title { font-size: 18px; font-weight: bold; }
+.panel .header .title:hover { color: #72C2E5; }
+.panel .header .btn { position: absolute; padding: 5px 15px; right: 0; top: 0; }
+.panel .header .btn-back { display: none; }
+.panel .header .btn-new { position: absolute; padding: 5px 10px 5px 45px; background: #72C2E5 url("../images/edit.png") 12px center no-repeat; border: 1px solid #72C2E5; top: 0; right: 0; color: white; }
+.panel .header .btn-new:hover { background-color: #47afdd; }
+.panel .header .btn-new.hidden { display: none; }
+
+.tab-title-box { border-bottom: 2px solid #72C2E5; position: relative; display: none; }
+
+.tab-title-list .tab-title { display: inline-block; font-weight: bold; border: 1px solid #ddd; border-bottom: none; position: relative; top: 2px; background: #FAFAFA; margin-right: 5px; }
+.tab-title-list .tab-title.active { border-bottom: 2px solid white; border-top: 2px solid #72C2E5; color: #72C2E5; background: transparent; }
+.tab-title-list .tab-title a { padding: 8px 20px; display: block; }
+
+.tab-content-box { padding-top: 10px; }
+.tab-content-box li { border-bottom: 1px dashed #ddd; line-height: 60px; }
+.tab-content-box li span { display: inline-block; }
+.tab-content-box li .date { margin-right: 40px; position: relative; }
+.tab-content-box li .date:after { content: ""; display: block; position: absolute; right: -25px; top: 28px; width: 4px; height: 4px; border-radius: 2px; background: #ddd; }
+.tab-content-box li a:hover { color: #72C2E5; }
+.tab-content-box li .btn-list { float: right; }
+.tab-content-box li .btn-list a { margin-right: 10px; padding-right: 10px; border-right: 1px solid #ddd; }
+.tab-content-box li .btn-list a.last { border-right: none; }
+.tab-content-box li .btn-list .attachment { display: inline-block; padding-left: 3em; border-right: none; background: url("../images/pdf.png") no-repeat left; }
+
+.tab-content-box table { margin-top: 10px; width: 100%; border-collapse: collapse; }
+.tab-content-box thead td { font-weight: bold; }
+.tab-content-box tr:hover { background: #f7fcfe; }
+.tab-content-box td { text-align: center; border: 1px solid #ddd; line-height: 50px; }
+.tab-content-box td.btn-msg { text-align: center; background: url("../images/letter.jpg") no-repeat center; cursor: pointer; }
+.tab-content-box .sum { font-weight: bold; }
+
+.add input { font-size: 16px; }
+.add li { margin: 10px 0; border-bottom: none; line-height: normal; }
+.add p { line-height: normal; }
+.add label { font-weight: bold; display: block; margin-top: 15px; line-height: 3; }
+.add .title { box-sizing: border-box; width: 100%; border: 1px solid #d9d9d9; padding: 10px; line-height: 30px; color: #a9a9a9; border-radius: 3px; margin-bottom: 5px; }
+.add textarea { width: 100%; height: 355px; }
+.add .btn-box { margin-top: 2em; text-align: center; }
+.add .btn-box .btn { display: inline-block; font-size: 18px; line-height: 1.5; padding: 0.5em 2em; margin: 0 0.5em; }
+.add .btn-box .btn-save { color: #999999; background: #EEEEEE; border: 1px solid #eee; }
+.add .btn-box .btn-save:hover { border: 1px solid #eee; background: #d4d4d4; }
+.add .btn-box .btn-publish { color: white; background: #72C2E5; border: 1px solid #72C2E5; }
+.add .btn-box .btn-publish:hover { background: #47afdd; }
+.add .attachment-box { border-top: 1px solid #ddd; padding: 1em 0; line-height: 3; }
+.add .attachment-box.hidden { display: none; }
+.add .upload-box.hidden { display: none; }
+.add .attachment { padding-left: 4em; background: url("../images/pdf.png") no-repeat 3px center; }
+.add .attachment .delete-attachment { color: #72C2E5; padding: 0 1em; }
+.add .attachment .delete-attachment:hover { color: #2699cb; }
+
+.detail .title-box { border-bottom: 1px solid #ddd; margin: 2em 0 1em; padding-bottom: 1em; }
+.detail .title-box .title { font-weight: bold; font-size: 16px; }
+.detail .title-box .date { float: right; }
+.detail #attachment-box { padding-bottom: 2em; }
+.detail .attachment { padding-left: 4em; background: url("../images/pdf.png") no-repeat 3px center; line-height: 50px; }
+.detail .attachment:hover { color: #72C2E5; }
+.detail .comment-box { padding: 1em 0; }
+.detail .comment-box .avatar { width: 60px; height: 60px; background: url("/Uploads/Picture/Photo/photo_default.png") no-repeat center; overflow: hidden; border-radius: 50%; float: left; margin-left: 1em; background-size: 100%; }
+.detail .comment-box .cc-box { float: left; line-height: 2; margin-left: 1em; }
+.detail .comment-box .c-content { color: #999; }
+.detail form .header { display: block; border-bottom: 1px solid #ddd; font-weight: bold; padding: 0 0 0.5em 2em; font-size: 16px; }
+.detail form .header i { display: block; position: absolute; width: 3px; height: 20px; left: 0; top: 4px; background: #72C2E5; }
+.detail form textarea { border-radius: 4px; border: 1px solid #ddd; width: 100%; padding: 1em; box-sizing: border-box; font-size: 16px; height: 10em; }
+.detail form .btn-post-comment { float: right; font-size: 18px; background: #72C2E5 url("../images/icon_pl.png") no-repeat 18px; border: 1px solid #72C2E5; color: white; padding: 0.3em 1.6em 0.3em 2.7em; }
+.detail form .btn-post-comment:hover { background-color: #47afdd; }
+
+#attachment-upload, #attachment-upload-queue { float: none; }
+
+.uploadify:hover .uploadify-button { background: #47afdd; }
+.uploadify .uploadify-button { background: #72C2E5; border: none; text-shadow: 0 0 3px rgba(0, 0, 0, 0.2); }
+
+.etc { font-size: inherit; }
+
+#dialog .btn-send-msg { float: right; padding: 0.6em 3em; background: #72C2E5; border-color: #72C2E5; color: white; }
+#dialog .btn-send-msg:hover { background: #47afdd; }
+
+.input-modal { position: fixed; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); top: 0; }
+.input-modal.hidden { display: none; }
+.input-modal .main { background: white; text-align: center; }
+.input-modal .main textarea { width: 100%; height: 10em; border: none; padding: 0.5em; }
+.input-modal .main .btn { color: white; width: 45%; padding: 0.8em 0; margin: 0.5em 0; border-radius: 2px; }
+.input-modal .main .btn-cancel { background: #686868; }
+.input-modal .main .btn-submit { background: #72C2E5; }
+
+@media (max-width: 640px) { .body { width: 100%; padding-top: 0; font-size: 16px; }
+  .breadcrumbs { display: none; }
+  .panel { padding: 0; border-left: none; border-right: none; }
+  .panel .header { padding: 1em; margin-top: 0; margin-bottom: 1em; }
+  .panel .header .title-label, .panel .header .btn-back { display: none; }
+  .panel .header .title { color: #666; font-weight: normal; }
+  .panel .tab-title-box { padding: 0.3em 1em 0; border-bottom: 1px solid #ddd; }
+  .panel .tab-title-box.page-detail { display: none; }
+  .panel .tab-title-box .tab-title-list { border-top: 1px solid #ddd; text-align: center; }
+  .panel .tab-title-box .tab-title { display: inline-block; background: transparent; border: none; width: 45%; line-height: 2; }
+  .panel .tab-title-box .tab-title a { padding-left: 0.5em; padding-right: 0.5em; position: relative; top: -1px; }
+  .panel .tab-title-box .tab-title.active a { border-bottom: 2px solid #72C2E5; }
+  .panel .tab-title-box .btn-new { display: none; }
+  .panel .tab-content-box { padding-top: 0; }
+  .panel .tab-content-box li { padding-top: 0.2em; padding-bottom: 0.2em; line-height: 1.6; font-size: inherit; border-bottom: 1px solid #ddd; position: relative; color: #666; }
+  .panel .tab-content-box li a { width: 80%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-left: 1em; height: 100%; display: inline-block; }
+  .panel .tab-content-box li .date { position: absolute; top: 2em; color: #bbb; }
+  .panel .tab-content-box li .date:after { display: none; }
+  .panel .tab-content-box li .btn-list { display: none; }
+  .panel .tab-content-box table { font-size: 14px; }
+  .panel .tab-content-box table td { line-height: 1.5; padding: 1em 0; }
+  .panel .tab-content-box table td.btn-msg { background-size: 80%; }
+  .panel .tab-content-box thead td { background: #F5F5F5; }
+  .panel .tab-content-box thead td:nth-child(1) { width: 11%; }
+  .panel .tab-content-box thead td:nth-child(2) { width: 17%; }
+  .panel .tab-content-box thead td:nth-child(3) { width: 22%; }
+  .panel .tab-content-box thead td:nth-child(4) { width: 20%; }
+  .panel .tab-content-box thead td:nth-child(5) { width: 20%; }
+  .panel .tab-content-box thead td:nth-child(6) { width: 20%; }
+  .panel #stone-list li { height: 4em; background: url("../images/quickpay/small_arrow.png") no-repeat right 10px center; }
+  .detail .title-box { margin: 0 1em; padding-top: 1em; border-top: 1px solid #ddd; border-bottom: none; line-height: 2; }
+  .detail .title-box .date { display: block; float: none; color: #aaa; }
+  .detail .title-box .title { color: #666; font-weight: normal; }
+  .detail .detail-content { border-top: 1px solid #ddd; padding: 1em; }
+  .detail #attachment-box { padding: 1em; }
+  .detail #attachment-box .attachment { padding-left: 3em; }
+  .detail form { position: relative; padding: 1em; }
+  .detail form .btn-post-comment { position: absolute; background-image: none; top: 15px; right: 18px; padding: 2px 1.5em; }
+  .detail form .header { line-height: 25px; }
+  .detail #comment { display: none; } }

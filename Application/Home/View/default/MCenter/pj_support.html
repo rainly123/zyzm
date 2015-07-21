@@ -1,0 +1,116 @@
+<extend name="Base/uc-common"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/user.css"/>
+</block>
+<block name="submenu">
+    <ul>
+        <li class="cur"><a href="{:U('MCenter/pj_support')}">支持的项目</a></li>
+        <li><a href="{:U('MCenter/pj_create')}">发起的项目</a></li>
+        <li><a href="{:U('MCenter/pj_attach')}">收藏的项目</a></li>
+    </ul>
+    <span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+    <div class="userright2 ri">
+        <table>
+            <thead>
+            <tr>
+                <th width="120">项目</th>
+                <th>项目名称</th>
+                <th width="70">发起人</th>
+                <th width="70">项目估值</th>
+                <th width="70">投资金额</th>
+                <th width="70">状态</th>
+                <th width="70">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="invest" id="vo">
+                <tr>
+                    <td class="img"><a href="{:U('Project/detail?id='.$vo['project_id'])}"><img
+                            src="{$vo.cover|get_cover='path'}"></a></td>
+                    <td><a href="{:U('Project/detail?id='.$vo['project_id'])}">{$vo.project_name}</a>
+                        <em class="date">投资时间：{$vo.create_time|time_format="Y-m-d"}</em>
+                        <b style="color:red">
+                            <if condition="$vo.lead_type eq 2">候选领投人
+                                <elseif condition="$vo.lead_type eq 9"/>
+                                领投人
+                            </if>
+                        </b>
+                    </td>
+                    <td><a href="{:U('MCenter/profile?id='.$vo['uid'])}">{$vo.uid|get_membername}</a></td>
+                    <td>
+                        <if condition="$vo.stage egt 4">{$vo.final_valuation|change_fund}
+                            <else/>
+                            未确定
+                        </if>
+                    </td>
+                    <td class="je">{$vo.fund|change_fund}</td>
+                    <td>
+                        <if condition="$vo.status eq 1">未认可
+                            <elseif condition="$vo.status eq 2"/>
+                            已认可
+                            <elseif condition="$vo.status eq 3"/>
+                            已接受
+                            <elseif condition="$vo.status eq 4"/>
+                            确认投资
+                            <elseif condition="$vo.status eq 8"/>
+                            协议确认
+                            <elseif condition="$vo.status eq 9"/>
+                            已支付
+                            <else/>
+                            被拒绝
+                        </if>
+                    </td>
+                    <td class="cz">
+                        <if condition="$vo.stage egt 4">
+                            <if condition="($vo.status eq 3)">
+                                <a href="{:U('Manage/prepay?id='.$vo['id'])}">确认投资</a>
+                                <elseif condition="($vo.status eq 4) AND ($vo.acc_status eq 1)"/>
+                                <a class="pay go-pay" href="{:U('Account/pay?type=1&id='.$vo['id'])}">支付</a>
+                                <elseif condition="($vo.status eq 4) AND ($vo.acc_status neq 1) and ($vo.stage lt 8)"/>
+                                <a href="{:U('Agreement/touzi?id='.$vo['project_id'])}" class="confirm-agreement">确认协议</a>
+                                <elseif condition="($vo.status eq 8) and ($vo.type eq 0) and ($vo.stage lt 8)"/>
+                                <a href="{:U('Agreement/review_touzi?id='.$vo['project_id'])}" target="_blank">查看协议</a>
+                                <a href="{:U('Account/pay?type=1&id='.$vo['id'])}" class="go-pay">支付</a>
+                                <elseif condition="($vo.status eq 9) and ($vo.type eq 0)"/>
+                                <a href="{:U('Agreement/review_touzi?id='.$vo['project_id'])}" target="_blank">查看协议</a>
+                                <if condition="($vo.stage eq 9)">
+                                <a class="manage" href="{:U('projectAfterInfo/fundedmanagelist?pid='.$vo['project_id'])}" target="_blank">投后管理</a>
+                                </if>
+                            </if>
+                        </if>
+                        <if condition="($vo.status gt 0) AND ($vo.status lt 9)">
+                            <neq name="vo.lead_type" value="9">
+                                <a href="{:U('Manage/cancel?id='.$vo['id'])}" class="invest_cancel">撤消</a>
+                            </neq>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        // 指定左侧选中菜单
+        var submenu = "{:U('MCenter/pj_support')}";
+
+        $(".invest_cancel").click(function () {
+            if (!confirm("您确定要撤消对该项目的投资吗？")) {
+                return false;
+            }
+            $.get($(this).attr('href'), function (data) {
+                if (data.status == 1) {
+                    layer.alert(data.info, 9, function () {
+                        window.location.reload();
+                    });
+                } else {
+                    layer.alert(data.info, 1);
+                }
+            });
+            return false;
+        });
+    </script>
+</block>

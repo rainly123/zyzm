@@ -1,0 +1,43 @@
+<div>
+	<form action="{:U('Stock/voting')}" method="post">
+		<input type="hidden" name="pid" value="{$pid}">
+		<div class="control-group">
+			<label class="control-label">股票名称</label>
+			<div class="controls">
+				<input type="text" maxlength="20" name="title" class="span5">
+				<span class="help-block">必须按照以下格式填写：股票编码(股票名称)，如：601857(中国石油)</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">推荐理由</label>
+			<div class="controls">
+				<textarea name="reason" maxlength="50" class="span5" rows="4"></textarea>
+				<span class="help-block">请填写50个字内的推荐理由</span>
+			</div>
+		</div>
+		<div class="control-group error">
+			<div class="controls">
+				<span class="help-block" id="errormsg"></span>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-primary" id="btn-suggestion" style="width:150px">确定</button>
+			</div>
+		</div>
+	</form>
+	<script>
+	$("#btn-suggestion").click(function() {
+		$('#errormsg').html('');
+		var form = $(this).parents('form');
+		$.post(form.attr('action'), form.serialize(), function(data) {
+				if (data.status == 0) {
+					$('#errormsg').html(data.info);
+				} else {
+					window.location.reload();
+				}
+			});	
+		return false;
+	});
+	</script>
+</div>

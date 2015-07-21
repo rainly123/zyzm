@@ -1,0 +1,141 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+
+<section>
+	<div class="register_content clearfix">
+		<div class="register_left">
+		
+	        <form class="login-form form-horizontal" action="{:U()}" method="post">
+	         <div class="register_title">用户注册</div>
+	          <div class="control-group">
+	          	<input type="hidden" name="id" value="{$id}">
+	          	<input type="hidden" name="hid" value="{$hid}">
+	            <label class="control-label" for="inputname"><a class="red">*</a>用户名：</label>
+	            <div class="controls">
+	              <input type="text" id="inputname" class="span3" placeholder="请输入用户名"  ajaxurl="{:U('User/validateRegister')}" errormsg="请填写1-16位用户名" nullmsg="请填写用户名" datatype="*1-16" value="" name="username">
+	              <span class="help-inline Validform_checktip"></span>
+	            </div>
+	          </div>
+	          <div class="control-group">
+	            <label class="control-label" for="inputPassword"><a class="red">*</a>密码：</label>
+	            <div class="controls">
+	              <input type="password" id="inputPassword"  class="span3" placeholder="请输入密码"  errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+	              <span class="help-inline Validform_checktip"></span>
+	            </div>
+	          </div>
+	          <div class="control-group">
+	            <label class="control-label" for="inputPassword"><a class="red">*</a>确认密码：</label>
+	            <div class="controls">
+	              <input type="password" id="inputPassword" class="span3" placeholder="请再次输入密码" recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请填写确认密码" datatype="*" name="repassword">
+	              <span class="help-inline Validform_checktip"></span>
+	            </div>
+	          </div>
+	          <div class="control-group">
+	            <label class="control-label" for="inputEmail"><a class="red">*</a>邮箱：</label>
+	            <div class="controls">
+	              <input type="text" id="inputEmail" class="span3" placeholder="请输入电子邮件"  ajaxurl="{:U('User/validateRegister')}" errormsg="请填写正确格式的邮箱" nullmsg="请填写邮箱" datatype="e" value="" name="email">
+	              <span class="help-inline Validform_checktip"></span>
+	            </div>
+	          </div>
+	          <div class="control-group">
+	            <label class="control-label" for="inputPassword"><a class="red">*</a>验证码：</label>
+	            <div class="controls">
+	              <input type="text" id="inputPassword" class="input_span" placeholder="请输入验证码" ajaxurl="{:U('User/validateRegister')}" errormsg="请填写4位验证码" nullmsg="请填写验证码" datatype="*4-4" name="verify">
+	              <div class="verify">
+	              	<img class="verifyimg reloadverify" alt="点击切换" src="{:U('User/verify')}" style="cursor:pointer;">
+	              </div>
+	              
+	              <span class="help-inline Validform_checktip"></span>
+	            </div>
+	          </div>
+	          <div class="control-group error">
+	          	<div class="controls">
+	          		<span class="help-inline errormsg">
+	          		</span>
+	          	</div>
+	          </div>
+	          <div class="control-group">
+	            <div class="controls">
+	             	<label class="checkbox" style="padding-bottom: 10px;">
+		                <input type="checkbox"> 我已阅读并同意 <a href="{:U('Info/show?key=agreement')}" target="_blank">聚募网注册协议</a> 
+		              </label>
+              
+	              <button type="submit" class="register_btn">注 册</button>
+	            </div>
+	          </div>
+	        </form>		
+		
+		</div>
+		<div class="register_right">
+		  <div class="dividing_line"></div>
+		  <div class="register_remind">
+
+				<span class="register_attention">已经有账号?请直接登录</span>
+				<p style="margin: 15px 0 50px 50px;">
+				<a class="login_a" href="{:U('User/login')}">登录</a>
+				</p>
+				<!-- <span class="register_attention">您也可以用以下方式登录</span>
+				<div class="register_attention">
+					<img href="#"  style="cursor:pointer;"  src="__IMG__/qq.png"  width="160" height="37">
+				</div>
+				<div class="register_attention">
+					<img href="#"  style="cursor:pointer;"  src="__IMG__/web.png"  width="160" height="37">
+				</div>
+				<div class="register_attention">
+					<img href="#"  style="cursor:pointer;" src="__IMG__/sina.png"  width="160" height="37">
+				</div>
+				<div class="register_attention">
+					<img href="#"  style="cursor:pointer;" src="__IMG__/taobao.png"  width="160" height="37">
+				</div> -->
+			</div>
+
+
+		
+		</div>
+
+	</div>
+</section>
+
+</block>
+
+<block name="side"> </block>
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script type="text/javascript">
+		$(function(){
+      $(".login-form").Validform({tiptype:3, 
+        ajaxPost:true,
+        beforeSubmit:function() {
+        	var checkbox = $('input[type="checkbox"]');
+        	if (checkbox.is(':checked')) {
+        		return true;
+        	} else {
+        		$(".errormsg").html('您必须阅读并同意聚募注册协议后，才可通过注册.');
+        		return false;
+        	}
+        },
+        callback:function(data){
+          if (data.status == '1') {
+          	$.messageBox({msginfo:data.info, cancel:function(){
+          		window.location.href = data.url;	
+          	}});
+          } else {
+            $('.errormsg').html(data.info);
+            $(".reloadverify").click();
+          }
+        }
+      });
+			var verifyimg = $(".verifyimg").attr("src");
+            $(".reloadverify").click(function(){
+                if( verifyimg.indexOf('?')>0){
+                    $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
+                }else{
+                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+                }
+            });
+		});
+	</script>
+</block>

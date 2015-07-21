@@ -1,0 +1,343 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <link rel="stylesheet" type="text/css" href="__M_CSS__/index.css"/>
+    <script type="text/javascript" src="__M_JS__/swipe.js"></script>
+    <script type="text/javascript" src="__M_JS__/zepto.js"></script>
+
+</block>
+<block name="body">
+    <div id="server-data" style="display:none;">
+        <input type="hidden" name="noticelist" value="{$noticelist}">
+        <input type="hidden" name="newslist" value="{$newslist}">
+    </div>
+    <div id="ad">
+        <div style="-webkit-transform:translate3d(0,0,0);">
+            <div id="banner_box" class="box_swipe">
+                <ul style="cursor:-webkit-grab;">
+                    <foreach name="bannerList" item="vo">
+                        <li>
+                            <a href="{$vo.extra}"><img src="{$vo.mobiel_img_id|get_cover='path'}" style="width:100%;"/></a>
+                        </li>
+                    </foreach>
+                </ul>
+                <ol>
+                    <li class="on"></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <script>
+        !function () {
+            var $t = $('#banner_box').children();
+            var bannerNum = $t.eq(0).children().length;
+            var html = '';
+            for (var i = 1; i < bannerNum; i++) {
+                html += '<li></li>'
+            }
+            $t.eq(1).append(html)
+        }();
+    </script>
+    <section>
+        <div class="tab tab2">
+            <a class="selected" href="/">首页推荐</a>
+            <a href="{:U('List/mobileproject')}">股权众筹</a>
+            <!--<a href="{:U('Project/create')}">公益众筹</a>-->
+            <a href="{:U('List/mobileproduct')}">实物众筹</a>
+        </div>
+        <div class="list">
+            <foreach name="mobileList.project" item="v">
+                <div class="item" data-href="{:U('Project/detail?id='.$v['id'])}">
+                    <div class="img">
+                        <a href="{:U('Project/detail?id='.$v['id'])}"><img src="{$v['cover']|get_cover='path'}"
+                                                                           style="width:100%;"></a>
+                        <if condition="$v.stage eq '1'">
+                            <div class="stamp">
+                                <span id="yrz">{$v.stage|get_proj_stage}</span>
+                            </div>
+                            <elseif condition="$v.stage eq 4"/>
+                            <input type="hidden" class="detail_url" value="{:U('Project/detail?id='. $v[id])}">
+                        </if>
+                        <if condition="$v.finish_rate gt 100">
+                            <div class="tag">
+                            </div>
+                        </if>
+                        <if condition="($v.stage eq 1) and ($v.vote_leader eq 0)">
+                            <div class="leader-magnifier"><a href="{:U('project/leader_info?id='.$v['id'])}">寻找领投人</a>
+                            </div>
+                        </if>
+                        <div class="digg">
+                            <b class="if icon-star">{$v.attach_count}</b>
+                            <b class="if icon-comment">{$v.comment_count}</b>
+                            <b class="if icon-eye">{$v.read_record}</b>
+                        </div>
+                    </div>
+                    <div class="text">
+                        <div class="title">
+                            <i class="gq">&nbsp;</i>
+                            {$v.project_name}
+                        </div>
+                        <div class="prograss">
+                            <if condition="$v.stage eq '1'">
+                                <div class="bar animateBar"
+                                     data-animatetarget="0"
+                                     style="width:0%;">
+                                </div>
+                                <else/>
+                                <div class="bar animateBar"
+                                     data-animatetarget="{$v['finish_rate'] > 100 ? 100 :round($v['finish_rate'])}"
+                                     style="width:{$v['finish_rate'] > 100 ? 100 :round($v['finish_rate'])}%;">
+                                </div>
+                            </if>
+                        </div>
+                        <div class="attr">
+                            <dl>
+                                <dd class="d1">
+                                    <h4>目标额</h4>
+
+                                    <h3><span class="animateNum" data-animatetarget="{$v.fund.need_fund|change_fund}">{$v.fund.need_fund|change_fund}</span>
+                                    </h3>
+                                </dd>
+                                <dd class="d2">
+                                    <h4>已完成</h4>
+
+                                    <h3>
+                                        <if condition="$v.stage eq '1'">
+                                            <span class="animateNum" data-animatetarget="0">0</span>
+                                            <else/>
+                                            <span class="animateNum" data-animatetarget="{:round($v['finish_rate'])}">{:round($v['finish_rate'])}</span>
+                                        </if>
+                                        %
+                                    </h3>
+                                </dd>
+                                <dd class="d3">
+                                    <h4>已认投</h4>
+
+                                    <h3>
+                                        <if condition="$v.stage eq '1'">
+                                            <span class="animateNum" data-animatetarget="0">0</span>
+                                            <else/>
+                                            <span class="animateNum"
+                                                  data-animatetarget="{$v.fund.has_fund|change_fund}">{$v.fund.has_fund|change_fund}</span>
+                                        </if>
+                                    </h3>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="tags">
+                            <span>{:getDistrict($v['province'])}</span>
+                            <span>{:getDistrict($v['city'])}</span>
+                        </div>
+                    </div>
+                </div>
+            </foreach>
+
+            <foreach name="mobileList.product" item="v">
+                <div class="item">
+                    <div class="img">
+                        <input type="hidden" class="detail_url" value="{:U('product/viewdetail/pid/'.$v['id'])}">
+                        <a href="{:U('product/viewdetail/pid/'.$v['id'])}">
+                            <img src="{$v['home_img']|get_cover='path'}" style="width:100%;">
+                        </a>
+                        <if condition="$v.finish_rate gt 100">
+                            <div class="tag">
+                            </div>
+                        </if>
+                        <div class="digg">
+                            <b class="if icon-star">{$v.like_record}</b>
+                            <b class="if icon-comment">{$v.comment_count}</b>
+                            <b class="if icon-eye">{$v.read_record}</b>
+                        </div>
+                    </div>
+                    <div class="text" style="position:relative;">
+                        <div class="title">
+                            <i class="sw">&nbsp;</i>
+                            {$v.name}
+                        </div>
+                        <div class="prograss">
+                            <div class="bar animateBar"
+                                 data-animatetarget="{$v['finish_rate'] > 100 ? 100 :$v['finish_rate']}"
+                                 style="width:{$v['finish_rate'] > 100 ? 100 :$v['finish_rate']}%;">
+                            </div>
+                        </div>
+                        <div class="attr">
+                            <dl>
+                                <dd class="d1">
+                                    <h4>目标额</h4>
+
+                                    <h3><span class="animateNum" data-animatetarget="{$v.amount|change_fund}">{$v.amount|change_fund}</span>
+                                    </h3>
+                                </dd>
+                                <dd class="d2">
+                                    <h4>已完成</h4>
+
+                                    <h3><span class="animateNum" data-animatetarget="{:round($v['finish_rate'])}">{:round($v['finish_rate'])}</span>%
+                                    </h3>
+                                </dd>
+                                <dd class="d3">
+                                    <h4>已认投</h4>
+
+                                    <h3><span class="animateNum" data-animatetarget="{$v.finish_amount|change_fund}">{$v.finish_amount|change_fund}</span>
+                                    </h3>
+                                </dd>
+                            </dl>
+                        </div>
+                        <notempty name="string">
+                            <div class="tags">
+                                <?php
+                            foreach(explode(",",$string) as $arr){
+                                echo "<span>".$arr."</span>";
+                                }
+                                ?>
+                            </div>
+                        </notempty>
+                    </div>
+                </div>
+
+            </foreach>
+
+            <foreach name="mobileList.stock" item="v">
+
+                <div class="item">
+                    <input type="hidden" class="detail_url" value="{:U('stock/index/id/'.$v['id'])}">
+
+                    <div class="img">
+                        <a href="{:U('stock/index/id/'.$v['id'])}"><img src="{$v['logo']|get_cover='path'}"></a>
+
+                        <div class="tip">
+                            {$v.describe}
+                        </div>
+                    </div>
+                    <div class="text">
+                        <div class="title title_bordered">
+                            {$v.name}
+                        </div>
+                        <div class="attr">
+                            <dl>
+                                <dd class="d1">
+                                    <h4>总资产</h4>
+
+                                    <h3><span class="animateNum" data-animatetarget="{:round($v['amount']/10000,2)}">{:round($v['amount']/10000,2)}</span>万
+                                    </h3>
+                                </dd>
+                                <dd class="d2">
+                                    <h4>已经加入</h4>
+
+                                    <h3><span class="animateNum" data-animatetarget="{$v['investor_count']}">{$v.investor_count}</span>人
+                                    </h3>
+                                </dd>
+                                <dd class="d3">
+                                    <h4>累计收益</h4>
+
+                                    <h3><span class="animateNum" data-animatetarget="{:round($v['over']/10000,2)}">{:round($v['over']/10000,2)}</span>万
+                                    </h3>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+            </foreach>
+
+        </div>
+    </section>
+    <footer style="margin-bottom:40px">
+    </footer>
+    <!--<div class="fund_fot" style="display:none">
+        <div class="fund" style="color:#fff">
+            <a class="btn-buy" href="#">我要投资</a></div>
+    </div>-->
+    <div class="fixed-footer">
+        <div class="btn-list">
+            <a class="btn home active if icon-home-o" href="/" >首页</a>
+            <a class="btn news if icon-newspapers" href="{:U('info/infolist')}"><span>干货</span></a>
+            <!--<a class="btn user-center if icon-user-o" href="{:U('MCenter/index')}">我的</a>-->
+        </div>
+    </div>
+    <div class="left-menu-box">
+        <ul>
+            <li class="active"><a href="">首页</a></li>
+            <li>
+                <a href="{:U('List/mobileproject')}">股权众筹</a>
+                <ul>
+                    <li><a href="{:U('List/mobileproject/status/1')}">合投中</a></li>
+                    <li><a href="{:U('List/mobileproject/status/2')}">预热中</a></li>
+                    <li><a href="{:U('List/mobileproject/status/3')}">已成功</a></li>
+                </ul>
+            </li>
+            <li><a href="{:U('List/mobileproduct')}">实物众筹</a></li>
+            <li><a href="{:U('info/about')}">关于我们</a></li>
+            <li><a href="{:U('info/contact')}">联系我们</a></li>
+        </ul>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        var serverData = {};
+        $('#server-data').children('input').each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+
+        // 新资讯红点
+        !function () {
+            var newsList = serverData.newslist;
+            var noticeList = serverData.noticelist;
+            newsList = newsList ? newsList.split(',') : [];
+            noticeList = noticeList ? noticeList.split(',') : [];
+            var recentReadNews = localStorage.getItem('recentReadNews');
+            var recentReadNotice = localStorage.getItem('recentReadNotice');
+            recentReadNews = recentReadNews ? recentReadNews.split(',') : [];
+            recentReadNotice = recentReadNotice ? recentReadNotice.split(',') : [];
+            var hasNew = false;
+            for (var i = 0, len = newsList.length; i < len; i++) {
+                if (recentReadNews.indexOf(newsList[i]) === -1) {
+                    hasNew = true;
+                    break;
+                }
+            }
+            for (i = 0, len = noticeList.length; i < len; i++) {
+                if (recentReadNotice.indexOf(noticeList[i]) === -1) {
+                    hasNew = true;
+                    break;
+                }
+            }
+            if (hasNew) {
+                $('.fixed-footer .news span').addClass('red-dot');
+            }
+        }();
+
+        $(function () {
+            new Swipe(document.getElementById('banner_box'), {
+                speed: 500,
+                auto: 4000,
+                callback: function () {
+                    var lis = $(this.element).next("ol").children();
+                    lis.removeClass("on").eq(this.index).addClass("on");
+                }
+            });
+        });
+        $('.list .item').click(function () {
+            var href = $(this).data('href');
+            if (href) location.href = href;
+        });
+        $('.btn-left-menu').click(function () {
+            $('.wrapper').toggleClass('view-left-menu')
+        });
+        var $menuItems = $('.left-menu-box').find('li').click(function (e) {
+            $menuItems.removeClass('active');
+            $(this).addClass('active');
+            e.stopPropagation();
+        });
+        $(window).on('hashchange', function () {
+            var hash = location.hash;
+            if (hash === '#left-menu') {
+                $('.wrapper').addClass('view-left-menu');
+            } else {
+                $('.wrapper').removeClass('view-left-menu');
+            }
+        });
+
+    </script>
+</block>

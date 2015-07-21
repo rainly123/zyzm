@@ -1,0 +1,54 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+	<div class="mcenter-right" id="mcenter-right">
+		<div class="ShowPath">
+			您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;收藏项目 
+		</div>
+		<div class="data-table bs-docs-example" style="border:none;">
+		<table class="tt">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>项目名称</th>
+					<th>项目创建者</th>
+					<th>创建时间</th>
+					<th>收藏时间</th>
+				</tr>
+			</thead>
+			<tbody>
+			<volist name="data" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td><a href="{:U('project/detail?id='.$vo[id])}">{$vo.project_name}</a></td>
+					<td><a href="{:U('MCenter/profile?id='.$vo[uid])}">{$vo.uid|get_membername}</a></td>
+					<td>{$vo.create_time|time_format='Y-m-d H:s'}</td>
+					<td>{$vo.attach_time|time_format='Y-m-d H:s'}</td>
+				</tr>
+			</volist>	
+			</tbody>
+		</table>
+		</div>
+	</div>
+</div>
+</section>
+</div>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav('{:U('MCenter/attach')}');
+</script>
+</block>

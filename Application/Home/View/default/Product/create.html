@@ -1,0 +1,50 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/create.css">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+	
+	<div class="module_wrap">
+        <div class="common_tit content"><h1 class="common_tit_name">发起项目</h1></div>
+        <div class="module_con content">
+        	<img src="__IMG__/product/sp1.png" class="wyl_sp_img">
+            <!-- 发起项目首页 -->
+            <div class="wyl_sp">
+                <h4>男神、女神、神器，只要你来，皆可众筹......</h4>
+                <p>
+                    中瀛智募是一家可以帮助您实现梦想的网站，在这里您可以发布您的梦想、创意和创业计划，并通过网络平台面对公众集资，让有创造力的人可能获得他们所需要的资金，以便使他们的梦想有可能实现。
+                </p>
+
+                <p class="sp_xy"><input type="checkbox" id="agreement" name="agreement" style="margin: 0px 4px 0px 0px;">阅读并同意中瀛智募的 <a href="{:U('info/show?key=shiwuzhongchou')}" target="_blank">《服务协议》 </a></p>
+                <p>
+                    <a class="ui-start-product" href="{:U('Product/addstep1')}">立即发起项目</a>
+                    </p>
+
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $(".ui-start-product").click(function(){
+            var obj = document.getElementById("agreement"); 
+            var isAgreemenyt = obj.checked; 
+            if (isAgreemenyt) {
+                return true;
+            }else{
+                alert('您必须先阅读协议，并同意后，才能创建项目。');
+                 event.preventDefault();
+                return false;
+            };
+        });
+    });
+  </script>
+</block>

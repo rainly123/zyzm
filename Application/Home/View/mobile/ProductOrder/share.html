@@ -1,0 +1,23 @@
+<extend name="Base/common" />
+<block name="style">
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content tips_box" style="height:260px;">
+		<div class="tip_text2">
+			<p class="tip_wz"><?php echo($message1); ?></p>
+			<p class="tip_wz"><?php echo($message2); ?></p>
+		</div>
+		<div style="text-align: center;padding-top: 10px;">
+			<p>长按此二维码</p>
+		</div>
+		<div style="text-align: center;padding-top: 10px;">
+			<p style="text-align: center;"><img src="{$qrcode}"></p>
+		</div>
+		
+	</div>
+	
+</div>
+</block>
+

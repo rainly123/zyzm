@@ -1,0 +1,27 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+<block name="body">
+
+    <link href="__CSS__/style.css" rel="stylesheet">
+    <script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__JS__/addons.js"></script>
+
+    <div class="fl w100 mt25 notice_main">
+        <div class="content">
+
+            <div class="rightmain">
+                <div class="title">创业新闻</div>
+                <div class="mainintro">
+                    <div class="titleA">
+                        {$info.title}
+                        <span class="date">发布时间：{$info.create_time|time_format='Y-m-d'}</span>
+                    </div>
+                    <p>{$info.content}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</block>

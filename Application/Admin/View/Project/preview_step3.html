@@ -1,0 +1,47 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+</block>
+
+<block name="body">
+<include file="preview_header" />
+	<div class="under-line">
+			<div class="com-info">
+				<div class="sub-title">股东团队成员说明 </div>
+				<div class="edit-info">
+				<table class="tt">
+					<thead>
+								<th style="width:50px;">姓名</th>
+								<th style="width:100px;">职务</th>
+								<th >简介</th>
+								<th style="width:100px;">排序</th>
+					</thead>
+					<tbody id="member_key">
+						<foreach name="projectTeam" item="v">
+						<eq name="v.member_type" value="0">
+						<tr>
+									<td>{$v.name}</td>
+									<td>{$v.postion}</td>
+									<td>{$v.member_info}</td>
+									<td>{$v.sort}</td>
+						</tr>
+						</eq>
+						</foreach>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+		<div>
+<!-- 			<button href="{:U('Project/addstep2?id=' . $project_id)}" class="btn-yellow btn-middle pull-left" id="goback1">上一步</button>
+			<button type="submit" class="btn-red btn-middle pull-right">下一步</button> -->
+		</div>
+<include file="preview_footer" />
+</block>
+<block name="script">
+<script>
+	highlight_subnav('{:U('Project/index')}');
+</script>
+</block>

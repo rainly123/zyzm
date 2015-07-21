@@ -1,0 +1,43 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__M_CSS__/index.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<section id="news_nav">
+  <a href="{:U('MCenter/stock')}">我的基金</a>
+  <a class="physical_nav1">交易记录</a>
+</section>
+<section id="transaction_main">
+  <volist name="stocklist" id="vo">
+  <div class="transaction_xye">
+    <if condition="$vo.type eq 1">
+	    <dl class="transaction_color">
+	      <dt><img src="__M_IMG__/jy2.png" width="43"></dt>
+	      <dd>充值</dd>
+	    </dl>
+    <elseif condition="$vo.type eq 2"/>
+	    <dl  class="transaction_color1">
+	      <dt><img src="__M_IMG__/jy1.png"  width="43"></dt>
+	      <dd>赎回</dd>
+	    </dl>
+    </if>
+    <span>
+      <li>
+        <h1>交易时间：{$vo.create_time|time_format='Y-m-d H:i'} </h1>
+        <p>份额：{$vo.operation_fund}</p>
+      </li>
+      <li>
+        <h1>成交净值：{$vo.assets} </h1>
+        <p>金额：￥{:round($vo['amount'])}</p>
+      </li>
+      <li>
+        <p>状态：<if condition="$vo.status eq 0"> 未支付 <else/> {$vo.state_text} </if></p>
+      </li>
+    </span>
+  </div>
+  </volist>
+</section>
+</block>
+<block name="script">
+</block>

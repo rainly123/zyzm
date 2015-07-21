@@ -1,0 +1,57 @@
+<div class="addcards popup_content clearfix">
+  <div class="top"><header><b>提现</b></header></div>
+  <form method="POST" id="form-cash" action="{:U()}">
+    <ul class="list mt20">
+      <li><dl><dt>可提现金额：</dt>
+        <dd><b class="m_red"><b style="font-size:20px;margin-top:10px;display:inline-block">{$account.use_able}</b><small style="font-size:16px;margin-left:5px">元</small></b></dd>
+        <input type="hidden" name="use_able" value="{$account.use_able}">
+      </dl></li>
+      <li><dl><dt>提现金额：</dt>
+        <dd><input type="text" value="" class="c1" id="" name="amount" errormsg="请输入正确的提现金额" datatype="f"></dd>
+      </dl></li>
+      <li><dl><dt>指定提现卡：</dt>
+        <dd><select class="data_sf" name="bank_id" datatype="*" nullmsg="请选择提现卡">
+          <option value="">请选择提现卡</option>
+          <volist name="banklist" id="vo">
+          <option value="{$vo.id}">{$vo.bank_name}(尾号{:substr($vo[cardno], -4)})</option>
+          </volist>
+        </select></dd>
+      </dl></li>
+      <li><dl><dt>短信验证码：</dt>
+        <dd>
+        <input type="hidden" name="phoneNo" id="phoneNo" value="{$phone}">
+        <input name="code" type="text" style="width:120px" value="" class="c1" id=""> <a href="{:U('User/sendsms')}" class="send_code getsmscode" style="color:#fff">发送验证码</a></dd>
+      </dl></li>
+      <li><dl>
+        <dd><div id="errormessage"></div></dd>
+      </dl></li>
+      <li><dl><dt>&nbsp;</dt>
+        <dd><input name="" type="submit" value="确定" class="c3"></dd>
+      </dl></li>
+      <li><p style="font-size:14px">备注：提现每天限操作一次。工作日17点前申请，当日到账。其余时间下个工作日到账。</p></li>
+    </ul>
+  </form>
+<script type="text/javascript" src="__JS__/sms.js"></script>
+<script type="text/javascript">
+$('#form-cash').Validform({
+  datatype:{'f':/^[0-9]+(\.[0-9]{0,2}){0,1}$/},
+  tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 9, function(){window.location.reload();});
+      }
+    }
+});  
+
+</script>
+</div>

@@ -1,0 +1,60 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>实物订单信息</h2>
+
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th>
+        <th class="">购买数量</th>
+        <th class="">购买者</th>
+        <th class="">总金额</th>
+        <th class="">邮费</th>
+		<th class="">创建时间</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$vo.id} </td>
+			<td>{$vo.count}</td>
+            <td>{$vo.uid|get_membername}</td>
+			<td>{$vo.amount}</td>
+			<td>{$vo.post_amount}</td>
+			<td><span>{$vo.create_time|time_format}</span></td>
+			<td>{$vo.status_text}</td>
+			<td>
+				<a href="{:U('Product/preview?cid=' . $vo[id])}">查看详情</a>
+            </td>
+        </tr>
+        </volist>
+		<else/>
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$page}
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+    $(function(){
+	
+	})
+</script>
+</block>

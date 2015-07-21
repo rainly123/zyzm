@@ -1,0 +1,74 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+		<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;消息中心&nbsp;&gt;&nbsp;发送新消息
+	</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<div class="con_tit f_blue f_20">发送新消息</div>
+			<form class="login-form form-horizontal" action="{:U()}" method="post">
+	
+	          <div class="control-group">
+	            <label class="control-label" for="inputPassword">收件人</label>
+	            <div class="controls">
+		            <input type="text" style="width:450px;" id="inputname" class="span3" placeholder="请输入收件人"  ajaxurl="{:U('validateRegister')}" errormsg="请填写1-16位用户名" nullmsg="请输入收件人" datatype="*1-16" value="" name="username">
+		            <span class="help-inline Validform_checktip"></span>
+	              
+	            </div>
+	          </div>
+	          <div class="control-group">
+	            <label class="control-label" for="inputPassword">内容</label>
+	            <div class="controls">
+	              <textarea id="con" class="inp4" style="width:450px; height:120px;" rows="5" placeholder="请输入内容" errormsg="请填写100字以内的内容" nullmsg="请输入内容" datatype="*1-100" name="describe"></textarea>
+	              <span class="help-inline Validform_checktip"></span>
+	              
+	            </div>
+	          </div>
+	          <div class="control-group">
+	            <div class="controls">
+	              <button type="submit" class="btn">提 交</button>
+	            </div>
+	          </div>
+	        </form>
+		</div>
+	</div>
+		</div>
+		</div>
+</section>
+			
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('Message/send')}');
+	
+	$(function(){
+	      $(".login-form").Validform({tiptype:3, 
+	        ajaxPost:true,
+	        callback:function(data){
+	          if (data.status == '1') {
+	          	alert(data.info);
+	            window.location.reload();
+	          } else {
+	            $('.back_error').html(data.info);
+	            $(".reloadverify").click();
+	          }
+	        }
+	      });
+	});
+	</script>
+</block>

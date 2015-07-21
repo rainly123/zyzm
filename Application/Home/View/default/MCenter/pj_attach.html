@@ -1,0 +1,69 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+<block name="submenu">
+  <ul>
+    <li><a href="{:U('MCenter/pj_support')}">支持的项目</a></li>
+    <li><a href="{:U('MCenter/pj_create')}">发起的项目</a></li>
+    <li class="cur"><a href="{:U('MCenter/pj_attach')}">收藏的项目</a></li>
+  </ul>
+<span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+<table>
+  <thead>
+  <tr>
+    <th width="120">项目</th>
+    <th width="280">项目名称</th>
+    <th>发起人</th>
+    <th>收藏时间</th>
+    <th>状态</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+    <volist name="data" id="vo">
+    <tr>
+      <td class="img"><img src="{$vo.cover|get_cover='path'}"></td>
+      <td><a href="{:U('project/detail?id='.$vo[id])}">{$vo.project_name}</a>
+        <em class="date">创建时间：{$vo.create_time|time_format='Y-m-d H:s'}</em></td>  
+      <td><a href="{:U('MCenter/profile?id='.$vo[uid])}">{$vo.uid|get_membername}</a></td>
+      <td>{$vo.attach_time|time_format='Y-m-d H:s'}</td>
+      <td><if condition="$vo.stage eq 0">未上线
+      <elseif condition="$vo.stage eq 1" />预热中
+      <elseif condition="$vo.stage eq 2" />询价中
+      <elseif condition="$vo.stage eq 3" />推举领投
+      <elseif condition="$vo.stage eq 4" />和投中
+      <elseif condition="$vo.stage eq 5" />等待付款
+      <elseif condition="$vo.stage eq 8" />众筹失败
+      <elseif condition="$vo.stage eq 9" />众筹成功
+      </if></td>
+      <td class="cz"><a href="{:U('project/detail?id='.$vo[id])}" class="r">查看</a>
+        <a href="{:U('project/attach?id='. $vo[id])}" class="btnattach">删除</a></td>
+    </tr>
+    </volist>
+  </tbody>
+</table>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+  // 指定左侧选中菜单
+  var submenu = "{:U('MCenter/pj_support')}";
+  $(".btnattach").click(function() {
+    if (!confirm("您确定要取消关注该项目吗？")){return false;}
+    // 异步取消关注处理
+    $.get($(this).attr('href'), function(data) {
+      if (data.status == 1) {
+        window.location.reload();
+      } else {
+        window.location.href = data.url;
+      }
+    });
+    return false;
+  });
+</script>
+
+</block>

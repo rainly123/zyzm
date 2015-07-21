@@ -1,0 +1,18 @@
+<?php
+    $prePageNum =  $_GET['step'] -1;
+    $nextPageNum =  $_GET['step'] +1;
+?>
+<div style="display:block">
+    <if condition="$_GET['step'] eq 1">
+	    <a type="button" href="#" class="btn btn-primary pre-page disabled">上一页</a>
+	<else />
+	    <a type="button" href="{:U('Project/preview?id=' . $_GET['id'].'&step='.$prePageNum)}" class="btn btn-primary pre-page">上一页</a>
+	</if>
+
+    <if condition="$_GET['step'] eq 5">
+	    <a type="button" href="#" class="btn btn-primary next-page disabled">下一页</a>
+	    <else />
+	    <a type="button" href="{:U('Project/preview?id=' . $_GET['id'].'&step='.$nextPageNum)}" class="btn btn-primary next-page">下一页</a>
+	</if>
+    <div style="clear:both"></div>
+</div>

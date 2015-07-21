@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>{$data.name}—中瀛智募</title>
+	<link href="/Public/favicon.ico" type="image/x-icon" rel="shortcut icon">
+  <meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap-responsive.min.css">
+  <link rel="stylesheet" href="__CSS__/stock.css">
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="__STATIC__/bootstrap/js/html5shiv.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+<script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+<!--<![endif]-->
+<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?c18b08cac9b94bf4628c0277d3a4d7de";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container">
+				<button class="btn btn-navbar collapsed" style="margin-top:18px" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="{:U('Index/index')}" class="brand"><img style="width:244px" src="__IMG__/logo2.png"></a>
+				<div class="nav-collapse collapse">
+					<ul class="nav" style="margin-top:18px">
+						<li><a href="{:U('Index/index')}">首页</a></li>
+						<li><a href="{:U('Project/index')}">浏览梦想</a></li>
+						<li><a href="{:U('Project/create')}">发起梦想</a></li>
+						<li><a href="{:U('Product/index')}">物以类聚</a></li>
+					</ul>
+					<if condition="is_login()">
+					<div class="pull-right top-login" style="margin-top:28px">
+						<a href="{:U('User/logout')}">退出</a>
+					</div>
+					<else/>
+					<div class="pull-right top-login" style="margin-top:28px">
+						<a href="{:U('User/login')}">登录</a>|<a href="{:U('User/register')}">注册</a>
+					</div>
+					</if>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="clearfix"><h3 class="pull-left">{$data.name}</h3>
+			<!-- JiaThis Button BEGIN -->
+			<div class="jiathis_style_24x24 pull-right hidden-phone" style="margin-top:15px">
+			<a class="jiathis_button_tsina"></a>
+			<a class="jiathis_button_tqq"></a>
+			<a class="jiathis_button_weixin"></a>
+			<a class="jiathis_button_cqq"></a>
+			<a class="jiathis_counter_style"></a>
+			</div>
+			<script type="text/javascript" >
+			var jiathis_config={
+				data_track_clickback:true,
+				summary:"",
+				shortUrl:true,
+				hideMore:false
+			}
+			</script>
+			<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1993185" charset="utf-8"></script>
+			<!-- JiaThis Button END -->
+		</div>
+		<div class="row pheader">
+			<div class="span3">
+				<img src="{$data.logo|get_cover='path'}" class="hidden-phone" style="width:100%" alt="">
+				<img src="{$data.mobile_logo|get_cover='path'}" class="visible-phone" style="width:100%" alt="">
+			</div>
+			<div class="span9">
+				<p class="describe under-line">{$data.describe}</p>
+				<table class="span9">
+					<tbody width="100%">
+					<tr><td width="25%">
+						<img class="pull-left" src="__IMG__/icon1.png" width="50px" alt="">
+						<div class="pull-left"><p class="title">总资产</p><p class="amount"><span style="color:#f37461;font-size:20px">{:round($data['amount'] / 10000,2)}万</span>元</p></div>
+					</td><td width="25%" class="text-center">
+						<img class="pull-left" src="__IMG__/icon2.png" width="50px" alt="">
+						<div class="pull-left"><p class="title">已经加入</p><p class="amount"><span style="color:#f37461;font-size:20px">{$data.investor_count}</span>人</p></div>
+					</td>
+					<td width="25%" class="text-left">
+						<img class="pull-left" src="__IMG__/icon3.png" width="50px" alt="">
+						<div class="pull-left"><p class="title">累计收益</p><p class="amount"><span style="color:#f37461;font-size:20px"><if condition="$data.over gt 100">{:round($data['over']/10000,2)}万<else />{$data.over}</if></span>元</p></div>
+					</td>
+					<td width="25%" class="text-left">
+						<img class="pull-left" src="__IMG__/icon4.png" width="50px" alt="">
+						<div class="pull-left"><p class="title">排队金额</p><p class="amount"><span style="color:#f37461;font-size:20px">
+						<if condition="$waiting_fund gt 100">{:round($waiting_fund/10000,2)}万<else />{$waiting_fund|default=0}</if></span>元</p></div>
+					</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="row-fluid visible-desktop" style="padding:45px 20px">
+					
+				</div>
+				<button class="btn-invest visible-desktop" href="{:U('Stock/follow?id='.$data['id'])}">立即投资</button>
+			</div>
+		</div>
+		<div class="row pcontent">
+			<div class="span9">
+				<div class="tabs">
+					<ul class="clearfix">
+						<li><a class="active" href="#div-vote"><b>推荐股票</b></a></li>
+						<li><a href="#stock-data"><b>收益详情</b></a></li>
+						<li><a href="#project-info"><b>游戏规则</b></a></li>
+					</ul>
+				</div>
+					<div id="div-vote" class="tab-item active">
+						<div class="under-line">
+							<h3 class="sub-title clearfix">
+								<span class="pull-left">推荐股票</span>
+								<a href="{:U('Stock/suggestion?id='.$data['id'])}" class="btn btn-small btn-danger pull-right" id="btnsugg">我要推荐</a>
+							</h3>
+						</div>
+						<div class="content">
+						<foreach name="suggest" item="v">
+							<div class="vote">
+								<div class="vote_info">
+									<label class="radio inline"><input name="vote_stock" type="radio" value="{$v.id}">{$v.title}(推荐人:{$v.uid|get_membername})</label> <label class="radio inline">
+									{$v.count}票({:round($v[count]/$vote_count * 100,0)}%)</label>
+								</div>
+								<div>
+									推荐理由：{$v.reason}
+								</div>
+								<div class="progress">
+									<div class="bar" style="width:{:round($v[count]/$vote_count * 100,0)}%"></div>
+								</div>
+							</div>
+						</foreach>
+						<div><a class="btn btn-success" href="{:U('vote')}" id="btnmyvote">我要投票</a></div>
+						</div>
+					</div>
+					<div id="stock-data" class="tab-item">
+						<div class="under-line">
+							<h3 class="sub-title">收益详情</h3>
+						</div>
+						<div class="content">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>购买日期</th>
+										<th>推荐股票</th>
+										<th>推荐人</th>
+										<th>收益率</th>
+									</tr>
+								</thead>
+								<tbody>
+									<volist name="histroy" id="vo">
+									<tr>
+										<td>{$vo.day}</td>
+										<td>{$vo.title}</td>
+										<td>{$vo.uid|get_membername}</td>
+										<td>
+											<if condition="$vo.status lt 9">
+											收益未记录
+											<else/>
+											{$vo.rate}%
+											</if>
+										</td>
+									</tr>
+									</volist>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div id="project-info"  class="tab-item">
+						<div class="under-line">
+							<h3 class="sub-title">游戏规则</h3>
+						</div>
+						<div class="content">{$data.content}</div>
+					</div>
+					<div id="my-fund">
+						<div class="under-line">
+							<h3 class="sub-title">我的投资</h3>
+						</div>
+						<div class="content">
+							<if condition="is_login()">
+							<div class="row">
+							<empty name="investor">
+								<div class="text-center" style="background:#eee;padding:80px 0;">
+									还没有您的投资记录</div>
+							<else/>
+							<table class="span9 myfund">
+								<tr>
+									<td class="text-center" style="min-width:105px">
+										<p>资产总计</p>
+										<h4><span>{$investor.amount}</span><small> 元</small></h4>
+									</td>
+									<td style="min-width:105px" class="text-center">
+										<p>累计收益</p>
+										<h4><span>{$investor.over}</span><small> 元</small></h4>
+									</td>
+									<td style="min-width:105px" class="text-center">
+										<p>排队金额</p>
+										<h4><span>{$investor.waiting_fund}</span><small> 元</small></h4>
+									</td>
+								</tr>
+							</table>
+							<div class="span9 text-center" style="margin:10px">
+								</div>
+							</empty>
+							</div>
+							<else/>
+								<div class="text-center" style="background:#eee;padding:80px 0;">
+									<a class="btn-login" href="{:U('User/login')}">登录后查看投资信息</a></div>
+							</if>
+						</div>
+					</div>
+					<div>
+						<div class="under-line">
+							<h3 class="sub-title">我来吐槽</h3>
+						</div>
+						<div class="content">
+							<!-- UY BEGIN -->
+						<div id="uyan_frame"></div>
+						<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1993185"></script>
+						<!-- UY END -->
+						</div>
+					</div>
+			</div>
+			<div class="span3">
+				<div class="under-line" style="margin-bottom:10px"><h3 class="sub-title">推荐项目</h3></div>
+				<foreach name="projects" item="p">
+					<div>
+					<a href="{:U('Project/detail?id='.$p['id'])}">
+						<img src="{$p.cover|get_cover='path'}" width="100%"></a> 
+					<p style="padding:10px 0;" class="text-center"><a href="{:U('Project/detail?id='.$p['id'])}">{$p.project_name}</a></p></div>
+				</foreach>
+			</div>
+		</div>
+	</div>
+	<div class="footer text-center" style="margin:10px 0 0 0;padding:20px;font-size:14px;border-top:1px #eee solid">
+		<p>(c)聚募  dreammove.cn&nbsp;&nbsp;&nbsp;浙ICP备14030231号-1</p>
+		<p>联系电话：0571-8685 8285</p>
+	</div>
+	<!--  -->
+	<div class="hidden-desktop" style="height:45px">&nbsp;</div>
+	<div class="hidden-desktop text-center stopbottom">
+		<button class="btn-invest" href="{:U('Stock/follow?id='.$data['id'])}">立即投资</button>
+	</div>
+	<!-- Modal -->
+<div id="messageBox" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="messageTitle" aria-hidden="true" data-keyboard="false">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" id="messageClose1" aria-hidden="true">×</button>
+    <b id="messageTitle">提示信息</b>
+  </div>
+  <div class="modal-body">
+    <p id="messagebody1"><span id="messagebody" style='vertical-align: bottom;'></span></p>
+  </div>
+</div>
+<div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+<script src="http://s6.cnzz.com/z_stat.php?id=1253481980&web_id=1253481980" language="JavaScript"></script>
+	<block name="hidden"></block>
+</div>
+	<script>
+	$("#btn-getcash").click(function() {
+		$.get($(this).attr('href'), function(data) {
+			$("#messagebody").html(data.info);
+			$('#messageBox').modal('show');
+		});
+		return false;
+	});
+
+	$(".tabs li a").click(function() {
+		$(".tabs li a").removeClass('active');
+		$(".tab-item").removeClass('active');
+		var tab_item = $(this).attr('href');
+		$(this).addClass('active');
+		$(tab_item).addClass('active');
+		return false;
+	});
+	$('.btn-invest').click(function() {
+		$.get($(this).attr('href'), null, function(data) {
+			if (data.status == '0') {
+				$('#messagebody').html(data.info);
+				$('#messageBox').modal('show');
+			} else {
+				$('.control-group').removeClass('error');
+				$('#messagebody').html(data.info);
+				$('#messageBox').modal('show');
+			}
+		},'json');
+		return false;
+	});
+	$("#btnmyvote").click(function() {
+		var select = $('input[name="vote_stock"]:checked');
+		if (select.length == 0){
+			$('#messagebody').html('请选择你看好的股票。');
+			$('#messageBox').modal('show');
+			return false;
+		} 
+		$.post($(this).attr('href'), {'sid':select.val()}, function(data) {
+				$('#messagebody').html(data.info);
+				$('#messageBox').modal('show');
+		});
+		return false;
+	});
+	$("#btnsugg").click(function() {
+		$.get($(this).attr('href'), function(data) {
+			$('#messagebody').html(data.info);
+			$('#messageBox').modal('show');
+		}, 'json');
+		return false;
+	});
+	</script>
+</body>
+</html>

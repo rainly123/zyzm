@@ -1,0 +1,32 @@
+<extend name="Base/common"/>
+
+<block name="header">
+   
+       <link href="__M_CSS__/header.css" rel="stylesheet">
+
+</block>
+
+<block name="side"></block>
+
+<block name="body">
+
+<div class="investor">
+	<ul>
+		<foreach name="supportlist" item="vo">
+			<li>
+         		<em><a href="{:U('MCenter/profile?id='.$vo['uid'])}" class="user">
+            		<img src="{$vo.uid|get_memberface}" width="50" height="50"></a>
+            	</em>
+          		<span class="investor-username">{$vo.uid|get_membername}</span>
+         		<span class="invest-amount">投资金额: <strong>{$vo.amount}</strong>元</span>
+			</li>       
+		</foreach>
+    </ul>
+</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+
+	</script>
+
+</block>

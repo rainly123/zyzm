@@ -1,0 +1,72 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+		<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;消息中心&nbsp;&gt;&nbsp;发件箱
+	</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<div class="con_tit f_blue f_20"><h3>发件箱</h3></div>
+	    	<div class="ids">
+	    		<button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus?Model=Message&status=1&type=-1')}">批量删除</button>
+	    	</div>
+    
+		<!-- 数据列表 -->
+		<div class="data-table">
+			<table class="tt">
+			    <thead>
+			        <tr>
+					<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+					<th class="">序号</th>
+					<th class="">消息内容</th>
+					<th class="">收件人</th>
+					<th class="">发送时间</th>
+					<th class="">操作</th>
+					</tr>
+			    </thead>
+			    <tbody>
+					<volist name="messages" id="vo">
+					<tr>
+			            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+						<td>{$vo.id} </td>
+						<td>{$vo.content}</td>
+						<td>{$vo.user_name}</td>
+						<td><span>{$vo.add_time|time_format}</span></td>
+						<td>
+							<a href="{:U('Message/view?type=outbox&id='.$vo['id'])}">详细</a>
+							<a href="{:U('setStatus?Model=Message&type=-1&status=1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+		        </td>
+					</tr>
+					</volist>
+				</tbody>
+			    </table>
+	
+			</div>
+			<!-- 分页 -->
+			<div class="page">{$_page}</div>
+			<!-- /分页 -->
+		</div>
+	</div>
+	</div>
+	</div>
+</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+
+	<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('Message/outbox')}');
+	</script>
+</block>

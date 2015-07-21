@@ -1,0 +1,180 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/th.css">
+    <link rel="stylesheet" href="__STATIC__/layer/skin/layer.css">
+</block>
+<block name="body">
+    <div id="server-data" style="display: none;">
+        <input name="projectId" value="{$pid}">
+    </div>
+    <div class="body-bg">
+        <div class="body">
+            <div class="breadcrumbs">
+                <a href="/">首页</a> >
+                <a href="{:U('MCenter/index')}">用户中心</a> >
+                <a href="{:U('MCenter/pj_support')}">股权众筹</a> >
+                <a href="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">投后管理</a>
+            </div>
+            <div class="panel">
+                <div class="header">
+                    <span class="title-label">投后管理</span>
+                    <span class="title"><a href="/Project/detail/id/{$pid}.html">{$projecttitle}</a></span>
+                    <button class="btn btn-back">返回</button>
+                </div>
+                <div class="tab-title-box page-detail">
+                    <div class="tab-title-list">
+                        <div class="tab-title active"><a
+                                href="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">项目进度</a>
+                        </div>
+                        <div class="tab-title"><a href="{:U('ProjectAfterInfo/investormanagelist?pid='.$pid)}">股东列表</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content-box detail">
+                    <div class="title-box">
+                        <span id="title" class="title"></span>
+                        <span id="date" class="date"></span>
+                    </div>
+                    <div id="detail-content" class="detail-content">
+
+                    </div>
+                    <div id="attachment-box">
+
+                    </div>
+
+                    <form action="" class="clearfix">
+                        <label for="comment" class="header"><i></i>股东留言</label>
+                        <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                        <button class="btn btn-post-comment">留言</button>
+                    </form>
+                    <ul id="comment-list" class="clearfix">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="input-modal" class="input-modal hidden">
+        <div class="main">
+            <textarea name="" id=""></textarea>
+            <div class="btn-box">
+                <button class="btn btn-cancel" id="modal-btn-cancel">取消</button>
+                <button class="btn btn-submit" id="modal-btn-submit">发表</button>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/layer/layer.min.js"></script>
+    <script src="__STATIC__/template.js"></script>
+    <script id="tpl-attachment" type="text/html">
+        <div class="attachment">
+            <a id="attachment-link" href="{{attachment}}" target="_blank"><span id="filename">{{filename}}</span>（查看附件）</a>
+        </div>
+    </script>
+    <script id="tpl-comment" type="text/html">
+        {{each comments as c i}}
+        <li class="comment-box clearfix">
+            <div class="avatar"><img src="{{c.memberface}}"></div>
+            <div class="cc-box">
+                <div class="username">{{c.nickname}}</div>
+                <div class="c-time">{{c.create_time}}</div>
+                <div class="c-content">{{c.content}}</div>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+        var id = location.pathname.match(/\/id\/(\d+)/);
+        id = id && id[1];
+        !function () {
+            var bindEvent = function () {
+                $('.btn-back').click(function () {
+                    history.back();
+                    return false;
+                });
+                $('.btn-post-comment').click(function () {
+                    if (document.documentElement.clientWidth < 640) { // 手机版
+                        $('#input-modal').removeClass('hidden').find('textarea').focus()
+
+                    } else {
+                        var content = $('#comment').val();
+                        if (!content) {
+                            layer.msg('留言内容为空', 1, -1);
+                            return false;
+                        }
+                        $.post('/projectAfterInfo/addcomment', {
+                            id: id,
+                            content: content
+                        }).then(function (json) {
+                            if (json.success) {
+                                layer.msg(json.info, 2, -1);
+                                fetchCommentList()
+                            }
+                        });
+                    }
+                    return false;
+                });
+                // 手机端
+                $('.input-modal').click(function () {
+
+                });
+                $('#modal-btn-cancel').click(function () {
+                    $('#input-modal').addClass('hidden');
+                });
+                $('#modal-btn-submit').click(function () {
+                    var content = $('#input-modal').find('textarea').val();
+                    if (!content) {
+                        layer.msg('留言内容为空', 1, -1);
+                        return false;
+                    }
+                    $.post('/projectAfterInfo/addcomment', {
+                        id: id,
+                        content: content
+                    }).then(function (json) {
+                        if (json.success) {
+                            layer.msg(json.info, 2, -1);
+                            $('#input-modal').addClass('hidden');
+                            fetchCommentList()
+                        }
+                    });
+                });
+
+            };
+            var fetchDetail = function () {
+                $.getJSON('/projectAfterInfo/getProjectAfterInfodetail', {id: id}).then(function (json) {
+                    if (json.success) {
+                        var info = json.info;
+                        $('#title').html(info.title);
+                        $('#date').html('发布时间: ' + info.publishdate);
+                        $('#detail-content').html(info.content);
+                        if (info.attachment) {
+                            $('#attachment-box').html(template('tpl-attachment', info))
+                        }
+                    }
+                })
+            };
+            var fetchCommentList = function () {
+                $.get(' /projectAfterInfo/listComment', {id: id}).then(function (json) {
+                    if (json.success) {
+                        $('#comment-list').html(template('tpl-comment', {
+                            comments: json.info
+                        }));
+                    } else {
+                    }
+                })
+            };
+            $(function () {
+                fetchDetail();
+                fetchCommentList();
+                bindEvent();
+            })
+
+        }()
+
+    </script>
+</block>

@@ -1,0 +1,251 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/detail.css" rel="stylesheet">
+    <style>
+        .dynamic-comment {
+            padding: 20px 30px;
+            font-size: 14px;
+            color: #666;
+            line-height: 30px;
+            position: relative;
+        }
+
+        .dynamic-comment h4.c2 {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #replyw {
+            width: 100%;
+        }
+
+        #project-comment {
+            box-sizing: border-box;
+        }
+
+        #btn-project-comment {
+            right: 0;
+        }
+    </style>
+</block>
+<block name="body">
+
+    <link href="__CSS__/common.css" rel="stylesheet">
+    <link href="__CSS__/style.css" rel="stylesheet">
+    <!--<script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>-->
+    <script type="text/javascript" src="__JS__/addons.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.animate-colors-min.js"></script>
+
+
+    <div class="fl w100 mt25 notice_main">
+        <div class="content">
+            <div class="rightmain">
+                <div class="title" data-id="{$project.id}"><a style="color: #000;" href="{:U('project/detail/id/'.$project['id'])}">{$project.project_name}</a></div>
+                <div class="mainintro">
+                    <div class="titleA">{$dynamic.title}<span class="date">发布时间：{$dynamic.update_time|time_format='Y-m-d'}</span></div>
+                    <p>{$dynamic.content}</p>
+                </div>
+                <div class="dynamic-comment">
+                    <h4 class="c2"><i></i>动态评论</h4>
+                    <div class="c11 mintro xmpl" id="con_one_3" style="display: block;">
+                        <header>还可以输入 <span id="content-count">140</span> 字</header>
+                        <ul class="mes">
+                            <li>
+                                <div id="replyw" class="reply" style="margin-top:10px;">
+                                    <textarea id="project-comment" maxlength="140" name="" cols="" rows=""
+                                              class="border1" style="width:100%; height:150px;"
+                                              data-dynamicid="{$dynamic.id}"></textarea>
+                                    <a href="#" id="btn-project-comment">评论</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul id="comments" class="mes">
+                            <volist name="dynamicComment" id="v">
+                                <li>
+                                    <dl>
+                                        <dd class="img"><img src="{$v.create_id|get_memberface}" alt="众筹用户"></dd>
+                                        <dd class="detail">
+                                            <div class="from">
+                                                <b>{$v.comment_user|get_membername}</b>
+                                                {$v.create_time|change_date}
+                                            </div>
+                                            <div class="d">{$v.content}</div>
+
+                                            <notempty name="v.old_content">
+                                                <div class="pllist clearfix">
+                                                    <ul>
+                                                        <li>{$v.old_user|get_membername}说：{$v.old_content}</li>
+                                                    </ul>
+                                                </div>
+                                            </notempty>
+                                            <div class="panel" style="display:none;">
+                                                <input type="hidden" class="comment_id" value="{$v.id}">
+                                            <textarea name="" cols="" rows="" class="border1"
+                                                      style="width:100%;"></textarea>
+                                                <a href="#" class="btn-comment-comment">回复</a>
+                                            </div>
+                                        </dd>
+                                        <!--暂时不添加此功能-->
+                                        <dd class="cz"><a href="#" class="btn-slide">回复</a></dd>
+                                        <dd></dd>
+                                    </dl>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <!--<volist name="dynamicComment" id="v">
+                        <li>
+                            <dl>
+                                <dd class="img"><img src="{$v.create_id|get_memberface}" alt="众筹用户"></dd>
+                                <dd class="detail">
+
+                                    <div class="from"><b>{$v.comment_user|get_membername}</b>{$v.create_time|change_date}
+                                    </div>
+                                    <notempty name="v.dynamicid">
+                                        <div style="display: none" class="getDynamic">{v.dynamicid}</div>
+                                    </notempty>
+                                    <div class="d">{$v.content}</div>
+
+                                    <notempty name="v.old_content">
+                                        <div class="pllist clearfix">
+                                            <ul>
+                                                <li>{$v.old_user|get_membername}说：{$v.old_content}</li>
+                                            </ul>
+                                        </div>
+                                    </notempty>
+                                    <div class="panel" class="reply" style="display:none;">
+                                        <input type="hidden" class="comment_id" value="{$v.id}">
+                                        <textarea name="" cols="" rows="" class="border1"
+                                                  style="width:100%;"></textarea>
+                                        <a href="#" class="btn-comment-comment">评论</a>
+                                    </div>
+                                </dd>
+                                <dd class="cz"><a href="#" class="btn-slide">回复</a></dd>
+                                &lt;!&ndash;注意：增加删除&ndash;&gt;
+                                <dd>
+                            </dl>
+                        </li>
+                    </volist>-->
+                    <a class="button"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var projectId = $('.title').data('id'),
+                dynamicid = $('#project-comment').data('dynamicid');
+        var config = {
+            projectCommentAPI: '/project/comment/'
+        };
+        $('#btn-project-comment').click(function () {
+            var $textarea = $('#project-comment');
+            var data = {
+                project_id: projectId,
+                content: $textarea.val(),
+                reply_id: 0,
+                dynamicid: dynamicid
+            };
+
+            if ($textarea.val() == '') {
+                layer.alert('评论内容不能为空');
+                return false;
+            }
+            $.post(config.projectCommentAPI, data, function (data) {
+                if (data.status == 1) {
+                    showTheComment(data);
+                    $textarea.val('');
+                } else {
+                    layer.alert(data.info, 8);
+                }
+            });
+            return false;
+        });
+        // 回复(显示恢复输入框)
+        var bindCommentBtnEvent = function () {
+            $(".btn-slide").unbind().click(function () {
+                $(this).parent().parent().find('.panel').slideToggle();
+                return false;
+            });
+            $('.btn-comment-comment').unbind().click(function () {
+                var $detail = $(this).parents('.detail'),
+                        $textarea = $detail.find('textarea'),
+                        commentId = $detail.find('.comment_id').val(),
+                        user = $detail.find('.from').children('b').text(),
+                        content = $detail.find('.d').text();
+
+                var data = {
+                    project_id: projectId,
+                    dynamicid: dynamicid,
+                    content: $textarea.val(),
+                    reply_id: commentId
+                };
+                if ($textarea.val() == '') {
+                    layer.alert('评论内容不能为空');
+                    return false;
+                }
+                $.post(config.projectCommentAPI, data, function (data) {
+                    if (data.status == 1) {
+                        showCommentComment(data, user, content);
+                        $textarea.val('');
+                    } else {
+                        layer.alert(data.info, 8);
+                    }
+                });
+                return false;
+            });
+        };
+        bindCommentBtnEvent();
+
+        // 呈现刚发表的评论
+        function showTheComment(data) {
+            var html = '<li class="fresh-comment"><dl><dd class="img"><img src="' + (data.user_face || '') + '" alt="' + (data.user_name || '') + '"></dd><dd class="detail"><div class="from"><b>' + (data.user_name || '') + '</b>' + data.date + '</div><div class="d">' + (data.content || '') + '</div><div class="panel" class="reply" style="display:none;"><input type="hidden" class="comment_id" value="' + (data.id || 0) + '"><textarea name="" cols="" rows="" class="border1" style="width:100%;"></textarea><a href="#" class="btn-comment-comment">评论</a></div></dd><dd class="cz"><a href="#" class="btn-slide">回复</a></dd><dd></dd></dl></li>';
+            $('#comments').prepend(html);
+            $('.fresh-comment').css('backgroundColor', '#FFFFCC').animate({
+                backgroundColor: '#FFFFFF'
+            }, 2000, function () {
+                $(this).css('backgroundColor', '#FFFFFF').removeClass('fresh-comment')
+            });
+            bindCommentBtnEvent();
+        }
+
+        function showCommentComment(data, user, content) {
+            var html = '<li class="fresh-comment" id="fresh-comment"><dl><dd class="img"><img src="' + data.user_face + '" alt="众筹用户"></dd>' +
+                    '<dd class="detail"><div class="from"><b>' + data.user_name + '</b>' + data.date + '</div>' +
+                    '<div class="d">' + data.content + '</div><div class="pllist clearfix"><ul>' +
+                    '<li>' + user + '说：' + content + '</li></ul></div>' +
+                    '<div class="panel" style="display:none;"><input type="hidden" class="comment_id" value="' + data.id + '">' +
+                    '<textarea name="" cols="" rows="" class="border1" style="width:100%;"></textarea>' +
+                    '<a href="#" class="btn-comment-comment">评论</a></div></dd><dd class="cz"><a href="#" class="btn-slide">回复</a></dd><dd></dd></dl>\n</li>';
+
+            $('#comments').prepend(html);
+            $freshComment = $('.fresh-comment');
+            $freshComment.css('backgroundColor', '#FFFFCC').animate({
+                backgroundColor: '#FFFFFF'
+            }, 2000, function () {
+                $(this).css('backgroundColor', '#FFFFFF').removeClass('fresh-comment')
+            });
+            var freshCommentTop = $freshComment.offset().top,
+                    $body = $('body');
+            $body.animate({scrollTop: freshCommentTop}, 500);
+            bindCommentBtnEvent();
+            $('.panel').slideUp();
+        }
+
+        // 剩余字数
+        !function () {
+            var txtElm = document.querySelector('#project-comment'),
+                    countElm = document.querySelector('#content-count');
+            var func = function() {
+                var len = 140;
+                countElm.innerHTML = len - this.value.length;
+            };
+
+            txtElm.onkeyup = func;
+            txtElm.onblur = func;
+        }()
+
+    </script>
+</block>
+

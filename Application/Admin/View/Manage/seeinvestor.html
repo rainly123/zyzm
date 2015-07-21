@@ -1,0 +1,69 @@
+<extend name="Public/base"/>
+
+<block name="style">
+	<style type="text/css">
+		.project-info table thead tr th {
+			margin-left: 20px;
+		}
+	</style>
+</block>
+<block name="body">
+	<div class="alert ">
+		您正在浏览项目 : <b><?php echo $projectBase['project_name']; ?></b> 的投资人
+		<!-- <hr /> -->
+		
+	</div>
+	<div style="float:right;display: block;margin: 10px;">
+	<a href="{:U('Manage/exploadMyCrowdfundingOrder?pid='.$pj_id)}" class="btn btn-primary ui-export-order">导出订单信息</a>
+	</div>
+	<div class="data-table table-striped">
+		<empty name="list" >
+			<p>暂时没有符合当前条件的数据</p>
+		<else />
+			<table class="table table-striped project-info">
+				<thead>
+	            <tr>
+	              <th>序号</th>
+	              <th>用户名</th>
+	              <th>真实姓名</th>
+	              <th>手机号码</th>
+	              <th>投资金额</th>
+	              <th>状态</th>
+	              <th>操作</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	          	<foreach name="list" item="vo">
+		            <tr>
+		              <td>{$vo.id}</td>
+		              <td>{$vo.investor_id|get_membername}</td>
+		              <td>{$vo.name}</td>
+		              <td>{$vo.phone}</td>
+		              <td>{$vo.fund}</td>
+		              <td><if condition="$vo.status eq 9">
+										<eq name="vo.pay_way" value="1">线上支付
+										<else/><span style="color:red">线下支付</span></eq>
+		              <else />{$vo.status_text}</if></td>
+		              <td>
+		              	<if condition="$vo.status eq 8">
+		              		<a href="{:U('payinfo?id='.$vo['id'])}" class="payinfo">到账</a>
+		              	</if>
+		              	<if condition="$vo[status] gt 4">
+		              		<a href="{:U('cancel_pay?id='.$vo['id'])}" class="cancel_pay">撤消</a>
+		              	</if>
+		              </td>
+		            </tr>
+				</foreach>
+	    </tbody>
+			</table>
+		</empty>
+	</div>
+</block>
+<block name="script">
+<script src="__JS__/jquery.colorbox-min.js"></script>
+<link rel="stylesheet" href="__CSS__/colorbox.css">
+<script type="text/javascript">
+	$(".payinfo").colorbox();
+	$(".cancel_pay").colorbox();
+</script>
+</block>

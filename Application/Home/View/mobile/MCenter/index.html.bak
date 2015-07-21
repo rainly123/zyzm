@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,user-scalable=no,maximum-scale=1,initial-scale=1">
+    <title>聚募众筹 - 个人中心</title>
+    <link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+    <link href="__M_CSS__/css.css" rel="stylesheet" type="text/css">
+    <link href="__M_CSS__/header.css" rel="stylesheet" type="text/css">
+</head>
+<body bgcolor="#f3f3f3">
+<div class="wrapper">
+    <div class="user_yhzx">
+        <div class="user_yhzx1">
+            <h1><a href="{:U('/')}"></a></h1>
+            <h2><a href="{:U('Message/index')}"></a></h2>
+            <notempty name="hasnew"><h3></h3></notempty>
+        </div>
+
+        <div class="user_yhzx2">
+            <div class="avatar-box">
+                <a href="{:U('User/changePhoto')}">
+                    <img class="avatar-img" src="{:get_memberface()}" height="80" width="80">
+                    <div class="avatar-mask"></div>
+                </a>
+            </div>
+
+            <h2>{$user.nickname}</h2>
+            <a href="{:U('User/detail')}">
+                <button class="btn-user-info">个人资料</button>
+            </a>
+        </div>
+
+        <!-- <div class="user_yhzx3">
+           <a href="#">认证投资人</a>
+        </div>	 -->
+    </div>
+    <div class="user_yhzx4">
+        <ul>
+            <!-- <li><a class="user_physical_aa">您已支持：<b>45353</b>元 </a></li> -->
+            <li><a href="{:U('MCenter/pj_support')}">您已拥有：<b>{$pj_count}</b>家公司股权 </a></li>
+            <li><a href="{:U('MCenter/pr_support')}">您已支持：<b>{$pr_count}</b>产品梦想 </a></li>
+        </ul>
+    </div>
+    <div class="user_bj">
+        <ul>
+            <li class="tbl-cell" style="position: relative;">
+                <a href="{:U('MCenter/pj_support')}">
+                    <h1><img src="__M_IMG__/ico1.png"></h1>
+                    <if condition="$dolist.pj_qty gt 0"><span class="dolist">{$dolist['pj_qty']}</span></if>
+                    <span>股权</span>
+                </a>
+            </li>
+
+            <li class="tbl-cell" style="position: relative;">
+                <a href="{:U('MCenter/pr_support')}">
+                    <h1><img src="__M_IMG__/ico2.png"></h1>
+                    <if condition="$dolist.pr_qty gt 0"><span class="dolist">{$dolist['pr_qty']}</span></if>
+                    <span>实物</span>
+                </a>
+            </li>
+
+            <li class="tbl-cell bfzs">
+                <a href="{:U('Account/index')}" class="tal_user">
+                    <h1><img src="__M_IMG__/ico3.png"></h1>
+                    <span>钱包</span>
+                </a>
+            </li>
+        </ul>
+
+
+        <ul>
+            <li class="tbl-cell">
+                <a href="{:U('MCenter/stock')}">
+                    <h1><img src="__M_IMG__/ico4.png"></h1>
+                    <span>基金</span>
+                </a>
+            </li>
+
+            <li class="tbl-cell">
+                <a href="{:U('User/savecenter')}">
+                    <h1><img src="__M_IMG__/ico5.png"></h1>
+                    <span>安全</span>
+                </a>
+            </li>
+
+            <li class="tbl-cell bfzs">
+                <a href="{:U('User/logout')}">
+                    <h1><img src="__M_IMG__/ico_out.png"></h1>
+                    <span>退出</span>
+                </a>
+            </li>
+
+
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="__M_JS__/jquery-1.7.2.js"></script>
+<script>
+    setTimeout(function () {
+        $('.avatar-mask').addClass('hidden');
+    }, 0);
+</script>
+</body>
+</html>

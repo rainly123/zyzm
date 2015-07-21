@@ -1,0 +1,47 @@
+<div style="width:600px">
+	<h3 style="padding:20px 10px 10px; background-color:#fafafa;border-bottom:1px solid #eee">{$project.project_name}</h3>
+	<div style="padding:30px">
+		<form action="{:U('project/lead')}" method="post" class="form-horizontal">
+			<input type="hidden" name="id" value="{$project.id}">
+			<div class="control-group">
+				<label class="control-label">您的领投理由</label>
+				<div class="controls">
+					<textarea name="reason" style="width:80%" rows="4"></textarea>
+				</div>
+			</div>
+			<div class="cotrol-group">
+			<div class="controls">
+				<label class="checkbox"><input type="checkbox" name="" id="agree">我申请成为<b>{$project.project_name}</b>项目 的候选领投人，已详阅并同意遵守<a href="{:U('Info/show?key=lead')}" target="_blank">《领投规则》</a>、<a href="{:U('Info/show?key=vote')}" target="_blank">《票选领投人规则》</a> 等所有聚募众筹规则</label>
+			</div>
+				
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn-middle btn-red" id="lead-confirm">确认提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+$("#lead-confirm").click(function() {
+	var form = $(this).parents('form');
+	var error = $(form).find(".control-group.error").length;
+	if (error > 0){
+		return false;
+	}
+	$.post(form.attr('action'),form.serialize(), function(data) {
+		if (data.status == 1) {
+			$.colorbox.close();
+			$.messageBox({
+              msginfo:data.info
+            });
+		}
+	}, 'json');
+
+	return false;
+});
+$('input[name="fund"]').popover({
+	placement:'right', trigger: 'focus',
+	content:"填写您的投资金额，但不能低于最低投资额({$project.follow_fund|round=2}), 或高于融资金额({$project.need_fund|round=2})"});
+</script>

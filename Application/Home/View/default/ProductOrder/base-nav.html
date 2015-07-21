@@ -1,0 +1,22 @@
+<div class="">
+    <div class="xmsteps">
+        <div class="content">
+            <div class="nav-steps clearfix">
+                <ul>
+                    <li class="step1 ">订单信息填写页</li>
+                    <li class="step2">订单信息确认页</li>
+                    <li class="step3">支付</li>
+                    <li class="step4">完成</li>
+                    <li style="display:none" id="get-nav-flage" data-navflage="{$navFlage}"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        var navFlage = $("#get-nav-flage").data('navflage');
+        var newNavFlage = '.'+navFlage;
+        $(newNavFlage).attr('class','finish');
+    });
+</script>

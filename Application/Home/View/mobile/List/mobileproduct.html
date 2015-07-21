@@ -1,0 +1,87 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/index.css" rel="stylesheet">
+</block>
+<block name="body">
+
+    <div class="wrapper">
+        <div class="main">
+
+            <section>
+                <div class="tab tab2">
+                    <a href="{:U('list/mobileproduct/status/0')}" class="selected">全部项目</a>
+                    <a href="{:U('list/mobileproduct/status/1')}">金额最多</a>
+                    <a href="{:U('list/mobileproduct/status/2')}">关注最多</a>
+                </div>
+                <div class="list">
+
+                    <foreach name="productsList" item="product"> <a href=" {:U('product/viewdetail',array('pid'=>$product['id']))}">
+                        <div class="item">
+                        <if condition="$product.stage eq 2">
+                        <input type="hidden" class="detail_url" value="{:U('product/viewdetail?pid='.$product['id'])}">
+                        </if>
+                            <div name="itemid" value="{$v.id}"></div>
+                            <div class="img">
+                                <img src="{$product['home_img']|get_cover='path'}">
+
+                                <div class="stamp">
+                                </div>
+                                <if condition="$product['finish_rate'] gt 100">
+                                <div class="tag">
+                                </div>
+                                </if>
+
+                                <div class="digg">
+                                    <b class="if icon-star">{$product.like_record}</b>
+                                    <b class="if icon-eye">{$product.read_record}</b>
+                                </div>
+
+                            </div>
+                            <div class="text">
+                                <div class="title">
+                                    <i class="gq">&nbsp;</i>
+                                    {$product.name}
+                                </div>
+                                <div class="prograss">
+                                    <div class="bar animateBar" data-animatetarget="{$product['finish_rate'] > 100 ? 100 :$product['finish_rate']}" style="width:{$product['finish_rate'] > 100 ? 100 :$product['finish_rate']}%;"></div>
+
+                                </div>
+                                <div class="attr">
+                                    <dl>
+                                        <dd class="d1">
+                                            <h4>目标额</h4>
+                                            <h3><span class="animateNum" data-animatetarget="{$product.amount|change_fund}">{$product.amount|change_fund}</span></h3>
+                                        </dd>
+                                        <dd class="d2">
+                                            <h4>已完成</h4>
+                                            <h3><span class="animateNum" data-animatetarget="{$product['finish_rate']|round}"> {:round($product['finish_rate'])}</span>%</h3>
+                                        </dd>
+                                        <dd class="d3">
+                                            <h4>已认投</h4>
+                                            <h3><span class="animateNum" data-animatetarget="{$product.finish_amount|change_fund}">{$product.finish_amount|change_fund}</span></h3>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="tags"><?php
+                        foreach(explode(",",$product['tags']) as $arr){
+                        echo "<span>".$arr."</span>";
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div></a>
+                    </foreach>
+                    <!--//item-->
+
+                </div>
+            </section>
+
+            <div class="fund_fot" style="display:none;">
+                <div class="fund">
+                    <a class="btn-buy" href="#">我要投资</a>        </div>
+            </div>
+        </div>
+    </div>
+
+</block>

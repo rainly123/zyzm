@@ -1,0 +1,88 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>实物项目信息</h2>
+
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th>
+		<th class="">项目名称</th>
+        <th class="">发起人</th>
+		<th class="">创建时间</th>
+		<th class="">状态</th>
+		<th class="">项目阶段</th>
+		<th class="">首页推荐</th>
+		<th class="">可提</th>
+		<th class="">已提</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$vo.id} </td>
+			<td><a target="_blank" href="{$viewurl}{$vo['id']}">{$vo.name}</a></td>
+            <td>{$vo.uid|get_membername}</td>
+			<td><span>{$vo.create_time|time_format}</span></td>
+			<td>{$vo.status_text}</td>
+			<td>{$vo.stage_text}</td>
+			<td>
+				<if condition="$vo.is_top eq 0 "> 否 <else/> 是</if>
+			</td>
+			<td>{$vo['finish_amount'] - $vo['drawcash_amount']}</td>
+			<td>
+				<a class="" href="{:U('product/drawcashlist?pid='.$vo['id'])}">{$vo['drawcash_amount']}</a>
+			</td>
+			<td>
+<!-- 			 	<a class="confirm ajax-get" href="{:U('product/dodrawcash?pid='.$vo['id'].'&uid='.$vo['uid'])}" >提现</a>
+                <a class="" target="_blank" href="{:U('product/addstep1?pid=' . $vo['id'])}">编辑</a> -->
+                <eq name="vo.status" value="1">
+                <a class="ajax-get confirm" href="{:U('product/review?status=9&id=' . $vo['id'])}">审核通过</a>
+                <a class="ajax-get confirm" href="{:U('product/review?status=2&id=' . $vo['id'])}">审核不通过</a>
+                </eq>
+               <!--  <a class="ajax-get confirm" href="{:U('product/review?status=-1&id=' . $vo['id'])}" data-info="您确定要撤消该项目的众筹吗?">撤消</a> -->
+            	<if condition="($vo.status eq 9) and ($vo.stage eq 0)">
+					 <a class="ajax-get confirm" href="{:U('product/stagechange?status=1&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为预热吗?">预热</a>
+				<elseif condition="($vo.status eq 9) and ($vo.stage eq 1)"/>
+					 <a class="ajax-get confirm" href="{:U('product/stagechange?status=2&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为上线认投吗?">上线</a>
+				<elseif condition="($vo.status eq 9) and ($vo.stage eq 2)"/>
+					 <a class="ajax-get confirm" href="{:U('product/stagechange?status=8&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为众筹失败吗?">众筹失败</a>
+					 |<a class="ajax-get confirm" href="{:U('product/stagechange?status=9&id=' . $vo['id'])}" data-info="您确定要把该项目的众筹阶段修改为众筹成功吗?">众筹成功</a>
+				</if>
+				
+				<eq name="vo.status" value="9">
+				 <a class="" href="{:U('product/CrowdfundingOrder?pid='.$vo['id'])}" target="_blank">查看订单</a>
+				</eq>
+               
+                 <!-- TODO -->
+				<!-- <if condition="$vo.is_top eq 0 ">
+					<a class="ajax-get" href="{:U('Project/istop?status=1&id=' . $vo['id'])}">置顶</a>
+				<else/>
+				  	<a class="ajax-get" href="{:U('Project/istop?status=0&id=' . $vo['id'])}">取消置顶</a>
+				</if> -->
+            </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$page}
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+</block>

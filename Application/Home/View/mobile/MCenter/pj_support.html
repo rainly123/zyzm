@@ -1,0 +1,118 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+    <link href="__M_CSS__/index.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+
+    <section id="news_nav">
+        <a class="physical_nav1">已支持</a>
+        <!-- <a href="{:U('MCenter/pj_create')}">已发布</a> -->
+        <a href="{:U('MCenter/pj_attach')}">已收藏</a>
+    </section>
+    <section id="physical_main">
+        <div class="list_cp1">
+            <!--item-->
+            <volist name="invest" id="vo">
+                <div class="item">
+                    <div class="list_zu">
+                        <div class="physical_kuang">
+                            <div class="list_zu1">
+                                <a href="{:U('Project/detail?id='.$vo['project_id'])}"><img width="100%" height="100%"
+                                                                                            src="{$vo.cover|get_cover='path'}"></a>
+                            </div>
+                            <div class="list_zu2">
+                                <ul>
+                                    <li><a href="{:U('Project/detail?id='.$vo['project_id'])}"><h3>
+                                        {$vo.project_name}</h3></a></li>
+                                    <li><b>投资额：{$vo.fund|change_fund}</b>
+                                        <h2>状态：
+                                            <if condition="$vo.status eq 1">未认可
+                                                <elseif condition="$vo.status eq 2"/>
+                                                已认可
+                                                <elseif condition="$vo.status eq 3"/>
+                                                已接受
+                                                <elseif condition="$vo.status eq 4"/>
+                                                投资确认
+                                                <elseif condition="$vo.status eq 8"/>
+                                                协议确认
+                                                <elseif condition="$vo.status eq 9"/>
+                                                已支付
+                                                <else/>
+                                                被拒绝
+                                            </if>
+                                        </h2>
+                                    </li>
+                                    <!--<li>
+                  <span class="attr prograss">
+                  <div class="physical_bfb bar animateBar" data-animatetarget="{$vo.m_rate}"
+                       style="width: {$vo.m_rate}%;"></div>
+                  </span>
+                                        <h4 class="animateNum" data-animatetarget="{$vo.rate}">{$vo.rate}</h4><h5>%</h5>
+                                    </li>-->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="physical_rtje">
+                            <dd><b style="color:red;font-size:14px">
+                                <if condition="$vo.lead_type eq 2">候选领投人
+                                    <elseif condition="$vo.lead_type eq 9"/>
+                                    领投人
+                                </if>
+                            </b>
+                                认投时间：{$vo.create_time|time_format="Y-m-d"}
+                            </dd>
+                            <p>
+                                <if condition="$vo.stage egt 4">
+                                    <if condition="($vo.status eq 3)">
+                                        <a href="{:U('Manage/prepay?id='.$vo['id'])}">确认投资</a>
+                                        <elseif condition="($vo.status eq 4) AND ($vo.acc_status eq 1)"/>
+                                        <a class="go-pay" href="{:U('Account/pay?type=1&id='.$vo['id'])}">待支付</a>
+                                        <elseif condition="($vo.status eq 4) AND ($vo.acc_status neq 1) and ($vo.stage lt 8)"/>
+                                        <a class="confirm-agreement" href="{:U('Agreement/touzi?id='.$vo['project_id'])}">确认协议</a>
+                                        <elseif condition="($vo.status eq 8) and ($vo.type eq 0) and ($vo.stage lt 8)"/>
+                                        <a href="{:U('Agreement/review_touzi?id='.$vo['project_id'])}">查看协议</a>
+                                        <a href="{:U('Account/pay?type=1&id='.$vo['id'])}" class="go-pay">待支付</a>
+                                        <elseif condition="($vo.status eq 9) and ($vo.type eq 0)"/>
+                                        <a href="{:U('Agreement/review_touzi?id='.$vo['project_id'])}">查看协议</a>
+
+                                    </if>
+                                    <if condition="($vo.stage eq 9)">
+                                    	<a class="manage" href="{:U('projectAfterInfo/fundedmanagelist?pid='.$vo['project_id'])}">投后管理</a>
+                                    </if>
+                                </if>
+                                <if condition="($vo.status gt 0) AND ($vo.status lt 9)">
+                                    <neq name="vo.lead_type" value="9">
+                                        <a href="{:U('Manage/cancel?id='.$vo['id'])}" class="invest_cancel">撤消</a>
+                                    </neq>
+                                </if>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </volist>
+        </div>
+        <!--   <div class="list_gd">
+            <a href="#">查看更多（每次加载5条显示）</a>
+          </div> -->
+    </section>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        $(".invest_cancel").click(function () {
+            if (!confirm('您确定要撤消对项目的投资吗?')) {
+                return false;
+            }
+            var _this = $(this);
+            $.post(_this.attr('href'), function (data) {
+                if (data.status == 1) {
+                    alert(data.info);
+                    window.location.reload();
+                } else {
+                    alert(data.info);
+                }
+            });
+            return false;
+        });
+    </script>
+</block>

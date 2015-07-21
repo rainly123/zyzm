@@ -1,0 +1,107 @@
+@charset "UTF-8";
+body,html{font-family:"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;background:#fdfdfd}
+.login-section,.topbar{background:#fff}
+.main-container{margin:30px auto}
+.login-section{height:546px;width:998px;border:1px solid #ddd;border-radius:4px}
+.login-section>img{float:left;margin-left:88px;margin-top:54px}
+.login-form-container{margin-left:613px;height:407px;padding-top:100px}
+form .login-input,form .register-input{height:18px;width:278px;border:1px solid #ddd;padding:11px 0 11px 40px!important;font-size:14px;color:#000;margin-top:20px;border-radius:3px}
+.login-form-container .login-input{margin-top:10px}
+.register-form-nav{width:998px;margin:0 auto;overflow:hidden;color:#c2c2c2}
+.register-nav-child{width:90px;margin-left:182px;float:left;text-align:center}
+.register-step{height:42px;width:42px;margin:0 auto 6px;background:#f5f5f5;font-size:30px;line-height:42px;text-align:center;border-radius:21px;color:#898989}
+.current .register-step{background:#ff8161;color:#fff}
+.register-nav-child span{font-size:14px}
+.register-triangle{height:0;width:0;border-style:solid;border-width:0 9px 9px;border-color:transparent transparent #F5F5F6;margin-top:5px;margin-left:34px;display:none}
+.current .register-triangle{display:block}
+.register-form{width:998px;margin:30px auto;background:#fff;text-align:center;border:1px solid #ddd;border-radius:4px}
+.register-form-container{width:850px;margin:0 auto;padding-top:15px;text-align:left}
+.register-form-container>img{float:left;position:relative;top:30px}
+.register-form-container-inner{width:300px;margin-left:497px;position:relative}
+.send-register-code{display:inline;display:inline-block;zoom:1;height:40px;width:90px;background:#72c2e5;line-height:40px;text-align:center;color:#fff;font-size:14px;float:right;margin-top:20px;border-radius:3px;cursor:pointer}
+.mail-succ-note{font-size:22px;color:#ff8161;padding-top:69px}
+.enter-mail-container{text-align:left;height:42px;padding-top:15px;position:relative}
+.enter-mail-container span{font-size:14px;display:block;line-height:22px}
+.enter-mail-a{display:block;width:160px;height:42px;line-height:42px;text-align:center;color:#fff;background:#ff794e;left:243px;top:15px;position:absolute;border-radius:5px}
+.mail-fail-note{font-size:22px;color:#5ba8ea;padding-bottom:10px}
+.mail-fail-deal{font-size:14px;height:26px;line-height:26px}
+.mail-fail-deal a{color:#5ba8ea}
+.register-succ-note{font-size:24px;color:#ff8161;padding-top:85px;padding-bottom:10px}
+.register-form .nickname{height:38px;width:278px;line-height:24px;padding-left:20px!important;border:1px solid #c7c7c7;border-radius:3px;margin-top:5px;font-size:16px;margin-bottom:5px}
+.perfect-info-text{padding-left:18px;font-size:14px;position:relative;padding-top:16px}
+.perfect-info-text div{position:absolute;height:8px;width:8px;border-radius:4px;background:#ff8161;left:0;top:24px}
+.link-to-newcommer{width:705px;border-top:1px dashed #ccc;margin-top:16px;padding-top:20px;font-size:18px}
+.link-to-newcommer a{color:#5ba8ea}
+.financial-start,.link-to-mission_btn{color:#fff;text-align:center;border-radius:5px}
+.link-to-mission{font-size:18px;padding-top:25px;padding-bottom:22px;border-bottom:1px dashed #ccc}
+.link-to-mission_btn{height:40px;line-height:40px;background:#5ba8ea;display:inline;display:inline-block;zoom:1;width:160px;margin-left:20px}
+.financial-start{display:inline-block;height:56px;width:286px;background:#ff794e;line-height:56px;margin-top:24px;font-size:18px}
+.certification-form-container{overflow:hidden;padding-top:46px;position:relative}
+.message-error,.message-success{position:absolute;left:0;top:14px}
+.main-container,.register-item-container,.set-real-info,.set-trade-psw{position:relative}
+.message-error{color:#ff8161}
+.message-success{color:#38ae72}
+.set-trade-psw{float:left;width:302px;padding-right:49px;border-right:1px solid #ebebeb}
+.position_layer1>p,.position_layer2>p{padding:10px;line-height:24px;font-size:14px}
+.set-real-info{float:right;width:302px}
+.certification-form-container .register-input{margin-top:0;margin-bottom:20px}
+.certification-form-btns{text-align:right}
+.certification-form-btns a{display:inline;display:inline-block;zoom:1;height:38px;width:141px;text-align:center;line-height:38px;font-size:18px;border-radius:3px}
+.certification-form-btns .skip-step{border:1px solid #9dbfdc;color:#9cbfdc}
+.certification-form-btns .certification-submit{background:#ff794e;border:1px solid #ff794e;color:#fff;margin-left:14px}
+.log-error-message{height:30px;line-height:30px;color:#ff8161;font-size:14px;padding-left:24px;background:url(../images/warning-18.png) 0 no-repeat}
+.mail-fail-deal>a,.register-submit{text-align:center;cursor:pointer;display:block;color:#fff}
+.log-error-message.no-content{background:0 0}
+.register-error-msg,.register-succ-msg{height:40px;line-height:40px;left:312px;width:300px;bottom:0;font-size:14px;padding-left:24px}
+.uncommon-mailbox{width:404px;text-align:center}
+.register-submit{width:300px;height:40px;background:#72c2e5;line-height:40px;border:none;margin-top:16px;padding:0!important;margin-left:0;border-radius:3px;font-size:16px}
+.mail-fail-deal>a{width:115px;height:22px;font-size:12px;border-radius:2px;float:right;line-height:22px}
+.login-look,.login-look a{height:40px;border-radius:5px}
+.mail-fail-deal_ddai{background:#b8b8b8}
+.mail-fail-deal_chongfa{background:#5ba8ea}
+.login-look{width:300px;margin-top:17px}
+.login-look a{display:block;line-height:40px;width:146px;text-align:center;font-size:14px;color:#959595;background:#fff}
+.login-look a img{vertical-align:middle;padding-bottom:2px;margin-right:6px}
+.login-look a.sina-login{float:left}
+.login-look a.qq-login{float:right}
+.main-container{width:1000px;padding:0;border:none}
+.findback-psw-container{width:1000px;margin:30px auto;background:#fff;padding-top:47px;padding-bottom:20px;border-radius:4px;border:1px solid #ddd;text-align:center}
+.findback-psw-container div{width:449px;margin:0 auto}
+.findback-psw-container div.form-item{height:40px;margin-bottom:15px}
+.findback-psw-container div input{height:18px;line-height:18px;padding:10px 0 10px 15px!important;font-size:14px;width:432px;border:1px solid #ddd;float:left;color:#000;border-radius:3px}
+.findback-psw-btn,.get-rancode{display:block;height:40px;width:154px;background:#72c2e5;text-align:center;line-height:40px;border-radius:4px;color:#fff;font-size:18px;float:right}
+.findback-psw-btn{width:100%;border:none}
+.get-rancode{float:right}
+.message{position:absolute;top:20px}
+a{text-decoration:none}
+.pagetag{width:1000px;line-height:36px;margin:10px auto}
+.pagetag a{color:#333}
+.usericon{background:url(../images/img19.png) 10px center no-repeat}
+.usericon2{background:url(../images/img20.png) 10px center no-repeat}
+.usericon3{background:url(../images/img21.png) 10px center no-repeat;width:160px}
+.usericon4{background:url(../images/img22.png) 10px center no-repeat}
+.social-login-box a{display:inline-block;height:40px;line-height:40px;text-align:center;color:#666;border-radius:5px;padding:0 5px 0 32px;background:url(../images/wechat_icon2.png) left no-repeat}
+.bind-header{display:none;width:320px;text-align:center;font-size:16px;margin-bottom:10px}
+.bind-header .h1{font-weight:700}
+.bind-header .h2{color:#999}
+.login-section{font-size:15px}
+.login-section .poster-slogan{font-size:18px;color:#ac9f9a;position:absolute;left:208px;top:400px}
+.login-section .error{position:absolute;margin-top:-1.5em;color:#FF8161}
+.login-section .login-input{box-sizing:border-box;width:100%;height:auto}
+.login-section .login-input.disabled{background-color:#eee}
+.login-section .send-sms{height:40px;line-height:40px;width:90px;background:#72c2e5;text-align:center;color:#fff;font-size:14px;float:right;border-radius:3px}
+.login-section .input-sms{padding-left:45px;width:215px;margin-top:0;background:url(../images/img21.png) 10px center no-repeat}
+.login-section .options-box{width:100%;padding:1em 0;color:#72c2e5}
+.login-section form{position:relative;width:320px}
+.login-section a{color:#72c2e5}
+.login-section .btn-forget{color:#72c2e5;float:right}
+.login-section .register-box{text-align:center}
+.login-section .login-submit-btn{width:100%;line-height:2.5;background:#72c2e5;color:#fff;border:none;margin-top:1em;margin-left:0;display:block;text-align:center;cursor:pointer;border-radius:3px;font-size:16px}
+.login-section .login-submit-btn.disabled{background:#ddd}
+.login-section .sms{margin-top:10px;display:none}
+.login-section #input-tip{padding:.5em 1em;color:#72c2e5}
+.login-form-container.bind .bind-header{display:block}
+.login-form-container.bind .options-box,.login-form-container.bind .password,.login-form-container.bind .register-box,.login-form-container.bind .social-login-box{display:none}
+.login-form-container.bind.show-password .password,.login-form-container.bind.show-sms .sms{display:block}
+#register-success{display:none;padding:1em;text-align:center;width:370px}
+#register-success strong{color:#FF8161}

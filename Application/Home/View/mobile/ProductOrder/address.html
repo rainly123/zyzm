@@ -1,0 +1,100 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<link rel="stylesheet" href="__M_CSS__/index.css">
+	<link rel="stylesheet" href="__M_CSS__/header.css">
+	<link rel="stylesheet" href="__M_CSS__/obj_project.css">
+	<link href="__CSS__/validform.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="__M_CSS__/login.css">
+
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+
+<section id="data_main">
+	<form method="post" action="{:U()}" id="form-modify-addr">
+    <input type="hidden" name="pid" value="{$pid}">
+	    <ul>
+      <li>
+		<div class="user_datatt">
+			<div class="user_data">
+				<h2><b>收件人：</b><input name="name" datatype="*" nullmsg="请输入收件人" id="name" type="text" class="recharge_je"></h2>
+			</div>
+		</div>	
+	</li>
+
+	<li>
+		<div class="user_datatt">
+			<div class="user_data">
+				<h2><b>所在地：</b>
+				{:hook('J_China_City', array('province'=>$project['province'], 'city'=>$project['city']))}
+				</h2>
+			</div>		
+		</div>
+	</li>
+	<li>
+		<div class="user_datatt">
+			<div class="user_data">
+				<h2><b>详细地址：</b>
+				<input name="address" id="address" datatype="*" nullmsg="请输入详细地址" class="recharge_je" type="text"></h2>
+			</div>
+		</div>
+	</li>
+	<li>
+		<div class="user_datatt">
+			<div class="user_data">
+				<h2><b>联系电话：</b><input name="phone" id="phone" datatype="n" nullmsg="请输入联系电话" errormsg="请输入联系电话" type="text" class="recharge_je"></h2>
+			</div>
+		</div>	
+	</li>
+		<li>
+	        <div class="error-box" style="clear:both;">
+	          <span id="errormessage"></span>
+	        </div>
+        </li>
+	</ul>
+		
+	<div class="recharge_qd1">
+		<input type="submit" class="recharge_qd" value="确&nbsp;&nbsp;定">
+		
+		<a href="javascript:window.history.go(-1);" class="back"><input type="button" class="recharge_qd2" value="取&nbsp;&nbsp;消"></a>
+	</div>
+    </form>
+</section>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+	$(function() {
+		  
+	    $("ul li input").each(function(){
+	        $(this).click(function(){
+	            $(this).parent().removeClass('text').addClass('text errorAnimate');
+	            $(this).parent().parent().siblings().children().removeClass('errorAnimate');
+	        })
+	    });
+			    
+	  $('form').Validform({
+		    tiptype: function(msg, o, cssctl) {
+			      var objtip = $("#errormessage");
+			      o.obj.parents("div").removeClass('errorAnimate');
+			      objtip.text('');
+			      if (o.type == 3) {
+			        o.obj.parents("div").addClass('errorAnimate');
+			        objtip.text(msg);
+			      }
+	    }, ajaxPost: true,
+	    callback: function(data) {
+	    	
+	      if (data.status == 1) {
+	    	  //javascript:window.history.go(-1);
+	    	  window.location.href=data.url;
+	      }
+	    }
+	  });
+	});
+</script>
+</block>

@@ -1,0 +1,27 @@
+<extend name="Base/common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__M_CSS__/login.css" />
+</block>
+
+<block name="body">
+<!-- <section id="news_nav">
+  <a href="{:U('Message/index')}" class="physical_nav1">私信</a>
+  <a href="{:U('Message/project')}">项目</a>
+  <a href="{:U('Message/system')}">通知</a>
+</section> -->
+<div class="news_t1">
+  <div class="news_t2">
+    <volist name="messages" id="vo">
+    <article>
+      <div class="article-img-pane">
+        <img src="{$vo.from_id|get_memberface}">
+      </div>
+      <div class="a-meta">
+        <span>{$vo.from_id|get_membername}</span> <i class="fa fa-comment"></i> {$vo.add_time|time_format}
+      </div>
+      <h2>{$vo.content}</h2>
+    </article>
+    </volist>
+  </div>
+</div>
+</block>

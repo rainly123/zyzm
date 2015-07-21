@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>更改头像</title>
+		<link rel="stylesheet" href="__STATIC__/Jcrop/css/jquery.Jcrop.min.css" />
+		<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+		<script type="text/javascript" src="__STATIC__/Jcrop/js/jquery.Jcrop.min.js"></script>
+	</head>
+	<body>
+		<div><input type="button" value="上传头像" id="upload"/></div>
+		<div style="display:block;">
+			<img id="baseImg" src="/Uploads/Picture/Photo/photo_default.png" alt="" />
+		</div>
+		<form action="__SELF__" method="post">
+			<input type="hidden" name="photo" />
+			<input type="hidden" id="x" name="x" />
+			<input type="hidden" id="y" name="y" />
+			<input type="hidden" id="w" name="w" />
+			<input type="hidden" id="h" name="h" />
+			<input type="hidden" id="sw" name="sw">
+			<input type="hidden" id="sh" name="sh">
+			<input type="hidden" id="basepath" name="basepath">
+			<input type="submit" value="确定" />
+		</form>
+		
+		<script type="text/javascript">
+		$("#upload").click(function() {
+				$.upload({
+						url: '{:U("File/uploadPhoto")}', 
+						fileName: 'download', 
+						dataType: 'json',
+						accept: '.jpg,.jpeg,.png,.gif',
+						// 上传之前回调,return true表示可继续上传
+						onSend: function() {
+								return true;
+						},
+						// 上传之后回调
+						onComplate: function(data) {
+							jcrop_api.setImage(data.path);
+							$("input[name='photo']").val(data.id);
+							$('#basepath').val(data.path);
+							var str = JSON.stringify(data);
+							jcrop_api.enable();
+							var scale = jcrop_api.getScaleFactor();
+							$("#sw").val(scale.w);
+							$("#wh").val(scale.h);
+						}
+				});
+		});
+	
+	var jcrop_api;
+	$(function(){
+     $('#baseImg').Jcrop({
+      aspectRatio: 1,
+      bgColor: '#eee',
+      onSelect: updateCoords,
+      onRelease: clearCoords
+    }, function(){
+    	jcrop_api = this;
+	    jcrop_api.disable();
+    });
+  });
+
+  function clearCoords(c) {
+    $('#x').val("");
+    $('#y').val("");
+    $('#w').val("");
+    $('#h').val("");
+  }
+ 	function updateCoords(c){
+    $('#x').val(c.x);
+    $('#y').val(c.y);
+    $('#w').val(c.w);
+    $('#h').val(c.h);
+  };
+		</script>
+	</body>
+</html>

@@ -1,0 +1,11 @@
+[ 2015-07-03T09:15:18+08:00 ] 127.0.0.1 http://update.passvpn.net/readfile.asp?spid=10042&f=newlist.txt
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000035s ]
+INFO: Run Common\Behavior\InitHookBehavior [ RunTime:0.021195s ]
+INFO: [ app_init ] --END-- [ RunTime:0.023546s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002940s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003147s ]
+SQL: SHOW COLUMNS FROM `jm_config` [ RunTime:0.0989s ]
+SQL: SELECT `type`,`name`,`value` FROM `jm_config` WHERE `status` = 1  [ RunTime:0.0006s ]
+

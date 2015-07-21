@@ -1,0 +1,222 @@
+<extend name="Base/mobile-common"/>
+
+<block name="header">
+    <link rel="stylesheet" type="text/css" href="__CSS__/product/mobile_common.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/ProductOrder/mobile_info.css">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+        <div class="cont-layer">
+            <div class="title-box">
+                <h5>{$productList.name}</h5>
+                <h6>发起人：{$productList.uid|get_membername}
+                </h6>
+            </div>
+            <div class="placeBlock-10 bg-gray"></div>
+            <div class="order-box">
+                <div class="order-item  clearfix">
+                    <div class="order-item-key">应付金额：</div>
+                    <div class="order-item-value red-money">
+                    <?php print $productPriceList['amount'] +  $productPriceList['post_amount'];?>
+                    元</div>
+                </div>
+                <div class="order-item clearfix">
+                    <div class="order-item-key">支持金额：</div>
+                    <div class="order-item-value">
+                        ￥{$productPriceList.amount}
+                    </div>
+                </div>
+                <div class="order-item clearfix">
+                    <div class="order-item-key">配送费用：</div>
+                    <div class="order-item-value">
+                       <if condition="$productPriceList.post_amount eq  0">
+                            免运费
+                        <else />
+                            {$productPriceList.post_amount}     
+                        </if>
+                    </div>
+                </div>
+                <div class="order-item  clearfix">
+                    <div class="order-item-key">回报内容：</div>
+                    <div class="order-item-value">{$productPriceList.content}</div>
+                </div>
+                <div class="order-item  clearfix">
+                    <div class="order-item-key">备注：</div>
+                    <div class="order-item-value">
+                        <input name="remarks" id="remarks" class="order-input" type="text" placeholder="给项目发起人留下备注信息">
+                    </div>
+                </div>
+
+                <div class="order-item  clearfix">
+                    <div class="order-item-key" style="display:block">收货人：</div>
+                    <div class="order-item-value add-new-address">
+                        <span data-addid="{$aCustomRecord.address_id}" id="current_addid" style="display:none"></span>
+                        <div class="bor_t_li" id="addressList">
+                            <?php if(!empty($addressList['default'])): ?>
+                            <div class="address_box">
+                            <div class="address_line default_addr choice_label_btn" style="background:#a4cc43">
+                                <input name="addrList" class="addrList" type="radio" checked value="{$addressList.default.id}" >
+                                <label for="">{$addressList.default.name}&nbsp;&nbsp;&nbsp;&nbsp; {$addressList.default.phone}</label>
+
+                                <label for="">{:getProvinceCity($addressList['default']['province'], $addressList['default']['city'])}&nbsp;&nbsp;&nbsp;&nbsp;{$addressList.default.address}</label>
+                            </div>
+                            <div class="btn-group">
+                                <a class="f_blue btn btn-mini btn-success" disabled="disabled">默认地址</a>
+                                <a class="f_blue crtl_delete_addr btn btn-mini btn-warning" href="#" data-url="{:U("productOrder/deleteAddress?addId=".$addressList['default']['id'])}">删除</a>
+                            </div>
+                            </div>
+                            <?php endif; ?>
+
+                            <foreach name="addressList" item="vo" key="k">
+                            <?php if($vo['flag']!='default'): ?>
+                            <div class="address_box">
+                                <div class="address_line choice_label_btn" >
+                                    <input name="addrList" class="addrList" type="radio" value="{$vo.id}">
+                                    <label for="">{$vo.name}&nbsp;&nbsp;&nbsp;&nbsp;{$vo.phone}</label>
+                                    <label for="">{:getProvinceCity($vo['province'], $vo['city'])}&nbsp;&nbsp;&nbsp;&nbsp;{$vo.address}</label>
+                                </div>
+                                <div class="btn-group">
+                                    <a class="f_blue set_default_addr btn btn-mini btn-success" href="#" data-url="{:U("productOrder/setDefaultAddress?addId=".$vo[id])}">设为默认地址</a>
+                                    <a class="f_blue crtl_delete_addr btn btn-mini btn-warning" href="#" data-url="{:U("productOrder/deleteAddress?addId=".$vo[id])}">删除</a>
+                                </div>
+                            </div>
+                            <?php endif;?>
+                            </foreach>
+                        </div>
+
+                        <div class="clearfix write_edit" style="display: none;"><!-- display: none; -->
+                            <p class="add_more mt10">
+                                <!-- <a href="javascript:void(0);" class="bor_btn pr ">更多常用地址<i class="down_icon"></i></a> -->
+                            </p>
+
+                            <div class="bor_t_li choice_label_btn" data-addresstype="createAddress">
+                                <p class="bg_yellow840">
+                                    <input name="addrList" class="addrList" type="radio" id="newAddress" value="0"> 使用新地址
+                                    <!-- <input name="addrList" id="newAddr" type="radio" value="" style="display:none"> --> <!-- TODO -->
+                                </p>
+                                <div id="modifyaddDiv" style="display:none;"><!-- display: none; -->
+                                    <form action="{:U("productOrder/changeAddress")}" id="new_address_form">
+                                    <!-- <input id="addressId" name="addressId" type="hidden" value="0">
+                                    <input id="addressOpt" name="addressOpt" type="hidden" value="new"> -->
+                                    <div class="new_add pt10">
+                                        <dl>
+                                            <dt><span class="f_red">*</span> 收货人：</dt>
+                                            <dd><input name="name" datatype="*" id="name" type="text" class="inp145"></dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><span class="f_red">*</span>所在地区：</dt>
+                                            <dd>
+                                                {:hook('J_China_City', array('province'=>$project['province'], 'city'=>$project['city']))}
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><span class="f_red">*</span> 详细地址：</dt>
+                                            <dd><span id="area_div"></span>
+                                                <input name="address" id="address" type="text" datatype="*" class="inp315">
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><span class="f_red">*</span> 手机 或者
+                                                固定号码：</dt>
+                                            <dd><input name="mobile" id="mobile" datatype="n"  type="text" class="inp145">
+                                               <!--  &nbsp;或&nbsp;&nbsp;&nbsp;<span class="f_333">固定号码：</span><input name="phone" id="phone" type="text" class="inp145"> -->
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>* 邮编：</dt>
+                                            <dd><input name="postno" id="postno" datatype="n"  type="text" class="inp145"></dd>
+                                        </dl>
+                                    </div> <!-- new_add end -->
+                                </div>
+                                <p class="mt10">
+                                    <button class="btn130_red saveAddress" id="saveAddress">保存收货人地址</button>
+                                </p>
+                                    </form>
+                            </div>
+                        </div>
+
+                         <input id="price_id" name="price_id" type="hidden" value="{$productPriceList.id}"> 
+
+                        <!-- <input id="address_id" name="address_id" type="hidden" value="{$productPriceList.id}">  -->
+                        <button id="nbutt" class="btn130_red" type="button" >添加新地址</button>
+
+                        
+                        <!-- <input type="hidden" id="addressId" name="addressId" value="137746612"> -->
+                    </div><!-- end order-item-value -->
+                </div>
+
+<!--                 <div class="order-item order-item-last  clearfix">
+                    <div class="order-item-key">购买数量</div>
+                    <div class="order-item-value">
+                        <input type="text" readonly="readonly" class="pay_count" id="pay_count" datatype="n" value="{$aCustomRecord.count}">
+                    </div>
+                </div> -->
+
+                <div class="order-item order-item-last  clearfix">
+                    <div class="order-item-key">风险说明：</div>
+                    <div class="order-item-value">
+                        <div class="info-min">中瀛智募是一个开放的众筹平台，公众基于对项目、发起人和回报的认同，通过资助的方式参与和支持创新。</div>
+                        <div class="info-all">
+                            中瀛智募是一个开放的众筹平台，公众基于对项目、发起人和回报的认同，通过资助的方式参与和支持创新。
+                            筹资成功后，执行的过程中，如果项目没有按照预期的目标执行，项目发起人可能无法正常发放回报。如果产生了这种情况，您支持金额中的部分金额会退还给您，但是由于其中部分金额已经被项目组织者使用，您需要和项目组织者协商订金退还的事宜，中瀛智募没有帮您追讨资金的义务。
+                        </div>
+                        <a href="javascript:;" class="ui-more-min btn-s2 more-btn mt10">
+                        <span>更多</span>
+                        <i class="icon"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+                <div class="order-pay-box">
+
+
+                    <input id="next_url" name="next_url" type="hidden" value="{:U('productOrder/info?ismobile=true&priceId='.$productPriceList[id])}"> 
+                    <input id="price_id" name="price_id" type="hidden" value="{$productPriceList.id}">
+                     <button id="btn_next" class="ui_next btn btn-large btn-red">立即支付</button>
+                </div>
+            </div>
+        </div>
+      <!-- </form> -->
+</block>
+<block name="script">
+
+<script type="text/javascript" src="__JS__/productOrder/info.js"></script>
+  <script type="text/javascript">
+  	$(document).ready(function(){
+         //更多按钮
+
+        $(".ui-more-min").click(function(){
+            $(".info-min").fadeToggle(function(){
+                $(".info-all").fadeToggle();
+                
+            });
+
+            var currentStatus = $(".more-btn span").text();
+
+            if (currentStatus=="更多") {
+                $(this).addClass("min-btn");
+                  $(".more-btn span").html("收起");
+                  $(".more-btn").removeClass("more-btn");
+            }else{
+                 $(".min-btn span").html("更多");
+                $(".min-btn").addClass("more-btn");
+                  $(".min-btn").removeClass("min-btn");
+            };
+        });
+        $(".choice_label_btn").click(function(){
+            var addresstype = $(this).data("addresstype");
+            if (addresstype != "createAddress") {
+                $(".choice_label_btn").css('background','white');
+                $(".addrList").attr('checked',false);
+
+                $(this).children('.addrList').attr('checked','checked');
+                $(this).css('background','#a4cc43');
+            }
+        });
+  	});
+  </script>
+</block>

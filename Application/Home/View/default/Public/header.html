@@ -1,0 +1,79 @@
+<!--[if lte IE 7]>
+<div id="update-browser"
+     style="background:#8E8E8E;color:white;width:960px;line-height:42px;position:absolute;left:50%;margin-left:-480px;z-index:9999;text-align:center;bottom:auto;:top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));">
+    <span>
+        您的浏览器版本过低。为保证最佳投资体验，您可以<a href="http://rj.baidu.com/soft/detail/14744.html" style="color:white">点击下载</a>
+        <a href="http://rj.baidu.com/soft/detail/14744.html"
+           style="color:white;text-decoration:underline;background:url('/Public/Home/images/chrome.png') 5px -2px no-repeat;padding-left:25px;">
+            谷歌浏览器
+        </a>
+    </span>
+    <a href="#" style="position:absolute;right:15px;top:0;color:white"
+       onclick="document.getElementById('update-browser').style.display='none';return false;">以后再说 <span
+            style="font-weight:bold">×</span></a>
+</div>
+<![endif]-->
+<!-- 头部导航栏 -->
+<div class="topbar">
+    <div class="contentw">
+        <div class="content">
+            <h1 class="logo"><a href="{:U('Index/index')}">中瀛智募</a></h1>
+            <ul class="nav" style="left:350px">
+                <li><a href="{:U('Index/index')}">首页</a></li>
+                <li><a href="{:U('List/index',array('type'=>1,'status'=>0,'p'=>1))}">股权众筹</a></li>
+                <li><a href="{:U('Pubwelfare/index')}">公益众筹</a></li>
+                <li><a href="{:U('List/index',array('type'=>2,'status'=>0,'p'=>1))}">实物众筹</a></li>
+            </ul>
+            <div class="top_login">
+                <if condition="is_login()">
+                    <a href="{:U('MCenter/index')}" class="hover-link">
+                        <img class="avatar" src="{:get_memberface()}" alt=""><!--{:get_username()}-->
+                        <span class="tri"></span>
+                    </a>
+
+                    <div id="user-menu-box" class="user-menu-box">
+                        <ul>
+                            <li>
+                                <a class="menu-item" href="{:U('MCenter/index')}">用户中心</a>
+                            </li>
+                            <li>
+                                <a class="menu-item" href="{:U('MCenter/pj_support')}">股权众筹</a>
+                                <a class="menu-item" href="{:U('MCenter/pr_support')}">实物众筹</a>
+                                <a class="menu-item" href="{:U('MCenter/stock')}">股票基金</a>
+                            </li>
+                            <li class="last">
+                                <!--<a class="menu-item" href="{:U('User/detail')}">个人资料</a>-->
+                                <a class="menu-item" href="{:U('Account/index')}">账户管理</a>
+                                <a class="menu-item" href="{:U('User/logout')}">安全退出</a>
+                            </li>
+                        </ul>
+                        <div class="tri-box">
+                            <div class="tri tri0"></div>
+                            <div class="tri tri1"></div>
+                            <div class="tri tri2"></div>
+                        </div>
+                    </div>
+                    <!--<a href="{:U('User/logout')}" class="reg2">退出</a>-->
+                    <else/>
+                    <a href="{:U('User/login')}" class="reg">登录</a>
+                    <a href="{:U('User/register')}" class="reg2">注册</a>
+                </if>
+            </div>
+        </div>
+
+    </div>
+    <div class="topbarbg"></div>
+</div>
+<script>
+    var userDropdownMenu = function () {
+        var $userMenuBox = $('#user-menu-box');
+        $('.top_login').hover(function () {
+                    $userMenuBox.fadeIn('fast');
+                }, function () {
+                    $userMenuBox.fadeOut();
+                }
+        );
+    };
+    userDropdownMenu();
+
+</script>

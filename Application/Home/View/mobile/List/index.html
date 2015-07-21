@@ -1,0 +1,100 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+    <link href="__CSS__/home.css" rel="stylesheet">
+
+    <script type="text/javascript" src="__JS__/addons.js"></script>
+
+    <div class="bannerlist"></div>
+    <div class="fl w100 mt20">
+        <div class="content">
+            <!--分类搜索栏-->
+            <div class="selectPanel">
+                <div class="nav-title">分类</div>
+                <ul class="nav">
+                    <li><a class='active' href="{:U('List/index',array('type'=>0,'status'=>$_GET['status'],'p'=>1))}">全部</a></li>
+                    <li><a href="{:U('List/index',array('type'=>1,'status'=>$_GET['status'],'p'=>1))}">股权众筹</a></li>
+                    <li><a href="{:U('List/index',array('type'=>2,'status'=>$_GET['status'],'p'=>1))}">实物众筹</a></li>
+                    <li><a href="{:U('List/index',array('type'=>3,'status'=>$_GET['status'],'p'=>1))}">股票基金</a></li>
+                </ul>
+                <div style="clear:both"></div>
+                <div class="nav-title">分类</div>
+                <ul class="nav">
+                    <li><a class="active"  href="{:U('List/index',array('type'=>$_GET['type'],'status'=>0,'p'=>1))}">全部</a></li>
+                    <li><a href="{:U('List/index',array('type'=>$_GET['type'],'status'=>1,'p'=>1))}">筹资中</a></li>
+                    <li><a href="{:U('List/index',array('type'=>$_GET['type'],'status'=>2,'p'=>1))}">筹资成功</a></li>
+                </ul>
+            </div>
+            <!--分类搜索栏-->
+
+            <div class="page-list">
+
+
+
+
+            </div>
+            <ul class="list2 content cl">
+                <foreach name="listOfProjects" item="v">
+                    <li>
+                        <span id="yrz">{$v.stage|get_proj_stage}</span>
+                        <if condition='$v.finish_rate egt 100'><span id="cm">众筹超募</span>
+                        </if>
+                        <div class="img"><a href="{:U('project/detail?id='.$v['id'])}"><img src="{$v['cover']|get_cover='path'}" alt="{$v.project_name}股权众筹"></a></div>
+                        <div class="name"><span>股权</span><a href="{:U('project/detail?id='.$v['id'])}" title="中瀛智募">{$v.project_name}</a></div>
+                        <div class="detail"><dl class="cl"><dd><span>{:round($v['need_fund']/10000,2)}万元</span>目标额</dd><dd><span>{$v['finish_rate'] > 100 ? 100 :$v['finish_rate']}%</span>已完成</dd><dd><span>{$v.investor_count}</span>投资人</dd></dl></div>
+                        <div class="prograss">
+                            <div class="bar animateBar" data-animatetarget="{$v['finish_rate'] > 100 ? 100 :$v['finish_rate']}" style="width:{$v['finish_rate'] > 100 ? 100 :$v['finish_rate']}%;">
+                            </div>
+                            <div class="tag">
+                                合投
+                            </div>
+                        </div>
+                        <div class="city"><span>{:getDistrict($v['province'])}</span><span>{:getDistrict($v['city'])}</span></div>
+                        <div class="action"><a href="{:U('project/follow?id='.$v['id'])}">我要投资</a></div>
+                    </li>
+                </foreach>
+
+                <foreach name="listOfProducts" item="v">
+                    <li>
+                        <div class="img"><a href="{:U('product/viewdetail/pid/'.$v['id'])}"  title="中瀛智募"><img src="{$v['home_img']|get_cover='path'}" alt="{$v.name}实物众筹"></a></div>
+                        <div class="name"><a href="{:U('product/viewdetail/pid/'.$v['id'])}"  title="中瀛智募">{$v.name}</a></div>
+                        <div class="detail"><dl class="cl"><dd><span>{:round($v['amount'],1)}元</span>目标额</dd><dd><span>{$v['finish_amount']/$v['amount']>100?100:round(($v['finish_amount']/$v['amount'])*100)}%</span>已完成</dd><dd><span>{$v.supportCount}</span>购买人</dd></dl></div>
+
+                    </li>
+                </foreach>
+
+                <foreach name="listOfStocks" item="v">
+                    <li>
+                        <div class="img"><a href="{:U('stock/index/id/'.$v['id'])}" title="中瀛智募"><img src="{$v['logo']|get_cover='path'}" alt="{$v.name}股票基金众筹"></a></div>
+                        <div class="name"><a href="{:U('stock/index/id/'.$v['id'])}">{$v.name}</a></div>
+                        <div class="detail"><dl class="cl"><dd><span>{:round($v['amount']/10000,2)}万元</span>总资产</dd><dd><span>{$v.investor_count}人</span>已加入</dd><dd><span>{$v['over']/10000}万元</span>累计收益</dd></dl></div>
+                    </li>
+                </foreach>
+
+
+
+            </ul>
+            <div> {$page}</div>
+        </div>
+    </div>
+
+
+</block>
+<block name="script">
+    <script type="text/javascript">
+        setTimeout(function () {
+            $('.bs-docs-sidenav').affix({
+                offset: {
+                    top: 68,
+                    bottom: 270
+                }
+            })
+        }, 100);
+    </script>
+</block>

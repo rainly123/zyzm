@@ -1,0 +1,48 @@
+.navbar {
+    margin-left: -20px;
+    margin-right: -20px;
+}
+.navbar .brand {
+    float: right;
+    width: 76%;
+}
+.navbar .nav>li>a {color: #000}
+body{position: relative;}
+.navbar-inverse {position: static;}
+.navbar-inverse .navbar-inner {background: #313131;}
+.navbar-fixed-top {margin-bottom: 0}
+.top-login a{color: #000; padding: 0 5px;}
+.top-login {color:#000;}
+.top-login a:hover{color:#fff; text-decoration: none;}
+.describe {text-indent: 1.5em; line-height: 28px;}
+.under-line {border-bottom: 1px #ddd solid;}
+.pfund {}
+.pheader img {margin-right: 10px;}
+.pheader .title {padding-top: 10px;}
+.btn-invest {font-size:22px; color: #fff; width: 220px; height: 45px;line-height: 45px;border: none; background-color: #72c2e5; border-radius: 4px;}
+.pcontent {margin-top:30px;}
+.pcontent .tabs ul {list-style: none; background-color: #f5f5f5;margin: 0;border-top:1px #e6e6e6 solid;}
+.pcontent .tabs ul li{float:left; margin-top:-1px;font-size: 18px;}
+.pcontent .tabs ul li a {width:105px;height:48px;line-height:48px;color:#666;text-align:center;display:block;border-top:1px #e6e6e6 solid;border-right:1px #f5f5f5 solid;}
+.pcontent .tabs ul li a.active, .pcontent .tabs ul li a:hover{text-decoration: none;border-top:2px #72c2e5 solid;border-right:1px #e6e6e6 solid;background: #fff;color:#72c2e5;}
+.pcontent .sub-title {border-left:3px #72c2e5 solid;padding-left:15px;line-height: 24px;margin:20px 0 10px; font-size: 18px;}
+.pcontent .content {margin-top: 15px;}
+.pcontent .content p{text-indent: 1.5em;line-height: 24px;}
+.pcontent #my-fund .con {padding:10px; border: 1px #e5e5e5 solid;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px;}
+.pcontent #my-fund .con div {border-right:1px #e5e5e5 solid;padding:10px 0;}
+.pcontent #my-fund .con div:last-child {border-right:none;}
+.pcontent #my-fund .con p {text-align: center; text-indent: 0; margin-bottom:5px}
+.btn-back {background:#fdb163;font-size:20px;width:120px;height:48px;line-height:48px;color:#fff;border:none;}
+.pcontent #my-fund .con h4 {margin: 0; text-align:center;}
+.pcontent #my-fund .comment {color:#fdb163;line-height:30px;}
+@media(min-width: 980px) {.pcontent .visible-desktop{display:inline!important;}}
+.myfund {border: 1px solid #e5e5e5;float:none; border-radius: 4px;-webkit-border-radius:4px; -moz-border-radius:4px;}
+.myfund td{padding:10px 0;}
+.btn-comment{background-color:#f37462;color:#fff; width:80px; border:none; height:30px;line-height:30px;}
+#messagebody a{vertical-align: bottom;}
+.btn-login {background-color: #40c0bf; color:#fff; width:300px;font-size:22px;padding: 10px 20px;}
+.btn-login:hover{color: #fff; text-decoration: none;}
+.stopbottom {position: fixed; left:0;right:0; bottom:0;padding:10px;background:#999;}
+.stopbottom .btn-invest {left: calc(50% - 110px)}
+.tab-item {display:none;}
+.tab-item.active {display:block;}

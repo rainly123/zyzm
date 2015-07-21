@@ -1,0 +1,84 @@
+<extend name="Base/common"/>
+
+<block name="body">
+    <script>
+        !function () {
+            var a = document.documentElement;
+            var b = a.clientWidth / 20;
+            a.style.fontSize = (b > 32 ? 32 : b) + "px"
+        }();
+    </script>
+
+    <link href="__M_CSS__/notice.css" rel="stylesheet">
+    <div id="server-data" style="display:none;">
+        <input type="hidden" name="noticelist" value="{$noticelist}">
+        <input type="hidden" name="newslist" value="{$newslist}">
+    </div>
+
+    <div class="banner-box">
+        <ul class="banner-list">
+            <foreach name="bannerList" item="vo">
+                <li>
+                    <a href="{$vo.extra}"><img src="{$vo.mobiel_img_id|get_cover='path'}" style="width:100%;"/></a>
+                </li>
+            </foreach>
+        </ul>
+        <ol class="indicator">
+            <li class="on"></li>
+        </ol>
+    </div>
+
+
+    <div class="magellan">
+        <div class="tab-box">
+            <ul class="tab-list">
+                <li id="tab-title-news" class="tab-item <if condition='$type neq 1 '> active </if>">
+                    <a><span>干货</span></a>
+                </li>
+                <li id="tab-title-notice" class="tab-item <if condition='$type eq 1 '> active </if>">
+                    <a><span>公告</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-box swipe <if condition='$type eq 1 '> news </if>">
+
+        <div class="panel-list swipe-wrap">
+            <div class="panel news-panel">
+                <ul class="news-list">
+                    <foreach name="news" item="v">
+                        <li class="<?php print (NOW_TIME - $v['create_time']) / 86400  < 7 ? 'new' : '' ?>">
+                            <a href="{:U('Info/infomation?id='.$v['id'])}">
+                                <div class="img" style="background-image: url({$v.cover|get_cover='path'})"></div>
+                                <span class="title">{$v.title}</span>
+                                <span class="date">{$v.create_time|time_format='Y-m-d'}</span>
+                            </a>
+                        </li>
+                    </foreach>
+                </ul>
+            </div>
+
+            <div class="panel notice-panel">
+                <ul class="notice-list">
+                    <foreach name="notice" item="v">
+                        <li class="<?php print (NOW_TIME - $v['create_time']) / 86400  < 7 ? 'new' : '' ?>"><a
+                                href="{:U('Info/notice?id='.$v['id'])}"><span class="title">{$v.title}</span><span
+                                class="date">{$v.create_time|time_format='m-d'}</span></a></li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="fixed-footer">
+        <div class="btn-list">
+            <a class="btn home if icon-home-o" href="/">首页</a>
+            <a class="btn news active if icon-newspapers" href="{:U('info/infolist')}"><span>干货</span></a>
+            <!--<a class="btn user-center if icon-user-o" href="{:U('MCenter/index')}">我的</a>-->
+        </div>
+    </div>
+    <script src="__STATIC__/jquery-2.0.3.min.js"></script>
+    <script src="__STATIC__/swipe.min.js"></script>
+    <script src="__STATIC__/template.js"></script>
+    <script src="__M_JS__/noticelist.js"></script>
+</block>

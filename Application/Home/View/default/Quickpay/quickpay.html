@@ -1,0 +1,81 @@
+<div id="hascard" class="form-list">
+  <form action="{:U()}" method="post" id="quickpay1">
+    <input type="hidden" name="merOrderId" value="{$merOrderId}">
+    <input type="hidden" name="bankNo" value="{$card.bankno}">
+    <input type="hidden" name="custName" value="">
+    <input type="hidden" name="custIdNo" value="">
+    <input type="hidden" name="custIdType" value="0">
+    <ul class="">
+      <li><dl class="clearfix">
+        <dt>银卡卡号：</dt><dd><span>{:substr($card['storablecardno'], 0, 6)}****{:substr($card['storablecardno'], -4)}</span>
+        <input type="hidden" name="storableCardNo" value="{$card.storablecardno}"></dd>
+      </dl></li>
+      <li><dl class="clearfix">
+        <dt>手机号码：</dt><dd><span>{:substr($card['phoneno'], 0, 3)}****{:substr($card['phoneno'], -4)}</span>
+        <input type="hidden" name="phoneNo" value="{$card.phoneno}"></dd>
+        <input type="hidden" name="amount" value="{$amount}">
+      </dl></li>
+      <li><dl class="clearfix">
+        <dt>验证码：</dt><dd><input type="text" name="phoneVerCode" id="phoneVerCode" placeholder="输入手机验证码" class="c3">
+        <input type="hidden" name="phoneToken" id="phoneToken" value="">
+        <a href="{:U('getcode')}" class="btn_blue getsmscode">发送验证码</a>
+        </dd>
+      </dl></li>
+    </ul>
+    <div class="btn-list"><a href="#" id="btn-quickpay1" class="btn_red2"><span>支 付</span></a></div>
+  </form>
+</div>
+<script>
+  $("#btn-quickpay1").click(function() {
+    form = $(this).parents('form');
+    form.submit();
+    return false;
+  });
+  $("#quickpay1").Validform({
+    tipSweep:true,
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      if (o.type == 3) {
+        layer.alert(msg);
+      }
+    }, ajaxPost: true,
+    beforeSubmit:showWaiting,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 9,
+          function(){if(data.url){window.location.href=data.url;}});
+      } else {
+        layer.alert(data.info);
+      }
+    }
+  });
+  var longtime = 0;
+  var id ;
+  $(".getsmscode").click(function() {
+    var code = $(this);
+    var form = code.parents('form');
+    if (longtime > 0) {return false;}
+    is_waiting = true;
+    $.post(code.attr('href'), form.serialize(), function(data) {
+      if (data.status == 1) {
+        longtime = 40;
+        $('.getsmscode').html('请稍等'+ longtime +'秒');
+        // 倒计时
+        id = setInterval(uptime, 1000);
+        $("#phoneToken").val(data.phoneToken);
+      } else {
+        alert(data.info);
+      }
+    });
+    return false;
+  });
+
+  function uptime() {
+    $('.getsmscode').html('请稍等'+ longtime +'秒');
+    longtime = longtime - 1;
+    if (longtime <= 0) {
+      clearInterval(id);
+      $('.getsmscode').html('获取验证码');
+    }
+  }
+</script>

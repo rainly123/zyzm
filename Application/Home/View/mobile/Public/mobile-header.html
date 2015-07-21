@@ -1,0 +1,29 @@
+<div class="navbar navbar-inverse navbar-fixed-top" style="margin:0px; ">
+		<div class="navbar-inner" style="padding:0 10px 0 10px;">
+			<div class="">
+				<button class="btn btn-navbar collapsed" style="margin-top:18px" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="{:U('Index/index')}" class="brand" style="width: 220px;">
+					<img style="width:100%" src="__IMG__/logo2.png">
+				</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav" style="margin-top:18px">
+						<li><a href="{:U('Index/index')}">首页</a></li>
+						<li><a href="{:U('project/index')}">浏览梦想</a></li>
+						<li><a href="{:U('project/create')}">发起梦想</a></li>
+						<li><a href="{:U('Product/index')}">物以类聚</a></li>
+					</ul>
+						<div class="pull-right top-login" style="margin-top:28px">
+						<if condition="is_login()">
+							<a href="{:U('User/logout')}">退出</a>
+						<else />
+							<a href="{:U('User/login')}">登录</a>|<a href="{:U('User/register')}">注册</a>
+						</if>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

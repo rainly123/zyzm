@@ -1,0 +1,198 @@
+<extend name="Base/common"/>
+<block name="header">
+<div class="main bg-white">
+	<div class="content clearfix">
+		<div class="leader-title">
+			<h2>{$project.project_name} <small> 候选领投人</small></h2>
+			<p>已投票人数/投资人数：<strong>{$project.vote_count}/{$project.inve_count}</strong>　　已投票人总金额/已认投资金：<strong>{$project.vote_fund|change_fund}/{$project.has_fund|change_fund}</strong> 元</p>
+		</div>
+		<if condition="$project.vote_leader neq 0">
+		<div class="vote clearfix">
+			<if condition="$project.vote_leader eq 1">
+			<div class="vote-left">
+				<strong>推选领投人</strong>
+				<button class="btn-red btn-middle" id="btnVote">投票</button>
+			</div>
+			</if>
+			<div class="vote-middle">
+				<span class="label label-stage">资金比</span><br>
+				<span class="label label-phase">人数比</span>
+			</div>
+			<div class="vote-right">
+				<ul class="clearfix">
+					<foreach name="leader" item="v">
+						<if condition="$v.lead_type neq 0">
+						<li><div><span><em class="c1" style="height:{$v.fund_rate}%"></em></span><br>{$v.vote_fund|change_fund}</div>
+						<div><span><em class="c2" style="height:{$v.vote_rate}%"></em></span><br>{$v.vote_count}人</div><br>{$v.nickname}</li>
+						</if>
+					</foreach>
+				</ul>
+			</div>
+		</div>
+		</if>
+	</div>
+</div>
+</block>
+<block name="side">
+</block>
+<block name="body">
+<div class="main bg-white" style="padding-top:0">
+	<div class="nav-bar">
+		<div class="content">
+			<ul class="menu">
+			<foreach name="leader" item="v">
+				<if condition="($project.vote_leader eq 0) OR ($v.lead_type neq 0)">
+					<li><a href="#{$v.nickname}">{$v.nickname}</a></li>
+				</if>
+			</foreach>
+			</ul>
+		</div>
+	</div>
+	<div class="content tab-list">
+		<foreach name="leader" item="v">
+			<if condition="($project.vote_leader eq 0) OR ($v.lead_type neq 0)">
+			<div class="tab-cell clearfix" id="{$v.nickname}">
+				<div class="lead-left">
+					<div class="pb30">
+						<div class="more-title">候选领投人简介</div>
+						<div>
+							<p>姓名：<strong style="font-size:18px;margin-right:30px">{$v.name}</strong> 性别：<strong style="font-size:18px;margin-right:30px">{$v['$sex'] ? '女' : '男'}</strong></p>
+							<p>所在地区：{:getProvinceCity($v['province'], $v['city'])}</p>
+						</div>
+						<p>个人简介：
+							 <span style="color:#999">{$v.resume}</span>
+						</p>
+						<p>领投理由：<span style="color:#999">{$v.reason}</span></p>
+					</div>
+					<div class="pb30">
+						<div class="more-title">项目评价</div>
+						<p>{$v.team_comment}</p>
+					</div>
+					<div class="pb30">
+						<div class="more-title">团队评价</div>
+						<p>{$v.team_comment}</p>
+					</div>
+					<div class="pb30">
+						<div class="more-title">调查报告</div>
+						<p>{$v.report}</p>
+					</div>
+				</div>
+				<div class="lead-right">
+					<div class="fund-title bg-red">支 持 者</div>
+					<div class="investor-dt">
+						<foreach name="v.vote" item="vf">
+							<div class="p1 clearfix">
+								<div class="img-face pull-left">
+									<img src="{$vf.investor_id|get_memberface}" alt="">
+								</div class ="pull-left">
+								<div class="investor-info pull-left">
+									<p class="name">{$vf.investor_id|get_membername}</p>
+									<p class="inve-fund">跟投金额：<b><em>{$vf.fund|change_fund}</em></b> 元</p>
+									<p class="inve-fund">跟投时间：<span>{$vf.create_time|time_format='Y-m-d'}</span></p>
+									<p class="inve-fund">投资理由：<span>{$vf.resean}</p>
+								</div>
+							</div>
+						</foreach>
+						<p>有<b class="key">{$v.hidden}</b>位匿名投资人投票，总计<b class="key">{$v.hidden_fund}</b>元</p>
+					</div>
+				</div>
+			</div>
+			</if>
+		</foreach>
+	</div>
+</div>
+<!-- Modal 添加、修改大事记 Start-->
+<form action="{:U('Leader/vote?id='. $project['id'])}" method="POST" class="form-horizontal">
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  	<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    	<b id="myModalLabel">推选领投人</b>
+	  	</div>
+	  	<div class="modal-body">
+		    <div class="control-group">
+		    	<label class="control-label">候选人</label>
+		    	<div class="controls">
+		    		<foreach name="leader" item="v">
+		    			<label class="radio inline"><input type="radio" name="leader_id" value="{$v.leader_id}">{$v.nickname}</label>
+		    		</foreach>
+		    	</div>
+		    </div>
+		    <div class="control-group">
+		    	<label class="control-label">投票理由</label>
+		    	<div class="controls">
+		    		<textarea style="width:300px" rows="5" name="resson"></textarea>
+		    	</div>
+		    </div>
+		    <div class="control-group">
+		    	<div class="controls">
+		    		<label class="checkbox">
+		    			<input type="checkbox" name="is_hidden" value="1">
+		    			<span href="#" id="vote-hidden" data-toggle="tooltip" data-placement="right" data-original-title="选择后，你的名字将不显示" style="color:blue">我要匿名</span>
+		    		</label>
+		    	</div>
+		    </div>
+		    <div class="control-group">
+		    	<div class="controls">
+		    		<label class="checkbox"><input type="checkbox" name="agree" id="agree" value="1">
+						我已阅读并同意<a href="#">聚募网推选领投人投票规则</a>
+		    		</label>
+		    	</div>
+		    </div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn-red btn-small" id="button-vote">投票</button>
+			<button class="btn-yellow btn-small" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>  
+	</div><!-- Modal 添加、修改大事记 end-->
+</form>
+</block>
+<block name="script">
+<script type="text/javascript">
+$(function() {
+	$(".tab-cell:first,.menu li:first").addClass('active');
+	$(".menu a").click(function() {
+		$(".menu li").removeClass('active');
+		$(this).parent().addClass('active');
+		$(".tab-cell").removeClass('active');
+		$($(this).attr('href')).addClass('active');
+		return false;
+	});
+	$("#btnVote").click(function() {
+		$("#myModal").modal("show");
+	});
+	$("input[name='leader_id']").click(function() {
+		$(".control-group:first").removeClass('error');
+	});
+	// 提交处理
+	$("form").submit(function(){
+		if (!$("#agree").is(':checked')) {
+			alert('您必须先阅读协议，并同意后，才能创建项目。');
+			return false;
+		}
+
+		var self = $(this);
+		var elector = $("input[name=leader_id]:checked");
+		var value = elector.val();
+
+		$(".control-group:first").removeClass('error');
+		if (value == "" || value == null) {
+			$(".control-group:first").addClass('error');
+			alert("请选择您要推选的候选人");
+			return false;
+		}
+		$.post(self.attr("action"), self.serialize(), success, "json");
+		return false;
+
+		function success(data){
+			if(data.status){
+				alert("投票成功");
+				window.location.reload();
+			} else {
+				alert(data.info);
+			}
+			$("#myModal").modal("hide");
+		}
+	});
+});
+</script>
+</block>

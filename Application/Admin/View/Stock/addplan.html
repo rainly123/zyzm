@@ -1,0 +1,49 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>新股计划编辑</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">计划名称<span class="check-tips"></span></label>
+            <input type="hidden" name="pid" value="{$data.pid}">
+            <input type="hidden" name="id" value="{$data.id}">
+            <div class="controls">
+                <input type="text" class="text input-large" name="name" value="{$data.name}" maxlength="50">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">申购日期<span class="check-tips"></span></label>
+            <div class="controls">
+               <input type="text" name="purchasedate" class="text date" placeholder="请选择日期" value="{$data.purchasedate|time_format='Y-m-d'}">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('User/index')}');
+        
+    	$('.date').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language:"zh-CN",
+            minView:2,
+            startDate:new Date(),
+            autoclose:true
+        });
+    </script>
+</block>

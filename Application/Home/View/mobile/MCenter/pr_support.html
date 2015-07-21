@@ -1,0 +1,92 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__M_CSS__/index.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<section id="news_nav">
+  <a class="physical_nav1">已支持</a>
+  <a href="{:U('MCenter/pr_create')}">已发布</a>
+<!--   <a href="{:U('MCenter/pr_attach')}">已收藏</a> -->
+</section>
+<section id="physical_main">
+  <div class="list_cp1">
+	<foreach name="supportList" item="vo">
+		<div class="item selected">
+                <div class="list_zu">
+					<div class="physical_kuang">
+						<div class="list_zu1"> 
+							<a href="{:U('Product/viewdetail?pid='.$vo['id'])}">
+								<img width="100%" height="100%" src="{$vo.home_img|get_cover='path'}">
+							</a>
+						</div>
+					
+						<div class="list_zu2">
+							<ul>
+								<li><h3>{$vo.name}</h3></li>
+								<li>订单：{$vo.customid}</li>
+								<li><b>时间：{$vo.create_time|time_format="Y-m-d"}</b><h2>状态：<if condition="$vo['status'] eq 0"> 购买成功
+								<elseif condition="$vo['status'] eq 1"/>支付成功
+								<elseif condition="$vo['status'] eq -1"/>已撤销
+								<elseif condition="$vo['status'] eq -2"/>无购买名额
+							</if></h2></li>
+								<notempty name="vo.luckno"><li><b>幸运号：{$vo.luckno}</b></li></notempty>
+								<notempty name="vo.shareno"><li><b>邀请码：{$vo.shareno}</b></li></notempty>
+							</ul>
+						</div>
+					</div>
+					<div class="physical_rtje">
+						<dd>￥:<span>{$vo.amount}</span><b>元</b>（邮费：￥{$vo.post_amount}）</dd>
+						<p>
+							<if condition="$vo['status'] eq 0">
+								<a href="{:U('ProductOrder/confirm?customId='.$vo['customid'])}"  id="btnpay" class="btnpay">支付</a>
+								<a href="{:U('ProductOrder/revocation?customId='.$vo['customid'])}" id="btnattach" class="btnattach">撤销</a>
+							<elseif condition="$vo['status'] eq 1"/>
+								<!-- <a href="#">交易详情</a> -->
+								<!-- <a href="{:U('Product/viewdetail?pid='.$vo['id'].'&shareid='.$vo['shareid'])}">分享</a> -->
+								<eq name="vo.is_share" value="2">
+									<a href="{:U('ProductOrder/share?id='.$vo['customid'])}">分享</a>
+								</eq>
+				
+							</if>
+						</p>
+					</div>
+				</div>
+			</div>
+	
+	</foreach>
+  
+            <!--item-->
+	</div>
+<!--   <div class="list_gd">
+    <a href="#">查看更多（每次加载5条显示）</a>
+  </div> -->
+</section>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		$(".btnattach").click(function() {
+			  var _this = $(this);
+			  if (confirm('您确定要撤销吗？')) {
+			    $.post(_this.attr('href'), function(data) {
+			      if (data.status == 1) {
+			        alert('指定订单已撤销');
+			        window.location.reload();
+			      }
+			    });
+			  }
+			  return false;
+			});
+	
+		$(".btnpay").click(function() {
+			  var _this = $(this);
+			    $.post(_this.attr('href'), function(data) {
+				      if (data.status == 1) {
+				       
+				        window.location.href = data.url;
+				      }
+				    });
+			  return false;
+			});
+	</script>
+</block>

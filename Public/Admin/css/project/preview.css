@@ -1,0 +1,103 @@
+/*项目*/
+.xmsteps{ background:#eee; padding:10px 0 ; border-bottom:1px solid #d9d9d9;}
+.nav-steps ul {position: relative; margin: 0px; font-weight: bolder;}
+.nav-steps li {display: inline-block; position: relative; margin-right: 8px;line-height: 18px;
+	font-size: 18px;
+	list-style: none; padding: 12px 32px 10px 45px;background: #ddd; zoom: 1; color: #666;}
+.nav-steps li:after{position: absolute;right: -20px;top: 0;height: 0;width: 0;
+	border-bottom: 20px inset transparent;
+	border-top: 20px inset transparent;content: "";z-index: 2;}
+.nav-steps li:first-child:before{border: none;}
+.nav-steps li:last-child:after{border: none;}
+.nav-steps li.finish{ color: #fff;}
+.nav-steps li.active{
+	background-color: #f37463;
+}
+.control-label{
+	color: black;
+	font-weight: bold;
+}
+.control-label:after{
+	content: ":";
+}
+
+.under-line {border-bottom:1px solid #e3e3e3; padding-bottom: 10px;margin-bottom: 20px}
+.img-box {width: 200px; background: url(../images/default_image.jpg) center; height: 150px; margin-right: 10px; vertical-align: top; overflow: hidden;}
+.help-info {width: 276px}
+.help-title {background-color: #f37463; border: 1px solid #f37463; color: #fff; height: 38px;line-height: 38px;font-size:18px;font-weight: bolder; width: 276px;text-align: center;}
+.help-msg {border: 1px solid #e5e5e5;padding: 20px 10px 30px; line-height: 24px; font-size: 14px; color: #666;}
+.main .form-actions {background-color: #fff; border: none;}
+.pj-left {
+	width: 100%;
+	min-height: 1px;
+}
+.pj-cover {
+	width: 200px; height: 150px; overflow: hidden;
+}
+.content {
+	width: 1000px;
+	margin: 0 auto;
+	color: #666;
+}
+.form-horizontal .control-group {
+margin-bottom: 0px;
+}
+input[type='text'], input[type="password"], input[type="number"], input[type="emall"], select, textarea {
+-webkit-border-radius: 0;
+-moz-border-radius: 0;
+border-radius: 0;
+}
+
+.sub-title {
+height: 50px;
+line-height: 50px;
+background-color: #f0f0f0;
+border: 1px solid #ccc;
+border-bottom: none;
+padding-left: 10px;
+font-size: 18px;
+font-family: Microsoft YaHei, 微软雅黑;
+font-weight: bolder;
+color: #666;
+}
+
+.com-info {
+margin-bottom: 30px;
+}
+
+.edit-info{
+	border:1px solid #ccc;
+	border-top: none;
+	padding: 10px;
+}
+
+.tt {width: 100%; font-size: 13px; border: 1px solid #e5e5e5;}
+.tt th {font-weight: bolder;font-size: 14px;line-height: 38px;height: 38px;color: #f37462;background-color: #efefef; border: 1px solid #e5e5e5;text-align: center}
+.tt td {line-height: 30px;height: 30px;text-align: center; border: 1px solid #e5e5e5;}
+
+.ui-project-img{
+	margin-left: 60px;
+}
+
+/*step 4*/
+.ui-img-modal:hover{
+	border:none;
+	text-decoration: none;
+}
+
+/*step 5*/
+.control-label{
+	display: inline-block;
+}
+
+.control-group .controls{
+	margin-bottom: 0px;
+}
+
+/*base style*/
+.pre-page{
+	float: left;
+}
+.next-page{
+	float: right;
+}

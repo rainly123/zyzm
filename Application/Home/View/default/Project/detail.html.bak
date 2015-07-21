@@ -1,0 +1,843 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/detail.css" rel="stylesheet">
+    <link href="__CSS__/quicklogin.css" rel="stylesheet">
+
+</block>
+<block name="body">
+
+    <div id="server-data" style="display: none;">
+        <input type="hidden" name="projectId" value="{$project.project.id}">
+    </div>
+    <div class="fl w100 mainwrap mt25">
+        <div class="content" id="detail">
+            <div class="bread"><a href="/">首页</a>　> <a href="{:U('List/index',array('type'=>1,'status'=>0,'p'=>1))}">股权项目</a>　>
+                {$project.project.project_name}
+            </div>
+            <div class="topinfo mt15 cl">
+                <div class="img fl">
+                    <div class="noimg">
+                        <img src="{$project.project.cover|get_cover='path'}" alt="{$project.project.project_name}"
+                             style="width:100%;height:100%;">
+                    </div>
+                </div>
+                <div class="infos ri">
+                    <h4>{$project.project.project_name}</h4>
+
+                    <p class="sintro"> {$project.project.abstract} </p>
+                    <dl class="rzxx cl">
+                        <dd>
+                            <span>{$project.fund.need_fund|change_fund}</span>融资目标额
+                            <i>
+                                <a onmouseover="ddd('aa', 'show');" onmouseout="ddd('aa', 'hide');"><img
+                                        src="__IMG__/icon_i.jpg"></a>
+                                <div class="intro2" style=" display:none;" id="aa">
+                                    <em></em>
+                                    <if condition="$project[project][stage] egt 4">
+                                        项目估值：{$project.fund.final_valuation|change_fund}元
+                                        <else/>
+                                        估值未确定
+                                    </if>
+                                </div>
+                            </i>
+                        </dd>
+                        <dd><span>{$project.fund.follow_fund|change_fund}元</span>起投额</dd>
+                        <dd><span><eq name="project.project.stage" value="1">0
+                            <else/>
+                            {$project.fund.has_fund|change_fund}
+                        </eq>元</span>已投额
+                        </dd>
+                        <dd><span><eq name="project.project.stage" value="1">0
+                            <else/>
+                            {$project[fund][scale]}
+                        </eq>%</span>已完成
+                        </dd>
+                    </dl>
+                    <div class="savestep_detail cl">
+                        <eq name="project.project.stage" value="1">
+                            <i style="width:0;"></i>
+                            <else/>
+                            <i style="width:{$project[fund][scale] > 100 ? 100 :$project[fund][scale]}%;"></i>
+                        </eq>
+                        <div class="bg"></div>
+                    </div>
+                    <div class="cz cl">
+                        <div class="zan">
+                            <a href="#" title="收藏"
+                               class="c2 btn-heart <eq name='project.project.attach_status' value='0'>heart</eq>">{$project['project']['attach_count']}</a>
+                            <a href="#" title="评论" class="c3 btn-comment">{$project.project.com_count}</a>
+                            <a href="#" title="浏览" class="btn-eye">{$project.project.read_record}</a>
+                        </div>
+                        <eq name="project[project][stage]" value="4">
+                            <div class="wytz"><a id="btnFollow"
+                                                 href="{:U('project/follow?id='.$project['project']['id'])}">我要投资</a>
+                            </div>
+                        </eq>
+
+                        <if condition="($project[project][stage] eq 1) AND ($project[project][vote_leader] eq 0)">
+                            <div class="leader"><i></i><a
+                                    href="{:U('project/leader_info?id='.$project['project']['id'])}">领投人虚位以待</a></div>
+                        </if>
+                    </div>
+                </div>
+            </div>
+            <div class="tagsbar">
+                <a class="city">{:getDistrict($project['project']['province'])}/{:getDistrict($project['project']['city'])}</a>
+            </div>
+            <div class="intro_detail mt20">
+                <div class="xm fl">
+                    <div class="smenu cl">
+                        <ul>
+                            <li id="one1" onclick="setTab('one',1,5)" class="cur">项目主页</li>
+                            <li id="one2" onclick="setTab('one',2,5)">商业模式</li>
+                            <li id="one3" onclick="setTab('one',3,5)">
+                                投资者
+                                <em>(<span id="investor-count"></span>)</em>
+                            </li>
+                            <li id="one4" onclick="setTab('one',4,5)">项目动态</li>
+                            <li id="one5" class="last" onclick="setTab('one',5,5)">
+                                项目评论
+                                <em>({$project.project.com_count})</em>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="" id="con_one_1" style="display: block;">
+                        <div class="c11 borbm">
+                            <table>
+                                <tr>
+                                    <td>公司名称：{$project['project']['company_name']}</td>
+                                    <td>所处阶段: {$project.project.project_phase|get_code_name}</td>
+                                </tr>
+                                <tr>
+                                    <td>公司地址：<span>{:getDistrict($project['project']['province'])}</span><span>{:getDistrict($project['project']['city'])}</span>
+                                    </td>
+                                    <td>团队人数：{$project['project']['member_count']}人</td>
+                                </tr>
+                                <tr>
+                                    <td>项目网址：{$project['project']['project_url']}</td>
+                                    <td>所属行业：{$project.project.industry|get_code_name}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="c11 borbm crbl">
+                            <if condition="$project[project][stage] egt 4">
+                                <table>
+                                    <tr>
+                                        <td><img src="__IMG__/icon_xmdetail_01.png">出让股权比例：{$project.fund.rate_fund|change_fund}%
+                                        </td>
+                                        <td><img src="__IMG__/icon_xmdetail_02.png">项目估值：{$project.fund.final_valuation|change_fund}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </if>
+                        </div>
+                        <div class="c11 mintro">
+                            <p>{$project.info.description}</p>
+                            <notempty name="project.temp">
+                                <div id="DB_gallery">
+                                    <div class="DB_imgSet">
+                                        <div class="DB_imgWin">
+                                            <img style="background:#fff;"
+                                                 src="{:get_cover($project['temp'][0]['info_key'], 'path')}" alt=""
+                                                 style="display: inline;width:100%"></div>
+                                        <div class="DB_page" style="display:none"><span
+                                                class="DB_current">0</span>-<span class="DB_total">0</span></div>
+                                        <div class="DB_prevBtn" style="display: none;"><img
+                                                src="__IMG__/img/prev_off.png" alt=""></div>
+                                        <div class="DB_nextBtn"><img src="__IMG__/img/next_off.png" alt="图片相册"></div>
+                                    </div>
+                                    <div class="DB_thumSet">
+                                        <ul class="DB_thumMove">
+                                            <volist name="project.temp" id="v">
+                                                <li><a href="{$v.info_key|get_cover='path'}"><img
+                                                        src="{$v.info_key|get_cover='path'}" alt="图片相册"></a></li>
+                                            </volist>
+                                        </ul>
+                                        <div class="DB_thumLine" style="left: 0;"></div>
+                                        <div class="DB_prevPageBtn" style="display: none;"><img
+                                                src="__IMG__/img/prev_page.png" alt="上一页"></div>
+                                        <div class="DB_nextPageBtn"><img src="__IMG__/img/next_page.png" alt="下一页">
+                                        </div>
+                                        <div class="DB_prevPageBtn2"><img src="__IMG__/img/prev_page.png" alt="上一页">
+                                        </div>
+                                        <div class="DB_nextPageBtn2"><img src="__IMG__/img/next_page.png" alt="下一页">
+                                        </div>
+                                    </div>
+                                </div>
+                            </notempty>
+                        </div>
+                        <div class="c11 mintro">
+                            <h4 class="c2"><i></i>团队介绍</h4>
+                        </div>
+                        <!--团队成员介绍-->
+                        <foreach name="team" item="v">
+                            <div class="xmms">
+                                <notempty name='v.header_img'>
+                                    <div class="fl2"><img src="{$v.header_img|get_cover='path'}"></div>
+                                </notempty>
+                                <ul class="fr2">
+                                    <li>姓名：{$v.name}</li>
+                                    <li>职务：{$v.postion}</li>
+                                    <notempty name='v.member_info'>
+                                        <li>成员简介：{$v.member_info}</li>
+                                    </notempty>
+                                </ul>
+                                <div style="clear:both"></div>
+                            </div>
+                        </foreach>
+                        <!--团队成员介绍-->
+                    </div>
+                    <div class="c11 mintro xmjs" id="con_one_2" style="display: none;">
+                        <notempty name="project.info.plan">
+                            <h4 class="c2"><i></i>公司未来规划</h4>
+
+                            <div>{$project.info.plan}</div>
+                        </notempty>
+
+                        <notempty name="project.info.custom">
+                            <h4 class="c2"><i></i>目标客户</h4>
+
+                            <div> {$project.info.custom}</div>
+                        </notempty>
+
+                        <notempty name="project.info.avantages">
+                            <h4 class="c2"><i></i>竞争优势</h4>
+
+                            <div>{$project.info.avantages}</div>
+                        </notempty>
+
+                        <notempty name="project.info.yingli_mode">
+                            <h4 class="c2"><i></i>盈利模式</h4>
+
+                            <div>{$project.info.yingli_mode}</div>
+                        </notempty>
+                    </div>
+                    <div class="c11 mintro tzz" id="con_one_3" style="display: none;">
+                        <div id="investlist"></div>
+                    </div>
+                    <div class="c11 mintro xmdt" id="con_one_4" style="display: none;">
+                        <h4 class="c2"><i></i>项目动态</h4>
+
+                        <if condition="($uid eq $project['project']['uid']) ">
+                            <div name="test" class="link-dynamic">
+                                <a href="{:U('project/dynamiclist?id='.$project['project']['id'])}">编辑</a>
+                            </div>
+                        </if>
+
+                        <ul>
+                            <foreach name="dynamicInfo" item="vo">
+                                <ul>
+                                    <li><em>{$vo.create_time|time_format='Y-m-d'}</em>
+                                        <a href="{:U('projectdynamicdetail?id='.$vo['id'])}">
+                                            <div class="dynamic-title">{$vo.title}</div>
+                                        </a>
+
+                                        <div class="dynamicInfoID" style="display: none">{$vo.id}</div>
+                                    </li>
+                                </ul>
+                            </foreach>
+                        </ul>
+
+                    </div>
+                    <div class="c11 mintro xmpl" id="con_one_5" style="display: none;">
+
+                        <h4 class="c2"><i></i>项目评论</h4>
+
+                        <div class="attitudes-wrapper">
+                            <button id="btn-pos" class="btn btn-pos"></button>
+                            <div class="bar">
+                                <div class="score-bar"></div>
+                                <div class="ball-wrapper">
+                                    <div class="ball"></div>
+                                </div>
+                            </div>
+                            <button id="btn-neg" class="btn btn-neg"></button>
+                            <br>
+
+                            <div class="score"><span id="pos-count">0</span>:<span id="neg-count">0</span></div>
+
+                            <label class="label" for="btn-pos">支持</label>
+
+                            <div class="count">已有<span id="attitude-count">6</span>位用户参与</div>
+                            <label class="label" for="btn-neg">反对</label>
+                            <br>
+
+                            <div class="plus-wrapper">
+                                <div class="plus plus-positive">+1</div>
+                                <div class="placeholder"></div>
+                                <div class="plus plus-negative">+1</div>
+                            </div>
+
+                        </div>
+
+
+                        <header class="input-limit-tip">
+                            <span class="safe">还可以输入</span>
+                            <span class="exceed" style="display: none;">已超出</span>
+                            <span id="content-count">140</span>
+                            字
+                        </header>
+                        <!--注意：增加项-->
+                        <ul class="mes">
+                            <li>
+                                <div id="replyw" class="reply" style="margin-top:10px;">
+                                    <textarea id="project-comment" maxlength="140" name=""
+                                              class="border1 comment-comment"
+                                              style="width:100%;"></textarea>
+                                    <button class="dm-btn" id="btn-project-comment">评论</button>
+                                </div>
+                            </li>
+                        </ul>
+                        <div id="comment-box">
+
+                        </div>
+
+                    </div>
+                    <div class="c11 mintro">
+                        <h4 class="c2"><i></i>推荐项目</h4>
+
+                        <div class="tjxm_body">
+                            <div class="bx_wrap">
+                                <div class="bx_container">
+                                    <ul id="tjxm">
+                                        <foreach name="recomendList['project']" item="v">
+                                            <li><a href="{:U('project/detail?id='.$v['id'])}" title="聚募股权众筹"><img
+                                                    src="{$v['cover']|get_cover='path'}">{$v.project_name}</a></li>
+                                        </foreach>
+                                        <foreach name="recomendList['product']" item="v">
+                                            <li><a href="{:U('product/viewdetail/pid/'.$v['id'])}" title="聚募实物众筹"><img
+                                                    src="{$v['home_img']|get_cover='path'}">{$v.name}</a></li>
+                                        </foreach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="other ri">
+                    <div class="df">
+                        <div class="maps">
+                            <div id="container" style="min-width:198px;height:198px"></div>
+                        </div>
+                        <div class="gotodf"><a href="{:U('ProjectScores/index?id='. $project['project']['id'])}"
+                                               rel="popup2" class="poplight">我来打分</a></div>
+                        <div id="popup2" class="popup_block">
+                            <!-- <iframe src="打分页.html" width="880" height="600" frameborder="0" scrolling="no"></iframe> -->
+                        </div>
+                        <div class="fqr cl"><a href="{:U('MCenter/profile?id='. $project['project']['uid'])}"><img
+                                src="{$project.project.uid|get_memberface}" class="header"><b style="overflow:hidden;">{$project.project.uid|get_membername}</b></a>发起人
+                        </div>
+
+                        <eq name="project.project.vote_leader" value="2">
+                            <div class="fqr cl"><a
+                                    href="{:U('MCenter/profile?id='. $project['leader']['leader_id'])}"><img
+                                    src="{$project['leader']['leader_id']|get_memberface}" class="header"><b>{$project['leader']['leader_id']|get_membername}</b></a>领投人
+                            </div>
+                        </eq>
+
+                    </div>
+                    <notempty name="project.project.barcode">
+                        <div class="ew">
+                            <h4>扫码进入项目讨论群</h4>
+                            <img src="{$project.project.barcode}"></div>
+                    </notempty>
+                    <div class="ew">
+                        <h4>股东回报</h4>
+
+                        <p>{$project.fund.extra}</p>
+                    </div>
+                    <div class="ew">
+                        <h4>其他要求</h4>
+
+                        <p>{$project.fund.add_source}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="average-score-values" style="display: none;">
+        {$project.averageScores.group},{$project.averageScores.market},{$project.averageScores.creative},{$project.averageScores.profitablity},{$project.averageScores.evaluation}
+    </div>
+    <div id="my-score-values" style="display: none;">
+        {$userScores.group},{$userScores.market},{$userScores.creative},{$userScores.profitablity},{$userScores.evaluation}
+    </div>
+    <div id="quicklogin" class="quicklogin">
+        <div class="header clearfix">
+            <a href="#" class="tab-title login active" data-target="login-box">会员登录</a>
+            <a href="#" class="tab-title reg" data-target="reg-box">快速注册</a>
+            <!--<a href="#" class="tab-title password" data-target="change-password-box">输入密码</a>-->
+        </div>
+        <div class="step-box clearfix">
+            <div class="step login-box" data-index="0">
+
+                <div class="message"></div>
+                <input name="username" class="input-text username" placeholder="用户名/手机号码">
+                <input type="password" name="password" class="input-text password" placeholder="密码">
+
+                <div class="options-box">
+                    <input type="checkbox" name="remember-user" id="remember" checked="checked">
+                    <label for="remember">记住用户名</label>
+                    <a href="{:U('User/forget')}" title="忘记密码" class="link-forget" style="">忘记密码?</a></div>
+                <button class="btn btn-login">登 录</button>
+                <div class="social-login-box">
+                    <a href="#" title="微信二维码登陆" class="btn-wx-login">微信二维码登陆</a>
+                </div>
+
+            </div>
+            <div class="step reg-box" data-index="1">
+                <div class="message"></div>
+                <input name="username" class="input-text username" placeholder="手机号码">
+                <div class="sms hidden clearfix">
+                    <input type="text" name="verify" class="input-text input-sms" placeholder="短信验证码" datatype="n"
+                           nullmsg="请输入短信验证码">
+                    <button title="发送验证码" href="/User/sendsms.html" class="btn btn-send-sms">发送验证码</button>
+                    <input type="password" name="password" class="input-text password" placeholder="密码">
+                    <input type="password" name="re-password" class="input-text password re-password"
+                           placeholder="重复密码">
+
+                </div>
+
+                <button class="btn btn-next disabled" disabled="disabled">注 册</button>
+                <div class="social-login-box">
+                    <a href="#" title="微信二维码登陆" class="btn-wx-login">微信二维码登陆</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 二维码 DOM -->
+    <div id="login_container"></div>
+    <ul id="fixed-tools" class="hidden">
+
+
+        <li class="contact">
+            <a href="javascript:void(0)">
+                <i></i>
+                <span>咨询热线</span>
+            </a>
+            <div class="float-panel">
+                <i></i>
+                <div class="tri"></div>
+                <p>咨询热线</p>
+                <p>周一至周五 9:00~18:00</p>
+                <p class="phone">0571-86858285</p>
+            </div>
+        </li>
+        <li class="qr">
+            <a href="javascript:void(0)">
+                <i></i>
+                <span>官方微信</span>
+            </a>
+            <div class="float-panel">
+                <img class="qr-img" alt="聚募微信号" width="148" height="157" src="__IMG__/weixin.png">
+                <div class="tri"></div>
+                <p>微信关注<span style="color: #72C2E5;">【聚募众筹】</span></p>
+                <p style="margin-bottom: 10px;">了解最新股权众筹资讯</p>
+            </div>
+        </li>
+        <li id="back-top" class="back-top hidden">
+            <a class="back-top" href="#" title="回顶部">
+                <i></i>
+                <span>回到顶部</span>
+            </a>
+        </li>
+
+
+    </ul>
+</block>
+<block name="script">
+    <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+    <script type="text/javascript" src="__JS__/addons.js"></script>
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+    <script type="text/javascript" src="__JS__/exporting.js"></script>
+    <script type="text/javascript" src="__JS__/highcharts-more.js"></script>
+    <script type="text/javascript" src="__JS__/detail.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.DB_gallery.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.animate-colors-min.js"></script>
+    <script src="__STATIC__/template.js"></script>
+
+    <script id="reply-template" type="text/html">
+        <li class="fresh-comment">
+            <dl>
+                <dd class="img"><img src="{{user_face}}" alt="{{user_name}}"></dd>
+                <dd class="detail">
+                    <div class="from"><b>{{user_name}}</b>{{date}}</div>
+                    <div class="d">{{content}}</div>
+
+                    <div class="panel" style="display:none;">
+                        <input type="hidden" class="comment_id" value="{{data}}">
+                        <textarea class="border1" style="width:100%;" maxlength="140"></textarea>
+                        <a href="#" class="btn-comment-comment">评论</a></div>
+                </dd>
+                <dd class="cz"><a href="#" class="btn-slide">回复</a></dd>
+                <dd></dd>
+            </dl>
+        </li>
+    </script>
+
+    <script type="text/javascript">
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+        var config = {
+            projectCommentAPI: '/project/comment/',
+            positiveAPI: '/attitude/positive',
+            negativeAPI: '/attitude/negative',
+            getAttitudesCountAPI: '/attitude/getNumberOfAttitudes'
+        };
+
+        // 项目图片轮播
+        $('#DB_gallery').DB_gallery({
+            thumWidth: 110, thumGap: 8, thumMoveStep: 4, moveSpeed: 300, fadeSpeed: 500
+        });
+        // 评分显示用数据
+        var averageScore = [],
+                myScore = [];
+        $.each($.trim($('#average-score-values').text()).split(','), function (i, v) {
+            averageScore.push(parseInt(v))
+        });
+        $.each($.trim($('#my-score-values').text()).split(','), function (i, v) {
+            myScore.push(parseInt(v))
+        });
+
+        var fetchInvestors = function () {
+            $.get('{:U("Pages/investor?pid=".$project["project"]["id"])}', function (data) {
+                $("#investlist").html(data.html);
+                $("#investor-count").html(data.count);
+            }, 'json');
+        };
+        var fetchComments = function () {
+            $.get('{:U("Pages/comments?id=".$project["project"]["id"])}', function (data) {
+                $("#comment-box").html(data.html);
+                bindCommentBtnEvent();
+                bindReplyTextareaEvent();
+            }, 'json');
+        };
+        fetchInvestors();
+        fetchComments();
+
+
+        // 分页按钮处理
+        function pageChange() {
+            $('#pagectrl .first,#pagectrl .num,#pagectrl .next,#pagectrl .end,#pagectrl .prev').click(function () {
+                $.get($(this).attr('href'), function (data) {
+                    $("#investlist").html(data.html);
+                    $("#investor-count").html(data.count);
+                }, 'json');
+                return false;
+            });
+        }
+
+        function pageChangeComment() {
+            $('#pagectrl-comment .first,#pagectrl-comment .num,#pagectrl-comment .next,#pagectrl-comment .end,#pagectrl-comment .prev').click(function () {
+                $.get($(this).attr('href'), function (data) {
+                    $("#comment-box").html(data.html);
+                    //$("#investor-count").html(data.count);
+                    location.hash = '';
+                    location.hash = '#comments';
+                    bindCommentBtnEvent();
+                    bindReplyTextareaEvent();
+                }, 'json');
+                return false;
+            });
+        }
+
+
+        // 回复(显示回复输入框)
+        var bindCommentBtnEvent = function () {
+            $(".btn-slide").unbind().click(function () {
+
+                var $panel = $(this).parent().parent().find('.panel');
+                if ($panel.css('display') === 'none') {
+                    $panel.slideDown().find('textarea').focus();
+                    $('html,body').stop(true, false).animate({
+                        scrollTop: $panel.offset().top - 300
+                    });
+                }
+                else
+                    $panel.slideUp();
+
+                return false;
+            });
+            $('.btn-comment-comment').unbind().click(function () {
+                var $detail = $(this).parents('.detail'),
+                        $textarea = $detail.find('textarea'),
+                        commentId = $detail.find('.comment_id').val(),
+                        user = $detail.find('.from').children('b').text(),
+                        content = $detail.find('.d').text();
+
+                var data = {
+                    project_id: serverData.projectId,
+                    content: $textarea.val(),
+                    reply_id: commentId
+                };
+                if ($textarea.val() == '') {
+                    layer.alert('评论内容不能为空');
+                    return false;
+                }
+                $.post(config.projectCommentAPI, data, function (data) {
+                    if (data.status == 1) {
+                        fetchComments();
+                        /*showCommentComment(data, user, content);
+                        $textarea.val('');*/
+                    } else {
+                        layer.alert(data.info, 8);
+                    }
+                });
+                return false;
+            });
+        };
+        var bindReplyTextareaEvent = function () {
+            $('#comment-box').find('textarea').on('keyup change cut paste drop', function () {
+                var $this = $(this);
+                var maxLen = $this.attr('maxlength');
+                var valueLen = $this.val().length;
+                if (valueLen > maxLen) {
+                    $this.val($this.val().slice(0, maxLen));
+                }
+            })
+        };
+
+        // 发表评论
+        $("#btnSend, #btnSend1").click(function () {
+            var comment;
+            if ($(this).attr('id') == 'btnSend') {
+                comment = $("#comment1");
+            } else {
+                comment = $("#comment2");
+            }
+            if (comment.val() == '') {
+                alert('请先填写评论内容。');
+                return false;
+            }
+            var data = {
+                project_id: serverData.projectId,
+                content: comment.val(),
+                reply_id: 0
+            };
+            $.post($(this).attr('href'), data, function (data) {
+                addNew(data);
+                comment.val("");
+                alert('评论发表成功。');
+            });
+            return false;
+        });
+        //项目评论
+        $('#btn-project-comment').click(function () {
+            var $textarea = $('#project-comment');
+            var data = {
+                project_id: serverData.projectId,
+                content: $textarea.val(),
+                reply_id: 0
+            };
+
+            if ($textarea.val() == '') {
+                layer.alert('评论内容不能为空');
+                return false;
+            }
+            $.post(config.projectCommentAPI, data, function (data) {
+                if (data.status == 1) {
+                    showTheComment(data);
+                    $textarea.val('');
+                } else {
+                    layer.alert(data.info, 8);
+                }
+            });
+            return false;
+        });
+
+        //呈现刚发表的评论
+        function showTheComment(data) {
+            var html = template('reply-template', data);
+            $('#comments').prepend(html);
+            $('.fresh-comment').css('backgroundColor', '#FFFFCC').animate({
+                backgroundColor: '#FFFFFF'
+            }, 2000, function () {
+                $(this).css('backgroundColor', 'transparent').removeClass('fresh-comment')
+            });
+            bindCommentBtnEvent();
+            bindReplyTextareaEvent();
+        }
+
+        $(".btn-heart").click(function () {
+            var $this = $(this);
+            $.get('{:U("project/attach?id=". $project["project"]["id"])}', function (data) {
+                if (data.status == 1) {
+                    if (data.attach_status == 0) {
+                        $this.removeClass('heart');
+                        var oFavNum = parseInt($this.text());
+                        if (oFavNum > 0) $this.text(oFavNum - 1);
+                    } else {
+                        $this.addClass('heart');
+                        $this.text(parseInt($this.text()) + 1);
+                    }
+                } else {
+                    layer.alert(data.info, 8, function () {
+                        window.location = data.url
+                    });
+                }
+            });
+            return false;
+        });
+        $('.btn-comment').click(function () {
+            setTab('one', 5, 5);
+            return false;
+        });
+
+        bindCommentBtnEvent();
+        bindReplyTextareaEvent();
+        $('.poplight').click(function () {
+            var offsetTop = ($(window).height() - 650) / 2;
+            if (offsetTop < 0) offsetTop = 0;
+            $.layer({
+                type: 2,
+                title: '我来打分',
+                maxmin: true,
+                shadeClose: true, //开启点击遮罩关闭层
+                area: ['1000px', '650px'],
+                offset: [offsetTop + 'px', ''],
+                iframe: {src: '/ProjectScores/index/id/' + serverData.projectId + '.html'}
+            });
+            return false;
+        });
+        // 剩余字数
+        var checkCharacterLimit = function ($textarea, $counter, $safe, $exceed, $button) {
+            var maxLen = $textarea.attr('maxlength');
+            var checkLen = function () {
+                var valueLen = this.value.length;
+
+                if (valueLen > maxLen) {
+                    $safe.hide();
+                    $exceed.show();
+                    $counter.html(valueLen - maxLen);
+                    $button.addClass('disabled').attr('disabled', '')
+                } else {
+                    $safe.show();
+                    $exceed.hide();
+                    $counter.html(maxLen - valueLen);
+                    $button.removeClass('disabled').removeAttr('disabled')
+                }
+            };
+            $textarea.off().on('keyup change cut paste drop', checkLen)
+        };
+        var $count = $('#content-count');
+        checkCharacterLimit(
+                $('#project-comment'),
+                $count,
+                $count.siblings('.safe'),
+                $count.siblings('.exceed'),
+                $('#btn-project-comment')
+        );
+
+
+        // 支持反对
+        var getAttitudeCount = function () {
+            $.getJSON(config.getAttitudesCountAPI, {pid: serverData.projectId}).then(function (json) {
+                if (json.success) {
+                    updateAttitudeCount(json.info);
+                }
+            });
+        };
+        var updateAttitudeCount = function (json) {
+            var negCount = parseInt(json.negative),
+                    posCount = parseInt(json.positive),
+                    attitudeCount = negCount + posCount;
+            $('#pos-count').text(posCount);
+            $('#neg-count').text(negCount);
+            $('#attitude-count').text(attitudeCount);
+            var percent = posCount / attitudeCount * 100;
+            if (attitudeCount === 0) {
+                percent = 50;
+            }
+            $('.score-bar').css('width', percent + '%');
+            $('.ball').css('left', percent + '%');
+        };
+        getAttitudeCount();
+        var changeVoteStatus = function () {
+            localStorage.setItem('attitudeToProj' + serverData.projectId, true);
+            $('.attitudes-wrapper .btn').addClass('disabled').unbind().click(function () {
+                return false;
+            });
+        };
+        var showPlusAnimation = function (isPositive) {
+            $('.plus-wrapper').addClass('show');
+            var $plusElm = null;
+            if (isPositive) {
+                $plusElm = $('.plus-positive');
+            } else {
+                $plusElm = $('.plus-negative');
+            }
+            $plusElm.addClass('show').width();
+            $plusElm.addClass('go');
+        };
+        !function () {
+            var voted = localStorage.getItem('attitudeToProj' + serverData.projectId);
+            if (voted) {
+                $('.attitudes-wrapper .btn').addClass('disabled').click(function () {
+                    return false;
+                });
+            } else {
+                $('#btn-pos').click(function () {
+                    $.post(config.positiveAPI, {pid: serverData.projectId}, 'json').then(function (json) {
+                        if (json.success) {
+                            getAttitudeCount();
+                            showPlusAnimation(true);
+                        } else {
+                            layer.msg(json.info, 2, -1)
+                        }
+                        changeVoteStatus();
+                    });
+                });
+                $('#btn-neg').click(function () {
+                    $.post(config.negativeAPI, {pid: serverData.projectId}, 'json').then(function (json) {
+                        if (json.success) {
+                            getAttitudeCount();
+                            showPlusAnimation(false);
+                        } else {
+                            layer.msg(json.info, 2, -1)
+                        }
+                        changeVoteStatus();
+                    });
+                })
+            }
+        }();
+        backTop = (function () {
+            var $fixedTools, $window, show, tryShowBackTop;
+            show = -1;
+            $fixedTools = $('#fixed-tools');
+            $window = $(window);
+            tryShowBackTop = function () {
+                var a, b;
+                a = $window.scrollTop();
+                b = $window.height();
+                if (a > b * 0.38) {
+                    if (show !== 1) {
+                        show = 1;
+                        return $fixedTools.fadeIn('slow');
+                    }
+                } else {
+                    if (show !== 0) {
+                        show = 0;
+                        return $fixedTools.fadeOut('slow');
+                    }
+                }
+            };
+            return {
+                init: function () {
+                    $window.on('scroll', tryShowBackTop);
+                    return $('.back-top').click(function () {
+                        $('html,body').animate({
+                            scrollTop: 0
+                        }, 400);
+                        return false;
+                    });
+                }
+            };
+        })();
+        backTop.init();
+    </script>
+    <script src="__JS__/quicklogin.js"></script>
+</block>

@@ -1,0 +1,114 @@
+<!--<extend name="Base/common"/>-->
+<!--<block name="style">-->
+    <!--<link href="__CSS__/validform.css" rel="stylesheet">-->
+    <!--<link href="__M_CSS__/login.css" rel="stylesheet">-->
+<!--</block>-->
+<!--<block name="body">-->
+    <!--<form action="{:U()}" method="post" id="quickpay1">-->
+        <!--<input type="hidden" name="merOrderId" value="{$merOrderId}">-->
+        <!--<input type="hidden" name="bankNo" value="{$card.bankno}">-->
+        <!--<input type="hidden" name="custName" value="">-->
+        <!--<input type="hidden" name="custIdNo" value="">-->
+        <!--<input type="hidden" name="custIdType" value="0">-->
+        <!--<input type="hidden" name="storableCardNo" value="{$card.storablecardno}">-->
+        <!--<input type="hidden" name="phoneNo" value="{$card.phoneno}"></dd>-->
+        <!--<input type="hidden" name="amount" value="{$amount}">-->
+        <!--<div class="user_payinfo">-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<notempty name="bank.logo">-->
+                        <!--<img src="__IMG__/quickpay/pay/{$bank.logo}">-->
+                    <!--</notempty>-->
+                    <!--<h1>{$card.banknm}</h1>-->
+                    <!--<h2>{$bank.quick_remark}</h2>-->
+                <!--</li>-->
+                <!--<dl style=" margin-top:20px;">-->
+                    <!--<dt>-->
+                    <!--<h1>账号</h1></dt>-->
+                    <!--<dd><input readonly type="text" class="txt_phone"-->
+                               <!--placeholder="{:substr($card['storablecardno'], 0, 6)}******{:substr($card['storablecardno'], -4)}">-->
+                    <!--</dd>-->
+                <!--</dl>-->
+                <!--<dl style="border-bottom:1px solid #d1cfcf">-->
+                    <!--<dt>-->
+                    <!--<h1>手机号码</h1></dt>-->
+                    <!--<dd><input readonly type="text" class="txt_phone"-->
+                               <!--placeholder="{:substr($card['phoneno'], 0, 3)}****{:substr($card['phoneno'], -4)}"></dd>-->
+
+                <!--</dl>-->
+                <!--<dl style=" margin-top:20px;">-->
+                    <!--<dt>-->
+                    <!--<h1>金额（元）</h1></dt>-->
+                    <!--<dd><input readonly type="text" class="txt_phone" value="{$amount}"></dd>-->
+                <!--</dl>-->
+
+                <!--<dl style="border-bottom:1px solid #d1cfcf; margin-bottom:20px;">-->
+                    <!--<dt>-->
+                    <!--<h1>验证码</h1></dt>-->
+                    <!--<dd>-->
+                        <!--<input type="text" name="phoneVerCode" class="txt_code" id="phoneVerCode" placeholder="输入手机验证码">-->
+                        <!--<input type="hidden" name="phoneToken" id="phoneToken" value="">-->
+                        <!--<input href="{:U('getcode')}" name="" type="button" class="txt_btn" value="获取验证码"-->
+                               <!--id="cellcode_send">-->
+                    <!--</dd>-->
+                <!--</dl>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="recharge_qd1">-->
+            <!--<input name="" type="submit" class="recharge_qd" value="支&nbsp;&nbsp;付"></a>-->
+        <!--</div>-->
+    <!--</form>-->
+<!--</block>-->
+<!--<block name="script">-->
+    <!--<script src="__STATIC__/Validform_v5.3.2.js" type="text/javascript"></script>-->
+    <!--<script type="text/javascript">-->
+        <!--$("#quickpay1").Validform({-->
+            <!--tipSweep: true,-->
+            <!--tiptype: function (msg, o, cssctl) {-->
+            <!--}, ajaxPost: true,-->
+            <!--beforeSubmit: showWaiting,-->
+            <!--callback: function (data) {-->
+                <!--if (data.status == 1) {-->
+                    <!--alert(data.info);-->
+                    <!--if (data.url) {-->
+                        <!--window.location.href = data.url;-->
+                    <!--}-->
+                <!--} else {-->
+                    <!--alert(data.info);-->
+                <!--}-->
+            <!--}-->
+        <!--});-->
+        <!--var longtime = 0;-->
+        <!--var id;-->
+        <!--$("#cellcode_send").click(function () {-->
+            <!--var code = $(this);-->
+            <!--var form = code.parents('form');-->
+            <!--if (longtime > 0) {-->
+                <!--return false;-->
+            <!--}-->
+            <!--is_waiting = true;-->
+            <!--$.post(code.attr('href'), form.serialize(), function (data) {-->
+                <!--if (data.status == 1) {-->
+                    <!--longtime = 40;-->
+                    <!--$('#cellcode_send').val('请稍等' + longtime + '秒');-->
+                    <!--// 倒计时-->
+                    <!--id = setInterval(uptime, 1000);-->
+                    <!--$("#phoneToken").val(data.phoneToken);-->
+                <!--} else {-->
+                    <!--alert(data.info);-->
+                <!--}-->
+            <!--});-->
+            <!--return false;-->
+        <!--});-->
+
+        <!--function uptime() {-->
+            <!--$('#cellcode_send').val('请稍等' + longtime + '秒');-->
+            <!--longtime = longtime - 1;-->
+            <!--if (longtime <= 0) {-->
+                <!--clearInterval(id);-->
+                <!--$('#cellcode_send').val('获取验证码');-->
+            <!--}-->
+        <!--}-->
+
+    <!--</script>-->
+<!--</block>-->

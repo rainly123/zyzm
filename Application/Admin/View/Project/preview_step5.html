@@ -1,0 +1,86 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+</block>
+<block name="body">
+<include file="preview_header" />
+	<style type="text/css">
+		.value-money:after{
+			content: "元";
+		}
+	</style>
+	<div class="under-line form-horizontal">
+		<div class="com-info" style="margin-bottom:10px">
+			<div class="sub-title">融资需求</div>
+		</div>
+		<div class="control-group">
+			<label for="" class="control-label">项目估值</label>
+			<div class="controls value-money">
+				{$project_valuation|number_format}
+			</div>
+		</div>
+		<div class="control-group">
+			<label for="" class="control-label">预融资金额</label>
+			<div class="controls value-money">
+				{$need_fund|number_format}
+			</div>
+		</div>
+		<div class="control-group">
+			<label for="" class="control-label">最低跟投金额</label>
+			<div class="controls value-money">
+				{$follow_fund|number_format}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">到账方式</label>
+			<div class="controls">
+				{$to_way|get_code_name}
+			</div>
+		</div>
+		<div class="control-group">
+			<label for="" class="control-label">附加资源</label>
+			<div class="controls">
+				<empty name="add_source">
+					没有数据
+				<else />
+					{$add_source}
+				</empty>
+			</div>
+		</div>
+		<div class="control-group">
+			<label for="" class="control-label">股东特权</label>
+			<div class="controls">
+				<empty name="add_source">
+					没有数据
+				<else />
+					{$extra}
+				</empty>
+			</div>
+		</div>
+
+	</div>
+	<div class="under-line form-horizontal">
+		<div class="com-info" style="margin-bottom:10px">
+			<div class="sub-title">资金用途</div>
+		</div>
+		<div class="control-group">
+			<label for="" class="control-label">资金用途</label>
+			<div class="controls">
+				<empty name="use_to">
+					没有数据
+				<else />
+					{$use_to}
+				</empty>
+			</div>
+		</div>
+	</div>
+	<include file="preview_footer" />
+</block>
+<block name="script">
+<script src="__JS__/project/preview.js"></script>
+<script>
+	highlight_subnav('{:U('Project/index')}');
+</script>
+</block>

@@ -1,0 +1,41 @@
+<extend name="Base/common"/>
+
+<block name="side">
+</block>
+<block name="body">
+    <link href="__M_CSS__/project.css" rel="stylesheet">
+    <script type="swaqQ " src="__M_JS__/jquery.easing.1.3.js"></script>
+    <div class="wrapper">
+        <div class="prodetail">
+            <div class="item">
+                <div class="head">
+                    <h2>项目介绍</h2>
+                    <em></em>
+                </div>
+                <div class="body">
+                    <div class="prodetail_txt">
+                        {$resultInfo['content']}
+                    </div>
+                </div>
+            </div>
+
+            <div class="more">
+                <a href="{:U('viewdetail?pid='.$id)}">&lt; 返回</a>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script>
+        var viewWidth = $('body').width()
+        $('.prodetail_txt img').each(function () {
+            if ($(this).width() > viewWidth) {
+                $(this).css({
+                    'width': '100%',
+                    'height': 'auto'
+                })
+            }
+
+        })
+    </script>
+</block>

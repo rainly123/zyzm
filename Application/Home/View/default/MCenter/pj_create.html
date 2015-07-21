@@ -1,0 +1,78 @@
+<extend name="Base/uc-common"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/user.css"/>
+</block>
+<block name="submenu">
+    <ul>
+        <li><a href="{:U('MCenter/pj_support')}">支持的项目</a></li>
+        <li class="cur"><a href="{:U('MCenter/pj_create')}">发起的项目</a></li>
+        <li><a href="{:U('MCenter/pj_attach')}">收藏的项目</a></li>
+    </ul>
+    <span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+    <div class="userright2 ri">
+        <table>
+            <thead>
+            <tr>
+                <th width="120">项目</th>
+                <th width="300">项目名称</th>
+                <th>项目状态</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="projects" id="vo">
+                <tr>
+                    <td class="img"><img src="{$vo.cover|get_cover='path'}"></td>
+                    <td><a href="{:U('Project/detail?id='.$vo['id'])}">{$vo.project_name}</a>
+                        <em class="date">创建时间：{$vo.create_time|time_format='Y-m-d H:s'}</em></td>
+                    <td>
+                        <if condition="$vo.stage eq 0">未上线
+                            <elseif condition="$vo.stage eq 1"/>
+                            预热中
+                            <elseif condition="$vo.stage eq 2"/>
+                            询价中
+                            <elseif condition="$vo.stage eq 3"/>
+                            推举领投
+                            <elseif condition="$vo.stage eq 4"/>
+                            合投中
+                            <elseif condition="$vo.stage eq 5"/>
+                            等待付款
+                            <elseif condition="$vo.stage eq 8"/>
+                            众筹失败
+                            <elseif condition="$vo.stage eq 9"/>
+                            众筹成功
+                        </if>
+                    </td>
+                    <td>{$vo.status_text}</td>
+                    <td class="cz">
+                        <if condition="($vo.status eq 9) AND ($vo.stage gt 1)">
+                            <a href="{:U('Manage/statistical?id='.$vo['id'])}">认投统计</a>
+                        </if>
+                        <if condition="($vo.status eq 9) AND ($vo.stage egt 1) AND ($vo.vote_leader neq 2)">
+                            <a href="{:U('MCenter/pj_leaders?id='.$vo['id'])}">候选领投</a>
+                        </if>
+                        <if condition="$vo.stage lt 3">
+                            <a href="{:U('Project/addstep1?id='.$vo['id'])}">编辑</a>
+                        </if>
+                        <if condition="$vo.status eq 0">
+                            <a href="{:U('Project/addstep6?id='.$vo['id'])}">提交审核</a>
+                        </if>
+                        <if condition="($vo.status eq 9) AND ($vo.stage eq 9)">
+                            <a class="manage" href="{:U('projectAfterInfo/fundedmanagelist?pid='.$vo['id'])}" target="_blank">投后管理</a>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        // 指定左侧选中菜单
+        var submenu = "{:U('MCenter/pj_support')}";
+    </script>
+</block>

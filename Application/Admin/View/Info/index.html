@@ -1,0 +1,72 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>用户列表</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+      <a class="btn" href="{:U('add')}">新 增</a>
+      <button class="btn list_sort" url="{:U('sort',array('cate_id'=>$cate_id,'pid'=>I('pid',0)),'')}">排序</button>
+    </div>
+   </div>
+    <!-- 数据列表 -->
+  <div class="data-table table-striped">
+	<table class="">
+    <thead>
+      <tr>
+				<th class="">ID</th>
+				<th class="">关键字</th>
+				<th class="">标题</th>
+				<th class="">创建时间</th>
+				<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="info">
+		<volist name="info" id="vo">
+		<tr>
+			<td>{$vo.id} </td>
+			<td>{$vo.key_word}</td>
+			<td><a href="{:U('view?id='.$vo['id'])}" class="confirm">{$vo.title}</a></td>
+			<td>{$vo.create_time|time_format}</td>
+			<td>
+				<a href="{:U('Edit?id='.$vo['id'])}" class="confirm">编辑</a>
+        		<a href="{:U('Info/del&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+      		</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="5" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+    //导航高亮
+    highlight_subnav('{:U('Info/index')}');
+	//点击排序
+	$('.list_sort').click(function(){
+		var url = $(this).attr('url');
+		var ids = $('.ids:checked');
+		var param = '';
+		if(ids.length > 0){
+			var str = new Array();
+			ids.each(function(){
+				str.push($(this).val());
+			});
+			param = str.join(',');
+		}
+
+		if(url != undefined && url != ''){
+			window.location.href = url + '/ids/' + param;
+		}
+	});
+	</script>
+</block>

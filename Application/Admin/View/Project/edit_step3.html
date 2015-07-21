@@ -1,0 +1,284 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+    <style type="text/css">
+    	input, button, select {outline: none;}
+	#date {font-size: 14px;color: #999;}
+	.modal .control-label {width: 100px;}
+	.modal .controls {margin-left: 120px;}
+	.modal .form-actions {padding-left: 120px;}
+	.modal-header {font-size: 18px; line-height: 40px;height: 40px; padding: 0px 15px; background-color: #f0f0f0;}
+	.input-append input{
+		padding: 0;
+	width: 150px;
+	margin: 0;
+	height: 30px;
+		}
+	.input-append .add-on{
+		top: 2px;
+		right: 29px;
+	}
+
+	.input-append .add-on, .input-prepend .add-on {
+display: inline-block;
+width: auto;
+height: 20px;
+min-width: 16px;
+padding: 4px 5px;
+font-size: 14px;
+font-weight: normal;
+line-height: 20px;
+text-align: center;
+text-shadow: 0 1px 0 #fff;
+background-color: #eee;
+border: 1px solid #ccc;}
+    </style>
+</block>
+
+<block name="body">
+<include file="edit_header" />
+		<div class="clearfix">
+			<div class="data-table table-striped">
+				<div class="under-line">
+					<div class="com-info">
+						<h3 class="sub-title">股东团队成员说明 
+							<small>
+								<a href="{:U('addteam?id='.$projectid)}" class="addteam">添加成员</a>
+							</small>
+						</h3>
+						<table class="tt">
+							<thead>
+								<th style="width:50px;">姓名</th>
+								<th style="width:100px;">职务</th>
+								<th >简介</th>
+								<th style="width:100px;">排序</th>
+								<th style="width:100px;">操作</th>
+							</thead>
+							<tbody id="member_key">
+								<foreach name="team" item="v">
+								<tr>
+									<td>{$v.name}</td>
+									<td>{$v.postion}</td>
+									<td>{$v.member_info}</td>
+									<td>{$v.sort}</td>
+									<td>
+										<a href="{:U('Project/addteam?tid=' . $v['id'])}">修改</a>
+										| 
+										<a class="ajax-get confirm" href="{:U('Project/delmember?id=' . $v['id'])}" data-info="您确定要删除吗?">删除</a>
+									</td>
+								</tr>
+								</foreach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+
+</block>
+
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	<link href="__STATIC__/datetimepicker/css/datetimepicker_normal.css" rel="stylesheet" type="text/css">
+  	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script>
+
+	highlight_subnav('{:U('Project/index')}');
+	
+	$('.date').datetimepicker({
+    format: 'yyyy-mm-dd',
+    language:"zh-CN",
+    minView:2,
+    pickerPosition:"bottom-left",
+    endDate:new Date(),
+	  autoclose:true
+  });
+
+  var valid = $("#myTeam").Validform({
+  	tiptype:3,
+  	datatype : {
+  		number: function(gets) {
+  			var reg = /^([0-9]|[0-9]\.\d+|[1-9][0-9]|[1-9][0-9]\.\d+|100)$/;
+  			if (!reg.test(gets)) {
+  				return '所占股份不能小于0或大于100';
+  			}
+  		}
+  	}
+  });
+
+	var _tbody = "";
+	var _model = "";
+	var _control;
+	function showTeam(tbody, model, control) {
+
+		valid.unignore("#fund, #shares");
+		_tbody = tbody;
+		_model = model;
+
+		$("#member_name").val("");
+		$("#postion").val("");
+		$("#full_job_n").removeAttr('checked');
+		$("#full_job_y").attr("checked","checked");
+		$("#shares").val("0");
+		$("#fund").val("0");
+		$("#relationship").val("");
+		$("#sort").val("0");
+		$("#in_time").val("");
+		$("#member_info").val("");
+		if (tbody == "member_key") {
+			$(".key").show();
+			$(".other").hide();
+			if (model == "add") {	 	// 添加股东成员
+			} else { 			// 修改股东成员信息
+				_control = $(control).parents('tr');
+				$("#member_name").val($(_control).find('input:eq(0)').val());
+				$("#postion").val($(_control).find('input:eq(1)').val());
+				var value = $(_control).find('input:eq(2)').val();
+				if (value == '1') {
+					$("#full_job_n").removeAttr('checked');
+					$("#full_job_y").attr("checked","checked");	
+				} else {
+					$("#full_job_y").removeAttr('checked');
+					$("#full_job_n").attr("checked","checked");
+				}
+				$("#shares").val($(_control).find('input:eq(3)').val());
+				$("#fund").val($(_control).find('input:eq(4)').val());
+				$("#relationship").val($(_control).find('input:eq(5)').val());
+				$("#member_info").val($(_control).find('input:eq(6)').val());
+				$("#sort").val($(_control).find('input:eq(7)').val());
+				
+			}
+		} else {
+			valid.ignore("#fund, #shares");
+			$(".key").hide();
+			$(".other").show();
+			if (model == "add") { // 添加非股东成员
+			} else {  // 修改非股东成员信息
+				_control = $(control).parents('tr');
+				$("#member_name").val($(_control).find('input:eq(0)').val());
+				$("#postion").val($(_control).find('input:eq(1)').val());
+				var value = $(_control).find('input:eq(2)').val();
+				if (value == '1') {
+					$("#full_job_n").removeAttr('checked');
+					$("#full_job_y").attr("checked","checked");	
+				} else {
+					$("#full_job_y").removeAttr('checked');
+					$("#full_job_n").attr("checked","checked");
+				}
+				$("#in_time").val($(_control).find('input:eq(3)').val());
+				$("#relationship").val($(_control).find('input:eq(4)').val());
+				$("#member_info").val($(_control).find('input:eq(5)').val());
+				$("#sort").val($(_control).find('input:eq(6)').val());
+			}
+		}
+		$("#myTeam").modal("show");
+	}
+
+	function addTeam() {
+		if (!valid.check()) {
+			return;
+		}
+		if ($("#member_name").val() == '') {
+			alert('请填写姓名');
+			$(this).parents('control-group').addClass('error');
+		}
+		if (_tbody == "member_key") {  // 股东成员信息处理
+				// 列表信息生成
+			var member = "<td>" + $("#member_name").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#member_name").val() + "' name=member_key[name][]>";
+			member += "<td>" + $("#postion").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#postion").val() + "' name=member_key[postion][]>";
+
+			var job = $("input[name=full_job]:checked").val() == "1" ? "全职":"兼职";
+			member += "<td>" + job + "</td>";
+			member += "<input type='hidden' value='" + $("input[name='full_job']:checked").val() + "' name=member_key[full_job][]>";
+			member += "<td>" + $("#shares").val() + "%</td>";
+			member += "<input type='hidden' value='" + $("#shares").val() + "' name=member_key[shares][]>";
+			member += "<td>" + $("#fund").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#fund").val() + "' name=member_key[fund][]>";
+			member += "<td>" + $("#relationship").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#relationship").val() + "' name=member_key[relationship][]><input type='hidden' name='member_key[member_info][]' value='"+ $("#member_info").val() +"''>";
+			member += "<td>" + $("#sort").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#sort").val() + "' name=member_key[sort][]>";
+			member += "<td><a href=\"javascript:void(0)\" onclick=\"showTeam('member_key','edit', this);\">修改</a> | <a href=\"javascript:void(0)\" onclick=\"memberDelete(this, 'member_other');\">删除</a></td>";
+			member += "</tr>";
+			if (_model == "add") { // 添加成员信息
+				member ="<tr>" + member;
+				$("#" + _tbody).append(member);
+			} else { // 修改成员信息（先添加新信息，再删除老信息
+				member ="<tr>" + member;
+				$(_control).after(member);
+				$(_control).remove();
+			}
+		} else {
+			if (!valid.check()) {
+				return;
+			}
+			var member = "<td>" + $("#member_name").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#member_name").val() + "' name=member_other[name][]>";
+			member += "<td>" + $("#postion").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#postion").val() + "' name=member_other[postion][]>";
+			var job = $("input[name='full_job']:checked").val() == "1" ? "全职":"兼职";
+			member += "<td>" + job + "</td>";
+			member += "<input type='hidden' value='" + $("input[name='full_job']:checked").val() + "' name=member_other[full_job][]>";
+			var date = $("#in_time").val();
+			var change_date = date.replace('-', "年");
+			change_date = change_date.replace('-', "月") + "日";
+			member += "<td>" + change_date + "</td>";
+			member += "<input type='hidden' value='" + date + "' name=member_other[in_time][]>";
+			member += "<td>" + $("#relationship").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#relationship").val() + "' name=member_other[relationship][]><input type='hidden' name='member_other[member_info][]' value='"+$("#member_info").val() +"''>";
+			member += "<td>" + $("#sort").val() + "</td>";
+			member += "<input type='hidden' value='" + $("#sort").val() + "' name=member_key[sort][]>";
+			member += "<td><a href=\"javascript:void(0)\" onclick=\"showTeam('member_other', 'edit', this);\">修改</a> | <a href=\"javascript:void(0)\" onclick=\"memberDelete(this, 'member_other');\">删除</a></td>";
+			member += "</tr>";
+			if (_model == "add") {  // 添加非股东信息
+				var length = $("#" + _tbody).children('tr').length + 1;
+				member = "<tr>" + member;
+				
+				$("#" + _tbody).append(member);
+			} else { // 修改非股东成员信息（先添加新信息，再删除老信息
+				var number = $(_control).find('td:eq(0)').html();
+				member ="<tr>" + member;
+				$(_control).after(member);
+				$(_control).remove();
+			}
+		}
+		$("#myTeam").modal('hide');
+	}
+	function memberDelete(control, _tbody) {
+		$(control).parents("tr").remove();
+		return false;
+	}
+	$("form").submit(function(){
+		var self = $(this);
+		$.post(self.attr("action"), self.serialize(), success, "json");
+		return false;
+
+		function success(data){
+			if(data.status){
+				window.location.href = data.url;
+			} else {
+				alert(data.info);
+			}
+		}
+	});
+
+	$('#goback1').click(function() {
+		window.location.href = $(this).attr('href');
+		return false;
+	});
+	</script>
+</block>

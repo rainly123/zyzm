@@ -1,0 +1,102 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题 -->
+	<div class="main-title">
+		<h2>资讯列表</h2>
+	</div>
+
+	<!-- 按钮工具栏 -->
+	<div class="cf">
+		<div class="fl">
+			<button class="btn document_add" url="{:U('Infomation/add')}">新 增</button>
+			<button class="btn list_sort" url="{:U('sort',array('cate_id'=>$cate_id,'pid'=>I('pid',0)),'')}">排序</button>
+		</div>
+	</div>
+
+	<!-- 数据表格 -->
+    <div class="data-table">
+		<table>
+            <!-- 表头 -->
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>标题</th>
+                    <th>作者</th>
+                    <th>来源</th>
+                    <th>最后更新</th>
+                    <th>状态</th>
+                    <th>阅读量</th>
+                    <th>排序</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+                <volist name="infomation" id="vo">
+                    <tr>
+                    	<td>{$i}</td>
+                    	<td>{$vo.title}</td>
+                    	<td>{$vo.author}</td>
+                    	<td>{$vo.info_from}</td>
+                    	<td><span>{$vo.pub_time|time_format="Y-m-d H:i"}</span></td>
+                    	<td>{$vo.status_text}</td>
+                    	<td>{$vo.view}</td>
+                    	<td>{$vo.level}</td>
+                    	<td>
+                    		<a href="{:U('Infomation/edit?id='.$vo['id'])}">编辑</a> |
+                    		<a href="{:U('Infomation/comment?id='.$vo['id'])}">评论管理</a> |
+                    			<if condition="$vo.status eq '0'">
+                    				<a class="ajax-get confirm" href="{:U('Infomation/changestatus?id='.$vo['id'].'&status=1')}">发布</a> |
+                    			</if>
+                    			<if condition="$vo.status eq '-1'">
+                    				<a class="ajax-get confirm" href="{:U('Infomation/changestatus?id='.$vo['id'].'&status=0')}">启用</a> |
+                    			</if>
+                    			<a class="ajax-get confirm" href="{:U('Infomation/changestatus?id='.$vo['id'].'&status=-1')}">撤销</a>
+                    			
+                    	</td>
+                    </tr>
+                </volist>
+            </tbody>
+        </table>
+	</div>
+	<!-- 分页 -->
+    <div class="page">
+        {$_page}
+    </div>
+</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+			//只有一个模型时，点击新增
+			$('.document_add').click(function(){
+				var url = $(this).attr('url');
+				if(url != undefined && url != ''){
+					window.location.href = url;
+				}
+			});
+		
+			//点击排序
+			$('.list_sort').click(function(){
+				var url = $(this).attr('url');
+				var ids = $('.ids:checked');
+				var param = '';
+				if(ids.length > 0){
+					var str = new Array();
+					ids.each(function(){
+						str.push($(this).val());
+					});
+					param = str.join(',');
+				}
+		
+				if(url != undefined && url != ''){
+					window.location.href = url + '/ids/' + param;
+				}
+			});
+		
+		})
+	</script>
+</block>

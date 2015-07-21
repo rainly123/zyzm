@@ -1,0 +1,66 @@
+<extend name="Base/common"/>
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/pay.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/validform.css" />
+<style>
+</style>
+</block>
+<block name="body">
+<div class="fl w100 mt25 order">
+  <div class="content project-info clearfix" style="margin:15px auto;font-size:24px;font-weight:bolder;line-height:25px">
+    <div class="le">{$project_name}</div>
+    <div class="rt">投资金额：￥{:round($pay_amount,2)} <span style="font-size:15px">元</span></div>
+  </div>
+	<div class="content border1">
+    <div class="con">
+      <div class="p1 clearfix">
+          <p class="le pay-cash">账户余额：<b style="color:#000;font-size:25px">{:round($use_able,2)}</b>元</p>
+      </div>
+      <if condition="$need_pay gt 0">
+      <div class="p2">
+          <p class="pay-cash" style="margin-top:20px">支付金额：<b>{$need_pay}</b>元</p>
+      </div>
+      </if>
+      <hr style="margin-top:30px">
+      <div class="btn-list">
+      	<!-- <a href="{:U('Account/recharge?type='.$type.'&id='.$id)}" id="recharge" data-w="500px" data-h="300px" class="poplight btn_gray"><span>充值</span></a> -->
+          <a href="{:U('pay?type='.$type.'&id='.$id)}" class="btn_red2" id="btn-pay"><span>立即支付</span></a>
+      </div>
+    </div>
+	</div>
+</div>
+<div id="dialog" style="display:none"></div>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+// 弹窗控制
+$(document).ready(function(){
+  $(".poplight").click(function() {
+    var _this = $(this);
+    $("#dialog").load($(this).attr('href'), function() {
+      $.layer({type:1, title:false,area : [_this.attr('data-w'),_this.attr('data-h')], page:{dom:"#dialog"}, fadeIn:300});
+    });
+    return false;
+  });
+
+  $("#btn-pay").click(function() {
+  	var _this = $(this);
+  	$.post(_this.attr('href'), function(data) {
+  		if (data.status == 1) {
+        if (data.info == '') {
+          window.location.href=data.url;
+        } else {
+          layer.alert(data.info, 9, function(){window.location.href=data.url;});
+        }
+  		} else {
+  			layer.alert(data.info, 1);
+  		}
+  	});
+  	return false;
+  });
+  
+});
+</script>
+</block>

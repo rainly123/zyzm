@@ -1,0 +1,133 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+
+</block>
+<block name="body">
+
+    <!--<div class="wrapper">
+        <div class="comments0">
+            <div class="comment_btn">
+                <div class="comments_btnl"><a href="#">取消</a></div>
+                <div class="comments_btnr"><a href="#">评论</a></div>
+            </div>
+            <div class="comment_cont">
+                <textarea name="" cols="" class="comment_txt" rows="8"></textarea>
+            </div>
+        </div>
+    </div>-->
+
+
+    <form id="post-form" class="dynamic-post-form form-horizontal" method="post"
+          action="{:U('project/addProjectDynamicInfo')}"
+          data-forwardurl="{:U('project/dynamiclist/id/'.$detail['project_id'])}">
+        <input type="hidden" id="project_id" name="project_id" value="{$detail.project_id}">
+        <input type="hidden" id="id" name="id" value="{$detail.id}">
+
+        <div class="control-group">
+
+            <!-- 标题 -->
+            <label class="control-label" for="title">标题</label>
+
+            <div class="controls">
+                <input id="title" name="title" type="text" placeholder="请输入标题, 长度在40字以内" value="{$detail.title}"
+                       maxlength="40">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <!-- 阅读权限 -->
+                <label class="control-label" for="open_flag">阅读权限</label>
+
+                <div class="controls open-flag">
+                    <input id="open_flag" name="open_flag" type="hidden" class="input-xlarge"
+                           value="{$detail.open_flag}">
+                    <button class="btn" data-val="0">所有投资人</button>
+                    <button class="btn" data-val="1">审核通过的投资人</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <!-- 内容 -->
+            <label class="control-label" for="content">内容</label>
+
+            <div class="controls">
+                <div class="textarea">
+                    <textarea id="content" name="content" class="">{$detail['content']}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group post-buttons">
+            <div class="controls">
+                <input id="status" type="hidden" name="status" value="0">
+                <button class="btn btn-success" data-val="0">保存草稿</button>
+                <button class="btn btn-success" data-val="1">直接发布</button>
+            </div>
+        </div>
+    </form>
+
+
+    <script src="__M_JS__/jquery.easing.1.3.js"></script>
+    <script src="__M_JS__/layer.m/layer.m.js"></script>
+    <script>
+        var openFlag = $('#open_flag').val() || 0;
+
+        var $openFlagButtons = $('.open-flag .btn').removeClass('selected');
+        $openFlagButtons.eq(openFlag).addClass('selected');
+        $openFlagButtons.click(function () {
+            $openFlagButtons.removeClass('selected');
+            var $this = $(this).addClass('selected');
+            $('#open_flag').val($this.data('val'));
+            return false;
+        });
+
+        var $postButtons = $('.post-buttons .btn');
+        $postButtons.click(function () {
+            var $this = $(this),
+                    $form = $('#post-form');
+            var status = $this.data('val');
+            $('#status').val(status);
+            if (!$('#title').val()) {
+                layer.open({
+                    content: '请输入标题',
+                    style: 'text-align:center; border:none;',
+                    time: 2
+                });
+                return false;
+            } else if (!$('#content').val()) {
+                layer.open({
+                    content: '请输入内容',
+                    style: 'text-align:center; border:none;',
+                    time: 2
+                });
+                return false;
+            }
+            $.post($form.attr('action'), $form.serialize(), function (json) {
+                if (json.status == 1) {
+                    layer.open({
+                        content: json.info,
+                        style: 'text-align:center; border:none;',
+                        time: 2
+                    });
+                    location.href = $form.data('forwardurl');
+                    /*if ($('#id').val()) forwardUrl = forwardUrl.replace('mobiledynamic/pid', 'dynamiclist/id');*/
+                } else {
+                    layer.open({
+                        content: json.info,
+                        style: 'text-align:center; border:none;',
+                        time: 2
+                    });
+                }
+            }, 'json');
+            return false;
+        });
+
+
+    </script>
+
+</block>
+

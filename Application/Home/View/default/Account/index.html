@@ -1,0 +1,100 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/validform.css" />
+</block>
+<block name="submenu">
+  <ul>
+    <li class="cur"><a href="#">资产动态</a></li>
+    <li class=><a href="{:U('Account/cardlist')}">银行卡管理</a></li>
+  </ul>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+  <div class="border1 zc clearfix" style="text-align:left">
+    <div style="float:left;margin-left:30px; margin-top:5px;">
+      账户余额：<em>{$data.balance|default=0}</em><i>元</i>
+      可提现金额：<em>{$data.use_able|default=0}</em><i>元</i>
+    <!--  冻结资金：<em>49500</em><i>元</i> -->
+    </div>
+    <div style="float:right;margin-right:30px">
+      <a href="{:U('Account/recharge')}" id="recharge" data-w="500px" data-h="300px" class="poplight">充值</a>
+      <a href="{:U('Account/cash')}" data-w="500px" data-h="440px" class="poplight">提现</a>
+    </div>
+  </div>
+  <div class="czrecords mt20">
+    <div class="top">
+      <header><b>操作记录</b></header>
+      <empty name="list">
+      <div class="norecord">暂无交易记录</div>
+      <else/>
+
+    <table>
+      <tr>
+        <th width="40px">序号</th>
+        <th>交易类型</th>
+        <th>交易时间</th>
+        <th>金额（元）</th>
+        <th>状态</th>
+        <!-- <th>备注</th> -->
+      </tr>
+      <volist name="list" id="vo">
+      <tr>
+        <td>{$i}</td>
+        <td><if condition="$vo.type eq 0">充值
+        <elseif condition="$vo.type eq 1" />支付
+        <elseif condition="$vo.type eq 2" />赎回
+        <elseif condition="$vo.type eq 3" />提现
+        </if></td>
+        <td>{$vo.create_time|time_format="Y-m-d H:i:s"}</td>
+        <td>¥{$vo.amount}</td>
+        <td><if condition="$vo.state eq 0">未处理
+        <elseif condition="$vo.state eq 1" />完成
+        <elseif condition="$vo.state eq 2" /><a href="#" class="error_info" title="点击查看原因" data-info="{$vo.remarks}">失败</a>
+        </if></td>
+      </tr>
+      </volist>
+    </table>
+    </empty>
+  </div>
+</div>
+
+<div id="dialog" style="display:none;"></div>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+$('.error_info').click(function() {
+  layer.alert($(this).data('info'));
+  return false;
+});
+// 指定左侧选中菜单
+var submenu = "{:U('Account/index')}";
+
+// 弹窗控制
+$(document).ready(function(){
+  $(".poplight").click(function() {
+    var _this = $(this);
+    $("#dialog").load($(this).attr('href'), function() {
+      $.layer({type:1, title:false,area : [_this.attr('data-w'),_this.attr('data-h')], page:{dom:"#dialog"}, fadeIn:300});
+    });
+    return false;
+  });
+
+  $(".d-stream").click(function() {
+    var _this = $(this);
+
+    layer.confirm('您确定要删除该记录吗？', function(){
+      $.get(_this.attr('href'), function(data) {
+        if (data.status == 1) {
+          layer.alert(data.info, 9, function(){window.location.reload();});
+        } else {
+          layer.alert(data.info, 1);
+        }
+      });
+    });
+    return false;
+  });
+});
+</script>
+</block>

@@ -1,0 +1,64 @@
+<div class="addcards" style="margin:20px 40px 0">
+  <div class="top">
+    <header><b>实名认证</b></header>
+  </div>
+  <form id="form-realname" method="POST" action="{:U('User/realname')}">
+    <!-- 未认证 starting -->
+    <ul class="list mt20">
+      <if condition="$userauth.status neq 9">
+      <li><dl>
+          <dt>真实姓名：</dt>
+          <dd><input type="text" datatype="*1-10" nullmsg="请输入真实姓名" errormsg="真实姓名至少1个字符，最多8个字符" class="c1" id="name" name="name"></dd>
+      </dl></li>
+      <li><dl>
+          <dt>身份证号码：</dt>
+          <dd><input name="card_id" datatype="s" maxlength="20" nullmsg="请输入身份证号码" errormsg="请输入正确的身份证号码" type="text" value="" class="c1"></dd>
+      </dl></li>
+      <li><dl>
+          <dt></dt>
+          <dd><div id="errormessage"></div></dd>
+      </dl></li>
+      <li><dl>
+        <dt>&nbsp;</dt>
+        <dd><input type="submit" value="确定" class="c3"></dd>
+      </dl></li>
+    <!-- 未认证 end -->
+    <else />
+    <!-- 已认证 starting -->
+      <li><dl>
+          <dt>真实姓名：</dt>
+          <dd><b class="info">{$detail.name}</b></dd>
+      </dl></li>
+      <li><dl>
+          <dt>身份证号码：</dt>
+          <dd><b class="info">{$detail.card_id}</b></dd>
+      </dl></li>
+    </if>
+    </ul>
+    <!-- 已认证 end -->
+  </form>
+</div>
+
+<script type="text/javascript">
+$(function() {
+  $("#form-realname").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    beforeSubmit:showWaiting,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 1, function(){window.location.reload();});
+      }
+    }
+  });
+});
+</script>

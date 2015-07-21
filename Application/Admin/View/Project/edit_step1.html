@@ -1,0 +1,240 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+    <style type="text/css">
+    .form-horizontal .control-label{
+    	width: 80px;
+    }
+    .form-horizontal .controls{
+    	margin-left: 100px;
+    }
+    </style>
+</block>
+
+<block name="body">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+<include file="edit_header" />
+	<div class="" style="margin-top:20px;">
+		<div class="clearfix">
+			<div class="pull-left">
+			<div class="form-horizontal">
+			<form action="{:U('project/editBaseInfo')}" class="form-horizontal" method="post">
+				<input type="hidden" name="id" value="{$projectid}">
+
+				<div class="under-line">
+				
+					<div class="control-group">
+						<label for="" class="control-label">项目图片</label>
+						<div class="controls">
+				                <input type="file" id="upload_picture_logo">
+								<input type="hidden" id="project_img_val" name="project[cover]" value="{$cover}" datatype="*" nullmsg="请上传项目图片">
+				                <div class="upload-img-box">
+									<img src="{$cover|get_cover='path'}" alt="" style="width:300px;height:200px;">
+				                </div>
+	
+				            <script type="text/javascript">
+				            //上传图片
+				            /* 初始化上传插件 */
+				            $("#upload_picture_logo").uploadify({
+				                "height"          : 30,
+				                "swf"             : "__STATIC__/uploadify/uploadify.swf",
+				                "fileObjName"     : "download",
+				                "buttonText"      : "上传图片",
+				                "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+				                "width"           : 120,
+				                'removeTimeout'   : 1,
+				                'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+				                "onUploadSuccess" : uploadPicture,
+				                'onFallback' : function() {
+				                    alert('未检测到兼容版本的Flash.');
+				                }
+				            });
+				            function uploadPicture(file, data){
+				                var data = $.parseJSON(data);
+				                var src = '';
+				                if(data.status){
+				                    $("#project_img_val").val(data.id);
+				                    src = data.url || '__ROOT__' + data.path
+				                    $("#project_img_val").parent().find('.upload-img-box').html(
+				                        '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+				                    );
+				                } else {
+				                    updateAlert(data.info);
+				                    setTimeout(function(){
+				                        $('#top-alert').find('button').click();
+				                        $(that).removeClass('disabled').prop('disabled',false);
+				                    },1500);
+				                }
+				            }
+				            </script>
+						</div>
+					</div>
+				
+					<div class="control-group">
+						<label for="" class="control-label">项目标题</label>
+						<div class="controls">
+							<input type="text" class="span6" datatype="*1-30" value='{$project_name}' name="project[project_name]">
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">项目简介</label>
+						<div class="controls">
+							<textarea style="width:340px;height:150px;" name="project[abstract]" datatype="*1-100" errormsg="项目简介不能超过100个字" nullmsg="请填写项目描述">{$abstract}</textarea>
+						
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+				
+<!-- 				<div class="control-group">
+					<label class="control-label">项目类型</label>
+					<div class="controls">
+						<if condition="$type eq 0">
+							<label class="radio inline"><input type="radio" name="project[type]" checked id="" value="0">股权投资</label>
+							<label class="radio inline"><input type="radio" name="project[type]" id="" value="1">兴趣合营</label>
+						<else />
+							<label class="radio inline"><input type="radio" name="project[type]" id="" value="0">股权投资</label>
+							<label class="radio inline"><input type="radio" name="project[type]" checked id="" value="1">兴趣合营</label>
+						</if>	
+						<span class="help-inline Validform_checktip"></span>
+					</div>
+				</div> -->
+				
+					<div class="control-group">
+						<label for="" class="control-label">查看权限</label>
+						<div class="controls">
+							<empty name="project">
+							<if condition="$open_flag eq 1">
+								<label class="radio inline">
+									<input type="radio" checked="checked" name="project[open_flag]" value="1">所有投资人
+								</label>
+								<label class="radio inline">
+									<input type="radio" name="project[open_flag]" value="2">审核通过的投资人
+								</label>
+	
+							<else />
+								<label class="radio inline">
+									<input type="radio" name="project[open_flag]" value="1">所有投资人
+								</label>
+								<label class="radio inline">
+									<input type="radio" checked="checked" name="project[open_flag]" value="2">审核通过的投资人
+								</label>
+							</if>
+							</empty>
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">公司名称</label>
+						<div class="controls">
+							<input type="text" name="project[company_name]" placeholder="请输入你的公司名称" datatype="*1-30" nullmsg="请输入你的公司名称" errormsg="公司地址不能超过30个汉字" class="span4" value="{$company_name}">
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label for="" class="control-label">所在城市</label>
+						<div class="controls">
+							{:hook('J_China_City', array('province'=>$province, 'city'=>$city))}
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">公司地址</label>
+						<div class="controls">
+							<input type="text" name="project[address]" ignore="ignore" class="span4" nullmsg="请输入公司地址" errormsg="公司地址不能超过30个汉字" datatype="*1-30" value="{$address}">
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">项目网址</label>
+						<div class="controls">
+							<input type="text" name="project[project_url]" ignore="ignore" datatype="url" class="span4" value="{$project_url}">
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+				
+<!-- 				<div class="control-group">
+					<label for="" class="control-label">发展阶段</label>
+
+					<div class="controls">
+						<select name="project[step]" datatype="*" nullmsg="请选择发展阶段">
+							<option value="{$stepname}">{$stepname|get_code_name}</option>
+							<foreach name="step" item="v">
+							<if condition="$v[id] eq $project[step]">
+							<option value="{$v.id}" selected>{$v.name}</option>
+							<else />
+							<option value="{$v.id}">{$v.name}</option>
+							</if>
+							</foreach>
+						</select>
+					</div>
+				</div> -->
+				
+					<div class="control-group">
+						<label for="" class="control-label">所属行业</label>
+						<div class="controls">
+							<select name="project[industry]" datatype="*" nullmsg="请选择所属行业">
+								<option value="{$industry}">{$industryName}</option>
+								<foreach name="industry" item="v">
+								<if condition="$v[id] eq $project[industry]">
+								<option value="{$v.id}" selected>{$v.name}</option>
+								<else />
+								<option value="{$v.id}">{$v.name}</option>
+								</if>
+								</foreach>
+							</select>
+						</div>
+					</div>
+	
+					<div class="control-group">
+						<label for="" class="control-label">所处阶段</label>
+						<div class="controls">
+							<select name="project[project_phase]" nullmsg="请选择项目阶段">
+								<option value="{$project_phase}">{$project_phase|get_code_name}</option>
+								<foreach name="project_phase_list" item="v">
+								<if condition="$project['project_phase'] eq $v['id']">
+								<option value="{$v.id}" selected>{$v.name}</option>
+								<else />
+								<option value="{$v.id}">{$v.name}</option>
+								</if>
+								</foreach>
+							</select>
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">团队人数</label>
+						<div class="controls">
+							<input type="number" name="project[member_count]" nullmsg="请输入团队人数" errormsg="人数应该1-9999之间" datatype="n1-4" value="{$member_count}">
+							<span class="help-inline Validform_checktip"></span>
+						</div>
+					</div>
+				</div>
+
+				<input type="submit" class="btn btn-large btn-primary" value="提交">
+
+				</div> <!-- under-line end -->
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+
+
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+  <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script>
+	$("form").Validform({tiptype:3
+	});
+
+	highlight_subnav('{:U('Project/index')}');
+		$("#Validform_msg").hide();
+
+	</script>
+</block>

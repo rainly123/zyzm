@@ -1,0 +1,65 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>投资人信息</h2>
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+	<div class="data-table table-striped">
+<table class="">
+    <thead>
+    <tr>
+		<th class="">编号</th>
+		<th class="">姓名</th>
+		<th class="">手机号</th>
+		<th class="">购买金额</th>
+		<th class="">份额</th>
+		<th class="">净值</th>
+		<th class="">购买时间</th>
+		<th class="">计算时间</th>
+		<th class="">支付方式</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i}</td>
+			<td>{$vo.username}</td>
+			<td>{$vo.phone}</td>
+			<td>{$vo.amount} 元</td>
+			<td>{$vo.operation_fund}</td>
+			<td>{$vo.assets}</td>
+			<td><span>{$vo.create_time|time_format="Y-m-d H:i"}</span></td>
+			<td><span>{$vo.update_time|time_format="Y-m-d H:i"}</span></td>
+			<td>
+				<if condition="$vo.remarks === NULL"> 线上支付
+				<else /> 线下支付
+				</if>
+			</td>
+			<td></td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Stock/index')}');
+    </script>
+</script>
+</block>

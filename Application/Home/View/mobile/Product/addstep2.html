@@ -1,0 +1,306 @@
+<extend name="Base/common"/>
+
+<block name="header">
+<link href="__CSS__/style.css" rel="stylesheet">
+	<style>
+		.up_file {
+			background-image: __IMG__/btn_addattach.jpg;
+			opacity: 0;
+			width: 72px;
+			height: 64px;
+			position: absolute;
+			margin-left: -82px;
+		}
+	</style>
+</block>
+
+<block name="side"></block>
+<block name="body">
+<!-- 	<include file="base-nav" /> -->
+	<div class="fl w100 mainwrap mt25">
+	<div class="content">
+	<div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+        <div class="main mt20">
+        	<dl class="cl">
+            <dd class="product">
+				<h2>填写项目信息</h2>
+				<h4>回报设置</h4>
+                <div class="form" style="margin:0 40px;">
+		                <div class="tabList">
+                            <table cellpadding="1" border="1">
+		                        <tbody><tr>
+		                            <th width="60">序号</th>
+		                            <th width="100">支付金额</th>
+		                            <th width="80">名额</th>
+		                            <th width="320">回报内容</th>
+		                            <th width="120">回报时间</th>
+									<th width="110">运费</th>
+									<th width="100">抽奖</th>
+									<th width="100">单笔限购</th>
+		                            <th width="120">操作</th>
+		                        </tr>
+		                   		<foreach name="resultPrice" item="vo" >
+	                                <tr>
+		                                <td>{$vo.id}</td>
+		                                <td><span class="red">￥{$vo.amount}</span></td>
+		                                <td>
+	                                        <if condition="$vo['count'] eq 0">
+												无限制
+		                                    <else/>
+			                                    {$vo.count}
+		                                    </if>
+	                                    </td>
+		                                <td style="text-align: center;">
+		                                    {$vo.content}
+		                                </td>
+		                                <td>{$vo.afterday}</td>
+		                                <td><span class="red">￥{$vo.post_amount}元</span></td>
+		                         		<td width="100"><if condition="$vo['is_luck'] eq 0">不参加<else/>参加</if></td>
+										<td width="100">{$vo.single_limit}件</td>
+		                                <td>
+		                                    <a href="#" data-pricedata="{:U('Product/getPriceUsedRevise?id='.$vo[id])}" class="revise-price">编辑</a>
+		                                    <a data-href="{:U('Product/deleteProductPrice?id='.$vo[id])}" class="delect-price" href="#">删除</a>
+		                                </td>
+		                            </tr>
+								</foreach>
+								
+                            </tbody></table>
+	                    </div>
+
+						<div class="w_adda hide" style="padding-left:120px;">
+		                    <!-- 添加回报 -->
+		                    <button class="btn_red" id="addBack">添加回报</button>
+		                </div>
+
+		                <div class="w_addInfo" style="display: none;">
+	                    	<form id="product_add"  method="Post" class="redound-edith">
+								<h4>添加回报选项:</h4>
+								<ul>
+									<li class="ckpre">
+									  <label><em>*</em>查回报类别</label>
+									  <a href="javascript:void(0)" id="one1" onclick="setTab('one',1,2)" class="choosecur">实物回报</a>
+									  <a href="javascript:void(0)" style="margin-left:10px;" id="one2" onclick="setTab('one',2,2)">虚拟回报 </a>
+										 <input type="hidden" name="price_type" id="hidprice_type" value="0">
+									</li>
+									<li>
+									  <label><em>*</em>支持金额</label>
+									  <input type="text" class="c1" id="je" name="amount" value="0" placeholder="请输入支持金额" datatype="n" nullmsg="请输入支持金额" errormsg="支持金额只能是数字">
+									</li>
+									<li>
+									  <label><em>*</em>回报内容</label>
+									  <textarea id="content" name="content" datatype="*" nullmsg="请输入回报内容" placeholder="最多不超过200个字" class="c2"></textarea>
+									</li>
+									<li class="addattach">
+										<label><em>*</em>回报说明图片</label>
+										<span class="fl"><em class="fl">*</em>
+											<a href="#">
+												<img src="__IMG__/btn_addattach.jpg" class="fl" width="72" height="64"  style="margin-right:10px;">
+												<input type="file" class="up_file" name="up_image" id="up_image" onchange="upload_image('up_image');">
+												
+											</a>
+											<input type="hidden" name="image" id="hidup_image" value="" datatype="*" nullmsg="请上传回报说明图片">
+											<img id = "up_image_view" src=""  alt="" style="" />
+											大小不超过2M，建议尺寸：78*78px
+										</span>
+										<span class="ri">
+										<a onmouseover="ddd('aa', 'show');" onmouseout="ddd('aa', 'hide');" class="wenhao"><img src="__IMG__/addattchintro.jpg"></a> 
+										<div class="intro" style="display:none;" id="aa"><em></em>在此处上传图片，支持格式png、jpeg、jpg，尺寸78*78px</div>
+										</span>
+									</li>
+
+									<li>
+									  <label><em>*</em>限定名额</label>
+									  <input type="text" class="c1" datatype="n" placeholder="请输入限定名额" nullmsg="请输入限定名额" id="count" name="count" value="0">
+									 
+									  <span style="padding-left:1px;">0表示不限名额</span>
+									</li>
+									<li>
+									  <label><em>*</em>运费</label>
+									  <input type="text" class="c1" id="post_amount" name="post_amount" value="0" datatype="n"  nullmsg="请输入运费金额" placeholder="请输入运费">
+									  <span style="padding-left:1px;">元 0表示包邮</span>
+									</li>
+									<li>
+									  <label><em>*</em>回报时间</label>
+									  <span>项目结束后</span>
+									  <input type="text" datatype="n" class="c80" id="afterday" name="afterday" placeholder="请输入天数" nullmsg="请输入回报时间">
+									  <span style="padding-left:1px;width:200px;">天，会向支持者发送回报</span>
+									</li>
+									<li>
+									  <label>单笔限购数量</label>
+									  <input type="text" datatype="n" class="c1" id="single_limit" name="single_limit" placeholder="请输入单笔限购数量" nullmsg="请输入单笔限购数量">
+									  <span style="padding-left:1px;">件，默认为1</span>
+									</li>
+									<li class="ckpre">
+									  <label>抽奖设置</label>
+									  <a href="javascript:void(0)" id="luck" onclick="select('luck')" class="">是否参加抽奖</a>
+									  <input type="hidden" name="is_luck" id="hidluck" value="0">
+									</li>
+									<li>
+									
+									</li>
+								</ul>
+								</br>
+								<div class="ui-edith-button">
+									<input type="hidden" name="order_number" value="" id="price_id">
+				                    <!-- 确定 取消 -->
+				                    <input type="submit" class="btn_red" value="确定">
+				                    <input type="button" class="btn_red" id="cancle" value="取消">
+			                    </div>
+	                    	</form>
+		                </div> <!-- w_addInfo end -->
+				</div>
+            </dd>
+            </dl>
+
+			<div class="common_button">
+				<div class="risk_tips">
+					<b>风险说明：</b>	<p>3个以上的回报：多些选择能提高项目的支持率。几十、几百、上千元的支持：3个不同档次的回报，能让你的项目更快成功。回报最好是项目的衍生品：与项目内容有关的回报更能吸引到大家的支持。</p>
+				</div>
+				<a href="{:U('Product/addstep1?pid='.$pid)}"><input type="button" class="btn_red" value="上一步"></a>
+				<a href="{:U('Product/addstep3?pid='.$pid)}"><input type="button" class="btn_red" value="下一步"></a>
+			</div>
+        </div>
+    </div>
+</div>
+
+
+</block>
+<block name="script">
+	<link href="__CSS__/validform.css" rel="stylesheet">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" >
+		//上传缩略图
+		function upload_image(upfile_name){
+			var viewImg = '#' + upfile_name + '_view';
+			var hidfileName = '#hid' + upfile_name;
+	        $.upload({
+		          url: '{:U("File/uploadProduct")}', 
+		          fileName: upfile_name, 
+		          dataType: 'json',
+		          accept: '.jpg,.jpeg,.png,.gif',
+		          // 上传之前回调,return true表    示可继续上传
+		          onSend: function() {
+		              return true;
+		          },
+		          // 上传之后回调
+		          onComplate: function(data) {
+		            if(data.status == 1) {
+		            	$(viewImg).attr('src', data.path);
+		            	$(viewImg).attr('style', 'width:78px;height:78px;');
+		          		$(hidfileName).val(data.id);
+		            } else {
+		                alert(data.info);
+		            }
+		          }
+			});
+		}
+	    $(function(){
+			$("#product_add").Validform({
+				tiptype:3,
+				btnSubmit:"#confirm",
+				ajaxPost:true,
+				callback:function(data){
+					if (data.status) {
+						window.location.reload();
+					}else{
+						alert(data.info);
+					}
+				}
+			});
+			
+			//添加回报
+			$("#addBack").click(function(){
+				$(".w_adda").hide(function(){
+					$(".w_addInfo").fadeIn();
+				});
+			});
+			
+			//取消
+			$("#cancle").click(function(){
+				$(".w_addInfo").fadeOut(function(){
+					$(".w_adda").show();
+				});
+			});
+
+			// 编辑。。。。
+			$(".revise-price").click(function(){
+				$.get($(this).data('pricedata'),function(data){
+					if (data.status) {
+				
+						$("#hidprice_type").attr('value',data.info.price_type);
+						$("#je").attr('value',data.info.amount);
+						$("#content").html(data.info.content);
+						$("#upload").attr('datatype','');
+						$("#hidup_image").attr('value',data.info.image);
+						$("#up_image_view").attr('src',data.info.image_url);
+						$("#up_image_view").attr('style', 'width:78px;height:78px;');
+						$("#count").attr('value',data.info.count);
+						$("#post_amount").attr('value',data.info.post_amount);
+						$("#afterday").attr('value',data.info.afterday);
+						$("#single_limit").attr('value',data.info.single_limit);
+						$("#price_id").attr('value',data.info.id);
+						$("#hidluck").attr('value',data.info.is_luck);
+						
+						//是否抽奖选择状态
+						var menu=document.getElementById('luck');
+						if(data.info.is_luck ==1){
+							menu.className="choosecur";
+							
+						}else{
+							menu.className="";
+						}
+						
+						if(data.info.price_type ==0){
+							setTab('one',1,2)
+						}else{
+							setTab('one',2,2)
+						}
+						
+					}else{
+						alert(data.info);
+						return false;
+					};
+				},'json');
+		
+				$(".w_adda").hide(function(){
+					$(".w_addInfo").fadeIn();
+				});
+			});
+		})
+
+		//选择实物或虚拟回报
+	function setTab(name,cursel,n)
+	{
+		for(i=1;i<=n;i++){
+			var menu=document.getElementById(name+i);
+			menu.className=i==cursel?"choosecur":"";
+		}
+		
+		if(cursel==2){
+			$('#hidprice_type').val(1);
+		}else{
+			$('#hidprice_type').val(0);
+		}
+	}
+
+	    //是否抽奖
+	function select(name)
+	{
+		var hidfileName = '#hid' + name;
+		var menu=document.getElementById(name);
+		menu.className=menu.className==""?"choosecur":"";
+		var checked = menu.className=="choosecur"?"1":"0";
+		$(hidfileName).val(checked);
+		
+	}
+
+	    //提示信息显示
+	function ddd(obj, sType) { 
+		var oDiv = document.getElementById(obj); 
+		if (sType == 'show') { oDiv.style.display = 'block';} 
+		if (sType == 'hide') { oDiv.style.display = 'none';} 
+	} 
+</script>
+    
+</block>

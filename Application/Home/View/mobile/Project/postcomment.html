@@ -1,0 +1,83 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+
+</block>
+<block name="body">
+
+    <div class="wrapper">
+
+        <div class="comments0">
+            <div class="comment_btn">
+                <div class="comments_btnl"><a href="#">取消</a></div>
+                <div class="comments_btnr"><a href="#">评论</a></div>
+            </div>
+            <div class="comment_cont">
+                <textarea name="" cols="" class="comment_txt" rows="8"></textarea>
+            </div>
+        </div>
+    </div>
+    <script src="__M_JS__/jquery.easing.1.3.js"></script>
+    <script src="__M_JS__/layer.m/layer.m.js"></script>
+    <script>
+        // 项目Id
+        var projectId = location.href.match(/pid\/(\d+)/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        // 动态Id
+        var dynamicId = location.href.match(/dynamicid\/(\d+)/);
+        dynamicId = parseInt(dynamicId && dynamicId[1]) || 0;
+        // 引用页
+        var referrerUrl = document.referrer.replace(/[&]*r=[^&]*[&]*/g, '');
+        var searchIndex = referrerUrl.indexOf('?');
+        if (searchIndex === -1) referrerUrl += '?';
+        else if (searchIndex < referrerUrl.length -1) referrerUrl += '&';
+        referrerUrl += 'r=' + Math.random();
+
+        var config = {
+            projectCommentAPI: '/project/comment/'
+        };
+
+        $('.comments_btnr').click(function () {
+            var data = {
+                project_id: projectId,
+                content: $('.comment_txt').val(),
+                reply_id: 0
+            };
+            if (dynamicId) {
+                data.dynamicid = dynamicId
+            }
+            if (data.content.trim()) {
+                $.post(config.projectCommentAPI, data, function (json) {
+                    if (document.referrer) {
+                        location.href = referrerUrl;
+                    }
+                    else
+                        history.back();
+                });
+                return false;
+            } else {
+                layer.open({
+                    content: '请输入评论内容',
+                    style: 'text-align:center; border:none;',
+                    time: 2
+                });
+                $('textarea').focus();
+                return false;
+            }
+
+        });
+        $('.comments_btnl').click(function () {
+            if (document.referrer) {
+                location.href = referrerUrl;
+            }
+            else
+                history.back();
+        });
+        $(function () {
+            $('textarea').focus()
+        })
+    </script>
+
+</block>
+

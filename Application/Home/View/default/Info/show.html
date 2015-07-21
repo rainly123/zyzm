@@ -1,0 +1,46 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+	<div class="usercontent clearfix">
+		<div id="sidebar" class="sidebar">
+			<div class="subtop">
+			</div>
+			<div id="subnav" class="subnav">
+				<div id="personal">
+					<ul class="side-sub-menu" style="display: block;" >
+					<volist name="info_menu" id="vo">
+						<li <if condition="$vo.key_word eq $key_word"> class="current" <else/> class=""</if> >
+							<a class="item" href="{:U('Info/show?key='.$vo['key_word'])}">{$vo.title}</a>
+						</li>
+					</volist>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+
+
+
+		<div class="mcenter-right" id="mcenter-right">
+			<div class="ShowPath">
+
+			</div>
+			<div>
+				<div class="bs-docs-example" style="border: none;">
+					<h2 style="text-align:center">{$info.title}</h2>
+					<div style="color:#666; font-size:14px">
+						{$info.content}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+	</div>
+</div>
+</block>

@@ -1,0 +1,293 @@
+<extend name="Public/base"/>
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/product-common.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/view_detail.css">
+</block>
+
+
+<block name="body">
+	<div class="detail" id="head_top">
+		<div class="project clearfix">
+		<div class="layout">
+		<div>
+		<div class="project-tilte">
+		    <h1>{$name}</h1>
+		    <if condition="$status eq 9">
+		    <p class="saleing">
+		     <span class="mr10"><?php print date('Y/m/d',$start_time); ?>-<?php print date('Y/m/d',$start_time+86400*$days); ?></span> 
+				<if condition="$status eq 0"> 未申请
+				<elseif condition="$status eq 1"/>申请中
+				<elseif condition="$status eq 2"/>不通过
+				<elseif condition="($status eq 9) and ($stage eq 0)"/>等待上线
+				<elseif condition="($status eq 9) and ($stage eq 1)"/>预热中
+				<elseif condition="($status eq 9) and ($stage eq 2)"/>火热筹款中
+				<elseif condition="($status eq 9) and ($stage eq 8)"/>众筹失败
+				<elseif condition="($status eq 9) and ($stage eq 9)"/>众筹成功
+				</if>
+						
+		    </p>
+		    </if>
+		</div>
+		<div class="project-content">
+		<div class="col-left">
+		<div class="cover">
+			<if condition="$finish_progress_num gt 100">
+				<span class="super_raise icon_y">已超募</span>
+			</if>
+			<if condition="$stage eq 1">
+			<img data-pinit="registered" src="{$hot_img|get_cover='path'}" alt="" class="cover-img" style="width:653px;">
+			<else />
+			<img data-pinit="registered" src="{$home_img|get_cover='path'}" alt="" class="cover-img" style="width:653px;">
+			</if>
+
+		</div>
+		<div class="content">
+			<!-- TODO: tab_ul -->
+		<div class="box_hm mt20 clearfix " >
+		<ul class="nav nav-tabs" id="myTab">
+		  <li class="active "><a href="#home" data-toggle="tab">项目主页</a></li>
+		  <li class="" ><a href="#supporter" data-toggle="tab" style="width:130px;">支持者
+		  	<span id="investor_count" class="r_bg"></span>
+		  </a></li>
+		</ul>
+
+		<div class="tab-content">
+		  <div class="tab-pane active" id="home">
+			<div class="tab_cont" style="display:block">
+			    <div class="mb30">
+				<?php  if (!empty($resultInfo['video_path'])) :?>
+	        		<embed src="{$resultInfo.video_path}" allowFullScreen="true" quality="high" width="625" height="395" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+	        		<br>
+				<?php endif;?>
+		        <p>{$resultInfo.content}</p>
+	            </div>
+		    </div>
+		  </div>
+
+		  <div class="tab-pane" id="supporter">
+		  	<div class="supporter-box">
+
+		  	</div>
+		  </div>
+		</div>
+
+		</div>
+
+		</div>
+
+		<div class="recommend">
+		    <div class="layout">
+		    	<div class="find ">
+			      	<i class="ui-project-icon icon">
+			      	</i>
+			      	<h3 class="ui-title-text">推荐项目</h3>
+
+			      </div>
+			        <div class="ui-recommend-box clearfix ">
+				        <foreach name="projects" item="project" >
+				        	<div class="ui-recommend-item">
+								<a class="ui-recommend-img" href="{:U('Project/detail?id='.$project['id'])}">
+									<img src="{$project.cover|get_cover='path'}" class="imgbox-223"></a> 
+								<p class="ui-recommend-text" style="padding:10px 0;" class="text-center"><a href="{:U('Project/detail?id='.$project['id'])}">{$project.project_name}</a></p>
+							</div>
+				        </foreach>
+			        </div>
+		    </div>
+		</div>
+
+
+		</div>
+		<div class="col-right">
+		    <div class="box schedule-box h145 mb20">
+		        <div class="money-box pr clearfix">
+		            <a id="a_focus" href="javascript:;" data-url="{:U('Product/focus?pid='.$pid)}" class="btn135_red">关注<span class="font14 focusAmount">（{$like_record}）</span></a>
+		        </div>
+		        <div class="reserve">
+		            <div class="share">
+		                <p id="J_Share" class="share-icons">
+
+		                </p><div class=" sns-icon-20" >
+		                    <div class="sns-iconshare-panel  sns-iconshare-expand ">
+		                        <div class="sns-iconshare-content">
+									<!-- JiaThis Button BEGIN -->
+									<div class="jiathis_style">
+										<a class="jiathis_button_qzone"></a>
+										<a class="jiathis_button_tsina"></a>
+										<a class="jiathis_button_tqq"></a>
+										<a class="jiathis_button_weixin"></a>
+										<a class="jiathis_button_renren"></a>
+										<a class="jiathis_button_xiaoyou"></a>
+										<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+										<a class="jiathis_counter_style"></a>
+									</div>
+									<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+									<!-- JiaThis Button END -->
+		                        </div>
+		                    </div>
+		                </div>
+		                <p></p>
+		            </div>
+		        </div>
+
+		    </div>
+			
+		    <div class="box clearfix pr">
+		        <div class="font14">
+		            <p class="font18 mb20">已筹到</p>
+
+		            <p><span class="font27">￥</span><span class="font45">{$finish_amount|round=2}</span></p>
+
+		            <p class="lh24">此项目必须在<span class="f_red">&nbsp;<?php print date('Y年m月d日',$start_time+86400*$days); ?></span>&nbsp;前得到</p>
+
+		            <p class="lh24"><span class="f_red">￥{$amount}</span>的支持才可成功！剩余
+		                 <?php print $days - floor((time()-$start_time)/86400) ;?>天！</p>
+		            <i class="icon_pag">
+                        <if condition="$status eq 0"> 未申请
+						<elseif condition="$status eq 1"/>申请中
+						<elseif condition="$status eq 2"/>不通过
+						<elseif condition="($status eq 9) and ($stage eq 0)"/>等待上线
+						<elseif condition="($status eq 9) and ($stage eq 1)"/>预热中
+						<elseif condition="($status eq 9) and ($stage eq 2)"/>众筹中
+						<elseif condition="($status eq 9) and ($stage eq 8)"/>众筹失败
+						<elseif condition="($status eq 9) and ($stage eq 9)"/>众筹成功
+						</if>
+                    </i>
+		        </div>
+		        <div class="reserve">
+                    <span class="schedule-bar"><i class="schedule-current " style="width:{$finish_progress_bar}%;"></i></span>
+		        </div>
+		        <p class="font14 finish_progress_bar_bottom ui_progress_num">{$finish_progress_num}%</p>
+		        <p class="font14 finish_progress_bar_bottom ui_support_num"><strong>{$resultSupport}</strong> 名支持者</p>
+		    </div>
+		    <div class="repays mt20">
+		        <div class="repay-box">
+		            <div id="projectOwner" class="box328 repay mtb10">
+		                <h1 class="font18_hm mtb10"> 项目发起人</h1>
+
+		                <div class="cont_hm clearfix">
+		                    <div class="fl mr15 picPr">
+	
+                                    <img style="width:60px;height:60px;" src="{$uid|get_memberface}" alt="">
+                                    <span></span>
+		                      
+		                    </div>
+		                    <div class="fl">
+		                        <h2 class="font18 proName">
+		                    		<p class="name">{$uid|get_membername}</p>
+								</h2>
+                                <a href="{:U('Message/sendmsg?id='.$uid)}" name="sendmessage" class="send-message">发私信</a></p>
+		                    </div>
+		                </div>
+		            </div>
+
+		            <foreach name="resultPrice" item="vo" >
+                    <div class="box328 repay mtb10 ">
+                        <h1 class="font18_hm mtb10 ">
+                        
+                            <span class="fl">支持￥{$vo.amount}</span>
+                                <span name="support_div" class="fr co666 pr35">{$vo['sell_count']}位支持者</span>
+                        </h1>
+                        <div class="cont_hm clearfix">
+                            <p class="mb20">
+                            	
+                            	<if condition="$vo[count] eq 0">
+	                            	无限额
+	                            <else/>
+	                            	限额 {$vo.count}位 | 剩余<?php print $places=$vo['count']-$vo['sell_count'];  ?>位
+                            	</if>
+                            </p>
+                            <br />
+                            <p class="lh24">{$vo.content}</p>
+                            <p class="lh24">
+                            	<!-- <img data-pinit="registered" src="{$vo.image|get_cover='path'}" alt="" class="cover-img" style="width:80px;"> -->
+                            </p>
+                            <p class="lh24"><strong>配送费用：</strong>
+                                <if condition="$vo[count] eq 0">
+	                                免运费
+	                            <else/>
+	                            	{$vo.post_amount}
+                            	</if>
+                            </p>
+                            <p class="lh24"><strong>预计回报发送时间：</strong>项目成功结束后{$vo.afterday}天内</p>
+                            <p class="mt10">
+                         
+                            <if condition="($status eq 9) and ($stage eq 2)">
+	                            <if condition="$vo[count] eq 0">
+			                      	<a href="{:U('productOrder/info?priceId='.$vo['id'])}" class="btn130 buy_price">支持￥{$vo.amount}</a>
+	                            <else/>
+	                             	<?php if($places < 1):?>
+	                            	
+		                            	<button type="button" class="btn130_grey" disabled="true">已售罄</button>
+		                            <?php else:?>
+
+		                           		<a href="{:U('productOrder/info?priceId='.$vo['id'])}"  class="btn130 buy_price">支持￥{$vo.amount}</a>
+	
+		                            <?php endif;?> 
+	                            </if>
+	                         </if>
+
+                            </p>
+                        </div>
+
+                    </div>
+					</foreach>		            
+		            <div class="box328 repay mtb10 blue_bg">
+		                <h1 class="font18_hm mtb10"> 关于支持与退款</h1>
+		                <div class="cont_hm clearfix">
+		                    <p class="lh24">这个项目必须在<strong class="f_red"><?php print date('Y年m月d日',$start_time+86400*$days); ?></strong>之前达到<strong class="f_red">￥{$amount}</strong>的目标才算成功，否则已经支持的订单将取消。
+		                    </p>
+		                    <p class="lh24">订单取消时，如果您使用的是网银钱包余额或储蓄卡付款，您的支持金额将全额退还至您的网银钱包；如果您使用的是信用卡付款，您的支持金额将全额退还至支付所用的信用卡。</p>
+		                </div>
+		            </div>
+		            <div class="zc-promotion"></div>
+						
+		        </div>
+		    </div>
+
+		</div>
+			
+		</div>
+
+		</div>
+
+		</div>
+
+
+		</div>
+		<div class="clearfix"></div>
+		</div><!--  detail end -->
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__JS__/product/viewdetail.js"></script>
+ <link rel="stylesheet" href="__CSS__/style.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/colorbox.css">
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<script type="text/javascript">
+		//$(".popup").colorbox(); // 跟投按钮处理
+		$.get('{:U("Pages/productInvestor?pid=".$pid)}', function(data) {
+			$("#investor_count").html(data.count);
+			
+			$(".supporter-box").html(data.html);
+		}, 'json');
+		
+		$('.buy_price').click(function() {
+			var infoUrl = $(this).attr('href');
+			$.get($(this).attr('href'), null, function(data) {
+				if (data.status == '0') {
+					$('#messagebody').html(data.info);
+					$('#messageBox').modal('show');
+				} else {
+					$('.control-group').removeClass('error');
+					window.location.href=infoUrl;
+					// $('#inputfund').html('');
+					// $('#followModal').modal('show');
+				}
+			});
+			return false;
+		});
+			
+	</script>
+</block>

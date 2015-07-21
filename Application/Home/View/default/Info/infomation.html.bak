@@ -1,0 +1,479 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <style>
+        textarea.comment-comment {
+            font-size: 14px;
+            color: #5c5c5c;
+        }
+
+        .border1 {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            resize: none;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        .btn-comment-comment {
+            background: #72c2e5;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .xmpl ul.mes {
+            padding-top: 0;
+        }
+
+        .xmpl ul.mes li {
+            float: left;
+            width: 100%;
+            border-bottom: 2px dotted #f5f5f5;
+            padding-bottom: 20px;
+        }
+
+        .xmpl ul.mes li dl, .xmpl ul.mes li dl dt, .xmpl ul.mes li dl dd {
+            margin: 0;
+            padding: 0;
+        }
+
+        .xmpl ul.mes li dl dd.img {
+            float: left;
+            width: 90px;
+            text-align: center;
+        }
+
+        .xmpl ul.mes li dl dd.img img {
+            border: 2px solid #e1e6ea;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+        }
+
+        .xmpl ul.mes li dl dd.detail {
+            float: left;
+            width: 74%;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .xmpl ul.mes li dl dd.icon {
+            float: left;
+            width: 30px;
+        }
+
+        .xmpl ul.mes li dl dd.icon img {
+            position: relative;
+            top: 3px;
+        }
+
+        .xmpl ul.mes li dl dd.detail b {
+            font-size: 14px;
+            font-weight: normal;
+            display: block;
+            color: #333;
+        }
+
+        .xmpl ul.mes li dl dd.cz {
+            float: right;
+            width: 80px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .xmpl ul.mes li dl dd.cz a {
+            color: #858585;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 12px;
+            width: 50px;
+            height: 26px;
+            line-height: 26px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .xmpl ul.mes li .reply {
+            background: #fff;
+            margin-top: 20px;
+            text-align: right;
+            width: 600px;
+            margin-left: 50px;
+        }
+
+        .xmpl ul.mes li .reply .border1 {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            resize: none;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        #btn-project-comment {
+            color: #fff;
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            text-decoration: none;
+            background: url(../images/icon_pl.png) no-repeat 18px 8px #72c2e5;
+            display: inline-block;
+            font-family: "微软雅黑", "黑体", sans-serif;
+            font-size: 18px;
+            padding-left: 50px;
+            padding-right: 30px;
+            border-radius: 4px;
+        }
+
+        #btn-project-comment:hover {
+            background-color: #6bb5d6;
+        }
+
+        .xmpl ul.mes li .moreinfo {
+            background: #fff;
+            width: 680px;
+            margin-top: 20px;
+            color: #999999;
+        }
+
+        .xmpl ul.mes li .d {
+            color: #999999;
+            font-size: 14px;
+        }
+
+        .xmpl ul.mes li .pllist li {
+            padding: 10px;
+            background: #f2f2f2;
+            border-radius: 5px;
+            margin-top: 5px;
+            margin-bottom: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</block>
+<block name="body">
+
+    <link href="__CSS__/style.css" rel="stylesheet">
+    <script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__JS__/addons.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.animate-colors-min.js"></script>
+
+    <div class="fl w100 infomation_main">
+        <div class="content">
+            <div class="mt25 leftmain">
+                <div class="title">{$info.title}</div>
+                <div class="f_gray">
+                    <div style="float:left;padding-top: 15px;">发布时间：{$info.create_time|time_format='Y-m-d'}&nbsp;&nbsp;&nbsp;来源：{$info.info_from}&nbsp;&nbsp;&nbsp;{$info.view}次阅读</div>
+
+                    <div style="float:right;">
+                        <div class="share">
+                            <!-- JiaThis Button BEGIN -->
+                            <div class="jiathis_style_24x24 pull-right hidden-phone" style="margin-top:15px">
+                                <a class="jiathis_button_tsina"></a>
+                                <a class="jiathis_button_tqq"></a>
+                                <a class="jiathis_button_weixin"></a>
+                                <a class="jiathis_button_cqq"></a>
+                                <a class="jiathis_counter_style"></a>
+                            </div>
+
+                            <script type="text/javascript">
+                                var jiathis_config = {
+                                    data_track_clickback: true,
+                                    summary: "",
+                                    shortUrl: true,
+                                    hideMore: false
+                                }
+                            </script>
+                            <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1993185"
+                                    charset="utf-8"></script>
+                            <!-- JiaThis Button END -->
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="mainintro">
+                    <p>{$info.content}</p>
+                </div>
+
+                <div class="comment">
+                    <div class="mjdp">
+                        <span class="comments">名家点评</span>
+                    </div>
+
+                    <div class="comment_mjdp">
+                        <ul>
+                            <foreach name="comments" item="vo">
+                                <li>
+                                    <div class="Avatar">
+                                        <if condition="$vo['face'] eq 0">
+                                            <img src="/Uploads/Picture/Photo/photo_default.png" class="header">
+                                            <else/>
+                                            <img src="{$vo.face|get_cover='path'}" class="header">
+                                        </if>
+
+                                        <div class="comment_name">{$vo.comment_by}</div>
+                                    </div>
+                                    <div class="Recent_Right">
+                                        <div class="Recent_content">{$vo.content}</div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="message xmpl">
+                    <div class="mjdp">
+                        <span class="messages">评论留言</span>
+                    </div>
+
+                    <div class="comment_info">
+                        <ul class="mes">
+                            <li>
+                                <div id="replyw" class="reply"><textarea
+                                        id="project-comment" name="" cols="" rows=""
+                                        class="border1 comment-comment"
+                                        style="width:100%; height:150px;"></textarea><a href="#"
+                                                                                        id="btn-project-comment">发表</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <div id="comment-box">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt25 rightmain">
+                <div class="notice">
+                    <div class="mt15 font18_hm">
+                        <span style="color:#f35d5d;">热门文章</span>
+                    </div>
+                    <ul>
+                        <foreach name="hotinfo" item="v">
+                            <li>
+                                <a href="{:U('info/infomation?id='.$v['id'])}" title="资讯">{$v.title}</a>
+                            </li>
+                        </foreach>
+
+                    </ul>
+                </div>
+                <div class="hotproject">
+                    <div class="mt15 font18_hm">
+                        <span style="color:#f35d5d;">推荐项目</span>
+                    </div>
+                    <ul style="text-align: center;">
+                        <foreach name="recomendList['project']" item="v">
+                            <li>
+                                <a href="{:U('project/detail?id='.$v['id'])}" title="聚募股权众筹">
+                                    <img src="{$v['cover']|get_cover='path'}">
+                                </a>
+                                <p class="text-center">
+                                    <a href="{:U('project/detail?id='.$v['id'])}">{$v.project_name}</a>
+                                </p>
+                            </li>
+                        </foreach>
+                        <foreach name="recomendList['product']" item="v">
+                            <li>
+                                <a href="{:U('product/viewdetail/pid/'.$v['id'])}" title="聚募实物众筹">
+                                    <img src="{$v['home_img']|get_cover='path'}">
+                                </a>
+                                <p class="text-center">
+                                    <a href="{:U('product/viewdetail/pid/'.$v['id'])}">{$v.name}</a>
+                                </p>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+    <script type="text/javascript">
+        var projectId = location.href.match(/id\/(\d+)\.html/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        var config = {projectCommentAPI: '/info/comment/'};
+
+        $.get('{:U("Pages/infoComments?id=". $info["id"])}', function (data) {
+            $("#comment-box").html(data.html);
+            bindCommentBtnEvent();
+            //$("#investor-count").html(data.count);
+        }, 'json');
+
+
+        function pageChangeComment() {
+            $('#pagectrl-comment .first,#pagectrl-comment .num,#pagectrl-comment .next,#pagectrl-comment .end,#pagectrl-comment .prev').click(function () {
+                $.get($(this).attr('href'), function (data) {
+                    $("#comment-box").html(data.html);
+                    //$("#investor-count").html(data.count);
+                    location.hash = '';
+                    location.hash = '#comments';
+                    bindCommentBtnEvent();
+                }, 'json');
+                return false;
+            });
+        }
+
+        // 回复(显示恢复输入框)
+        var bindCommentBtnEvent = function () {
+            $(".btn-slide").unbind().click(function () {
+                $(this).parent().parent().find('.panel').slideToggle();
+                return false;
+            });
+            $('.btn-comment-comment').unbind().click(function () {
+                var $detail = $(this).parents('.detail'),
+                        $textarea = $detail.find('textarea'),
+                        commentId = $detail.find('.comment_id').val(),
+                        user = $detail.find('.from').children('b').text(),
+                        content = $detail.find('.d').text();
+
+                var data = {
+                    project_id: projectId,
+                    content: $textarea.val(),
+                    reply_id: commentId
+                };
+                if ($textarea.val() == '') {
+                    layer.alert('评论内容不能为空');
+                    return false;
+                }
+                $.post(config.projectCommentAPI, data, function (data) {
+                    if (data.status == 1) {
+                        showCommentComment(data, user, content);
+                        $textarea.val('');
+                    } else {
+                        layer.alert(data.info, 8);
+                    }
+                });
+                return false;
+            });
+        };
+
+        //项目评论 - 戴
+        $('#btn-project-comment').click(function () {
+            var $textarea = $('#project-comment');
+            var data = {
+                type: 1,
+                project_id: projectId,
+                content: $textarea.val(),
+                reply_id: 0
+            };
+
+            if ($textarea.val() == '') {
+                layer.alert('评论内容不能为空');
+                return false;
+            }
+            $.post(config.projectCommentAPI, data, function (data) {
+                if (data.status == 1) {
+                    showTheComment(data);
+                    $textarea.val('');
+                } else {
+                    layer.alert(data.info, 8);
+                }
+            });
+            return false;
+        });
+
+        //呈现刚发表的评论 - 戴
+        function showTheComment(data) {
+            var html = '<li class="fresh-comment"><dl><dd class="img"><img src="' + (data.user_face || '') + '" alt="' + (data.user_name || '') + '"></dd><dd class="detail"><div class="from"><b>' + (data.user_name || '') + '</b>' + data.date + '</div><div class="d">' + (data.content || '') + '</div><div class="panel" class="reply" style="display:none;"><input type="hidden" class="comment_id" value="' + (data.id || 0) + '"><textarea name="" cols="" rows="" class="border1" style="width:100%;"></textarea><a href="#" class="btn-comment-comment">评论</a></div></dd><dd class="cz"><a href="#" class="btn-slide">回复</a></dd><dd></dd></dl></li>';
+            $('#comments').prepend(html);
+            $('.fresh-comment').css('backgroundColor', '#FFFFCC').animate({
+                backgroundColor: '#FFFFFF'
+            }, 2000, function () {
+                $(this).css('backgroundColor', '#FFFFFF').removeClass('fresh-comment')
+            });
+            bindCommentBtnEvent();
+        }
+
+        function showCommentComment(data, user, content) {
+            var html = '<li class="fresh-comment" id="fresh-comment"><dl><dd class="img"><img src="' + data.user_face + '" alt="众筹用户"></dd>' +
+                    '<dd class="detail"><div class="from"><b>' + data.user_name + '</b>' + data.date + '</div>' +
+                    '<div class="d">' + data.content + '</div><div class="pllist clearfix"><ul>' +
+                    '<li>' + user + '说：' + content + '</li></ul></div>' +
+                    '<div class="panel" style="display:none;"><input type="hidden" class="comment_id" value="' + data.id + '">' +
+                    '<textarea name="" cols="" rows="" class="border1" style="width:100%;"></textarea>' +
+                    '<a href="#" class="btn-comment-comment">评论</a></div></dd><dd class="cz"><a href="#" class="btn-slide">回复</a></dd><dd></dd></dl>\n</li>';
+
+            $('#comments').prepend(html);
+            var $freshComment = $('.fresh-comment');
+            $freshComment.css('backgroundColor', '#FFFFCC').animate({
+                backgroundColor: '#FFFFFF'
+            }, 2000, function () {
+                $(this).removeClass('fresh-comment')
+            });
+            var freshCommentTop = $freshComment.offset().top,
+                    $body = $('body');
+            $body.animate({scrollTop: freshCommentTop}, 500);
+            bindCommentBtnEvent();
+            $('.panel').slideUp();
+        }
+        // 回复信息
+        $("#btn_reply").click(function () {
+            var cell = $(this).parents(".msg-cell");
+            if ($(cell).find("#user_comment").val() == '') {
+                alert('请填写回复内容。');
+                return false;
+            }
+            var data = {
+                project_id: projectId,
+                content: $(cell).find("#user_comment").val(),
+                reply_id: $(cell).find('#comment_id').val(),
+                old_user: $(cell).find('header span:first').html(),
+                old_content: $(cell).find('#cont').html()
+            };
+
+            $.post("{:U('project/comment')}", data, function (data) {
+                var reply = $('.com-reply');
+                $(reply).parents('.msg-cell').find('.msg-action').show();
+                $(reply).hide(400);
+                addNew(data);
+            });
+            return false;
+        });
+
+        // 回复(显示恢复输入框)
+        var bindCommentBtnEvent = function () {
+            $(".btn-slide").unbind().click(function () {
+                $(this).parent().parent().find('.panel').slideToggle();
+                return false;
+            });
+            $('.btn-comment-comment').unbind().click(function () {
+                var $detail = $(this).parents('.detail'),
+                        $textarea = $detail.find('textarea'),
+                        commentId = $detail.find('.comment_id').val(),
+                        user = $detail.find('.from').children('b').text(),
+                        content = $detail.find('.d').text();
+
+                var data = {
+                    project_id: projectId,
+                    content: $textarea.val(),
+                    reply_id: commentId
+                };
+                if ($textarea.val() == '') {
+                    layer.alert('评论内容不能为空');
+                    return false;
+                }
+                $.post(config.projectCommentAPI, data, function (data) {
+                    if (data.status == 1) {
+                        showCommentComment(data, user, content);
+                        $textarea.val('');
+                    } else {
+                        layer.alert(data.info, 8);
+                    }
+                });
+                return false;
+            });
+        };
+
+    </script>
+
+</block>

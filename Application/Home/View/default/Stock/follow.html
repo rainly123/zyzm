@@ -1,0 +1,51 @@
+<div>
+	<table style="width:100%;text-align:center;border:1px solid #eee;padding:40px">
+		<thead>
+			<tr>
+				<td style="width:50%;font-size:18px;font-weight:bolder">已投资金额</td>
+				<td style="width:50%;font-size:18px;font-weight:bolder">剩余额度</td>
+			</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>{$data.fund|default=0}元</td>
+			<td><if condition="$stock.max_fund eq 0">无限额<else/>{$data.can_fund|default=0}元</if></td>
+		</tr>
+		</tbody>
+	</table>
+	<form action="{:U('Stock/follow')}" method="post">
+		<div class="control-group">
+			<input type="hidden" name="pid" value="{$pid}">
+			<label for="" class="control-label">投资金额</label>
+			<div class="controls">
+				<input type="number" class="numbers span4" name="amount" placeholder="投资金额">
+				<span class="help-block">最低投资金额为{$stock.min_fund}元，总投资金额<if condition="$stock.max_fund eq 0"> 不限 <else/>不能超过{$stock.max_fund}元</if></span>
+			</div>
+		</div>
+		<div class="control-group error">
+			<div class="controls"><span class="help-block" id="errormsg"></span></div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-primary" style="width:150px" id="btn-follow">提交</button>
+			</div>
+		</div>
+	</form>
+<script>
+	$("#btn-follow").click(function() {
+		$("#errormsg").html('');
+		var form = $(this).parents('form');
+		$.post(form.attr('action'), form.serialize(), function(data) {
+			if (data.status == 1) {
+				// 跳转到支付页面
+				//window.location.reload();
+				window.location.href = data.url;
+			} else {
+				// 错误处理
+				$("#errormsg").html(data.info);
+			}
+		});
+		return false;
+	});
+</script>
+</div>

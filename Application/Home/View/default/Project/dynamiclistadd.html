@@ -1,0 +1,99 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/usercenter.css" rel="stylesheet">
+    <link href="__CSS__/validform.css" rel="stylesheet">
+    <link href="__STATIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
+</block>
+
+
+<block name="body">
+    <form method="post" action="{:U('project/addProjectDynamicInfo')}">
+        <div class="fl w100 mt25 dt">
+        <input type="hidden" name="project_id" value="{$detail.project_id}">
+            <div class="content border1">
+                <div class="dtmain cl">
+                    <ul class="add">
+                        <li>
+                            <label>标题</label>
+                            <input name="title" type="text" class="c1" id="title" datatype="*1-40"
+                                   nullmsg="请输入标题" maxlength="40" errormsg="标题最多40个字符" value="{$detail.title}" style="margin-bottom: 8px;">
+                        </li>
+                        <li class="pri">
+                            <label>阅读权限</label>
+                            <a class="open-flag-0 choosecur" href="javascript:void(0)" id="one1" onclick="setTab('one',1,2);$('#input-open-flag').val(0)">所有投资人</a>
+                            <a class="open-flag-1" href="javascript:void(0)" style="margin-left:10px;" id="one2" onclick="setTab('one',2,2);$('#input-open-flag').val(1)">审核通过的投资人</a>
+
+                            <input name="open_flag" type="hidden" value="{$detail.open_flag}" id="input-open-flag">
+                            <script type="text/javascript">
+                                // 默认选中
+                                var val = $('#input-open-flag').val() || 0;
+                                $('.choosecur').removeClass('choosecur');
+                                $('.open-flag-' + val).addClass('choosecur');
+                            </script>
+                        </li>
+                        <li>
+                            <span class="addpic"></span>
+                            <label>内容</label>
+                            <textarea id="dynamic-content" name="content" datatype="*"
+                                      nullmsg="请输入内容" errormsg="请输入内容">{$detail['content']}</textarea>
+                        </li>
+                        <li class="goto">
+                            <input name="id" type="hidden" value="{$detail.id}">
+                            <input id="submit-type" type="hidden" name="status" value="0">
+                            <a id="btn-submit-save" href="#" class="btn_gray btn-submit">保存草稿</a>
+                            <a id="btn-submit-publish" href="#" class="btn_red2 btn-submit">直接发布</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__STATIC__/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" src="__STATIC__/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript">
+
+        function setTab(name, cursel, n) {
+            for (i = 1; i <= n; i++) {
+                var menu = document.getElementById(name + i);
+                menu.className = i == cursel ? "choosecur" : "";
+            }
+        }
+        <!-- 实例化编辑器 -->
+        var um = UM.getEditor('dynamic-content', {
+            initialFrameWidth :740,
+            initialFrameHeight :250
+        });
+    </script>
+    <script>
+
+$('form').Validform({
+    tiptype:3,
+    ajaxPost: true,
+    callback: function(data) {
+        if (data.status == 1) {
+            layer.alert(data.info, 9, function(){location.href = data.url});
+        } else {
+            layer.alert(data.info, 8);
+        }
+    }
+});
+
+var submit = function (status) {
+    $('#submit-type').val(status);
+    $('form').submit();
+};
+$('#btn-submit-save').click(function () {
+    submit(0);
+    return false;
+});
+$('#btn-submit-publish').click(function () {
+    submit(1);
+    return false;
+});
+    </script>
+</block>

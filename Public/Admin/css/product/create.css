@@ -1,0 +1,101 @@
+.content {
+width: 1000px;
+margin: 0 auto;
+}
+
+.module_wrap {
+border: 1px solid #dedbdb;
+background: #fff;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+-ms-border-radius: 4px;
+padding-top: 15px;
+padding-bottom: 15px;
+}
+
+.common_tit {
+	height: 59px;
+	line-height: 59px;
+	background: #fafafa;
+	border-top: 1px solid #dedbdb;
+	border-left: 1px solid #dedbdb;
+	border-right: 1px solid #dedbdb;
+}
+
+.common_tit .common_tit_name {
+font-size: 22px;
+font-family: 'microsoft yahei';
+padding: 0 20px;
+font-weight: normal;
+color: #444;
+}
+
+.module_con {
+	color: #666;
+	border: 1px solid #dedbdb;
+}
+
+.wyl_sp {
+padding: 60px 70px 60px 420px;
+/*background: url("images/sp1.png") 56px 68px no-repeat;*/
+height: 360px;
+min-height: 360px;
+_height: auto;
+}
+
+
+.wyl_sp h4 {
+line-height: 28px;
+font-size: 22px;
+color: #e53c3f;
+margin-top: 20px;
+margin-bottom: 30px;
+font-family: "Microsoft Yahei";
+font-weight: normal;
+}
+
+.wyl_sp p {
+line-height: 22px;
+}
+
+.wyl_sp p.sp_xy {
+margin-top: 20px;
+margin-bottom: 25px;
+}
+.wyl_sp p {
+line-height: 22px;
+}
+
+.wyl_sp p {
+line-height: 22px;
+}
+
+.wyl_sp_img {
+	float: left;
+	margin-left: 26px;
+	margin-top: 60px;
+}
+
+.wyl_sp p button,.ui-start-product{
+border-radius: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+width: 140px;
+height: 38px;
+background: #ff6559;
+color: #fff;
+line-height: 38px;
+font-size: 16px;
+cursor: pointer;
+padding: 5px;
+margin: 5px;
+}
+
+.ui-start-product:hover{
+	text-decoration: none;
+	color: white;
+};
+
+.sp_xy input{
+	margin: 0px 0px 0px 0px;
+}

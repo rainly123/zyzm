@@ -1,0 +1,523 @@
+<extend name="Base/common"/>
+
+<block name="header">
+
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+    <link href="__CSS__/detail.css" rel="stylesheet">
+    <link rel="stylesheet" href="__CSS__/style.css">
+    <script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__JS__/addons.js"></script>
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+    <script type="text/javascript" src="__JS__/exporting.js"></script>
+    <script type="text/javascript" src="__JS__/highcharts-more.js"></script>
+    <script type="text/javascript" src="__JS__/detail.js"></script>
+
+    <div class="fl w100 mainwrap mt25">
+        <div class="content" id="detail">
+            <div class="bread">
+                <a href="{:U('Index/index')}">首页</a>　>　
+                <a href="{:U('List/index')}">实物众筹项目</a>　>　{$name}
+            </div>
+            <div id="jiathis">
+                <!-- JiaThis Button BEGIN -->
+                <div class="jiathis_style_24x24">
+                    <a class="jiathis_button_tsina"></a>
+                    <a class="jiathis_button_cqq"></a>
+                    <a class="jiathis_button_weixin"></a>
+                    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                </div>
+
+                <!-- JiaThis Button END -->
+            </div>
+            <div class="topinfo mt15 cl">
+                <div class="img fl">
+                    <div class="noimg">
+                        <if condition="$finish_progress_num gt 100">
+                            <span class="super_raise icon_y">已超募</span>
+                        </if>
+                        <if condition="$stage eq 1">
+                            <img data-pinit="registered" src="{$hot_img|get_cover='path'}" alt="实物众筹" class="cover-img"
+                                 style="width:100%;height:100%;">
+                            <else/>
+                            <img data-pinit="registered" src="{$home_img|get_cover='path'}" alt="实物众筹" class="cover-img"
+                                 style="width:100%;height:100%;">
+                        </if>
+
+                    </div>
+                </div>
+                <div class="infos ri">
+                    <h4>{$name}</h4>
+                    <p class="sintro">{$abstract}</p>
+                    <dl class="rzxx cl">
+                        <dd><span>{$resultSupport}</span>支持人数</dd>
+                        <dd><span><?php
+                        if ($days - floor((time()-$start_time)/86400) >0) 
+							{ print $days - floor((time()-$start_time)/86400) ;} 
+						else { print 0;} ?>天</span>剩余天数
+                        </dd>
+                        <dd><span>{$finish_progress_num}%</span>已完成</dd>
+                    </dl>
+                    <div class="savestep_detail cl"><i
+                            style="width:{$finish_progress_num > 100 ? 100 :$finish_progress_num}%;"></i>
+                        <div class="bg"></div>
+                    </div>
+                    <p style="line-height:24px;">此项目必须在<b
+                            style="font-size:14px;color: #f35d5d;"><?php print date('Y年m月d日',$start_time+86400*$days); ?></b>前得到<b
+                            style="font-size:18px;color: #f35d5d;">￥{$amount}</b>的支持才可能成功</p>
+                    <div class="cz cl">
+                        <div class="zan">
+                            <a id="a_focus" href="javascript:;" data-url="{:U('Product/focus?pid='.$pid)}" class="c2">{$like_record}</a>
+
+                            <a href="javascript:;" url="" class="c4">{$read_record}</a>
+                        </div>
+                        <div class="yzje"><b>￥{:round($finish_amount)}</b>已筹金额</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tagsbar">
+
+                <a href="#" class="tags">{$tags}</a>
+            </div>
+
+            <div class="intro_detail mt20">
+                <div class="xm fl xm2">
+                    <div class="smenu cl">
+                        <ul>
+                            <li id="one1" onclick="setTab('one',1,3)" class="cur">项目主页</li>
+                            <li id="one2" onclick="setTab('one',2,3)" class="">支持者<em>（{$resultSupport}） </em></li>
+                            <li id="one3" onclick="setTab('one',3,3)">项目评论<em>({$product.com_count})</em></li>
+                        </ul>
+                    </div>
+                    <!--tab1-->
+                    <div class="hover" id="con_one_1">
+                        <div class="c11 mintro">
+                            <!--<div class="noimg">
+                            <?php  if (!empty($resultInfo['video_path'])) :?>
+                                <embed src="{$resultInfo.video_path}" allowFullScreen="true" quality="high" width="625" height="395" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+                            <br />
+                            <?php endif;?></div>-->
+                            <p>{$resultInfo.content}</p>
+
+                        </div>
+                    </div>
+                    <!--tab1-->
+                    <!--tab2-->
+                    <div class="c11 mintro tzz" id="con_one_2" style="display:none;">
+                        <div class="supporter-box">
+
+                        </div>
+                    </div>
+
+                    <!--tab2-->
+                    <!--tab3-->
+                    <div class="c11 mintro xmpl" id="con_one_3" style="display: none;">
+
+                        <h4 class="c2"><i></i>项目评论</h4>
+                        <div class="c11 mintro xmpl" id="con_one_3" style="display: block;"><!--注意：下方与之前的详情页有点不同-->
+                            <header>还可以输入 <span id="content-count">140</span> 字</header>
+                            <!--注意：增加项-->
+                            <ul class="mes">
+                                <li>
+                                    <div id="replyw" class="reply" style="margin-top:10px;"><textarea
+                                            id="project-comment" maxlength="140" name="" cols="" rows=""
+                                            class="border1 comment-comment"
+                                            style="width:100%; height:150px;"></textarea><a href="#"
+                                                                                            id="btn-project-comment">评论</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div id="comment-box">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--tab3-->
+
+                    <div class="c11 mintro">
+                        <h4 class="c2"><i></i>推荐项目</h4>
+                        <div class="tjxm_body">
+                            <div class="bx_wrap">
+                                <!--  	<a href="/" class="prev">上一个</a>
+                                     <a href="/" class="next">下一个</a> -->
+                                <div class="bx_container">
+                                    <!--<ul id="tjxm">
+                                        <foreach name="recomendList['project']" item="v">
+                                            <li><a href="{:U('project/detail?id='.$v['id'])}" title="中瀛智募"><img src="{$v['cover']|get_cover='path'}"  alt="{$v.project_name}股权众筹">{$v.project_name}</a></li>
+                                        </foreach>
+                                        <foreach name="recomendList['product']" item="v">
+                                            <li><a href="{:U('product/viewdetail/pid/'.$v['id'])}" title="中瀛智募"><img src="{$v['home_img']|get_cover='path'}"  alt="{$v.name}实物众筹">{$v.name}</a></li>
+                                        </foreach>
+                                    </ul>-->
+
+                                    <ul id="tjxm">
+                                        <foreach name="recomendList['project']" item="v">
+                                            <li><a href="{:U('project/detail?id='.$v['id'])}" title="中瀛智募"><img
+                                                    src="{$v['cover']|get_cover='path'}">{$v.project_name}</a></li>
+                                        </foreach>
+                                        <foreach name="recomendList['product']" item="v">
+                                            <li><a href="{:U('product/viewdetail?pid='.$v['id'])}" title="中瀛智募"><img
+                                                    src="{$v['home_img']|get_cover='path'}">{$v.name}</a></li>
+                                        </foreach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--右侧 start-->
+                <div class="sw_detail_right ri">
+                    <div class="fqr cl">
+                        <a href="{:U('MCenter/profile?id='. $uid)}"><img src="{$uid|get_memberface}" class="header"><b>{$uid|get_membername}</b></a>发起人
+                    </div>
+                    <!-- 					<div class="border1 mt15 zc">
+                                            <header class="cl"><b>无私支持</b><span>XX人支持</span></header>
+                                            <article>
+                                                 <p>感谢您的无私奉献，这份捐赠将助我们的梦想飞的更高更远。</p>
+                                                  <a href="实物详情页－提交订单.html" class="c1">无私支持</a>
+                                              </article>
+                                        </div> -->
+                    <foreach name="resultPrice" item="vo">
+                        <div class="border1 mt15 zc">
+                            <header class="cl"><b>￥{$vo.amount}</b>
+                                <span>{$vo['sell_count']}人支持(<if condition="$vo.count eq 0">不限
+                                    <else/>
+                                    限购 {$vo.count}人
+                                </if> )</span></header>
+                            <article>
+                                <p>{$vo.content|nl2br}</p>
+                                <if condition="($status eq 9) and ($stage eq 2)">
+                                    <if condition="$vo[count] eq 0">
+                                        <a href="{:U('productOrder/info?priceId='.$vo['id'].'&customid='.$customid)}"
+                                           class="c1">
+                                            <if condition="$vo.is_luck eq 1">碰碰运气
+                                                <else/>
+                                                支持￥{$vo.amount}
+                                            </if>
+                                        </a>
+                                        <else/>
+                                        <?php if(($vo['count']-$vo['sell_count']) < 1):?>
+                                        <a href="javascript:void(0)" onclick="" class="c1_g">已售罄</a>
+                                        <?php else:?>
+                                        <a href="{:U('productOrder/info?priceId='.$vo['id'].'&customid='.$customid)}"
+                                           class="c1">
+                                            <if condition=" $vo.is_luck eq 1">碰碰运气
+                                                <else/>
+                                                支持￥{$vo.amount}
+                                            </if>
+                                        </a>
+                                        <?php endif;?>
+
+                                    </if>
+                                </if>
+                                <p>
+                                    <if condition="$vo[post_amount] eq 0">包邮
+                                        <else/>
+                                        邮费:￥{$vo.post_amount}
+                                    </if>
+                                    <br>预计发放时间：项目成功结束后{$vo.afterday}天内
+                                </p>
+                                <if condition="$vo['pid'] eq 1">
+                                    <if condition="$vo['id'] eq 1">
+                                        <div style="text-align: center;">
+                                            <img src="__IMG__/barcode/jn1535.png" class="header">
+                                        </div>
+                                        <else/>
+                                        <div style="text-align: center;">
+                                            <img src="__IMG__/barcode/jn535.png" class="header">
+                                        </div>
+
+                                    </if>
+
+                                </if>
+
+                            </article>
+                        </div>
+                    </foreach>
+                </div>
+                <!--右侧 end-->
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript">
+        var projectId = location.href.match(/pid\/(\d+)\.html/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        var config = {projectCommentAPI: '/product/comment/'};
+
+        //$(".popup").colorbox(); // 跟投按钮处理
+        $.get('{:U("Pages/productInvestor?pid=".$pid)}', function (data) {
+            $("#investor_count").html(data.count);
+
+            $(".supporter-box").html(data.html);
+        }, 'json');
+
+        $.get('{:U("Pages/productComments?id=".$pid)}', function (data) {
+            $("#comment-box").html(data.html);
+            bindCommentBtnEvent();
+            //$("#investor-count").html(data.count);
+        }, 'json');
+
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            $(this).parent('li').addClass('active');
+        })
+
+        // 分页按钮处理
+        function pageChange() {
+            $('#pagectrl .first,#pagectrl .num,#pagectrl .next,#pagectrl .end,#pagectrl .prev').click(function () {
+                $.get($(this).attr('href'), function (data) {
+                    $("#investlist").html(data.html);
+                    $("#investor-count").html(data.count);
+                }, 'json');
+                return false;
+            });
+        }
+
+        function pageChangeComment() {
+            $('#pagectrl-comment .first,#pagectrl-comment .num,#pagectrl-comment .next,#pagectrl-comment .end,#pagectrl-comment .prev').click(function () {
+                $.get($(this).attr('href'), function (data) {
+                    $("#comment-box").html(data.html);
+                    //$("#investor-count").html(data.count);
+                    location.hash = '';
+                    location.hash = '#comments';
+                    bindCommentBtnEvent();
+                }, 'json');
+                return false;
+            });
+        }
+
+
+        // 回复(显示恢复输入框)
+        var bindCommentBtnEvent = function () {
+            $(".btn-slide").unbind().click(function () {
+                $(this).parent().parent().find('.panel').slideToggle();
+                return false;
+            });
+            $('.btn-comment-comment').unbind().click(function () {
+                var $detail = $(this).parents('.detail'),
+                        $textarea = $detail.find('textarea'),
+                        commentId = $detail.find('.comment_id').val(),
+                        user = $detail.find('.from').children('b').text(),
+                        content = $detail.find('.d').text();
+
+                var data = {
+                    project_id: projectId,
+                    content: $textarea.val(),
+                    reply_id: commentId
+                };
+                if ($textarea.val() == '') {
+                    layer.alert('评论内容不能为空');
+                    return false;
+                }
+                $.post(config.projectCommentAPI, data, function (data) {
+                    if (data.status == 1) {
+                        showCommentComment(data, user, content);
+                        $textarea.val('');
+                    } else {
+                        layer.alert(data.info, 8);
+                    }
+                });
+                return false;
+            });
+        };
+
+
+        $('.buy_price').click(function () {
+            var infoUrl = $(this).attr('href');
+            $.get($(this).attr('href'), null, function (data) {
+                if (data.status == '0') {
+                    $('#messagebody').html(data.info);
+                    $('#messageBox').modal('show');
+                } else {
+                    $('.control-group').removeClass('error');
+                    window.location.href = infoUrl;
+                    // $('#inputfund').html('');
+                    // $('#followModal').modal('show');
+                }
+            });
+            return false;
+        });
+
+        //关注
+        $("#a_focus").click(function () {
+
+            $.post($(this).data('url'), {focus: true}, function (data) {
+            }, 'json')
+                    .success(function (data) {
+                        if (data.status) {
+                            //alert('关注成功');
+                            window.location.reload();
+                        } else {
+                            alert(data.info);
+                        }
+                        ;
+                    })
+                    .error(function (data) {
+                        alert("网络连接出错");
+                    });
+        });
+
+        // 剩余字数
+        !function () {
+            var txtElm = document.querySelector('#project-comment'),
+                    countElm = document.querySelector('#content-count');
+            var func = function () {
+                var len = 140;
+                countElm.innerHTML = len - this.value.length;
+            };
+
+            txtElm.onkeyup = func;
+            txtElm.onblur = func;
+        }();
+        //项目评论 - 戴
+        $('#btn-project-comment').click(function () {
+            var $textarea = $('#project-comment');
+            var data = {
+                type: 1,
+                project_id: projectId,
+                content: $textarea.val(),
+                reply_id: 0
+            };
+
+            if ($textarea.val() == '') {
+                layer.alert('评论内容不能为空');
+                return false;
+            }
+            $.post(config.projectCommentAPI, data, function (data) {
+                if (data.status == 1) {
+                    showTheComment(data);
+                    $textarea.val('');
+                } else {
+                    layer.alert(data.info, 8);
+                }
+            });
+            return false;
+        });
+
+        //呈现刚发表的评论 - 戴
+        function showTheComment(data) {
+            var html = '<li class="fresh-comment"><dl><dd class="img"><img src="' + (data.user_face || '') + '" alt="' + (data.user_name || '') + '"></dd><dd class="detail"><div class="from"><b>' + (data.user_name || '') + '</b>' + data.date + '</div><div class="d">' + (data.content || '') + '</div><div class="panel" class="reply" style="display:none;"><input type="hidden" class="comment_id" value="' + (data.id || 0) + '"><textarea name="" cols="" rows="" class="border1" style="width:100%;"></textarea><a href="#" class="btn-comment-comment">评论</a></div></dd><dd class="cz"><a href="#" class="btn-slide">回复</a></dd><dd></dd></dl></li>';
+            $('#comments').prepend(html);
+            $('.fresh-comment').css('backgroundColor', '#FFFFCC').animate({
+                backgroundColor: '#FFFFFF'
+            }, 2000, function () {
+                $(this).css('backgroundColor', '#FFFFFF').removeClass('fresh-comment')
+            });
+            bindCommentBtnEvent();
+        }
+
+        function showCommentComment(data, user, content) {
+            var html = '<li class="fresh-comment" id="fresh-comment"><dl><dd class="img"><img src="' + data.user_face + '" alt="众筹用户"></dd>' +
+                    '<dd class="detail"><div class="from"><b>' + data.user_name + '</b>' + data.date + '</div>' +
+                    '<div class="d">' + data.content + '</div><div class="pllist clearfix"><ul>' +
+                    '<li>' + user + '说：' + content + '</li></ul></div>' +
+                    '<div class="panel" style="display:none;"><input type="hidden" class="comment_id" value="' + data.id + '">' +
+                    '<textarea name="" cols="" rows="" class="border1" style="width:100%;"></textarea>' +
+                    '<a href="#" class="btn-comment-comment">评论</a></div></dd><dd class="cz"><a href="#" class="btn-slide">回复</a></dd><dd></dd></dl>\n</li>';
+
+            $('#comments').prepend(html);
+            $freshComment = $('.fresh-comment');
+            $freshComment.css('backgroundColor', '#FFFFCC').animate({
+                backgroundColor: '#FFFFFF'
+            }, 2000, function () {
+                $(this).removeClass('fresh-comment')
+            });
+            var freshCommentTop = $freshComment.offset().top,
+                    $body = $('body');
+            $body.animate({scrollTop: freshCommentTop}, 500);
+            bindCommentBtnEvent();
+            $('.panel').slideUp();
+        }
+
+        // 回复评论
+
+        // 添加新的内容
+        function addNew(data) {
+            var cell = $(".templete .msg-cell").clone(true);
+            $(cell).find('#comment_id').val(data.id);
+            $(cell).find('#face').attr('src', data.user_face);
+            $(cell).find('#user_name').html(data.user_name);
+            $(cell).find('#date').html(data.date);
+            var floot = Number($("#com_count").html()) + 1;
+            $(cell).find('#floot').html(floot + 'F');
+            $("#com_count").html(floot);
+            $(cell).find('#content').html(data.content);
+            if (data.old_user) {
+                $(cell).find('#old_user').html(data.old_user);
+                $(cell).find('#old_content').html(data.old_content);
+            } else {
+                $(cell).find('.msg-base').remove();
+            }
+            $(".msg-list").prepend(cell);
+        }
+        // 回复信息
+        $("#btn_reply").click(function () {
+            var cell = $(this).parents(".msg-cell");
+            if ($(cell).find("#user_comment").val() == '') {
+                alert('请填写回复内容。');
+                return false;
+            }
+            var data = {
+                project_id: projectId,
+                content: $(cell).find("#user_comment").val(),
+                reply_id: $(cell).find('#comment_id').val(),
+                old_user: $(cell).find('header span:first').html(),
+                old_content: $(cell).find('#cont').html()
+            };
+
+            $.post("{:U('project/comment')}", data, function (data) {
+                var reply = $('.com-reply');
+                $(reply).parents('.msg-cell').find('.msg-action').show();
+                $(reply).hide(400);
+                addNew(data);
+            });
+            return false;
+        });
+
+        // 回复(显示恢复输入框)
+        var bindCommentBtnEvent = function () {
+            $(".btn-slide").unbind().click(function () {
+                $(this).parent().parent().find('.panel').slideToggle();
+                return false;
+            });
+            $('.btn-comment-comment').unbind().click(function () {
+                var $detail = $(this).parents('.detail'),
+                        $textarea = $detail.find('textarea'),
+                        commentId = $detail.find('.comment_id').val(),
+                        user = $detail.find('.from').children('b').text(),
+                        content = $detail.find('.d').text();
+
+                var data = {
+                    project_id: projectId,
+                    content: $textarea.val(),
+                    reply_id: commentId
+                };
+                if ($textarea.val() == '') {
+                    layer.alert('评论内容不能为空');
+                    return false;
+                }
+                $.post(config.projectCommentAPI, data, function (data) {
+                    if (data.status == 1) {
+                        showCommentComment(data, user, content);
+                        $textarea.val('');
+                    } else {
+                        layer.alert(data.info, 8);
+                    }
+                });
+                return false;
+            });
+        };
+
+    </script>
+    <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+</block>

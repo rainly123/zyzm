@@ -1,0 +1,30 @@
+<div style="height:200px;width:400px;padding:30px">
+	<div style="margin:15px">
+		<label for="">收益率：</label>
+		<input style="padding:5px" type="text" name="count" id="count">% 数字即可
+	</div>
+		<div style="margin:15px">
+		<label for="">收益额：</label>
+		<input style="padding:5px" type="text" name="amount" id="amount">元
+	</div>
+	<input type="hidden" name="id" id="id" value="{$id}">
+	<input type="hidden" name="pid" id="pid" value="{$pid}">
+	<div style="padding-left:84px"><button class="btn" href="{:U('share')}" id="btn-over">确定</button></div>
+</div>
+<script>
+	$('#btn-over').click(function() {
+		var id = $('#id').val();
+		var pid = $('#pid').val();
+		var amount = $('#amount').val();
+		var count = $('#count').val();
+		$.post($(this).attr('href'), {'id':id, 'pid':pid, 'amount':amount, 'count':count}, function(data) {
+			if (data.status == '1') {
+				alert(data.info);
+				window.location.reload();
+			} else {
+				alert(data.info);
+			}
+		});
+		return false;
+	});
+</script>

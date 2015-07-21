@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>测试页</title>
+
+	<link href="__STATIC__/datetimepicker/css/datetimepicker_normal.css" rel="stylesheet" type="text/css">
+	<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+	<link href="__STATIC__/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="__STATIC__/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="__STATIC__/bootstrap/css/docs.css" rel="stylesheet">
+	<link href="__STATIC__/bootstrap/css/onethink.css" rel="stylesheet">
+	<link rel="stylesheet" href="__STATIC__/wizard/css/bwizard.css">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="__STATIC__/bootstrap/js/html5shiv.js"></script>
+	<![endif]-->
+	<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+	<![endif]-->
+	<!--[if gte IE 9]><!-->
+</head>
+<body>
+	<div class="container">
+		<form action="{:U('add')}" class="form-horizontal" method="post">
+		<div id="wizard">
+			<ol>
+				<li>基本信息</li>
+				<li>项目介绍</li>
+				<li>团队介绍</li>
+				<li>视频图片</li>
+				<li>融资信息</li>
+			</ol>
+			<!--starting step1-->
+			<div>
+				<div class="control-group">
+					<label for="" class="control-label">所属行业</label>
+					<div class="controls">
+						<select name="project[industry]" id="">
+							<option value="">请选择行业</option>
+							<foreach name="industry" item="v">
+							<option value="{$v.id}">{$v.name}</option>
+							</foreach>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目名称</label>
+					<div class="controls">
+						<input type="text" class="span3" name="project[project_name]">
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">一句话描述</label>
+					<div class="controls">
+						<input type="text" class="span5" name="project[abstract]">
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">查看权限</label>
+					<div class="controls">
+						<label class="radio inline">
+						<input type="radio" name="project[look_flag]" value="1">所有投资人</label>
+						<label class="radio inline">
+						<input type="radio" name="project[look_flag]" value="2">审核通过的投资人</label>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目图片</label>
+					<div class="controls">
+						
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">所处阶段</label>
+					<div class="controls">
+						<select name="project[project_phase]">
+							<option value="">请选择项目阶段</option>
+							<foreach name="project_phase" item="v">
+							<option value="{$v.id}">{$v.name}</option>
+							</foreach>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">团队人数</label>
+					<div class="controls">
+						<input type="number" name="project[member_count]" id="">
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">所在城市</label>
+					<div class="controls">
+						{:hook('J_China_City', array('province'=>'', 'city'=>''))}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">公司地址</label>
+					<div class="controls">
+						<input type="text" name="project[address]" class="span4">
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目网址</label>
+					<div class="controls">
+						<input type="text" name="project[project_url]" class="span4">
+					</div>
+				</div>
+			</div><!--end step1-->
+			<!--starting step2-->
+			<div>
+				<div class="control-group">
+					<label for="" class="control-label">项目描述</label>
+					<div class="controls">
+						<textarea name="description" class="span6"></textarea>
+						{:hook('documentEditFormContent', array('name'=>'description', 'value'=>''))}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">商业模式</label>
+					<div class="controls">
+						<textarea name="business_model" class="span6" rows="5"></textarea>
+						{:hook('documentEditFormContent', array('name'=>'business_model', 'value'=>''))}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目优势</label>
+					<div class="controls">
+						<textarea name="avantages" class="span6"></textarea>
+						{:hook('documentEditFormContent', array('name'=>'avantages', $value=>''))}
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">公司未来规划</label>
+					<div class="controls">
+						<textarea name="plan" class="span6"></textarea>
+						{:hook('documentEditFormContent', array('name'=>'plan', $value=>''))}
+					</div>
+				</div>
+				<h4 style="display:inline">项目大事记</h4>
+				<a href="#myModal" role="button" data-toggle="modal">添加大事记</a>
+				<hr/>
+				<div id="happen">
+				</div>
+			</div><!--end step2-->
+			<!--starting step3-->
+			<div>
+				<h3 style="display:inline">股东团队成员说明</h3>
+				<a href="javascript:void(0)" onclick="showTeam('member_key', 'add', null)">添加成员</a>
+				<div class="bs-docs-example">
+					<table class="table table-hover" id="partner">
+						<thead>
+							<tr>
+								<td></td>
+								<td>姓名</td>
+								<td>职务</td>
+								<td>是否全职</td>
+								<td>所占股份</td>
+								<td>实际出资</td>
+								<td>与其他股东关系</td>
+								<td>操作</td>
+							</tr>
+						</thead>
+						<tbody id="member_key">
+							
+						</tbody>
+					</table>
+				</div>
+				<h3 style="display:inline">非股东团队成员说明</h3>
+				<a href="javascript:void(0)" onclick="showTeam('member_other', 'add',null)">添加成员</a>
+				<div class="bs-docs-example">
+					<table class="table table-hover" id="team">
+						<thead>
+							<tr>
+								<td></td>
+								<td>姓名</td>
+								<td>职务</td>
+								<td>是否全职</td>
+								<td>入职时间</td>
+								<td>与其他股东关系</td>
+								<td>操作</td>
+							</tr>
+						</thead>
+						<tbody id="member_other">
+						</tbody>
+					</table>
+				</div>
+			</div><!--end step3-->
+			<!--starting step4-->
+			<div>
+				<div class="bs-docs-example">
+				<h3>宣传图片</h3>
+				<hr>
+        <div class="control-group">
+          <label class="control-label">图片</label>
+          <div class="controls">
+            <input type="text" id="upload_picture">
+          </div>
+          <div style="clear:both">
+	        	<ul class="ace-thumbnails">
+	        	</ul>
+        	</div>
+        </div>
+        <h3>相关视频</h3>
+        <hr>
+        <div class="control-group">
+        	<label class="control-label">视频地址</label>
+        	<div class="controls">
+        		<input type="text" name="temp-move" class="span6" placeholder="只支持优酷、土豆视频">
+        	</div>
+        </div>
+        </div>
+			</div><!--end step4-->
+			<!--starting step5-->
+			<div>
+				<h3>融资需求</h3>
+				<hr>
+				<div class="control-group">
+					<label for="" class="control-label">预融资金额</label>
+					<div class="controls">
+					<div class="input-append">
+							<input type="text" class="span3" name="fund[need_fund]">
+							<span class="add-on">万元</span>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">项目估值</label>
+					<div class="controls">
+						<div class="input-append">
+							<input type="text" class="span3" name="fund[project_valuation]">
+							<span class="add-on">万元</span>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">最低领投金额</label>
+					<div class="controls">
+						<div class="input-append">
+							<input type="text" class="span3" name="fund[lead_fund]">
+							<span class="add-on">万元</span>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">最低跟投金额</label>
+					<div class="controls">
+						<div class="input-append">
+							<input type="text" class="span3" name="fund[follow_fund]">
+							<span class="add-on">万元</span>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">到账方式</label>
+					<div class="controls">
+						<select name="fund[to_way]">
+							<option value="">请选择到账方式</option>
+							<foreach name="to_way" item="v">
+								<option value="{$v.id}">{$v.name}</option>
+							</foreach>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="" class="control-label">附加资源</label>
+					<div class="controls">
+						<input type="text" class="span6" name="fund[add_source]">
+					</div>
+				</div>
+				<h3>资金用途</h3>
+				<hr>
+				<div class="control-group">
+					<label for="" class="control-label">资金用途</label>
+					<div class="controls">
+						<textarea rows="5" class="span4" name="fund[use_to]"></textarea>
+					</div>
+				</div>
+			</div><!--end step5-->
+		</div>
+		<button class="btn" type="submit">提交</button>
+		</form>
+
+			<!-- Modal 添加、修改大事记 Start-->
+			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			    <h3 id="myModalLabel">添加大事记</h3>
+			  </div>
+			  <div class="modal-body">
+			  <div class="form-horizontal">
+			    <div class="control-group">
+			    	<label for="" class="control-label">发生时间</label>
+			    	<div class="controls"><input type="text" class="span3 date" id="happen_time"></div>
+			    </div>
+			    <div class="control-group">
+			    	<label for="" class="control-label">大事记内容</label>
+			    	<div class="controls"><textarea class="span3" id="happen_content"></textarea></div>
+			    </div>
+			  </div>
+			  </div>
+			  <div class="modal-footer">
+			    <button class="btn btn-primary" id="happen_add">添加</button>
+			    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			  </div>
+			</div><!-- Modal 添加、修改大事记 end-->
+			<!-- Modal 添加、修改股东成员 Start-->
+			<div id="myTeam" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			    <h3 id="myModalLabel">添加成员</h3>
+			  </div>
+			  <div class="modal-body">
+			  <div class="form-horizontal">
+			    <div class="control-group">
+			    	<label for="" class="control-label">姓名</label>
+			    	<div class="controls"><input type="text" class="span3" id="member_name"></div>
+			    </div>
+			    <div class="control-group">
+			    	<label for="" class="control-label">职务</label>
+			    	<div class="controls"><input type="text" class="span3" id="postion"></div>
+			    </div>
+			    <div class="control-group">
+			    	<label for="" class="control-label">是否全职</label>
+			    	<div class="controls">
+			    		<label class="radio inline"><input type="radio" name="full_job" id="full_job_y" value="1">全职</label>
+							<label class="radio inline"><input type="radio" name="full_job" id="full_job_n" value="0">兼职</label>
+			    	</div>
+			    </div>
+			    <div class="control-group input-append key">
+		    		<label for="" class="control-label">所占股份</label>
+		    		<div class="controls">
+		    			<input type="text" id="shares" class="span2">
+		    			<span class="add-on">%</span>
+		    		</div>
+		    	</div>
+		    	<div class="control-group input-append key">
+		    		<label class="control-label">实际出资</label>
+		    		<div class="controls">
+		    			<span class="add-on">￥</span>
+		    			<input type="text" id="fund" class="span2">
+		    		</div>
+		    	</div>
+		    	<div class="control-group other">
+		    		<label class="control-label">入职时间</label>
+		    		<div class="controls">
+		    			<input type="text" id="in_time" class="date span2">
+		    		</div>
+		    	</div>
+		    	<div class="control-group">
+		    		<label class="control-label">股东关系</label>
+		    		<div class="controls">
+		    			<input type="text" id="relationship" class="span3">
+		    		</div>
+		    	</div>
+		    </div>
+			  </div>
+			  <div class="modal-footer">
+			    <button class="btn btn-primary" id="member_add" onclick="addTeam();">添加</button>
+			    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			  </div>
+			</div><!-- Modal 添加大事记 end-->
+		<li class="image-temp" style="display:none;">
+			<img src="/Uploads/Picture/Photo/53f2bcf01b859.gif" alt="">
+			<input type="hidden" name="temp[]" class="pathid">
+			<div class="tools-top">
+				<a href="javascript:void(0)" class="moveleft"><i class="icon-arrow-left"></i></a>
+				<a href="javascript:void(0)" class="moveright"><i class="icon-arrow-right"></i></a>
+				<a href="javascript:void(0)" class="remove right"><i class="icon-remove"></i></a>
+			</div>
+		</li>
+		<script type="text/javascript" src="__STATIC__/wizard/js/bwizard.js"></script>
+		<script type="text/javascript">$("#wizard").bwizard();</script>
+		<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+  <link rel="stylesheet" href="__STATIC__/uploadify/uploadify.css">
+		<script type="text/javascript">
+		$(function() {
+			$('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    	});
+    	$("#happen_add").click(function() {
+    		$("#myModal").modal("hide");
+    		var date = $("#happen_time").val();
+    		change_date = date.replace("-", '年');
+    		change_date = change_date.replace("-", '月') + "日";
+				var content = $("#happen_content").val();
+				var timeline = '<p><span class="timeline-left">' + change_date + '</span>' + 
+												'<input type="hidden" value="' + date + '" name="event[when][]">' + 
+												'<span class="timeline-middle">☛</span><span class="timeline-right">' 
+												+ content + '</span></p>' +
+												'<input type="hidden" value="' + content + '" name="event[content][]">';
+				$("#happen").append(timeline);
+    	});
+
+    	// 宣传图片位置调整(往后调整)
+    	$(".moveright").click(function() {
+    		var my =$(this).parents("li");
+    		var next = $(my).next('li');
+	    	
+	    	if (next != null && next.is('li')) {
+    			$(my).hide('500', function() {
+	    		
+		    		$(next).after($(my));	
+		    		$(my).show('500');
+    			});
+	    	}
+    	});
+
+    	// 宣传图片位置调整(往前调整)
+    	$(".moveleft").click(function() {
+    		var my = $(this).parents("li");
+	    	var prev = $(my).prev("li");
+	    	if (prev != null && prev.is('li')) {
+    			$(my).hide('500', function() {
+	    			$(prev).before($(my));
+		    		$(my).show('500');
+    			});
+	    	}
+    	});
+
+    	// 宣传图片删除
+    	$(".remove").click(function() {
+    		var my = $(this).parents("li");
+    		$(my).hide('500', function() {
+    			$(my).remove();
+    		});
+    	});
+		});
+
+		$("#myModal").on('show', function() {
+			$("#happen_time").val("");
+			$("#happen_content").val("");
+		});
+
+		var _tbody = "";
+		var _model = "";
+		var _control;
+		function showTeam(tbody, model, control) {
+			_tbody = tbody;
+			_model = model;
+
+			$("#member_name").val("");
+			$("#postion").val("");
+			$("#full_job_n").removeAttr('checked');
+			$("#full_job_y").attr("checked","checked");
+			$("#shares").val("0");
+			$("#fund").val("0");
+			$("#relationship").val("");
+			$("#in_time").val("");
+			if (tbody == "member_key") {
+				$(".key").show();
+				$(".other").hide();
+				if (model == "add") {	 	// 添加股东成员
+				} else { 			// 修改股东成员信息
+					_control = $(control).parents('tr');
+					$("#member_name").val($(_control).find('input:eq(0)').val());
+					$("#postion").val($(_control).find('input:eq(1)').val());
+					var value = $(_control).find('input:eq(2)').val();
+					if (value == '1') {
+						$("#full_job_n").removeAttr('checked');
+						$("#full_job_y").attr("checked","checked");	
+					} else {
+						$("#full_job_y").removeAttr('checked');
+						$("#full_job_n").attr("checked","checked");
+					}
+					$("#shares").val($(_control).find('input:eq(3)').val());
+					$("#fund").val($(_control).find('input:eq(4)').val());
+					$("#relationship").val($(_control).find('input:eq(5)').val());
+				}
+			} else {
+				$(".key").hide();
+				$(".other").show();
+				if (model == "add") { // 添加非股东成员
+				} else {  // 修改非股东成员信息
+					_control = $(control).parents('tr');
+					$("#member_name").val($(_control).find('input:eq(0)').val());
+					$("#postion").val($(_control).find('input:eq(1)').val());
+					var value = $(_control).find('input:eq(2)').val();
+					if (value == '1') {
+						$("#full_job_n").removeAttr('checked');
+						$("#full_job_y").attr("checked","checked");	
+					} else {
+						$("#full_job_y").removeAttr('checked');
+						$("#full_job_n").attr("checked","checked");
+					}
+					$("#in_time").val($(_control).find('input:eq(3)').val());
+					$("#relationship").val($(_control).find('input:eq(4)').val());
+				}
+			}
+			$("#myTeam").modal("show");
+		}
+
+		function addTeam() {
+			if (_tbody == "member_key") {  // 股东成员信息处理
+					// 列表信息生成
+					var member = "<td>" + $("#member_name").val() + "</td>";
+					member += "<input type='hidden' value='" + $("#member_name").val() + "' name=member_key[name][]>";
+					member += "<td>" + $("#postion").val() + "</td>";
+					member += "<input type='hidden' value='" + $("#postion").val() + "' name=member_key[postion][]>";
+
+					var job = $("input[name=full_job]:checked").val() == "1" ? "全职":"兼职";
+					member += "<td>" + job + "</td>";
+					member += "<input type='hidden' value='" + $("input[name='full_job']:checked").val() + "' name=member_key[full_job][]>";
+					member += "<td>" + $("#shares").val() + "%</td>";
+					member += "<input type='hidden' value='" + $("#shares").val() + "' name=member_key[shares][]>";
+					member += "<td>" + $("#fund").val() + "</td>";
+					member += "<input type='hidden' value='" + $("#fund").val() + "' name=member_key[fund][]>";
+					member += "<td>" + $("#relationship").val() + "</td>";
+					member += "<input type='hidden' value='" + $("#relationship").val() + "' name=member_key[relationship][]>";
+					member += "<td><a href=\"javascript:void(0)\" onclick=\"showTeam('member_key','edit', this);\">修改</a> | <a href=\"javascript:void(0)\" onclick=\"memberDelete(this, 'member_other');\">删除</a></td>";
+					member += "</tr>";
+				if (_model == "add") { // 添加成员信息
+					var length = $("#" + _tbody).children('tr').length + 1;
+					member ="<tr><td>" + length + "</td>" + member;
+					$("#" + _tbody).append(member);
+				} else { // 修改成员信息（先添加新信息，再删除老信息
+					var number = $(_control).find('td:eq(0)').html();
+					member ="<tr><td>" + number + "</td>" + member;
+					$(_control).after(member);
+					$(_control).remove();
+				}
+			} else {
+				var member = "<td>" + $("#member_name").val() + "</td>";
+				member += "<input type='hidden' value='" + $("#member_name").val() + "' name=member_other[name][]>";
+				member += "<td>" + $("#postion").val() + "</td>";
+				member += "<input type='hidden' value='" + $("#postion").val() + "' name=member_other[postion][]>";
+				var job = $("input[name='full_job']:checked").val() == "1" ? "全职":"兼职";
+				member += "<td>" + job + "</td>";
+				member += "<input type='hidden' value='" + $("input[name='full_job']:checked").val() + "' name=member_other[full_job][]>";
+				var date = $("#in_time").val();
+				var change_date = date.replace('-', "年");
+				change_date = change_date.replace('-', "月") + "日";
+				member += "<td>" + change_date + "</td>";
+				member += "<input type='hidden' value='" + date + "' name=member_other[in_time][]>";
+				member += "<td>" + $("#relationship").val() + "</td>";
+				member += "<input type='hidden' value='" + $("#relationship").val() + "' name=member_other[relationship][]>";
+				member += "<td><a href=\"javascript:void(0)\" onclick=\"showTeam('member_other', 'edit', this);\">修改</a> | <a href=\"javascript:void(0)\" onclick=\"memberDelete(this, 'member_other');\">删除</a></td>";
+				member += "</tr>";
+				if (_model == "add") {  // 添加非股东信息
+					var length = $("#" + _tbody).children('tr').length + 1;
+					member = "<tr><td>" + length + "</td>" + member;
+					
+					$("#" + _tbody).append(member);
+				} else { // 修改非股东成员信息（先添加新信息，再删除老信息
+					var number = $(_control).find('td:eq(0)').html();
+					member ="<tr><td>" + number + "</td>" + member;
+					$(_control).after(member);
+					$(_control).remove();
+				}
+			}
+			$("#myTeam").modal('hide');
+		}
+		function memberDelete(control, _tbody) {
+			$(control).parents("tr").remove();
+			return false;
+		}
+
+		//上传图片
+	  /* 初始化上传插件 */
+	  $("#upload_picture").uploadify({
+	      "height"          : 30,
+	      "swf"             : "__STATIC__/uploadify/uploadify.swf",
+	      "fileObjName"     : "download",
+	      "buttonText"      : "上传头像",
+	      "uploader"        : "{:U('File/uploadPhoto',array('session_id'=>session_id()))}",
+	      "width"           : 120,
+	      'removeTimeout'   : 1,
+	      'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+	      "onUploadSuccess" : uploadPhoto,
+	      'onFallback' : function() {
+	          alert('未检测到兼容版本的Flash.');
+	      }
+	  });
+	  function uploadPhoto(file, data){
+      var data = $.parseJSON(data);
+      var src = '';
+        if(data.status){
+		    	var clone = $(".image-temp").clone(true);
+		    	clone.find('.pathid').val(data.id);
+		    	clone.removeClass('image-temp')
+          src = data.url || '__ROOT__' + data.path;
+		    	clone.find('img').attr('src', src);
+		    	$(".ace-thumbnails").append(clone);
+		    	clone.show('500');
+
+          // form.check(false, "#cover_id_photo");
+          // $("#cover_id_photo").parent().find('.upload-img-box').html(
+          //   '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+          // );
+        } else {
+          alert('上传失败');
+          // updateAlert(data.info);
+          // setTimeout(function(){
+          //       $('#top-alert').find('button').click();
+          //       $(that).removeClass('disabled').prop('disabled',false);
+          //   },1500);
+        }
+    }
+
+    function addImage() {
+    	var clone = $(".ace-thumbnails li:eq(0)").clone(true);
+    	clone.hide();
+    	clone.find('.pathid').val("1");
+    	clone.attr('src', '/Uploads/Picture/Photo/photo_default.png');
+    	$(".ace-thumbnails").append(clone);
+    	clone.show('500');
+    }
+		</script>
+	</div>
+</body>
+</html>

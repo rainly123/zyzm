@@ -1,0 +1,320 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+    <link href="__M_CSS__/photoswipe.css" rel="stylesheet">
+    <link href="__M_CSS__/photoswipe-default-skin.css" rel="stylesheet">
+    <!--<link href="__M_CSS__/touchTouch.css" rel="stylesheet">-->
+</block>
+<block name="body">
+    <div class="wrapper">
+
+        <div class="prodetail">
+            <div class="item ppt-section">
+                <div class="head">
+                    <h2>项目介绍</h2>
+                    <em></em>
+                </div>
+                <div class="body">
+                    <div class="prodetail_txt">
+                        {$project.info.description}
+                    </div>
+                    <div class="gallery-box">
+                        <ul class="ppt-list">
+                            <foreach name="project.temp" item="v">
+                                <eq name="v.temp_type" value="1">
+                                    <li><img src="{$v.info_key|get_cover='path'}"></li>
+                                </eq>
+                            </foreach>
+                        </ul>
+                        <div class="img-count-bg"></div>
+                        <div id="img-count" class="img-count"></div>
+                    </div>
+                    <div class="prodetail_txt">
+                        <p>{$project.abstract}</p>
+                    </div>
+                </div>
+            </div>
+            <notempty name="team">
+                <div class="item team-section">
+                    <div class="head">
+                        <h2>团队成员</h2>
+                        <em></em></div>
+                    <div class="body" style="display: block;">
+                        <volist name="team" id="v" mod="3">
+                            <eq name="mod" value="0">
+                                <ul class="team-list">
+                            </eq>
+                            <li class="team-member">
+                                <a href="#" class="member-button">
+                                    <img class="member-avatar no-fullscreen" src="{$v.header_img|get_cover='path'}">
+
+                                    <p class="member-name">{$v.name}</p>
+                                </a>
+                                <input class="member-info" type="hidden" value="{$v.member_info}">
+                                <input class="member-position" type="hidden" value="{$v.postion}">
+                            </li>
+                            <eq name="mod" value="2">
+                                </ul>
+                                <div class="member-intro hidden">
+                                    <div class="tri"></div>
+                                    <p>职务：<span class="member-position"></span></p>
+                                    <p>成员简介：<span class="member-info"></span></p>
+                                </div>
+                            </eq>
+                        </volist>
+                        <neq name="mod" value="2">
+                            </ul>
+                            <div class="member-intro">
+                                <div class="tri"></div>
+                                <p>职务：<span class="member-position"></span></p>
+                                <p>成员简介：<span class="member-info"></span></p>
+                            </div>
+                        </neq>
+                    </div>
+                </div>
+
+            </notempty>
+            <notempty name="project.info.plan">
+                <div class="item">
+                    <div class="head">
+                        <h2>未来规划</h2>
+                        <em></em></div>
+                    <div class="body" style="display: block;">
+                        <div class="prodetail_txt">
+                            {$project.info.plan}
+                        </div>
+                    </div>
+                </div>
+            </notempty>
+            <notempty name="project.info.plan">
+                <div class="item">
+                    <div class="head">
+                        <h2>目标客户</h2>
+                        <em></em></div>
+                    <div class="body" style="display: block;">
+                        <div class="prodetail_txt">
+                            {$project.info.custom}
+                        </div>
+                    </div>
+                </div>
+            </notempty>
+            <notempty name="project.info.plan">
+                <div class="item">
+                    <div class="head">
+                        <h2>竞争优势</h2>
+                        <em></em></div>
+                    <div class="body" style="display: block;">
+                        <div class="prodetail_txt">
+                            {$project.info.avantages}
+                        </div>
+                    </div>
+                </div>
+            </notempty>
+            <notempty name="project.info.plan">
+                <div class="item">
+                    <div class="head">
+                        <h2>盈利模式</h2>
+                        <em></em></div>
+                    <div class="body" style="display: block;">
+                        <div class="prodetail_txt">
+                            {$project.info.yingli_mode}
+                        </div>
+                    </div>
+                </div>
+            </notempty>
+        </div>
+
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+            <!-- Background of PhotoSwipe.
+                 It's a separate element as animating opacity is faster than rgba(). -->
+            <div class="pswp__bg"></div>
+
+            <!-- Slides wrapper with overflow:hidden. -->
+            <div class="pswp__scroll-wrap">
+
+                <!-- Container that holds slides.
+                    PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                    Don't modify these 3 pswp__item elements, data is added later on. -->
+                <div class="pswp__container">
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                </div>
+
+                <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+                <div class="pswp__ui pswp__ui--hidden">
+
+                    <div class="pswp__top-bar">
+
+                        <!--  Controls are self-explanatory. Order can be changed. -->
+
+                        <div class="pswp__counter"></div>
+
+                        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                        <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                        <!-- element will get class pswp__preloader--active when preloader is running -->
+                        <div class="pswp__preloader">
+                            <div class="pswp__preloader__icn">
+                                <div class="pswp__preloader__cut">
+                                    <div class="pswp__preloader__donut"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                        <div class="pswp__share-tooltip"></div>
+                    </div>
+
+                    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                    </button>
+
+                    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                    </button>
+
+                    <div class="pswp__caption">
+                        <div class="pswp__caption__center"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="fixed-footer-proj">
+            <a class="lnk lnk-index if icon-angle-left" href="{:U('project/detail?id='.$project['project']['id'])}">上一页</a>
+            <a class="lnk lnk-comment if icon-comment-o"
+               href="{:U('project/postcomment/pid/'.$project['project']['id'])}">评论</a>
+            <if condition="($project['project']['stage'] eq 1) AND ($project['project']['vote_leader'] eq 0)">
+                <a class="btn btn-find-leader if icon-leader" href="{:U('project/leader_info?id='.$project['project']['id'])}">领投人虚位以待</a>
+                <else/>
+                <a class="btn btn-follow if icon-coin-stack" id="btn-follow" href="{:U('project/follow?id='.$project['project']['id'])}">我要跟投</a>
+            </if>
+        </div>
+
+        <script src="__M_JS__/photoswipe.min.js"></script>
+        <script src="__M_JS__/photoswipe-ui-default.min.js"></script>
+        <!--<script src="__M_JS__/photoswipe.js"></script>--> <!--旧-->
+        <!--<script src="__M_JS__/custom.js"></script>-->
+        <script>
+
+            $(function () {
+                var $pptSection = $('.ppt-section');
+                var $galleryImages = $('.gallery-box').find('img');
+                $('#img-count').text($galleryImages.length || '');
+                var items = [];
+                var pswpElement = document.querySelector('.pswp');
+                var options = {
+                    shareEl: false,
+                    fullscreenEl: false,
+                    zoomEl: true,
+                    index: 0,
+                    tapToClose: true
+                };
+                var showPPT = function (i) {
+                    options.index = i || 0;
+                    var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+                    gallery.init();
+                };
+                var fullscreen = function () {
+                    var $img = $(this);
+                    var item = {
+                        src: $img.attr('src'),
+                        w: $img.data('w'),
+                        h: $img.data('h')
+                    };
+                    options.index = 0;
+                    var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, [item], options);
+                    gallery.init();
+                };
+                $galleryImages.each(function (i) {
+                    var $this = $(this);
+                    var src = $this.attr('src');
+                    items.push({
+                        src: src,
+                        w: 600,
+                        h: 400
+                    });
+                    var dummyImg = new Image();
+                    dummyImg.src = src;
+                    if (dummyImg.complete) {
+                        items[i].w = dummyImg.width;
+                        items[i].h = dummyImg.height;
+                        dummyImg = null;
+                    } else {
+                        dummyImg.onload = function () {
+                            items[i].w = dummyImg.width;
+                            items[i].h = dummyImg.height;
+                            dummyImg = null
+                        }
+                    }
+                });
+
+                $pptSection.find('.gallery-box').click(showPPT);
+                $('.item').not('.team-section').find('img').not($galleryImages).each(function () {
+                    var $this = $(this);
+                    var dummyImg = new Image();
+                    dummyImg.src = $this.attr('src');
+                    var saveSize = function () {
+                        $this.data('w', dummyImg.width);
+                        $this.data('h', dummyImg.height);
+                        dummyImg = null;
+                    };
+                    if (dummyImg.complete) {
+                        saveSize();
+                    } else {
+                        dummyImg.onload = saveSize;
+                    }
+                    $this.click(fullscreen);
+                });
+
+                var defaultMemberAvatar = function () {
+                    $('.member-avatar').each(function () {
+                        var $this = $(this);
+                        if (!$this.attr('src')) {
+                            $this.attr('src', '/Public/``Home``/images/icon_none.gif')
+                        }
+                    });
+                };
+                defaultMemberAvatar();
+
+                var lastMemberIndex = -1;
+                $('.member-button').click(function () {
+                    var $this = $(this),
+                            $member = $this.parent(),
+                            idx = $member.index(),
+                            $memberIntro = $member.parent().next();
+
+                    $('.tri').css('left', $this.offset().left + $this.outerWidth() / 2 - 25);
+
+                    $('.member-intro').not($memberIntro).slideUp();
+                    $memberIntro.stop(true, false);
+                    if (idx === lastMemberIndex) {
+                        $memberIntro.slideToggle();
+                        return false;
+                    }
+
+                    $memberIntro.slideUp(function () {
+                        $memberIntro.find('.member-position').text($member.find('.member-position').val());
+                        $memberIntro.find('.member-info').text($member.find('.member-info').val());
+                        $memberIntro.slideDown();
+                    });
+                    lastMemberIndex = idx;
+
+
+                    return false;
+                });
+
+            });
+        </script>
+</block>

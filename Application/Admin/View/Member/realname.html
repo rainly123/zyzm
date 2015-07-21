@@ -1,0 +1,27 @@
+<div style="margin:15px 30px">
+	<form action="{:U('realname')}" method="post">
+		<input type="hidden" name="id" value="{$id}">
+		<div class="input-row"><label for="name">真实姓名：</label><input type="text" id="name" name="name" class="text"></div>
+		<div class="input-row"><label for="card_id">身份证：</label><input type="text" id="card_id" name="card_id" class="text"></div>
+
+		<div class="input-row"><button class="btn btn-realname">确定</button></div>
+	</form>
+</div>
+<style>
+.input-row {margin:10px 15px}
+.input-row label{display:inline-block;width: 80px;text-align:right;}
+</style>
+<script type="text/javascript">
+$(".btn-realname").click(function() {
+	var form = $(this).parents('form');
+	$.post(form.attr('action'), form.serialize(), function(data) {
+		if (data.status == 1) {
+			alert(data.info);
+			window.location.reload();
+		} else {
+			alert(data.info);
+		}
+	});
+	return false;
+});
+</script>

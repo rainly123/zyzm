@@ -1,0 +1,147 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/index.css">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+	
+
+	<div class="banner">
+	   <img src="__IMG__/product/index/banner.jpg" />
+	</div>
+
+	 <!--banner end-->
+	 
+	 <div class="main">
+	     <div class="main-left">
+	         <div class="xm"> <i class="icon ui-project-icon"></i> <span>精品项目</span>
+	         <!-- TODO -->
+	         <!-- <h5><a href="#" >浏览更多项目 > </a></h5>  -->
+	         </div>
+	       
+	           <div class="attr">
+	               
+	               <p>&nbsp;</p>
+	            
+	               <ul>
+	                 <li><span>排序：</span></li>
+	                   <li class="k " id="<?php $_GET['parSort']=='all'?print 'active-sort':print''; ?>"><a class="attr-font-color button-order " data-parsort="all" href="javascript:;">综合推荐</a></li>
+	                   <li class="k" id="<?php $_GET['parSort']=='new_line'?print 'active-sort':print''; ?>"><a class="attr-font-color button-order" data-parsort="new_line" href="javascript:;">最新上线</a></li>
+	                   <li class="k" id="<?php $_GET['parSort']=='more_amount'?print 'active-sort':print''; ?>"><a class="attr-font-color button-order" data-parsort="more_amount" href="javascript:;">金额最多</a></li>
+	                   <li class="k" id="<?php $_GET['parSort']=='more_like'?print 'active-sort':print''; ?>"><a class="attr-font-color button-order" data-parsort="more_like" href="javascript:;">关注最多</a></li>  
+	               </ul>
+	         
+	           </div>
+	           
+	           <empty name="list">
+		           	<p class="none_info">没有当前条件的众筹项目</p>
+		       <else />
+
+		           	<foreach name="list" item="vo" >
+			           
+			           <div class="Module_c">
+			           	<a href="{:U('Product/viewDetail?pid='.$vo['id'])}">
+			           		<?php $finish_progress_bar = round($vo['finish_amount']/$vo['amount'],2)*100; 
+			           		if ($finish_progress_bar>100):?>
+								<span class="super_raise icon_y">已超募</span>
+							<?php endif; ?>
+			           		<img src="{$vo.home_img|get_cover='path'}" class="imgbox-400" title="" alt=""></a>
+			           	<div class="Module_text">
+			           		<div class="Module_topic">
+			           			<h3>
+			           				<a href="{:U('Product/viewDetail?pid='.$vo['id'])}">{$vo.name}</a>
+			           			</h3>
+			           			<p title="">{$vo.abstract}</p>
+			           		</div>        
+			           			<div class="Module_progress">        
+			           				<span><i style="width: <?php print round($vo['finish_amount']/$vo['amount'],2)*100; ?>%"></i></span>
+			           				<em class="ing">{$vo.stage_text}</em>        
+			           			</div>
+			           			<div class="Module_op">        
+			           				<ul>
+			           					<li>
+			           						<p><?php print round($vo['finish_amount']/$vo['amount'],2)*100; ?>%</p>        
+			           						<span>已达</span>
+			           					</li>
+			           					<li class="gap" style="width:100px;">
+			           						<p>￥{$vo.finish_amount}</p>
+			           						<span>已筹集</span>
+			           					</li>
+			           					<li class="gap">
+			           						<if condition="$vo.stage lt 9">
+			           							<p><?php if ($vo['days'] - floor((time()-$vo['start_time'])/86400) >0) { print $vo['days'] - floor((time()-$vo['start_time'])/86400) ;} else { print 0;} ?>天</p><span>剩余时间</span>
+			           						</if>
+			           					</li>
+			           				</ul>        
+			           			</div>        
+			           			<div class="Module_fav">        
+			           				<p>
+			           					<span>关注:{$vo.like_record}</span>
+			           					<span>阅读:{$vo.read_record}</span>
+			           				</p>        
+			           			</div>
+			           		</div>
+			           		<div class="Module_shadow_wrap">
+			           			<div class="Module_shadow Module_shadow_top"></div>
+			           			<div class="Module_shadow Module_shadow_bottom">
+			           			</div>
+			           		</div>
+			           	</div>
+		           	</foreach>
+		          
+		           	<div class="ui-pages">
+		           		{$page}
+		           	</div>
+		       </empty>
+	        <div class="clearfix"></div>
+	     </div><!--left end-->
+	     
+	     
+	   <div class="main-right clearfix">
+
+	      <div class="find ">
+	      	<i class="ui-project-icon icon">
+	      	</i>
+	      	<span class="ui-title-text">推荐项目</span>
+
+	      </div>
+	        <div class="find-1">
+		        <foreach name="projects" item="project" >
+		        	<div>
+						<a href="{:U('Project/detail?id='.$project['id'])}">
+							<img src="{$project.cover|get_cover='path'}" class="imgbox-223"></a> 
+						<p style="padding:10px 0;" class="text-center"><a href="{:U('Project/detail?id='.$project['id'])}">{$project.project_name}</a></p>
+					</div>
+		        </foreach>
+	        </div>
+	          
+	     <!--right- find-->
+	     
+	     
+	     <!--right- talk-->
+	         
+	        </div>
+	          
+	       </div>
+	 
+	 
+	 <div class="clearfix"></div>
+	 </div>
+</block>
+<block name="script">
+  <script type="text/javascript">
+  	$(document).ready(function(){
+  		$('.button-order').click(function(){
+  			var currentUrl = window.location.href;
+  			var newUrl = currentUrl.replace(/\?\W*.*$/,'');
+  			var parSort = $(this).data('parsort');
+
+  			$(this).attr('href',newUrl+'?parSort='+parSort);
+  		});
+  	});
+  </script>
+</block>

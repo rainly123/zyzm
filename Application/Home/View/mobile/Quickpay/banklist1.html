@@ -1,0 +1,31 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+    <div class="user_pay">
+        <ul>
+            <!--<foreach name="banklist" item="p">-->
+                <!--<li><a href="{:U('Quickpay/addstep1?merorderid='. $merorderid)}">-->
+                    <!--<img src="__IMG__/quickpay/pay/{$p.logo}">-->
+                    <!--<h1>{$p.bank_name}</h1>-->
+                    <!--<p>{$p.quick_remark}</p>-->
+                <!--</a></li>-->
+            <!--</foreach>-->
+            <!--<if condition="$payinfo.allow_creditcard eq 1">-->
+                <!--<li><a href="{:U('Quickpay/addstep1?merorderid='.$merorderid)}">-->
+                    <!--<img src="__M_IMG__/img32.jpg">-->
+                    <!--<h1>使用信用卡支付</h1>-->
+                    <!--<p>绝大部分银行支持信用卡快捷支付</p>-->
+                <!--</a></li>-->
+            <!--</if>-->
+            <li><a href="{:U('Pay/offline?merorderid='.$merorderid)}">
+                <h1>线下支付方式</h1>
+                <p>通过支付宝或网银转账</p>
+            </a></li>
+        </ul>
+    </div>
+</block>
+<block name="script">
+</block>
+

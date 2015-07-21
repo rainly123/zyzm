@@ -1,0 +1,156 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/th.css">
+</block>
+<block name="body">
+    <div id="server-data" style="display: none;">
+        <input name="projectId" value="{$pid}">
+        <input name="editUrl" value="{:U('ProjectAfterInfo/editfundeddetail?pid='.$pid.'&id=_id_')}">
+    </div>
+    <div class="body-bg">
+        <div class="body">
+            <div class="breadcrumbs">
+                <a href="/">首页</a> >
+                <a href="{:U('MCenter/index')}">用户中心</a> >
+                <a href="{:U('MCenter/pj_support')}">股权众筹</a> >
+                <a href="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">投后管理</a>
+            </div>
+            <div class="panel">
+                <div class="header">
+                    <span class="title-label">投后管理</span>
+                    <span class="title"><a href="{:U('Project/detail?id='.$pid)}">{$projecttitle}</a></span>
+                    <button class="btn btn-back">返回</button>
+                    <button class="btn btn-new hidden" data-href="{:U('ProjectAfterInfo/editfundeddetail?pid='.$pid)}">
+                        发布项目进度
+                    </button>
+                </div>
+                <div class="tab-title-box">
+                    <div class="tab-title-list">
+                        <div class="tab-title active"><a
+                                href="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">项目进度</a>
+                        </div>
+                        <div class="tab-title"><a href="{:U('ProjectAfterInfo/investormanagelist?pid='.$pid)}">股东列表</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content-box">
+                    <ul id="stone-list"></ul>
+                    <div class="page-box">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/template.js"></script>
+    <script id="stone" type="text/html">
+        {{each stones as st idx}}
+        <li data-id="{{st.id}}">
+            <a href="{{st.detailurl}}">
+                <span class="date">{{st.publishdate}}</span>
+                <span class="title">{{st.title}}</span>
+            </a>
+            <span class="btn-list">
+                {{if st.status === '0'}}
+                <a class="publish" href="#">发布</a>
+                {{/if}}
+                <a class="edit" href="#">编辑</a>
+                <a class="delete last" href="#">删除</a>
+            </span>
+        </li>
+        {{/each}}
+    </script>
+    <script id="stone-not-owner" type="text/html">
+        {{each stones as st idx}}
+        <li data-id="{{st.id}}">
+            <a href="{{st.detailurl}}">
+                <span class="date">{{st.publishdate}}</span>
+                <span class="title">{{st.title}}</span>
+            </a>
+            <span class="btn-list">
+                {{if st.attachment}}
+                <a class="attachment" href={{st.attachment}} target="_blank">附件</a>
+                {{/if}}
+            </span>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+        !function () {
+            var bindEvent = function () {
+                $('.btn-back').click(function () {
+                    history.back();
+                    return false;
+                });
+                $('.btn-new').click(function () {
+                    var href = $(this).data('href');
+                    if (href) location.href = href
+                });
+            };
+            var bindStoneEvent = function () {
+                var $list = $('#stone-list');
+                $list.find('.publish').click(function () {
+                    var $li = $(this).parent().parent();
+                    var confirmId = layer.confirm('确定发布动态 <span style="color:red;">' + $li.find('.title').text() + '</span> 吗?', function () {
+                        var id = $li.data('id');
+                        layer.close(confirmId);
+                        $.post('/projectAfterInfo/projectAfterPublish', {id: id}, function (json) {
+                            layer.msg(json.info, 2, -1);
+                            fetchStoneList();
+                        });
+                    });
+                    return false;
+                });
+                $list.find('.edit').click(function () {
+                    var id = $(this).parent().parent().data('id');
+                    location.href = serverData.editUrl.replace('_id_', id);
+                    return false;
+                });
+                $list.find('.delete').click(function () {
+                    var $li = $(this).parent().parent();
+                    var confirmId = layer.confirm('你确实要删除动态 <span style="color:red;">' + $li.find('.title').text() + '</span> 吗?', function () {
+                        var id = $li.data('id');
+                        layer.close(confirmId);
+                        $.post('/projectAfterInfo/removeProjectAfterInfo', {id: id}, function (json) {
+                            layer.msg(json.info, 2, -1);
+                            fetchStoneList();
+                        });
+                    });
+                    return false;
+                });
+            };
+            var fetchStoneList = function () {
+                $.getJSON('/projectAfterInfo/projectAfterInfolist', {pid: serverData.projectId}).then(function (json) {
+                    var html = '';
+                    if (json.owner) {
+                        $('.btn-new').removeClass('hidden');
+                    }
+                    if (Object.prototype.toString.call(json.info) === "[object Array]") {
+                        html = template(json.owner ? 'stone' : 'stone-not-owner', {
+                            stones: json.info
+                        });
+                    } else {
+                        html = '<li>' + (json.info || '暂无进度') + '</li>'
+                    }
+
+                    $('#stone-list').html(html);
+                    bindStoneEvent();
+                }, function () {
+
+                })
+            };
+            $(function () {
+                fetchStoneList();
+                bindEvent()
+            })
+
+        }()
+    </script>
+</block>

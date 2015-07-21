@@ -1,0 +1,69 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+	<div class="mcenter-right" id="mcenter-right">
+		<div class="ShowPath">
+			您现在的位置：项目管理&nbsp;&gt;&nbsp;投资项目&nbsp;&gt;&nbsp;项目支付
+		</div>
+		<div class="data-table bs-docs-example" style="border:none;">
+		<div style="margin-bottom:50px">
+			<table class="table table-bordered">
+				<tr>
+					<td width="50%">
+						<div class="project-fund-bottom"><h3>可用余额</h3></div>
+						<div class="project-fund-top"><h2>{$data.use_able|change_fund} 元</h2></div>
+					</td>
+					<td width="50%">
+						<div class="project-fund-bottom"><h3>投资金额</h3></div>
+						<div class="project-fund-top"><h2>{$data.fund|change_fund} 元</h2></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<form action="{:U()}" method="post" id="cash-form" class="form-horizontal">
+			<div class="control-group">
+				<div class="controls">
+					<input type="hidden" name="id" value="{$data.id}">
+					<if condition="$data.amount gt 0">
+						<span style="font-size:16px">您的账户余额小于投资金额，是否<a href="{:U('Account/recharge?amount='.$data['amount'])}">马上充值</a></span>
+					<else />
+						<button type="submit" class="btn btn-primary">确认投资</button>
+					</if>
+				</div>
+			</div>
+		</form>
+		</div>
+	</div>
+</div>
+</section>
+</div>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav('{:U('Manage/investlist')}');
+	$('#cash-form').submit(function() {
+		$.post($(this).attr('action'), $(this).serialize(), function(data) {
+			$.messageBox({msginfo:data.info, 
+				cancel:function() {
+					if (data.status == 1) {
+						window.location.href = data.url;
+					}
+				}});
+		});
+		return false;
+	});
+</script>
+</block>

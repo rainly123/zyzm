@@ -1,0 +1,71 @@
+<style type="text/css">
+	#main{
+		margin: 15px;
+		padding: 5px;
+	}
+</style>
+<div class="main">
+	<div class="alert alert-error" id="err-message" style="display:none">
+	  
+	</div>
+	<br />
+	<div class="content">
+		<section>
+		<div class="usercontent clearfix">
+			<include file="Public/sidebar"/>
+			<div class="mcenter-right" id="mcenter-right">
+				<div>
+					<div class="bs-docs-example" style="border: none;">
+				        <form class="login-form" action="{:U('Member/profile?uid='.$uid)}" method="post">
+
+				          <div class="control-group">
+				            <label class="control-label" for="inputPassword">新密码</label>
+				            <div class="controls">
+				              <input type="password" id="inputPassword"  class="span3" placeholder="请输入密码"  errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+				            </div>
+				          </div>
+				          <div class="control-group">
+				            <label class="control-label" for="inputPassword">确认密码</label>
+				            <div class="controls">
+				              <input type="password" id="inputPassword" class="span3" placeholder="请再次输入密码" recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请填确认密码" datatype="*" name="repassword">
+				            </div>
+				            <div class="controls Validform_checktip text-warning"></div>
+				          </div>
+				         <!-- <input name="uid" type="hidden" style="width:0px;height:0px;">{$uid}</input> -->
+				          <br /><br /><br />
+				          <div class="control-group">
+				            <div class="controls">
+				              <button type="submit" class="btn">提 交</button>
+				            </div>
+				          </div>
+				        </form>
+					</div>
+				</div>
+			</div>
+			</div>
+		</section>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	//导航高亮
+	highlight_subnav('{:U('User/profile')}');    	
+
+	$("form").submit(function(){
+		$("#err-message").hide();
+		var self = $(this);
+		$.post(self.attr("action"), self.serialize(), success, "json");
+		return false;
+
+		function success(data){
+			if(data.status){
+				alert("修改成功");
+				window.location.reload();
+			} else {
+				$("#err-message").show();
+				$("#err-message").html(data.info);
+			}
+		}
+	});
+</script>

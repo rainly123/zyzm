@@ -1,0 +1,48 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>提现记录</h2>
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+	<div class="data-table table-striped">
+<table class="">
+    <thead>
+    <tr>
+		<th class="">编号</th>
+		<th class="">姓名</th>
+		<th class="">手机号码</th>
+		<th class="">申请日期</th>
+		<th class="">赎回份额</th>
+		<th class="">净值</th>
+		<th class="">金额</th>
+		<th class="">确认日期</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i}</td>
+			<td>{$vo.name}</td>
+			<td>{$vo.phone}</td>
+			<td><span>{$vo.create_time|time_format="Y-m-d H:i:s"}</span></td>
+			<td>{$vo.operation_fund} 份</td>
+			<td>{$vo.assets}</td>
+			<td>{$vo.amount}</td>
+			<td><span>{$vo.update_time|time_format="Y-m-d H:i:s"}</span></td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="11" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+</block>

@@ -1,0 +1,51 @@
+<div class="addcards" style="margin:20px 30px 0">
+    <div class="top">
+        <header><b>登录密码</b></header>
+    </div>
+    <form id="form-changepwd" method="POST" action="{:U()}">
+      <ul class="list mt20">
+        <li><dl>
+          <dt>原登录密码：</dt>
+          <dd><input type="password" errormsg="密码为6-20位" nullmsg="请输入原登陆密码" datatype="*6-20" class="c1" name="old"></dd>
+        </dl></li>
+        <li><dl>
+          <dt>新密码：</dt>
+          <dd><input name="password" errormsg="密码为6-20位" nullmsg="请输入新密码" datatype="*6-20" type="password" value="" class="c1" id="password"></dd>
+        </dl></li>
+        <li><dl>
+          <dt>确认密码：</dt>
+          <dd><input recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请输入确认密码" datatype="*" name="repassword" type="password" class="c1"></dd>
+        </dl></li>
+        <li><dl>
+          <dt></dt>
+          <dd><div id="errormessage"></div></dd>
+        </dl></li>
+        <li><dl>
+          <dt>&nbsp;</dt>
+          <dd><input name="" type="submit" value="确定" class="c3"></dd>
+        </dl></li>
+      </ul>
+    </form>
+</div>
+<script type="text/javascript">
+$(function() {
+  $("#form-changepwd").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 1, function(){window.location.reload();});
+      }
+    }
+  });
+});
+</script>

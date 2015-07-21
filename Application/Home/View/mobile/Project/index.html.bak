@@ -1,0 +1,118 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+    <body>
+    <div class="topbar">
+        <div class="contentw">
+            <div class="content">
+                <h1 class="logo">聚募</h1>
+                <ul class="nav">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="list.html">浏览梦想</a></li>
+                    <li><a href="create_list.html">发起梦想</a></li>
+                    <li><a href="list2.html">物以类聚</a></li>
+                </ul>
+                <div class="top_head">
+                    <a href="usercenter/个人中心_个人资料.html" title="用户中心"><div class="userhead"></div></a>
+                </div>
+            </div>
+        </div>
+        <div class="topbarbg"></div>
+    </div>
+    <div class="bannerlist"></div>
+    <div class="fl w100 mt20">
+        <div class="content">
+            <!--分类搜索栏-->
+            <div class="selectPanel">
+                <div class="nav-title">分类</div>
+                <ul class="nav">
+                    <li><a class="active" href="">全部</a></li>
+                    <li><a href="list2.html">实物众筹</a></li>
+                    <li><a href="">股权众筹</a></li>
+                    <li><a href="">股权基金</a></li>
+                </ul>
+                <div style="clear:both"></div>
+                <div class="nav-title">分类</div>
+                <ul class="nav">
+                    <li><a class="active" href="">全部</a></li>
+                    <li><a href="">筹资中</a></li>
+                    <li><a href="">筹资成功</a></li>
+                </ul>
+            </div>
+            <!--分类搜索栏-->
+            <ul class="list2 content cl">
+                <li><span id="yrz">预热中</span><span id="cm">超募</span>
+                    <div class="img"><a href="#"><img src="images/index_17.jpg"></a></div>
+                    <div class="name"><span>股权</span><a href="#">配资么</a></div>
+                    <div class="detail">
+                        <dl class="cl">
+                            <dd><span>999万</span>目标额</dd>
+                            <dd><span>90%</span>已完成</dd>
+                            <dd><span>889</span>投资人</dd>
+                        </dl>
+                    </div>
+                    <div class="prograss">
+                        <div class="bar animateBar" data-animatetarget="30" style="width: 30%;"> </div>
+                        <div class="tag"> 合投 </div>
+                    </div>
+                    <div class="city"><span>哈尔滨</span><span>哈尔滨</span></div>
+                    <div class="action"><a href="#">我要投资</a></div>
+                    <!--鼠标经过后出现此层-->
+                </li>
+                <li>
+                    <div class="img"><a href="#"><img src="images/index_19.jpg"></a></div>
+                    <div class="name"><span>实物</span><a href="#">江南1535客栈—浪漫泸沽湖</a></div>
+                    <div class="detail">
+                        <dl class="cl">
+                            <dd><span>999万</span>目标额</dd>
+                            <dd><span>90%</span>已完成</dd>
+                            <dd><span>889</span>投资人</dd>
+                        </dl>
+                    </div>
+                    <div class="prograss">
+                        <div class="bar animateBar" data-animatetarget="70" style="width: 70%;"> </div>
+                        <div class="tag"> 合投 </div>
+                    </div>
+                    <div class="city"><span>哈尔滨</span><span>哈尔滨</span></div>
+                    <div class="action"><a href="#">我要投资</a></div>
+                    <!--鼠标经过后出现此层-->
+                </li>
+                <li>
+                    <div class="img"><a href="#"><img src="images/index_21.jpg"></a></div>
+                    <div class="name"><span>股权</span><a href="#">快乐高尔夫</a></div>
+                    <div class="detail">
+                        <dl class="cl">
+                            <dd><span>999万</span>目标额</dd>
+                            <dd><span>0%</span>已完成</dd>
+                            <dd><span>0</span>投资人</dd>
+                        </dl>
+                    </div>
+                    <div class="yrzline"> <span>预热中</span> </div>
+                    <div class="city"><span>哈尔滨</span><span>哈尔滨</span></div>
+                </li>
+            </ul>
+            <div class="ckmore cl"><img src="images/icon_01.png"><br>
+                <a href="#" class="more">加载更多项目</a></div>
+        </div>
+    </div>
+
+
+</block>
+<block name="script">
+  <script type="text/javascript">
+    setTimeout(function () {
+      $('.bs-docs-sidenav').affix({
+        offset: {
+          top: 68, 
+          bottom: 270
+        }
+      })
+    }, 100);
+  </script>
+</block>

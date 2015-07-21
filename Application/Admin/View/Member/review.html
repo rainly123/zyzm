@@ -1,0 +1,81 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>
+	        <if condition="$statustype eq 'founder'">
+	        	创业者审核
+	        <else />
+	        	投资人审核
+	        </if>
+		</h2>
+    </div>
+    <form action="__SELF__" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">用户名</label>
+            <div class="controls">
+                <input type="text" class="text input-large" disabled="disabled" name="username" value="{$data.id|get_membername}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">真实姓名</label>
+            <div class="controls">
+                <input type="text" class="text input-large" disabled="disabled" value="{$data.name}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">身份证号码</label>
+            <div class="controls">
+                <input type="text" class="text input-large" disabled="disabled" value="{$data.card_id}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">所在城市</label>
+            <div class="controls">
+                <input type="text" class="text input-large" disabled="disabled" name="email" value="{$data.province|getProvinceCity=$data['city']}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">地址</label>
+            <div class="controls">
+                <input type="text" class="text input-large" disabled="disabled" name="email" value="{$data.address}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">手机号码</label>
+            <div class="controls">
+                <input type="text" class="text input-large" disabled="disabled" name="email" value="{$data.phone}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">一句话描述</label>
+            <div class="controls">
+                <input type="text" class="text input-large" disabled="disabled" name="email" value="{$data.describe}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">身份证照</label>
+            <div class="controls">
+                <img src="{$data.card_photo|get_cover='path'}" alt="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">简介</label>
+            <div class="controls">
+                <div class="input-large">{$data.resume}</div>
+            </div>
+        </div>
+
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Member/index')}');
+    </script>
+</block>

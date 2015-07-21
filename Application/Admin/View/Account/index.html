@@ -1,0 +1,90 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>账户信息</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+			<a class="btn btn-new" href="{:U('createaccount')}">创建新账户</a>
+      <a class="btn" href="{:U('index?state=0')}">全部</a>
+      <a class="btn" href="{:U('index?state=1')}">有余额</a>
+    </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入真是姓名或者手机号码">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th>
+		<th class="">姓名</th>
+		<th class="">手机号码</th>
+		<th class="">账户余额</th>
+		<th class="">可用余额</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i} </td>
+			<td>{$vo.name}</td>
+			<td>{$vo.phone}</td>
+			<td>{$vo.balance}</td>
+			<td>{$vo.use_able}</td>
+			<td><if condition="$vo.state eq 0"> 未处理 <elseif condition="$vo.state eq 1" />已处理<elseif condition="$vo.state eq 2" />未通过</if></td>
+			<td><a href="{:U('streamlist?uid='.$vo[uid])}">查看</a></td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<link rel="stylesheet" href="__CSS__/colorbox.css" />
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	$('.btn-new').colorbox();
+    //导航高亮
+    highlight_subnav('{:U('Account/index')}');
+	</script>
+</block>

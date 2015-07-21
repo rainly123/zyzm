@@ -1,0 +1,10 @@
+<div class="xmsteps" style="background:none">
+        <div class="nav-steps clearfix" >
+            <ul>
+                <li class="<?php $_GET['step']==1?print 'active':''; ?>"><a href="{:U('Project/edit?id=' . $_GET['id'].'&step=1')}">基本信息</a></li>
+                <li class="<?php $_GET['step']==2?print 'active':''; ?>"><a href="{:U('Project/edit?id=' . $_GET['id'].'&step=2')}">项目介绍</a></li>
+                <li class="<?php $_GET['step']==3?print 'active':''; ?>"><a href="{:U('Project/edit?id=' . $_GET['id'].'&step=3')}">团队介绍</a></li>
+                <li class="<?php $_GET['step']==4?print 'active':''; ?>"><a href="{:U('Project/edit?id=' . $_GET['id'].'&step=4')}">项目资料</a></li>
+                <li class="<?php $_GET['step']==5?print 'active':''; ?>"><a href="{:U('Project/edit?id=' . $_GET['id'].'&step=5')}">融资信息</a></li>
+            </ul>
+        </div>

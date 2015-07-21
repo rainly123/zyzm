@@ -1,0 +1,104 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;账户管理&nbsp;&gt;&nbsp;账户明细 
+	</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<h2>账户明细</h2>
+
+		<!-- 数据列表 -->
+		<div class="data-table">
+			<table class="tt">
+			    <thead>
+			        <tr>
+					<th class="">序号</th>
+					<th class="">类别</th>
+					<th class="">金额(元)</th>
+					<th class="">流水号</th>
+					<th class="">申请时间</th>
+					<th class="">成交时间</th>
+					<th class="">交易状态</th>
+					<th class="">操作</th>
+					</tr>
+			    </thead>
+			    <tbody>
+					<volist name="subaccount_seq" id="vo">
+					<tr>
+			            <td>{$i} </td>
+						<td> 
+							<if condition="$vo.changetype eq 0 "> 
+								充值
+							<elseif condition="$vo.changetype eq 1 "/> 
+								提现
+							<elseif condition="$vo.changetype eq 2 "/> 
+								【{$vo.projectname}】认投
+							<elseif condition="$vo.changetype eq 3 "/> 
+								【{$vo.projectname}】退款
+							 <else />
+							 	{$vo.project_valuation}
+							</if>
+						</td>
+						<td>
+							{$vo.amount}
+						</td>
+						<td>
+							{$vo.paybussflowno}
+						</td>
+						<td><span>{$vo.create_time|time_format}</span></td>
+						<td><span>{$vo.update_time|time_format}</span></td>
+						<td>
+							<if condition="$vo.respcode eq 0 "> 处理中
+								 <else /> 交易成功</if>
+						</td>
+						<td>
+					
+		                </td>
+					</tr>
+					</volist>
+				</tbody>
+			    </table>
+	
+		</div>
+		<!-- 分页 -->
+		<div class="page">{$_page}</div>
+		<!-- /分页 -->
+		</div>
+	</div>
+	</div>
+	</div>
+</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('MCenter/accountseq')}');
+	$(function(){
+	      
+			$("#form-refuse").submit(function() {
+				var self = $(this);
+				$.post(self.attr("action"), self.serialize(), success, "json");
+				return false;
+			});
+	});
+
+	</script>
+</block>

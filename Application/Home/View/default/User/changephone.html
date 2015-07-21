@@ -1,0 +1,84 @@
+<div class="addcards" style="margin:20px; 20px 0 10px">
+  <div class="top">
+    <header><b>更改手机号码</b></header>
+  </div>
+  <form id="form-changephone" method="POST" action="{:U('User/changephone')}">
+    <ul class="list mt20">
+      <li><dl>
+        <dt>登录密码：</dt>
+        <dd><input name="password" type="password" class="c1" datatype="*" nullmsg="请输入登录密码"></dd>
+      </dl></li>
+      <li><dl>
+          <dt>新手机号码：</dt>
+          <dd><input type="text" value="" class="c1" name="mobile" id="phoneNo" datatype="m" nullmsg="请输入新手机号码" errormsg="手机号码格式不正确"></dd>
+      </dl></li>
+      <li><dl>
+          <dt>短信验证码：</dt>
+          <dd><input name="code" maxlength="10" type="text" style="width:120px" datatype="n" nullmsg="请输入短信验证码" errormsg="短信验证码格式不正确" class="c1"> <a href="{:U('sendsms')}" class="send_code getsmscode">发送验证码</a></dd>
+      </dl></li>
+      <li><dl>
+          <dt>&nbsp;</dt>
+          <dd><div id="errormessage"></div></dd>
+      </dl></li>
+      <li><dl>
+          <dt>&nbsp;</dt>
+          <dd><input type="submit" value="确定" class="c3"></dd>
+      </dl></li>
+    </ul>
+  </form>
+</div>
+<script type="text/javascript">
+$(function() {
+  $("#form-changephone").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 1, function(){window.location.reload();});
+      }
+    }
+  });
+});
+var wait = "请等待$time秒";
+var time;
+$(document).ready(function() {
+  $('.getsmscode').click(function() {
+    if (time > 0) {return false;}
+    var my = $(this);
+    $.post($(this).attr('href'), {'phone':$('#phoneNo').val(), 'ischeck':0}, function(data) {
+      if (data.status == 1) {
+        $("#errormessage").hide();
+        $("#errormessage").html();
+        time = 120;
+        settime(my);
+      } else {
+        $("#errormessage").show();
+        $("#errormessage").html(data.info);
+      }
+    }, 'json');
+    
+    return false;
+  });
+});
+
+function settime(my) {
+  time -= 1;
+
+  if (time > 0) {
+    var info = wait.replace('$time',time);
+    my.html(info);
+    setTimeout(function() {settime(my)},1000);
+  } else {
+    my.html('发送验证码');
+  }
+}
+</script>

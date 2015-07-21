@@ -1,0 +1,215 @@
+<extend name="Base/common"/>
+<block name="header">
+	<link href="__CSS__/style.css" rel="stylesheet">
+	<style>
+		.up_file {
+			background-image: url(__IMG__/btn_addattach.jpg);
+			opacity: 0;
+			width: 72px;
+			height: 64px;
+			position: absolute;
+			margin-left: -140px;
+			filter:alpha(opacity=0);
+			-moz-opacity:0;
+			top:0;
+			cursor: pointer;
+		}
+	</style>
+</block>
+<block name="side">
+</block>
+<block name="body">
+<div class="fl w100 mainwrap mt25">
+	<div class="content">
+    	<div class="bread"><a href="#">首页</a>　>　发起梦想</div>
+        <div class="main mt20 mainleftbg">
+        	<dl class="cl">
+        	<dd class="leftbar">
+            	<div class="userhaed"><img src="{:get_memberface()}">{:get_membername(is_login())}</div>
+                <ul id="leftlist">
+                	<li class="cur"><em id="c1"></em><a href="{:U('Project/addstep1?id='.$project_id)}">基本信息</a><span></span></li>
+                    <li><em id="c3"></em><a href="{:U('Project/addstep2?id='.$project_id)}">项目介绍</a></li>
+                    <li><em id="c2"></em><a href="{:U('Project/addstep3?id='.$project_id)}">团队介绍</a></li>
+                    <li><em id="c4"></em><a href="{:U('Project/addstep4?id='.$project_id)}">项目资料</a></li>
+                    <li><em id="c5"></em><a href="{:U('Project/addstep5?id='.$project_id)}">融资信息</a></li>
+                    <li><em id="c6"></em><a href="{:U('Project/addstep6?id='.$project_id)}">提交项目</a></li>
+                </ul>
+            </dd>
+            <dd class="rightbar">
+            	<h2>基本信息</h2>
+            	<form name="project_add" id="project_add" action="" method="POST" class="form">
+				<ul>
+					<li>
+					  <label><em>*</em>项目图片</label>
+					  <span class="xmtp">
+
+					  <input type="file" class="up_file" style="width:338px;height:40px;" name="cover" id="cover" onchange="upload_image('cover');">
+					  上传封面(700*500px)
+					  <label for="cover" style="position:absolute; top: 0; display: block;width: 100%;height: 100%; cursor:pointer;"></label>
+			
+					  </span>
+					  <input type="hidden" name="project[cover]" id="hidcover" value="{$project.cover}" datatype="*" nullmsg="请上传项目图片">
+						 			
+					</li>
+					<li>
+						<label></label>
+						<span class="xmtp" style="border: none;">
+							<img id = "cover_view" src="{$project.cover|get_cover='path'}"  alt="" <if condition="$project['cover'] eq ''">style=""<else />style="width:300px;height:200px;"</if> />
+						</span>
+					</li>
+					<li>
+					  <label><em>*</em>项目标题</label>
+					  <input type="text" class="c1" name="project[project_name]" value="{$project.project_name}" placeholder="请输入你的项目标题（25个字内）" datatype="*1-25" nullmsg="项目标题不能为空" errormsg="项目标题不能超过25个字！">
+					</li>
+					<li>
+					  <label><em>*</em>项目简介</label>
+					  <textarea name="project[abstract]" cols="" rows="" value="" class="c2" datatype="*1-100" placeholder="项目简介不能超过100个字" nullmsg="项目简介不能为空" errormsg="项目简介不能超过100个字">{$project.abstract}</textarea>
+					</li>
+					<li class="ckpre">
+					  <label><em>*</em>查看权限</label>
+					  <empty name="project">
+					  	<a href="javascript:void(0)" id="one1" onclick="setTab('one',1,2)" class="choosecur">所有投资人</a>
+					  	<a href="javascript:void(0)" style="margin-left:10px;" id="one2" onclick="setTab('one',2,2)">审核通过的投资人 </a>
+					  	<input type="hidden" name="project[open_flag]" id="hidopen_flag" value="1">
+					 <else/>
+					 	<eq name="project.open_flag" value="1">
+						 	<a href="javascript:void(0)" id="one1" onclick="setTab('one',1,2)" class="choosecur">所有投资人</a>
+						  	<a href="javascript:void(0)" style="margin-left:10px;" id="one2" onclick="setTab('one',2,2)">审核通过的投资人 </a>
+						  	<input type="hidden" name="project[open_flag]" id="hidopen_flag" value="1">
+					 	<else/>
+						 	<a href="javascript:void(0)" id="one1" onclick="setTab('one',1,2)">所有投资人</a>
+						  	<a href="javascript:void(0)" style="margin-left:10px;" id="one2"  class="choosecur" onclick="setTab('one',2,2)">审核通过的投资人 </a>
+						  	<input type="hidden" name="project[open_flag]" id="hidopen_flag" value="2">
+					 	</eq>
+					 </empty>
+					</li>
+					<li>
+					  <label><em>*</em>公司名称</label>
+					  <input type="text" class="c1" id="title" name="project[company_name]" value="{$project.company_name}" placeholder="请输入你的公司名称" datatype="*1-30" nullmsg="请输入你的公司名称" errormsg="公司地址不能超过30个汉字">
+					</li>
+					<li>
+					  <label><em>*</em>公司地址</label>
+					  <div class="select">
+					  	{:hook('J_China_City', array('province'=>$project['province'], 'city'=>$project['city']))}
+					  </div>
+					</li>
+					<li>
+					  <label style="padding-left:42px; width: 88px;">项目网址</label>
+					  <input type="text" class="c1" id="title" ignore="ignore" name="project[project_url]" value="{$project.project_url}" placeholder="请输入项目网址" datatype="url" errormsg="请输入合法的URL">
+					</li>
+					<li>
+					  <label><em>*</em>所属阶段</label>
+					  <div class="select">
+						<select class="c1" id="c"  name="project[project_phase]" datatype="*" nullmsg="请选择项目阶段">
+							<option value="">请选择项目阶段</option>
+							<foreach name="project_phase" item="v">
+								<if condition="$project['project_phase'] eq $v['id']">
+								<option value="{$v.id}" selected>{$v.name}</option>
+								<else />
+								<option value="{$v.id}">{$v.name}</option>
+								</if>
+							</foreach>
+						</select>
+					  </div>	    
+					</li>
+					<li>
+					  <label><em>*</em>所属行业</label>
+					  <div class="select">
+						<select class="c1" id="c"  name="project[industry]" datatype="*" nullmsg="请选择所属行业">
+							<option value="">请选择所属行业</option>
+								<foreach name="industry" item="v">
+								<if condition="$v[id] eq $project[industry]">
+								<option value="{$v.id}" selected>{$v.name}</option>
+								<else />
+								<option value="{$v.id}">{$v.name}</option>
+								</if>
+								</foreach>
+						</select>
+					  </div>
+					</li>
+					<li>
+					  <label><em>*</em>团队人数</label>
+					  <input type="text" class="c1" id="title" name="project[member_count]" value="{$project.member_count}" placeholder="请输入团队人数" datatype="n1-4" nullmsg="请输入团队人数" errormsg="人数应该1-9999之间">
+					</li>
+					<li class="save">
+						<input type="submit" value="保存" id="confirm" class="s">
+					</li>
+				</ul>
+			</form>
+            </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+</block>
+<block name="script">
+  <link href="__CSS__/validform.css" rel="stylesheet">
+  <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+  <script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+
+  <script type="text/javascript" src="__JS__/jQselect.js"></script>
+  <script type="text/javascript">
+	  
+	$("#project_add").Validform({
+		tiptype:3,
+		ajaxPost:true,
+		callback:function(data){
+			if (data.status == 1) {
+				layer.alert(data.info, 1, function() {window.location.href = data.url;});
+			}else{
+				layer.alert(data.info, 5);
+			}
+		}
+	});
+	
+	  $(function(){
+		  //下拉框
+		  $("#c, #cc1, #cc2").selectbox();
+		  
+		});
+
+		//标签页选择
+		 function setTab(name,cursel,n)
+		 {
+		 	for(i=1;i<=n;i++){
+		 		var menu=document.getElementById(name+i);
+		 		menu.className=i==cursel?"choosecur":"";
+		 	}
+			if(cursel==2){
+				$('#hidopen_flag').val(2);
+			}else{
+				$('#hidopen_flag').val(1);
+			}
+		}
+  
+		//上传缩略图
+		function upload_image(upfile_name){
+			var viewImg = '#' + upfile_name + '_view';
+			var hidfileName = '#hid' + upfile_name;
+	        $.upload({
+		          url: '{:U("File/uploadProj")}', 
+		          fileName: upfile_name,
+		          dataType: 'json',
+		          accept: '.jpg,.jpeg,.png,.gif',
+		          // 上传之前回调,return true表    示可继续上传
+		          onSend: function() {
+		              return true;
+		          },
+		          // 上传之后回调
+		          onComplate: function(data) {
+		            if(data.status == 1) {
+		            	$(viewImg).attr('src', data.path);
+		            	$(viewImg).attr('style', 'width:300px;height:200px;');
+		          		$(hidfileName).val(data.id);
+		            } else {
+		                alert(data.info);
+		            }
+		          }
+			});
+		}
+
+
+		
+
+	</script>
+</block>

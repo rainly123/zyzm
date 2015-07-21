@@ -1,0 +1,9 @@
+[ 2015-01-31T16:51:01+08:00 ] 121.40.146.103 /sms/sendcode.html
+SMS-CODE: 18658170800:224804
+[ 2015-01-31T16:51:02+08:00 ] 121.40.146.103 /sms/sendcode.html
+SMS-CODE: <?xml version="1.0" encoding="utf-8" ?><returnsms>
+ <returnstatus>Success</returnstatus>
+ <message>ok</message>
+ <remainpoint>166087</remainpoint>
+ <taskID>26506958</taskID>
+ <successCounts>1</successCounts></returnsms>

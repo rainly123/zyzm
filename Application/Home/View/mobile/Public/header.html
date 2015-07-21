@@ -1,0 +1,28 @@
+<div class="wrapper">
+    <!-- 头部导航栏 -->
+    <header>
+        <h2>
+            <if condition="empty($pageTitle)">
+                <a href="#" class="brand"></a>
+                <else/>
+                {$pageTitle}
+            </if>
+        </h2>
+        <if condition="empty($pageTitle)">
+            <div class="lft">
+                <a href="#left-menu" class="btn-left-menu"></a>
+            </div>
+            <else/>
+            <div class="lft">
+                <empty name="backurl">
+                    <a href="javascript:if (history.length===1){location.href='/'} else {window.history.back()}"
+                       class="back"></a>
+                    <else/>
+                    <a href="{$backurl}" class="back"></a>
+                </empty>
+            </div>
+        </if>
+        <div class="rgt">
+            <a href="{:U('MCenter/index')}" class="user"></a>
+        </div>
+    </header>

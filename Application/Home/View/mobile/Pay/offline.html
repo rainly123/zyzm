@@ -1,0 +1,91 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+    <link href="__M_CSS__/pay.css" rel="stylesheet" type="text/css">
+    <link href="__M_CSS__/layer.m/need/layer.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+    <script>
+        !function () {
+            var a = document.documentElement;
+            var b = a.clientWidth / 20;
+            a.style.fontSize = (b > 32 ? 32 : b) + "px"
+        }();
+    </script>
+    <div class="body">
+        <div class="section amount-section">
+            <div class="amount">支付金额：<strong>￥{:round($amount,2)}</strong>元</div>
+        </div>
+        <div class="section special-tip-section">
+            <div class="header"><em>特别提示</em></div>
+            <div class="tip">
+                <p>为了您的投资权益，请使用本人银行卡或微信账户进行线下支付。</p>
+                <!--<p>线下支付前后可添加聚募微信客服号咨询支付问题。</p>-->
+                <!--<p>聚募客服微信号：jumu86858285 </p>-->
+                <p class="qr-box"><a id="show-serv-qr" href="#"> 查看二维码</a></p>
+            </div>
+        </div>
+        <!--<div class="section account-section">-->
+            <!--<div class="alipay-box">-->
+                <!--<div class="title"><em>1</em>支付宝账户</div>-->
+                <!--<div class="account">-->
+                    <!--<p>账户名称：杭州聚道投资管理有限公司</p>-->
+                    <!--<p>支付宝账号：jdtz2015@sina.com</p>-->
+                <!--</div>-->
+                <!--<div class="pay-tip">（转账备注“项目名称+手机号码”）</div>-->
+            <!--</div>-->
+            <!--<div class="bank-box">-->
+                <!--<div class="title"><em>2</em>银行卡账户</div>-->
+                <!--<div class="account">-->
+                    <!--<p>开户名称：杭州聚道投资管理有限公司</p>-->
+                    <!--<p>开户账号：3301 0401 6000 2243 627</p>-->
+                    <!--<p>开户行：杭州银行南山支行</p>-->
+                <!--</div>-->
+                <!--<div class="pay-tip">（打款后请联系客服微信或拨打 0571-86858285 确认打款状态）</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="section footer-tip-section">-->
+            <!--在收到您的投资款后，我们会在1~2个工作日内，修改您的投资状态为<i>【已支付】</i>。 再次感谢您的支持。-->
+        <!--</div>-->
+        <div class="section btn-section">
+            <a class="btn" href="javascript:history.back()">返 回</a>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__M_JS__/layer.m/layer.m.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#show-serv-qr').click(function () {
+                layer.open({
+                    type: 1, //1代表页面层
+                    content: '<img src="/Public/Mobile/images/Q640PX.jpg" style="width: 100%">',
+                    style: 'width: 80%'
+                    /*success: function(olayer){
+                     var cla = 'getElementsByClassName';
+                     olayer[cla]('closediy')[0].onclick = function(){
+                     layer.close(pagei)
+                     }
+                     }*/
+                });
+                return false;
+            });
+            /*$("#btn-pay").click(function () {
+             var _this = $(this);
+             var url = _this.attr('href');
+             $.get(url, $('form').serialize(), function (data) {
+             if (data.status == 1) {
+             if (data.info != '') {
+             alert(data.info);
+             }
+             window.location.href = data.url;
+             } else {
+             alert(data.info);
+             window.location.reload();
+             }
+             });
+             });*/
+        });
+
+    </script>
+</block>

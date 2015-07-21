@@ -1,0 +1,60 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>系统公告</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+      <a class="btn" href="{:U('add')}">新 增</a>
+    </div>
+   </div>
+    <!-- 数据列表 -->
+  <div class="data-table table-striped">
+	<table class="">
+    <thead>
+      <tr>
+		<th class="">ID</th>
+		<th class="">标题</th>
+		<th class="">创建时间</th>
+		<th class="">是否置顶</th>
+		<th class="">操作</th>
+	  </tr>
+    </thead>
+    <tbody>
+		<notempty name="info">
+		<volist name="info" id="vo">
+		<tr>
+			<td>{$vo.id} </td>
+			<td><a href="{:U('view?id='.$vo['id'])}" class="confirm">{$vo.title}</a></td>
+			<td>{$vo.create_time|time_format}</td>
+			<td><if condition="$vo.is_top eq 0 "> 否 <else/> 是</if></td>
+			<td>
+				<if condition="$vo.is_top eq 0 ">
+					<a class="ajax-get" href="{:U('Notice/istop?status=1&id=' . $vo['id'])}">置顶</a>
+				<else/>
+				  	<a class="ajax-get" href="{:U('Notice/istop?status=0&id=' . $vo['id'])}">取消置顶</a>
+				</if>
+				<a href="{:U('Edit?id='.$vo['id'])}" class="confirm">编辑</a>
+        		<a href="{:U('Notice/del&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+
+      		</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="5" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+    //导航高亮
+    highlight_subnav('{:U('Notice/index')}');
+	</script>
+</block>

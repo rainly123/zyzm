@@ -1,0 +1,56 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__M_CSS__/index.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<section id="news_nav">
+  <a href="{:U('MCenter/pr_support')}">已支持</a>
+  <a class="physical_nav1">已发布</a>
+<!--   <a href="{:U('MCenter/pr_attach')}">已收藏</a> -->
+</section>
+<section id="physical_main">
+  <div class="list_cp1">
+		<!--item-->
+		
+		<foreach name="myProductList" item="vo">
+			<div class="item selected">
+                <div class="list_zu">
+					<div class="physical_kuang">
+						<div class="list_zu11"> 
+							<a href="{:U('Product/viewdetail?pid='.$vo['id'])}"><img width="100%" height="100%" src="{$vo.home_img|get_cover='path'}"></a>
+						</div>
+						
+						<div class="list_zu21">
+							<ul>
+								<li><h3>{$vo.name}</h3></li>
+								<li><b>目标金额：¥{$vo['amount']}</b><h2>状态：<!-- 状态（0：普通、1：申请发布、2：不通过、9：审核通过） -->
+									<if condition="$vo['status'] eq 0"> 未提交
+										<elseif condition="$vo['status'] eq 1"/>审核中
+										<elseif condition="$vo['status'] eq 2"/>不通过
+										<elseif condition="$vo['status'] eq 9"/>
+											<if condition="$vo['stage'] eq 0">审核通过
+												<elseif condition="$vo['stage'] eq 1"/>预热中
+												<elseif condition="$vo['stage'] eq 2"/>众筹中
+												<elseif condition="$vo['stage'] eq 8"/>众筹失败
+												<elseif condition="$vo['stage'] eq 9"/>众筹成功
+											</if>
+									</if></h2>
+								</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="physical_rtje1">
+						<p><a class="" href="{:U('Product/viewdetail?pid='.$vo['id'])}">预览</a></p>
+					</div>
+				</div>
+			</div>
+		
+		</foreach>
+	</div>
+<!--   <div class="list_gd">
+    <a href="#">查看更多（每次加载5条显示）</a>
+  </div> -->
+</section>
+</block>

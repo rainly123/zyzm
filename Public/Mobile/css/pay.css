@@ -1,0 +1,31 @@
+.body { background: #F3F3F3; color: #333333; padding: 10px; width: 20rem; box-sizing: border-box; }
+
+.section { width: 100%; box-sizing: border-box; }
+
+.amount-section { padding: 5px; font-size: 16px; }
+.amount-section strong { color: #EF612F; font-size: 20px; margin: 0 0.5em; }
+
+.special-tip-section { color: #EF612F; font-size: 16px; margin-bottom: 30px; }
+.special-tip-section .header { text-align: center; position: relative; margin: 20px 0; }
+.special-tip-section .header em { display: inline-block; line-height: 1.5; padding: 0 1em; border-radius: 16px; color: white; background: #EF612F; position: relative; }
+.special-tip-section .header:before { content: ""; display: block; width: 100%; height: 2px; position: absolute; top: 11px; background: #EF612F; }
+.special-tip-section .tip { line-height: 2; }
+.special-tip-section p { color: #EF612F; margin: 0.5em 0; line-height: 1.5; }
+.special-tip-section .qr-box { text-align: center; margin-top: 20px; }
+.special-tip-section .qr-box a { color: #EF612F; border: 1px solid; padding: 5px 15px; }
+
+.account-section { background: white; padding: 20px; line-height: 2; }
+.account-section .title { color: #72C2E5; font-size: 20px; }
+.account-section .title em { display: inline-block; width: 1.5em; height: 1.5em; line-height: 1.5; text-align: center; margin-right: 10px; border: 1px solid; border-radius: 50%; }
+.account-section .account { font-size: 18px; }
+.account-section .account p { line-height: 1.2; margin: 0.3em 0; }
+.account-section .pay-tip { color: #EF612F; font-size: 14px; }
+.account-section .alipay-box { border-bottom: 1px solid #EFEFEF; padding-bottom: 10px; margin-bottom: 10px; }
+
+.footer-tip-section { padding: 20px 10px 30px; font-size: 14px; }
+.footer-tip-section i { color: #72C2E5; }
+
+.btn-section .btn { display: block; text-align: center; font-size: 22px; line-height: 2; border-radius: 4px; color: white; }
+
+@media screen and (max-width: 374px) { .account-section .account { font-size: 15px; } }
+@media screen and (min-width: 320px) and (max-width: 390px) { .special-tip-section p { font-size: 13px; } }

@@ -1,0 +1,78 @@
+<extend name="Public/base" />
+
+<block name="body">
+<section>
+	<div class="container">
+		<h1>申请领投人</h1>
+		<hr />
+		<form action="__SELF__" method="post" class="form-horizontal">
+			<div class="form-item">
+				<label class="item-label">请选择领投行业</label>
+				<div class="controls">
+					<volist name="industry" id="focus">
+						<label class="checkbox">
+							<input disabled="disabled" type="checkbox" name="focus[]" value="{$focus.id}" <in name="focus.id" value="$data['focus']">checked="checked"</in>>{$focus.name}
+							
+						</label>
+					</volist>
+							
+							
+				</div>
+			</div>
+					
+			<div class="form-item">
+				<label class="item-label">个人简介</label>
+				<div class="controls">
+				<span class="help-block">要求写明个人求学、工作、创业、投资简历。请具体到起止年月、学校专业学历、公司名称部门职务、投资过企业名称等，便于我们做真实性背景调查，否则将不予以受理。</span>
+				<textarea  name="resume" class="span8" rows="5">{$data.resume}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'resume', 'value'=>'', 'height'=>'450px'))}
+				<span class="help-block"></span>
+				</div>
+			</div>
+			
+		<div class="form-item">
+			<label class="item-label">认证结果:</label>
+			<div class="controls">
+				<label class="radio"><input type="radio" name="capacity" value="3" <if condition="$user.is_investor eq 3">checked="checked"</if>>同意认证</label>
+				<label class="radio"><input type="radio" name="capacity" value="4" <if condition="$user.is_investor eq 4">checked="checked"</if>>拒绝认证</label>
+			</div>
+		</div>
+		<div class="form-item">
+		   		<label class="item-label">被拒理由:</label>
+		          <div class="controls">
+		               <textarea id="con" class="inp4" style="width:450px; height:120px;" rows="5"  name="describe"><if condition="$user.is_investor eq 4">{$user.investor_content}</if></textarea>
+		            </div>
+		    </div>
+		    
+		<div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+		</form>
+	</div>
+</section>
+</block>
+
+<block name="side"></block>
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+  <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+  <link rel="stylesheet" href="__STATIC__/uploadify/uploadify.css">
+		<script type="text/javascript">
+	$(document).ready(function() {
+    	$("form").submit(function(){
+    		var self = $(this);
+    		$.post(self.attr("action"), self.serialize(), success, "json");
+    		return false;
+
+    		function success(data){
+    			if(data.status){
+    				window.location.href = data.url;
+    			} else {
+    				self.find(".Validform_checktip").text(data.info);
+    			}
+    		}
+    	});
+	});
+	</script>
+</block>

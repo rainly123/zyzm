@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<include file="Public/head"/>
+</head>
+<body>
+	<!-- 头部 -->
+	<include file="Public/header"/>
+	<!-- /头部 -->
+	
+	<!-- 主体 -->
+	<include file="Public/ucenter"/>
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	<include file="Public/footer"/>
+	<!-- /底部 -->
+<!-- 右侧当前菜单选中状态修改 -->
+<script type="text/javascript">
+$(document).ready(function() {
+	// 左侧菜单选中
+	if (typeof(submenu) !== 'undefined') {
+		$(".userleft li").removeClass('cur');
+		$(".userleft a").each(function(index, el) {
+			var href = $(el).attr('href');
+		
+			if (href == submenu) {
+				$(el).parents('li').addClass('cur');
+			}
+		});	
+	}
+});
+</script>
+</body>
+</html>

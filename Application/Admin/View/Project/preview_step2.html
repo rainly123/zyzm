@@ -1,0 +1,129 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+</block>
+
+<block name="body">
+	<include file="preview_header" />
+	<div class="main bg-white">
+		<div class="content clearfix">
+			<div class="pull-left pj-left">
+				<input type="hidden" name="info_id" value="{$info.id}">
+				<div class="under-line">
+					<div class="com-info">
+						<div class="sub-title">项目描述</div>
+						<div class="edit-info">
+						<p>
+							<empty name="description">
+								没有内容
+							<else />
+								{$description}
+							</empty>
+						</p>
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">公司未来规划</div>
+						<div class="edit-info">
+						<p>
+							<empty name="plan">
+								没有内容
+							<else />
+								{$plan}
+							</empty>
+						</p>
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">目标客户</div>
+						<div class="edit-info">
+						<p>
+							<empty name="custom">
+								没有内容
+							<else />
+								{$custom}
+							</empty>
+						</p>
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">盈利模式</div>
+						<div class="edit-info">
+						<p>
+							<empty name="yingli_mode">
+								没有内容
+							<else />
+								{$yingli_mode}
+							</empty>
+						</p>
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">同业竞争</div>
+						<div class="edit-info">
+						<p>
+							<empty name="jingzheng">
+								没有内容
+							<else />
+								{$jingzheng}
+							</empty>
+						</p>
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">竞争优势</div>
+						<div class="edit-info">
+						<p>
+							<empty name="avantages">
+								没有内容
+							<else />
+								{$avantages}
+							</empty>
+						</p>
+						</div>
+					</div>
+				</div>
+				<div class="under-line">
+					<div class="com-info">
+						<div class="sub-title">项目大事记
+						</div>
+						<div id="happen" class="edit-info">
+							<table class="tt">
+								<thead>
+									<tr>
+										<th style="width:150px">时间</th>
+										<th>内容</th>
+									</tr>
+								</thead>
+								<tbody>
+									<foreach name="projectEvent" item="v">
+									<tr>
+										<td>
+											{$v.when|time_format='Y年m月d日'}
+										</td>
+										<td class="text-left">
+											{$v.content}
+										</td>
+									</tr>
+									</foreach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div>
+			</div>
+
+		</div>
+	</div>
+<include file="preview_footer" />
+
+</block>
+<block name="script">
+<script src="__JS__/project/preview.js"></script>
+<script>
+	highlight_subnav('{:U('Project/index')}');
+</script>
+</block>

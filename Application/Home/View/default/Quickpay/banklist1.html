@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <meta content="www.dreammove.cn" name="author">
+    <link href="__CSS__/quickpay.css" rel="stylesheet" type="text/css" />
+     <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <title>中瀛智募 - 中瀛智募 </title>
+
+<style>
+    .tablist {padding-top: 15px;background-color: #eee;}
+    .tablist li {float:left; border:1px solid #eee;background: #ccc;}
+    .tablist a {width: 92px; text-align:center; height: 40px;line-height: 40px;display: block;}
+    .tab-content {display: none;clear:both;}
+    .active {display: block;}
+</style>
+</head>
+<body class="buyBtn" style="background:#fff;">
+<header class="top_header">
+<a class="nav_btn" href="javascript:history.go(-1);"><img src="__IMG__/quickpay/arrow.png"></a>
+    <span >快捷支付银行列表</span>
+</header>
+    <if condition="$payinfo.allow_creditcard eq 1">
+    <ul class="tablist clearfix">
+        <li><a class="tab" href="#jiejika">借记卡支付</a></li>
+        <li><a href="{:U('Quickpay/addstep1?merorderid='. $merorderid)}">信用卡支付</a></li>
+    </ul>
+    </if>
+	<div id="jiejika" class="bankList tab-content active">
+		<ul>
+    		<foreach name="banklist" item="p">
+				<li>
+                    <a href="{:U('Quickpay/addstep1?merorderid='. $merorderid)}">
+                        <img src="__IMG__/quickpay/pay/{$p.logo}">
+                        <h3>{$p.bank_name}</h3>
+                        <p>{$p.quick_remark}</p>
+                        <img src="__IMG__/quickpay/small_arrow.png" class="arrow">
+                    </a>
+                </li>
+			</foreach>
+     	</ul>
+	</div>
+    <!-- <div id="alipay" class="tab-content" style="margin:10px;">
+        <div>您也可以直接支付到<strong style="color:red">杭州募聚网络科技有限公司</strong>的支付宝账号</div>
+        <div>支付宝账号：<strong style="color:red">jmzc@dreammove.cn</strong></div>
+        <div>打款时，请在备注中填写您的订单号：<strong style="color:red">{$payinfo.orderid}</strong><br>我们会在收到款项后的一个工作日内，把您的订单状态修改为<strong style="color:red">已支付</strong>。请在用户中心的“实物众筹”项目页中查看。</div>
+    </div> -->
+
+<script type="text/javascript">
+    $('.tab').click(function() {
+        var show = $(this).attr('href');
+        $('.tab-content').removeClass('active');
+        $(show).addClass('active');
+        return false;
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,77 @@
+@charset "UTF-8";
+.personal_t1 { width: 94%; padding: 0 3%; float: left; }
+
+.personal_t2 { width: 94%; padding: 0 3% 3% 3%; background: #fff; border: 1px solid #dedede; float: left; margin-top: 3%; }
+
+.personal_t2 h1 { width: 100%; border-bottom: 1px solid #dedede; font-size: 1.6em; line-height: 2.1em; }
+
+.personal_t2 p { width: 100%; font-size: 1.2em; line-height: 1.8em; color: #666; margin-top: 2%; }
+
+.personal_t2 dl { width: 100%; border-bottom: 1px solid #dedede; float: left; padding: 3% 0; }
+
+.personal_t2 dl dt { float: left; width: 30%; border: 1px solid #dedede; padding: 1px; }
+
+.personal_t2 dl dt img { float: left; width: 100%; }
+
+.personal_t2 dl dd { float: right; width: 62%; padding: 0 3%; }
+
+.personal_t2 dl dd h2 { float: left; width: 100%; font-size: 1.2em; line-height: 1.8em; }
+
+.personal_t2 dl dd h2 b { width: 100%; color: #72c2e5; }
+
+.personal_t2 dl dd h3 { float: left; width: 100%; font-size: 1.2em; }
+
+.personal_t2 dl dd h4 { float: left; width: 100%; font-size: 1em; text-align: right; }
+
+.userhead .tb12 { height: 40px; width: 100%; position: absolute; left: 0; bottom: 0; line-height: 40px; }
+
+.userhead .tb12 a { width: 33%; float: left; display: inline; text-align: center; font-size: 16px; }
+
+.userhead .tb12 a.selected { background: url(../images/img29.png) no-repeat center bottom; font-size: 16px; -webkit-background-size: 20px 10px; -o-background-size: 20px 10px; background-size: 20px 10px; }
+
+.personal_t3 img { margin: 3% 0; width: 100%; }
+
+.personal_t2 ul { float: left; width: 100%; border-bottom: 1px solid #dedede; padding-bottom: 3%; }
+
+.personal_t2 ul li { background: #f8f8f8; height: 30px; display: inline-block; padding: 0 10px; margin-right: 15px; font: 14px/30px "微软雅黑"; border-radius: 5px; }
+
+.userhead { height: auto; }
+
+.tabs { font-size: 0; white-space: nowrap; position: relative; left: 0; -webkit-transition: left 0.5s; -moz-transition: left 0.5s; -ms-transition: left 0.5s; -o-transition: left 0.5s; transition: left 0.5s; }
+
+.tab-content { display: inline-block; vertical-align: top; width: 94%; padding: 0 3%; }
+
+.friend-toolbox { margin: 10px 0; padding-bottom: 60px; }
+.friend-toolbox .tab-content-wrapper { margin-top: 80px; }
+.friend-toolbox .content { position: relative; }
+
+.friend-toolbox .btn, .friend-view .btn { display: inline-block; font-size: 18px; line-height: 2; border: none; color: white; width: 125px; padding-left: 30px; box-sizing: border-box; text-align: center; margin: 0 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.5) 18px no-repeat; }
+.friend-toolbox .btn-msg, .friend-view .btn-msg { background-image: url("../images/img28.png"); }
+.friend-toolbox .btn-follow-box, .friend-view .btn-follow-box { display: inline-block; }
+.friend-toolbox .btn-follow-box .btn-follow, .friend-view .btn-follow-box .btn-follow { display: inline-block; }
+.friend-toolbox .btn-follow-box .btn-followed, .friend-view .btn-follow-box .btn-followed { display: none; }
+.friend-toolbox .btn-follow-box.followed .btn-follow, .friend-view .btn-follow-box.followed .btn-follow { display: none; }
+.friend-toolbox .btn-follow-box.followed .btn-followed, .friend-view .btn-follow-box.followed .btn-followed { display: inline-block; }
+.friend-toolbox .btn-follow, .friend-view .btn-follow { background-image: url("../images/jia.png"); background-size: 15px; background-position: 25px center; }
+.friend-toolbox .btn-followed, .friend-view .btn-followed { padding-left: 0; background-position: 10px -45px; }
+
+.userhead .tab-title-list { position: absolute; width: 100%; bottom: 0; font-size: 0; font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif; text-align: center; }
+.userhead .tab-title-list .cur { background: url(../images/img29.png) no-repeat center bottom; -webkit-background-size: 20px 10px; -o-background-size: 20px 10px; background-size: 20px 10px; }
+.userhead .tab-title { width: 32%; display: inline-block; font-size: 16px; line-height: 40px; color: white; }
+.userhead .link { display: block; width: 100%; height: 100%; font-size: 16px; }
+
+.friend-view { background: white; margin: 3% 0; border: 1px solid #dedede; }
+.friend-view .tab-title-list { text-align: center; border-bottom: 1px solid #EDEDED; }
+.friend-view .tab-title { width: 49%; display: inline-block; font-size: 16px; line-height: 50px; height: 50px; color: #484848; }
+.friend-view .tab-title.cur .link { color: #72C2E5; border-bottom: 3px solid; }
+.friend-view .link { display: inline-block; height: 47px; padding: 0 5px 0 12px; font-size: 16px; }
+.friend-view .friend-list { padding: 0 10px; position: relative; }
+.friend-view .friend-item { white-space: nowrap; position: relative; padding: 15px 5px; border-bottom: 1px solid #DDDDDD; }
+.friend-view .avatar { display: inline-block; vertical-align: top; width: 2.5rem; height: 2.5rem; margin: 0 1rem; border-radius: 50%; overflow: hidden; font-size: 0; }
+.friend-view .avatar img { max-width: 2.5rem; max-height: 2.5rem; }
+.friend-view .user-box { display: inline-block; vertical-align: top; }
+.friend-view .toolbox { position: absolute; top: 15px; right: 15px; }
+.friend-view .btn-msg { display: none; }
+.friend-view .btn-follow, .friend-view .btn-followed { width: 2rem; height: 2rem; padding: 0; background: no-repeat center; background-size: contain; }
+.friend-view .btn-follow { background-image: url("../images/icon-unfollow.png"); }
+.friend-view .btn-followed { background-image: url("../images/icon-followed.png"); }

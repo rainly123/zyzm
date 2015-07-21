@@ -1,0 +1,89 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;账户管理&nbsp;&gt;&nbsp;账户信息 
+	</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<h2>账户信息</h2>
+			<div>
+				<table class="table table-bordered">
+				<tr>
+					<td >
+						<h3>账户状态：
+							<empty name="account"> 
+								<a href="{:U('account/createaccount')}">开户</a>
+							<else/> 
+								已开通
+								<a class="btn" href="{:U('MCenter/withdraws')}">提现</a>
+								<a class="btn" href="{:U('MCenter/recharge')}">充值</a>
+							</empty>
+						</h3>
+					</td>
+				</tr>
+					<tr>
+						<td width="33%">
+							<div class="project-fund-bottom"><h3>总金额</h3></div>
+							<div class="project-fund-top"><h2>{$account.amount|round=2} 元</h2></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h3>可用余额</h3></div>
+							<div class="project-fund-top"><h2>{$account.cash_amount|round=2} 元</h2></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h3>冻结金额</h3></div>
+							<div class="project-fund-top"><h2>{$account.freeze_cash_amount|round=2} 元</h2></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>		
+	</div>
+	</div>
+	</div>
+</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('MCenter/account')}');
+	$(function(){
+			$("#form-refuse").submit(function() {
+				var self = $(this);
+				$.post(self.attr("action"), self.serialize(), success, "json");
+				return false;
+			});
+			
+			$("a[name='btn-refuse']").click(function() {
+				//$(".refuse").hide();
+				$(this).hide();
+				$(this).next('.refuse').show();
+			});
+			
+			$("button[name='btn-cannel']").click(function() {
+				$(this).parents('.refuse').hide();
+				$(this).parents('.refuse').prev().show();
+				return false;
+			});;
+	      
+	});
+	</script>
+</block>

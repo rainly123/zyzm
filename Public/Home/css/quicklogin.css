@@ -1,0 +1,30 @@
+.quicklogin { font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; font-size: 14px; width: 320px; margin: 50px 65px; overflow: hidden; display: none; }
+.quicklogin .input-text { display: block; box-sizing: border-box; width: 100%; border: 1px solid #dcdcdc; border-radius: 4px; font-size: 14px; padding: 0.6em 0.5em 0.6em 3em; margin: 0.5em 0; }
+.quicklogin .input-text.disabled { background-color: #eee !important; }
+.quicklogin .username { background: url(../images/img19.png) no-repeat 10px center; }
+.quicklogin .password { background: url(../images/img20.png) no-repeat 10px center; }
+.quicklogin .btn { background: #72C2E5; color: #fff; border: none; text-align: center; cursor: pointer; border-radius: 4px; line-height: normal; font-family: inherit; font-size: inherit; }
+.quicklogin .btn.disabled { background: #ccc; }
+.quicklogin a { color: #72C2E5; text-decoration: none; }
+.quicklogin .header { width: 1000em; border-bottom: 1px solid #dcdcdc; white-space: nowrap; }
+.quicklogin .header .tab-title { float: left; position: relative; margin: 0 1.2em; padding: 0.2em 0.4em; font-size: 20px; color: #72C2E5; cursor: pointer; }
+.quicklogin .header .tab-title.active { border-bottom: 2px solid #72C2E5; }
+.quicklogin .header .tab-title.reg { position: relative; }
+.quicklogin .header .tab-title.password { margin: 0 6em; background: none; }
+.quicklogin .step-box { width: 999em; }
+.quicklogin .step { float: left; position: relative; left: 0; padding: 1em 0; width: 320px; vertical-align: top; -webkit-transition: left 0.3s; transition: left 0.3s; }
+.quicklogin .message { padding: 0.6em 1em; border-radius: 4px; }
+.quicklogin .message.error { color: #911; background-color: #fcdede; border: 1px solid #d2b2b2; }
+.quicklogin .message.success { color: #390; background-color: #F0F7EC; border: 1px solid #D1E8C5; }
+.quicklogin .login-box .options-box label { color: #72C2E5; }
+.quicklogin .login-box .options-box .link-forget { float: right; }
+.quicklogin .login-box .btn-login { display: block; width: 100%; line-height: 2.5; margin-top: 1em; font-size: 16px; }
+.quicklogin .login-box .link-register-box { text-align: center; }
+.quicklogin .social-login-box { margin: 1em 0; }
+.quicklogin .btn-wx-login { height: 40px; text-align: center; color: #666; padding-left: 2em; background: url("../images/wechat_icon2.png") left no-repeat; }
+.quicklogin .reg-box .username { background: url(../images/img22.png) no-repeat 10px center; }
+.quicklogin .reg-box .sms.hidden { display: none; }
+.quicklogin .reg-box .input-sms { width: 14em; float: left; background: url(../images/img21.png) no-repeat 10px center; }
+.quicklogin .reg-box .btn-send-sms { width: 8em; text-align: center; float: right; border-radius: 4px; padding: 0.6em 1em; margin: 0.5em 0; }
+.quicklogin .reg-box .btn-next { display: block; width: 100%; line-height: 2.5; margin-top: 1em; font-size: 16px; }
+.quicklogin .change-password-box .btn-finish { display: block; width: 100%; line-height: 2.5; margin-top: 1em; font-size: 16px; }

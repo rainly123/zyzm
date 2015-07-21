@@ -1,0 +1,74 @@
+<extend name="Base/common"/>
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__M_CSS__/login.css" />
+</block>
+<block name="body">
+<section id="user_main">
+  <div class="user_ad">
+    <div class="user_recharge">
+      <h1>当前余额：<b>{$use_able}元</b></h1>
+    </div>
+  </div>
+  <div class="user_ad">
+    <div class="user_recharge">
+      <h1>支付金额：<b>{$pay_amount}元</b></h1>
+    </div>
+  </div>
+  <if condition="$use_able lt $pay_amount">
+    <div class="user_recharge">
+      <h1 style="color:red">您账户的余额不足，请先充值。</h1>
+    </div>
+  </if>
+  <div class="recharge_qd1">
+  <if condition="$use_able lt $pay_amount">
+  <input href="{:U('Account/recharge?type='.$type.'&id='.$id)}" id="recharge" type="button"  class="recharge_qd" value="充&nbsp;&nbsp;值">
+  <else />
+  <input  href="{:U('pay?type='.$type.'&id='.$id)}" type="button" class="recharge_qd" id="btn-pay" value="支&nbsp;&nbsp;付">
+  </if>
+  </div>
+</section>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/layer/layer.min.js"></script>
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+// 弹窗控制
+$(document).ready(function(){
+  $("#recharge").click(function() {
+    window.location.href = $(this).attr('href');
+  });
+  
+  $("#btn-pay").click(function() {
+    var _this = $(this);
+    $.post(_this.attr('href'), function(data) {
+      if (data.status == 1) {
+        alert(data.info);
+        window.location.href=data.url;
+      } else {
+        alert(data.info);
+      }
+    });
+    return false;
+  });
+});
+</script>
+</block>
+
+<div class="fl w100 mt25 order">
+  <div class="content border1">
+    <div class="con">
+      <div class="p1 clearfix">
+          <p class="le pay-cash">账户金额：<b>{$use_able}</b>元</p>
+      </div>
+      <div class="p2">
+          <p class="pay-cash" style="margin-top:20px">支付金额：<b>{$pay_amount}</b>元</p>
+      </div>
+      <hr style="margin-top:30px">
+      <div class="btn-list">
+        <a href="{:U('Account/recharge')}" id="recharge" data-w="500px" data-h="300px" class="poplight btn_gray"><span>充值</span></a>
+          <a href="{:U('pay?type='.$type.'&id='.$id)}" class="btn_red2" id="btn-pay"><span>立即支付</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dialog" style="display:none"></div>

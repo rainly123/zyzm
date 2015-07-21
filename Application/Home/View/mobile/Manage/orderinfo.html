@@ -1,0 +1,65 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/usercenter.css" />
+</block>
+<block name="submenu">
+<ul>
+    <li><a href="{:U('MCenter/pr_support')}">支持的项目</a></li>
+    <li class="cur"><a href="{:U('MCenter/pr_create')}">发起的项目</a></li>
+    <li><a href="{:U('MCenter/pr_attach')}">收藏的项目</a></li>
+</ul>
+<span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+	<div class="userright2 ri">
+	<div class="fl w100 mt25 order">
+		<div class="content border1">
+		<header class="cl"><b>项目名称：{$product.name}</b></header>
+        <article class="order_1">
+        	<h3>确认订单信息</h3>
+            	<div class="infos cl">
+                	<dl><dt>订单号：</dt><dd>{$customer.id}</dd></dl>
+                	<dl><dt>联系人：</dt><dd>{$customeraddress.name}</dd></dl>
+					<dl><dt>联系方式：</dt><dd>{$customeraddress.phone}</dd></dl>
+					<dl><dt>备注：</dt><dd>{$customer.remarks}</dd></dl>
+					<dl class="add">
+						<dt>收货人：</dt><dd>{$customeraddress.name}</dd>
+						<dt>收货地址：</dt><dd>{:getDistrict($customeraddress['province'])}{:getDistrict($customeraddress['city'])}{$customeraddress.address}</dd>
+					</dl>
+                </div>
+                <table>
+				  <tr>
+				    <th>发起人</th>
+				    <th>回报内容</th>
+				    <th>购买数量</th>
+				    <th>支持金额</th>
+				    <th>配送费用</th>
+				  </tr>
+				  <tr>
+				    <td>{$product.create_id|get_membername}</td>
+				    <td style="width:455px;">{$productprice.content}</td>
+				    <td style="color:#f25c4b;">1</td>
+				    <td style="color:#f25c4b;">￥{$productprice.amount}</td>
+				    <td>￥{$productprice.post_amount}</td>
+				  </tr>
+				</table>
+            <div class="yf">应付金额<span>￥{$productprice['amount']+$productprice['post_amount']}</span></div>
+            <div class="goto mt15">
+	            <if condition="$customer['status'] eq '0'">
+	            	<a href="{:U('productOrder/pay?customId='.$customer['id'])}" class="btn_red2">去支付</a>　
+	            </if>
+            	<a href="javascript:history.back(-1);" class="btn_gray">返回</a>
+            </div>
+        </article>
+  		</div>
+  		</div>
+
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+  // 指定左侧选中菜单
+  var submenu = "{:U('MCenter/pr_support')}";
+</script>
+</block>

@@ -1,0 +1,124 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<a href="javascript:history.go(-1);" style="display:block;"><<  回到订单管理</a>
+		<h2>订单: {$recordCustom.id}</h2>
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+			<table class="">
+			    <thead>
+			        <tr>
+					<th class="">编号</th>
+			        <th class="">购买数量</th>
+			        <th class="">购买者</th>
+			        <th class="">总金额</th>
+			        <th class="">邮费</th>
+
+					<th class="">创建时间</th>
+					<th class="">状态</th>
+
+					</tr>
+			    </thead>
+			    <tbody>
+					<tr>
+						<td>{$recordCustom.id} </td>
+
+						<td>{$recordCustom.count}</td>
+			            <td>{$recordCustom.uid|get_membername}</td>
+						<td>{$recordCustom.amount}</td>
+						<td>{$recordCustom.post_amount}</td>
+						<td>{$recordCustom.create_time|time_format}</td>
+						<td>
+							<if condition="$recordCustom.status_text eq 0">
+					            购买成功
+				            <elseif condition="$recordCustom.status_text eq 1"/>
+				            	支付成功
+				            <elseif condition="$recordCustom.status_text eq -1"/>
+					            撤销
+				            <elseif condition="$recordCustom.status_text eq 2"/>
+					            没有购买名额了
+				            </if>
+
+						</td>
+
+					</tr>
+				</tbody>
+		    </table>
+        </div>
+
+        <hr />
+        <h2>地址信息</h2>
+        <div class="data-table table-striped">
+			<table class="">
+			    <thead>
+			        <tr>
+					<th class="">姓名</th>
+			        <th class="">手机号</th>
+			        <th class="">地址</th>
+			        <th class="">邮编</th>
+					<th class="">创建时间</th>
+					</tr>
+			    </thead>
+			    <tbody>
+					<tr>
+						<td>{$recordCustomAddress.name} </td>
+						<td>{$recordCustomAddress.phone}</td>
+						<td> {$recordCustomAddress.province|getProvinceCity=$recordCustomAddress['city']} {$recordCustomAddress.address}</td>
+			            <td>{$recordCustomAddress.postno}</td>
+						<td>{$recordCustomAddress.create_time|time_format}</td>
+					</tr>
+				</tbody>
+		    </table>
+        </div>
+
+        <hr />
+
+       <h2>项目信息</h2>
+        <div class="data-table table-striped">
+			<table class="">
+			    <thead>
+			        <tr>
+					<th class="">项目序号</th>
+					<th class="">项目名称</th>
+			        <th class="">回报内容</th>
+			        <th class="">限定数量</th>
+			        <th class="">已卖出数量</th>
+					<th class="">回报类型</th>
+					</tr>
+			    </thead>
+			    <tbody>
+					<tr>
+						<td>{$recordProduct.id} </td>
+						<td>{$recordProduct.name} </td>
+						<td>{$recordProductPrice.content}</td>
+						<td>{$recordProductPrice.count}</td>
+						<td>{$recordProductPrice.sell_count}</td>
+			            <td>
+			            <if condition="$recordProductPrice.price_type eq 1">
+				            虚拟物品
+			            <else/>
+			            	实物回报
+			            </if>
+			            </td>
+
+					</tr>
+				</tbody>
+		    </table>
+        </div>
+
+
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+    $(function(){
+		highlight_subnav('{:U('Product/custom')}');
+	})
+	</script>
+</block>

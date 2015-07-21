@@ -1,0 +1,70 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__M_CSS__/index.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<div class="user_mypurse">
+    <dl>
+      <dd>
+          <h1>已买入</h1>
+            <h2>￥{$data.sumfund|default=0}</h2>
+        </dd>
+        <dd>
+          <h1>已赚取</h1>
+            <h2 <if condition="$data.sumover gt 0"> style="color:#f35d5d;" <else/>  style="color:#72c2e5;" </if>>￥{$data.sumover|default=0}</h2>
+        </dd>
+      
+    </dl>
+  	<dl>
+        <dd>
+          <h1>排队中</h1>
+            <h2 <if condition="$data.sumover gt 0"> style="color:#f35d5d;" <else/>  style="color:#72c2e5;" </if>>￥{$data.sumwaiting|default=0}</h2>
+        </dd>
+      
+    </dl>
+</div>
+
+<section id="news_nav">
+  <a class="physical_nav1">我的基金</a>
+</section>
+<section id="physical_main">
+  <div class="list_cp1">
+	<foreach name="stockinfo" item="vo">
+		<div class="item selected">
+                <div class="list_zu">
+					<div class="physical_kuang">
+						<div class="list_zu1"> 
+							<a href="{:U('Stock/index?id='.$vo['sid'])}">
+								<img width="100%" height="100%" src="{$vo.logo|get_cover='path'}">
+							</a>
+						</div>
+					
+						<div class="list_zu2">
+							<ul>
+								<li><h3>{$vo.name}</h3></li>
+								<li><b>投入金额：¥{:round($vo['fund'])}</b><h2>份额：{$vo.operation_fund}</h2></li>
+								<li><b>排队金额：¥{:round($vo['waiting_fund'])}</b><h2 <if condition="$vo.over gt 0"> style="color:#f35d5d;" <else/>  style="color:#72c2e5;" </if>>收益：¥{$vo.over}</h2></li>
+							</ul>
+						</div>
+					</div>
+					<div class="physical_rtje">
+						<dd style="color:#72c2e5;">单位净值:{$vo.assets}</dd>
+						<p><eq name="$vo.status" value="1"><a href="{:U('Stock/index?id='.$vo['sid'])}">去投资</a>
+						<a href="{:U('MCenter/stocklist?id='.$vo['sid'])}">投资记录</a>
+						</p>
+					</div>
+				</div>
+			</div>
+	
+	</foreach>
+  
+            <!--item-->
+	</div>
+<!--   <div class="list_gd">
+    <a href="#">查看更多（每次加载5条显示）</a>
+  </div> -->
+</section>
+</block>
+<block name="script">
+</block>

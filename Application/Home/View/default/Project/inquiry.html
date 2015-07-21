@@ -1,0 +1,123 @@
+<div style="width:800px">
+	<h3 style="padding:20px 10px 10px; background-color:#fafafa;border-bottom:1px solid #eee">{$project.project_name}</h3>
+	<div style="font-size:13px; padding:0 20px;">
+		<p style="border-bottom:1px solid #eee; padding:10px 0">如果您对<b style="font-size:16px;padding: 0 5px">{$project.project_name}</b>项目有投资意向，但认为项目方提供的项目估值不合适（偏高或偏低）。您可在下面 “你的估值”里输入您认可的项目估值，并填写相应的认投金额，上述询价认投信息正确填写完毕后，点击“确认提交”，您对项目的询价认投信息将递交给项目方。项目方将根据您的询价认投信息做出是否“接受入库”的决定。</p>
+		<p><b>特别提示：</b>您的估值报价很重要，如果您的报价过低可能会被项目方拒绝接受；如果您的报价过高可能会影响到整个项目的最终估值，从而降低您获得的项目股权比例。在您“询价认投”前，请详阅<a href="{:U('Info/show?key=invest')}" target="_blank" title="聚募询价认投规则"><b>《聚募询价认投规则》</b></a></p>
+	</div>
+	<table style="width:100%; height:80px;background-color:#fafafa;text-align:center">
+		<tr>
+			<td style="font-size:24px;width:25%">融资信息</td>
+			<td style="width:25%"><div style="border-right:1px solid #eee;color:#999;font-size:12px">
+				融资金额<div style="font-size:24px;color:#f37462">￥{$project.need_fund|number_format}</div>
+			</div></td>
+			<td style="width:25%"><div style="border-right:1px solid #eee;color:#999;font-size:12px">
+				出让比例<div style="font-size:24px;color:#f37462">{$project.rate_fund|number_format=2} %</div></div>
+			</div></td>
+			<td style="width:25%"><div style="color:#999;font-size:12px">
+				项目方估值<div style="font-size:24px;color:#f37462">￥{$project.project_valuation|number_format}</div>
+			</div></td>
+		</tr>
+	</table>
+	<div style="font-size:13px; padding:0 20px;">
+		<p style="font-size:18px"><b>请在下面的方框内输入您认可的项目估值及认投金额：</b></p>
+		<input type="hidden" id="follow_fund" value="{$project.follow_fund}">
+		<input type="hidden" id="need_fund" value="{$project.need_fund}">
+		<form action="{:U('project/inquiry')}" id="form-inquiry" method="post" class="form-horizontal">
+			<input type="hidden" name="id" value="{$project.id}">
+			<div class="control-group">
+				<label class="control-label">您的估值</label>
+				<div class="controls">
+					<div class="input-prepend">
+						<span class="add-on">￥</span>
+						<input type="number" name="project_valuation" value="{$project.project_valuation|round=2}" id="project_valuation">
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">您的认投金额</label>
+				<div class="controls">
+					<div class="input-prepend">
+						<span class="add-on">￥</span>
+						<input type="number" name="fund" value="{$project.follow_fund|round=2}" id="fund">
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">除资金外，您还可以为项目提供的帮助</label>
+				<div class="controls">
+					<textarea name="others" id="others" maxlength="100" style="width:50%" rows="3"></textarea>
+				</div>
+			</div>
+		<p>如果您的估值成为了项目最终估值并且您的认投金额也最终被全额接受，您会获得的项目股权比例为：<span style="color:#f37462; font-size:16px"><b id="rate">{$project.rate|round=2}%</b></span></p>
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn-middle btn-red" id="inquiry-confirm">确认提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+$('input[type="number"]').keyup(function() {
+	this.value=this.value.replace(/\D/g,'');
+	var need_fund = $("#need_fund").val();
+	var follow_fund = $("#follow_fund").val();
+	var valuation = parseFloat($("input[name='project_valuation']").val());
+	var fund = parseFloat($("input[name='fund']").val());
+	var _this = $(this);
+	if (_this.attr('name')=="project_valuation") {
+		if (!valuation || valuation < need_fund) {
+			_this.parents('.control-group').addClass('error');
+		} else {
+			_this.parents('.control-group').removeClass('error');
+		}
+	} else if ($(this).attr('name')=="fund") {
+		if (!fund || fund < follow_fund) {
+			_this.parents('.control-group').addClass('error');
+		} else if (!fund || fund > need_fund) {
+			_this.parents('.control-group').addClass('error');
+		} else {
+			_this.parents('.control-group').removeClass('error');
+		}
+	}
+	var error = $(".control-group.error").length;
+	if (error > 0){
+		$("form #rate").html("-");
+	} else {
+		var rate = (Math.round(fund * 100 * 100 / valuation) / 100) + '%';
+		$("form #rate").html(rate);
+	}
+});
+$("#inquiry-confirm").click(function() {
+	var form = $(this).parents('form');
+	var error = $(form).find(".control-group.error").length;
+	if (error > 0){
+		return false;
+	}
+	$.post(form.attr('action'),form.serialize(), function(data) {
+		if (data.status == 1) {
+			$.colorbox.close();
+			$.messageBox({
+              msginfo:data.info
+            });
+		} else {
+			$.colorbox.close();
+			$.messageBox({
+              msginfo:data.info
+            });
+		}
+	}, 'json');
+
+	return false;
+});
+
+$('input[name="project_valuation"]').popover({
+	placement:'right', trigger: 'focus',
+	content:'填写您认可的新的估值，可以低于项目方初始估值，也可以高于项目方初始估值，但不能低于目标融资额({$project.need_fund|round=2})'});
+$('input[name="fund"]').popover({
+	placement:'right', trigger: 'focus',
+	content:"填写您的投资金额，但不能低于最低投资额({$project.follow_fund|round=2}), 或高于融资金额({$project.need_fund|round=2})"});
+$('textarea[name="others"]').popover({
+	placement:'right', trigger: 'focus',
+	content:"如市场渠道＼行业资源＼品牌推广＼运营经验＼财务法务等的支持.项目方有选择投资人的权利,同等情况下能够提供资金外其他资源的投资人认投成功的概率高"});
+</script>

@@ -1,0 +1,62 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/header.css" rel="stylesheet" type="text/css">
+</block>
+
+<block name="body">
+<div class="agreement">
+	<h1><font>{$project_name}</font>{$data.title}</h1>
+	<div class="agreement_txt" style="position: relative;">
+		<div style="padding-bottom:40px;font-size:14px">{$data.content}</div>
+		<div style="position:absolute; left:80px; bottom:10px;width:150px">
+			<img src="{$data.seal|get_cover='path'}" alt="">
+		</div>
+	</div>
+	<empty name="review">
+	<form action="{:U('agree')}" class="form-horizontal" method="post">
+	<input type="hidden" name="iid" value="{$id}">
+	<div class="agreement_sure">
+  	<dl>
+      	<dt><input name="agree" type="checkbox" value="1"  style="width:24px; height:24px;"></dt>
+          <dd> <span>本人已认真阅读并充分理解<a class="linkOut" href="{:U('Info/show?key=agreement')}">《注册服务协议》</a>和<a class="linkOut" href="{:U('Info/show?key=shenmingshu')}">《投资风险申明书》</a>的条款与内容，本人确认具有识别及承担相关风险的能力。
+          </span></dd>
+		</dl>
+  <dl style="padding-bottom:30px">
+  	 	<input disabled type="submit" class="btn_sure btn-agree" value="确定">
+  </dl>
+  </div>
+  </form>
+  </empty>
+</div>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+$('input[name="agree"]').change(function() {
+		var count = $("input:checked").length;
+		if (count <= 0 ) {
+			$(".btn-agree").attr('disabled', 'disabled');
+		} else {
+			$(".btn-agree").removeAttr('disabled');
+		}
+	});
+	$("form").submit(function() {
+		var count = $("input:checked").length;
+		if (count <= 0) {
+			alert('您必须同意并接受投风险申明书', 1);
+			return false;
+		}
+		var form = $(this);
+		$.post(form.attr('action'), form.serialize(), function(data) {
+			if (data.status == "1") {
+				alert(data.info);
+				window.location.href = data.url;
+			} else {
+				alert(data.info);
+				window.location.href = data.url;
+			}
+		});
+		return false;
+	});
+</script>
+</block>

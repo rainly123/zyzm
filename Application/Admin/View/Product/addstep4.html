@@ -1,0 +1,32 @@
+<extend name="Public/base"/>
+
+<block name="header">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/product-common.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/addstep4.css">
+</block>
+
+
+
+<block name="body">
+	<include file="base-nav" />
+
+	<div class="content ">
+		<div class="">
+			<div class="wyl_res">
+                <i></i>
+                <p class="w_tit">您的项目已经提交  成功！</p>
+                <p>您能在个人中心-发起的项目中看到项目的审核结果。</p>
+                <p class="w_mt">
+                    <span class="goCenter"><a href="{:U('Manage/myCrowdfunding')}">去个人中心</a></span>
+                    <span class="goBack"><a href="/">返回首页</a></span>
+                </p>
+            </div>
+		</div>
+	</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__JS__/product/addstep4.js"></script>
+</block>

@@ -1,0 +1,121 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<section>
+	<div class="register_content clearfix" style="min-height:400px">
+		<div>
+	    <form class="login-form form-horizontal" method="post" action="{:U('Tea/update')}">
+	      <div class="register_title" style="width:500px;margin-left:20px">以下是与您输入姓名相关的投资信息</div>
+				<div style="margin-left:20px;font-size:14px;margin-bottom:10px">请选择与您相符合的,如果没有找到请点击<a href="{:U('addfund?name='.$name)}" id="addfund" style="font-size:18px">添加记录</a></div>
+	      <div style="padding:0 20px 30px">
+	      	<table class="tt">
+	      		<thead>
+	      			<tr>
+	      				<th>选择</th>
+	      				<th>姓名</th>
+	      				<th>手机号码</th>
+	      				<th>投资金额</th>
+	      				<th>投资时间</th>
+	      				<th>支付方式</th>
+	      				<th>地址</th>
+	      				<th>操作</th>
+	      			</tr>
+	      		</thead>
+	      		<tbody>
+	      			<volist name="lists" id="vo">
+	      			<tr>
+	      				<td><input type="checkbox" name="ids[]" value="{$vo.id}"></td>
+	      				<td>{$vo.name}</td>
+	      				<td>
+	      					<empty name="vo.phone" >
+		      					无手机号
+		      				<else />
+		      					<?php print $vo['phone']; ?>
+							</empty>
+	      				</td>
+	      				<td>{$vo.fund}<input type="hidden" name="fund" value="{$vo.fund}"></td>
+	      				<td>
+	      					<empty name="vo.pay_date" >
+		      					无时间
+		      				<else />
+		      					{$vo.pay_date}
+							</empty>
+	      				</td>
+	      				<td><if condition="$vo.type eq 1">微店
+	      				<elseif condition="$vo.type eq 2" />支付宝
+	      				<elseif condition="$vo.type eq 3" />银行转账
+	      				<elseif condition="$vo.type eq 4" />微信
+	      				</if></td>
+	      				<td>
+							<empty name="vo.remarks" >
+		      					无地址信息
+		      				<else />
+		      					<?php print $vo['remarks']; ?>
+							</empty>
+	      				</td>
+						<td>
+							<a href="{:U('updatefund?id='.$vo[id])}" class="btn btn-primary btn-mini updatefund" >修改</a>
+						</td>	      				
+	      			</tr>
+	      			</volist>
+	      			<tr>
+	      				<td colspan="3" class="text-right">总投资金额</td>
+	      				<td colspan="5" class="text-left">
+	      					<span style="font-size:14px;" id="total">0</span> 元</td>
+	      			</tr>
+	      		</tbody>
+	      	</table>
+	      </div>
+	      <input type="hidden" name="type" id="inputtype">
+	      <div class="text-center" style="font-size:16px">
+	      	<a href="{:U('Tea/update')}" class="btn btn-danger btn-large" id="unregiter">确定</a>
+	      </div>
+      </div>
+	    </form>	
+		</div>
+	</div>
+</section>
+</block>
+
+<block name="side"> </block>
+<block name="script">
+	<link rel="stylesheet" type="text/css" href="__CSS__/colorbox.css">
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<script>
+	$('#addfund').colorbox();
+	$('.updatefund').colorbox();
+	$("input[type='checkbox']").click(function() {
+		var myfund = 0;
+		$("input:checked").each(function() {
+			var fund = $(this).parents('tr').find('input[name="fund"]').val();
+			myfund += parseFloat(fund);
+		});
+		$('#total').html(myfund);
+	});
+
+var base_url;
+	$("#hasregiter, #unregiter").click(function() {
+		var fund = parseFloat($('#total').html());
+		base_url = $(this).attr('href');
+		if (fund <= 0) {
+			$.messageBox({showconfirm:false,msginfo:'请先选择与您相符的投资信息'});
+		} else {
+			var count = $('input:checked').length;
+			$.messageBox({showconfirm:true,msginfo:'您选择了<span style="font-size:18px;color:red">'+ count +'</span>条记录，总投资金额<span style="font-size:18px;color:red">' + $('#total').html() + '</span>元', 
+				confirm: function(){
+					$.post(base_url, $(".login-form").serialize(), function(data) {
+						if (data.status == "1") {
+							$.messageBox({showconfirm:false,msginfo:data.info, cancel:function(){window.location.reload();}});
+						} else {
+							$.messageBox({showconfirm:false,msginfo:data.info});
+						}
+					}, 'json');
+			}});
+		}
+		return false;
+	});
+	
+	</script>
+</block>

@@ -1,0 +1,244 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+    <style type="text/css">
+    .form-horizontal .control-label{
+    	width: 80px;
+    }
+    .form-horizontal .controls{
+    	margin-left: 100px;
+    }
+
+	input, button, select {outline: none;}
+	#date {font-size: 14px;color: #999;}
+	.modal .control-label {width: 100px;}
+	.modal .controls {margin-left: 120px;}
+	.modal .form-actions {padding-left: 120px;}
+	.modal-header {font-size: 18px; line-height: 40px;height: 40px; padding: 0px 15px; background-color: #f0f0f0;}
+	.input-append input{
+		padding: 0;
+	width: 150px;
+	margin: 0;
+	height: 30px;
+		}
+	.input-append .add-on{
+		top: 2px;
+		right: 29px;
+	}
+
+    </style>
+
+</block>
+
+<block name="body">
+	<include file="edit_header" />
+	<div class="" style="margin-top:20px;">
+		<div class=" clearfix">
+			<div class="pull-left pj-left">
+			<form action="{:U('project/editIntroduce')}" class="form-horizontal" method="post">
+				<input type="hidden" name="id" value="{$projectid}">
+				<div class="under-line">
+					<div class="com-info">
+						<div class="sub-title">项目描述</div>
+						<div class="edit-info">
+							<textarea name="description" class="span6" rows="5">{$description}</textarea>
+							{:hook('documentEditFormContent', array('name'=>'description', 'value'=>'$info["description"]'))}
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">公司未来规划</div>
+							<textarea name="plan" class="span6" rows="5">{$plan}</textarea>
+							{:hook('documentEditFormContent', array('name'=>'plan', $value=>'$info["plan"]'))}
+						<div class="edit-info">
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">目标客户</div>
+						<div class="edit-info">
+						<textarea name="custom" class="span6" rows="5">{$custom}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'custom', $value=>'$info["custom"]'))}
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">盈利模式</div>
+						<div class="edit-info">
+						<textarea name="yingli_mode" class="span6" rows="5">{$yingli_mode}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'yingli_mode', $value=>'$info["yingli_mode"]'))}
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">同业竞争</div>
+						<div class="edit-info">
+						<textarea name="jingzheng" class="span6" rows="5">{$jingzheng}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'jingzheng', $value=>'$info["jingzheng"]'))}
+						</div>
+					</div>
+					<div class="com-info">
+						<div class="sub-title">竞争优势</div>
+						<div class="edit-info">
+						<textarea name="avantages" class="span6" rows="5">{$avantages}</textarea>
+						{:hook('documentEditFormContent', array('name'=>'avantages', $value=>'$info["avantages"]'))}
+						</div>
+					</div>
+				</div>
+				<div class="under-line">
+					<div class="com-info">
+						<h3 class="sub-title">项目大事记
+							<small><a href="#" id="addEvent">添加大事记</a></small>
+						</h3>
+						<div id="happen">
+							<table class="tt">
+								<thead>
+									<tr>
+										<th style="width:150px">时间</th>
+										<th>内容</th>
+										<th width="120px">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<foreach name="event" item="v">
+									<tr><td> {$v.when|time_format='Y年m月d日'}
+										<input type="hidden" name="{$v.id}">
+										<input type="hidden" data-tag="when" value="{$v.when|time_format='Y-m-d'}" name="event[when][]">
+										</td>
+										<td class="text-left">{$v.content}
+											<input type="hidden" data-tag="content" value="{$v.content}" name="event[content][]">
+										</td>
+										<td><a href="javascript:void(0)" id="up-event" onclick="updateEvent(this);">修改</a> | 
+										<a href="javascript:void(0)" onclick="removeEvent(this);">删除</a></td>
+										</tr>
+									</foreach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div>
+				<input type="submit" class="btn btn-large btn-primary" value="提交">
+				</div>
+			</form>
+			</div>
+
+		</div>
+	</div>
+
+<!-- Modal 添加、修改大事记 Start-->
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <b id="modalTitle">提示信息</b>
+	  </div>
+	  <div class="modal-body">
+	  <div class="form-horizontal">
+	    <div class="control-group">
+	    	<label for="" class="control-label">发生时间</label>
+	    	<div class="controls">
+	    		<div class="input-append date">
+	    			<input type="text" style="width:150px" id="happen_time" readonly>
+	    			<span class="add-on"><i class="icon-calendar"></i></span>
+	    		</div>
+	    	</div>
+	    </div>
+	    <div class="control-group">
+	    	<label for="" class="control-label">大事记内容</label>
+	    	<div class="controls"><textarea class="span3" id="happen_content"></textarea></div>
+	    </div>
+    	<div class="control-group">
+    		<div class="controls">
+    			<input type="button" class="btn-red btn-small" id="happen_add" value="确定">
+	    		<input type="button" class="btn-yellow btn-small" data-dismiss="modal" aria-hidden="true" value="取消">
+    		</div>
+    	</div>
+	  </div>
+	  </div>
+	</div><!-- Modal 添加、修改大事记 end-->
+</block>
+
+
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	<link href="__STATIC__/datetimepicker/css/datetimepicker_normal.css" rel="stylesheet" type="text/css">
+	<script>
+	highlight_subnav('{:U('Project/index')}');
+
+	$('.date').datetimepicker({
+	    format: 'yyyy-mm-dd',
+	    language:"zh-CN",
+	    minView:2,
+	    pickerPosition:"bottom-left",
+	    endDate:new Date(),
+		  autoclose:true
+	  });
+
+	$("form").submit(function(){
+		var self = $(this);
+		self.serialize();
+		$.post(self.attr("action"), self.serialize(), success, "json");
+		return false;
+
+		function success(data){
+			if(data.status){
+				window.location.href = data.url;
+			} else {
+				alert(data.info);
+			}
+		}
+	});
+
+	var pnt;
+	function updateEvent(my) {
+		pnt = $(my).parents('tr');
+		$('#happen_time').val($(pnt).find("[data-tag='when']").val());
+		$('#happen_content').val($(pnt).find("[data-tag='content']").val());
+
+		$('#myModal').modal('show');
+		return false;
+	}
+
+	function removeEvent(my) {
+		$(my).parents('tr').remove();
+	}
+
+	$('#addEvent').click(function() {
+		pnt = null;
+		$('#happen_time').val('');
+		$('#happen_content').val('');
+		$('#myModal').modal('show');
+		return false;
+	});
+
+	$("#happen_add").click(function() {
+		var date = $("#happen_time").val();
+		var content = $("#happen_content").val();
+		if (date == '') {
+			alert('请输入发生日期。');
+			return ;
+		} else if (content == '') {
+			alert('内容不能为空');
+		}
+		$("#myModal").modal("hide");
+		change_date = date.replace("-", '年');
+		change_date = change_date.replace("-", '月') + "日";
+		var timeline = '<tr><td>' + change_date + '<input type="hidden" data-tag="when" value="' + 
+				date + '" name="event[when][]"></td><td class="text-left">' + content + 
+				'<input type="hidden" data-tag="content" value="' + content + '" name="event[content][]"></td>'+
+				'<td><a href="javascript:void(0)" id="up-event" onclick="updateEvent(this)">修改</a> | <a href="javascript:void(0)" onclick="removeEvent(this)">删除</a></td></tr>';
+		if (pnt != null) {
+			$(pnt).after(timeline);
+			$(pnt).remove();
+		} else {
+			$(".tt tbody").append(timeline);
+		}
+	});
+	$('#goback1').click(function() {
+		window.location.href = $(this).attr('href');
+		return false;
+	});
+	</script>
+</block>

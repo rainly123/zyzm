@@ -1,0 +1,20 @@
+<div class="clearfix">
+<ul class="tzzlist cl">
+<foreach name="lists" item="vo">
+  <li><dl>
+    <dd class="img"><a href="{:U('MCenter/profile?id='.$vo['investor_id'])}" target="_blank"><img src="{$vo.investor_id|get_memberface}"></a></dd>
+    <dd class="detail">
+      <div class="from"><a href="{:U('MCenter/profile?id='.$vo['investor_id'])}" target="_blank"><b>{$vo.investor_id|get_membername}</b></a><eq name="vo.lead_type" value="9"><small>领投人</small></eq></div>
+      <div class="d">投资金额：{$vo.fund|round=2}元</div>
+    </dd>
+    <dd class="date">跟投时间：{$vo.create_time|time_format="Y-m-d"}</dd>
+  </dl></li>
+</foreach>
+</ul>
+</div>
+<div id="pagectrl">
+	{$Pages}
+</div>
+<script>
+	pageChange();
+</script>

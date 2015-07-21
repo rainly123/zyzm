@@ -1,0 +1,148 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/validform.css" rel="stylesheet" type="text/css">
+</block>
+
+<block name="body">
+    <section id="jm_main">
+        <div class="jm_login">
+            <form method="post" action="{:U()}">
+                <ul>
+                    <li>
+                        <div class="text">
+                            <i class="mobile"></i>
+                            <input name="username" ajaxurl="{:U('validateRegister')}" type="text" placeholder="请输入用户名"
+                                   datatype="s3-15" nullmsg="请输入用户名" maxlength="16" errormsg="用户名至少3个字符，最多15个字符">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text">
+                            <i class="lock"></i>
+                            <input name="password" type="password" placeholder="请输入密码" datatype="*6-16" nullmsg="请输入密码"
+                                   errormsg="密码至少6个字符，最多16个字符">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text">
+                            <i class="lock"></i>
+                            <input name="repassword" type="password" placeholder="请再次输入密码" recheck="password"
+                                   placeholder="确认密码" autocomplete="off" datatype="*" nullmsg="请输入确认密码">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text">
+                            <i class="mobile"></i>
+                            <input id="phoneNo" name="mobile" ajaxurl="{:U('validateRegister')}" type="text"
+                                   placeholder="手机号码" datatype="s3-15" nullmsg="请输入用户名" maxlength="16"
+                                   errormsg="用户名至少3个字符，最多15个字符">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text">
+                            <i class="mail"></i>
+                            <input name="verify" type="text" placeholder="短信验证码">
+                            <input href="{:U('sendsms')}" id="cellcode_send" type="button" value="获取验证码"
+                                   class="getcode getsmscode" id="getcode">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="error-box">
+                            <span id="errormessage"></span>
+                        </div>
+                    </li>
+
+                </ul>
+                <input name="" type="submit" class="btn" value="注册">
+            </form>
+        </div>
+    </section>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("ul li input").each(function () {
+                $(this).click(function () {
+                    $(this).parent().removeClass('text').addClass('text errorAnimate');
+                    $(this).parent().parent().siblings().children().removeClass('errorAnimate');
+                })
+            });
+
+            $('form').Validform({
+                tiptype: function (msg, o, cssctl) {
+                    var objtip = $("#errormessage");
+                    o.obj.parents("div").removeClass('errorAnimate');
+                    objtip.text('');
+                    if (o.type == 3) {
+                        o.obj.parents("div").addClass('errorAnimate');
+                        objtip.text(msg);
+                    }
+                }, ajaxPost: true,
+                beforeSubmit: showWaiting,
+                callback: function (data) {
+                    if (data.status == 1) {
+                        window.location.href = data.url;
+                    }
+                }
+            });
+        });
+
+        var longtime = 0;
+        var id;
+        $("#cellcode_send").click(function () {
+            var phone = $('#phoneNo').val();
+            if (longtime > 0) {
+                return false;
+            }
+            showWaiting();
+            $.post($(this).attr('href'), {'phone': phone}, function (data) {
+                if (data.status == 1) {
+                    longtime = 120;
+                    $('#cellcode_send').val('请稍等' + longtime + '秒');
+                    // 倒计时
+                    id = setInterval(uptime, 1000);
+                } else {
+                    alert(data.info);
+                }
+            });
+            return false;
+        });
+
+        function uptime() {
+            $('#cellcode_send').val('请稍等' + longtime + '秒');
+            longtime = longtime - 1;
+            if (longtime <= 0) {
+                clearInterval(id);
+                $('#cellcode_send').val('获取验证码');
+            }
+        }
+
+        $(function () {
+            $(".login-form").Validform({
+                tiptype: 3,
+                ajaxPost: true,
+                beforeSubmit: function () {
+                    var checkbox = $('input[type="checkbox"]');
+                    if (checkbox.is(':checked')) {
+                        showWaiting();
+                        return true;
+                    } else {
+                        $(".errormsg").html('您必须阅读并同意聚募注册协议后，才可通过注册.');
+                        return false;
+                    }
+                },
+                callback: function (data) {
+                    if (data.status == '1') {
+                        alert(data.info);
+                        window.location.href = sessionStorage.getItem('loginRedirect') || data.url || '/';
+                        sessionStorage.removeItem('loginRedirect')
+                    } else {
+                        $('.errormsg').html(data.info);
+                    }
+                }
+            });
+        });
+    </script>
+</block>

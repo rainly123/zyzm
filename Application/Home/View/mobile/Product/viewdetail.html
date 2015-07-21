@@ -1,0 +1,308 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+
+    <link href="__M_CSS__/project.css" rel="stylesheet">
+    <script type="swaqQ " src="__M_JS__/jquery.easing.1.3.js"></script>
+    <div class="wrapper" style="padding-bottom:60px;">
+
+
+        <div class="dbanner">
+            <div class="digg">
+                <b class="if icon-star">{$like_record}</b>
+                <b class="if icon-eye">{$read_record}</b>
+            </div>
+
+            <div class="bg"><img src="{$mobile_img|get_cover='path'}"/></div>
+        </div>
+        <div class="detail">
+            <div class="item">
+                <div class="head">
+                    <h2>{$name}</h2>
+                </div>
+                <div class="body">
+                    {$abstract}
+                    <div class="tag">
+                        {$tags}
+                    </div>
+                    <table class="prod-data-table">
+                        <tr class="strong">
+                            <td>￥{$amount|change_fund}</td>
+                            <td>￥{$finish_amount|change_fund}</td>
+                            <td class="animateNum" data-animatetarget="">
+                                <?php
+                                    if ($days - floor((time()-$start_time)/86400) >0)
+                                        { print $days - floor((time()-$start_time)/86400) ;}
+                                    else { print 0;}
+                                ?>天
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>目标额</td>
+                            <td>已筹金额</td>
+                            <td>剩余天数</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="xiangmu">
+                <a href="{:U('Product/detailImg?pid='.$pid)}"><span class="xmjs">项目介绍</span></a>
+
+            </div>
+            <div class="peoples">
+                <ul>
+                    <li>
+                        <a href="{:U('MCenter/profile?id='.$uid)}">
+                            <div class="img">
+                                <img src="<if condition='$uid gt 0'> {$uid|get_memberface}<else/>__M_IMG__/img9.jpg </if>">
+                            </div>
+                            <h2>{$uid|get_membername}</h2>
+                            <span>发起人</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="results">
+                <div class="text">
+                    <big>{$resultSupport}</big>人参与支持
+                </div>
+
+                <div class="imgs">
+                    <notempty name="supportlist">
+                        <a href="{:U('Product/invester_list?pid='.$pid)}" class="more"></a>
+                    </notempty>
+                    <ul>
+                        <foreach name="supportlist" item="vo">
+                            <li>
+                                <a href="{:U('MCenter/profile?id='.$vo['uid'])}"><img
+                                        src="<if condition='$vo.uid gt 0'> {$vo.uid|get_memberface}<else/>__M_IMG__/img9.jpg </if>"></a>
+                            </li>
+                        </foreach>
+                    </ul>
+
+                </div>
+            </div>
+
+
+            <foreach name="resultPrice" item="vo">
+                <div class="item">
+                    <div class="head">
+                        <h2 class="hb1">￥{$vo.amount}</h2>
+                        <h3 class="hb1">
+                            <if condition="$vo[count] eq 0">
+                                <span style="color:red">{$vo.sell_count}人支持</span>(不限)
+                                <else/>
+                                <span style="color:red">{$vo.sell_count}人支持</span>(限购{$vo['count']}人)
+                            </if>
+                        </h3>
+                        <em></em>
+                    </div>
+                    <div class="body">
+                        {$vo.content|nl2br}<br>
+                        <if condition="$vo[post_amount] eq 0">
+                            包邮<br>
+                            <else/>
+                            配送费用：{$vo.post_amount}<br>
+                        </if>
+
+                        预计发放时间：项目成功结束后{$vo.afterday}天内
+                        <if condition="($status eq 9) and ($stage eq 2)">
+
+                            <if condition="$vo[count] eq 0">
+                                <a href="{:U('productOrder/info?priceId='.$vo['id'].'&customid='.$customid)}"
+                                   class="wom_zc"> 支持￥{$vo.amount}</a>
+                                <else/>
+                                <?php if(($vo['count']-$vo['sell_count']) < 1):?>
+                                <button type="button" class="wom_zc" disabled="true" style="background: #BAC0C3;">已售罄
+                                </button>
+                                <?php else:?>
+                                <a href="{:U('productOrder/info?priceId='.$vo['id'].'&customid='.$customid)}"
+                                   class="wom_zc"> 支持￥{$vo.amount}</a>
+                                <?php endif;?>
+                            </if>
+                        </if>
+                        <if condition="$vo['pid'] eq 1">
+                            <if condition="$vo['id'] eq 1">
+                                <div style="text-align: center;">
+                                    <img src="__IMG__/barcode/jn1535.png" class="header">
+                                </div>
+                                <else/>
+                                <div style="text-align: center;">
+                                    <img src="__IMG__/barcode/jn535.png" class="header">
+                                </div>
+
+                            </if>
+
+                        </if>
+                    </div>
+                </div>
+            </foreach>
+
+            <div class="item">
+                <div class="head">
+                    <h2 class="pl">项目评论</h2>
+                    <em></em></div>
+                <div class="body">
+                    <div class="comments">
+                        <ul>
+                            <foreach name="comments" item="v">
+                                <li id="comment{$v['id']}">
+                                    <div class="img">
+                                        <a href="{:U('MCenter/profile?id='. $v['comment_user'])}"><img
+                                                src="{$v['comment_user']|get_memberface}"></a>
+                                    </div>
+                                    <div class="text">
+                                        <div class="addpost">
+                                            <a class="btn-slide"
+                                               href="{:U('product/makereply',array('project_id'=>$v['project_id'],'reply_id'=>$v['id']))}">回复</a>
+                                        </div>
+                                        <h2 class="comment-user-name">{$v['comment_user']|get_membername}</h2>
+
+                                        <notempty name="v.parent">
+                                            <volist name="v.parent" id="vo">
+                                                <div class="pllist clearfix reply">
+                                                    {$vo.comment_user|get_membername}说：{$vo.content}
+                                                </div>
+                                            </volist>
+                                        </notempty>
+                                        <p>{$v.content}</p>
+                                    </div>
+                                    <div class="c-c"><input type="hidden" class="comment_id"
+                                                            value="{$v.id}"><textarea></textarea><br>
+                                        <button class="btn-c-c">回复</button>
+                                    </div>
+                                </li>
+                            </foreach>
+
+                        </ul>
+                        <notempty name="comments">
+                            <div class="more">
+                                <a href="{:U('product/morecomment/pid/'.$id)}">查看更多评论</a>
+                            </div>
+                        </notempty>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="head">
+                    <h2 class="tj">推荐项目</h2>
+                    <em></em>
+                </div>
+                <div class="body">
+                    <ul class="pros">
+                        <foreach name="recomendList['project']" item="v">
+                            <li>
+                                <a href="{:U('project/detail?id='.$v['id'])}" title="中瀛智募">
+                                    <div class="img">
+                                        <img src="{$v['cover']|get_cover='path'}" alt="{$v.project_name}股权众筹">
+                                    </div>
+                                    <h2>{$v.project_name}</h2>
+                                </a>
+                            </li>
+                        </foreach>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="footnav">
+            <div class="f">
+                <a href="{:U('product/postcomment/pid/'.$id)}">评论留言</a>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="__M_JS__/Chart.js"></script>
+    <link href="__M_CSS__/project.css" rel="stylesheet">
+    <script type="swaqQ " src="__M_JS__/jquery.easing.1.3.js"></script>
+
+    <script>
+        var projectId = location.href.match(/id\/(\d+)\.html/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        var config = {projectCommentAPI: '/product/comment/'};
+        var radarChartData = {
+            labels: ["团队", "市场", "竞争环境", "盈利能力", "创新"],
+            datasets: [
+                {
+                    fillColor: "#fff0de",
+                    strokeColor: "#fab14b",
+                    pointColor: "#fab14b",
+                    pointStrokeColor: "#fff",
+                    data: [65, 59, 90, 81, 56]
+                },
+                {
+                    fillColor: "#dcf2f0",
+                    strokeColor: "#4fbdbc",
+                    pointColor: "#4fbdbc",
+                    pointStrokeColor: "#fff",
+                    data: [28, 48, 40, 19, 46]
+                },
+                {
+                    fillColor: "#fbe3df",
+                    strokeColor: "#ed674c",
+                    pointColor: "#ed674c",
+                    pointStrokeColor: "#fff",
+                    data: [33, 33, 44, 30, 96]
+                }
+            ]
+
+        };
+
+        $('.btn-slide').click(function () {
+            location.hash = $(this).parents('.text').parent().attr('id');
+            $(this).parents('.text').next().slideToggle().find('textarea').focus();
+            return false;
+        });
+
+
+        $('.btn-c-c').click(function () {
+            var $textarea = $(this).parent().find('textarea'),
+                    commentId = $textarea.prev().val();
+
+            var data = {
+                project_id: projectId,
+                content: $textarea.val(),
+                reply_id: commentId
+            };
+            if (data.content.trim()) {
+                $.post(config.projectCommentAPI, data, function (data) {
+                    showCommentComment(data);
+                    $textarea.val('');
+                });
+            } else {
+                layer.open({
+                    content: '请输入评论内容',
+                    style: 'text-align:center; border:none;',
+                    time: 2
+                });
+                $textarea.focus();
+            }
+            return false;
+        });
+
+        function showCommentComment(data) {
+            location.reload();
+        }
+
+        /*var myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData,{scaleShowLabels : false, pointLabelFontSize : 20});*/
+
+        $('.wom_zc').click(function () {
+            sessionStorage.setItem('loginRedirect', $(this).attr('href'));
+        })
+
+    </script>
+
+</block>

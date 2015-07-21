@@ -1,0 +1,50 @@
+<div class="xmsteps" style="background:none">
+    <div class="nav-steps clearfix" >
+        <ul>
+            <li class="step1"><a href="{:U('product/addstep1?pid=' . $_GET['pid'])}">项目及发起人信息</a></li>
+            <li class="step2"><a href="{:U('product/addstep2?pid=' . $_GET['pid'])}">回报设置</a></li>
+            <li class="step3"><a href="{:U('product/addstep3?pid=' . $_GET['pid'])}">确认信息</a></li>
+
+            <li style="display:none" id="get-nav-flage" data-navflage="{$navFlage}"></li>
+        </ul>
+    </div>
+</div>
+<style type="text/css">
+    .xmsteps {
+background: #eee;
+padding: 10px 0;
+border-bottom: 1px solid #d9d9d9;
+}
+.nav-steps ul {
+position: relative;
+margin: 0px;
+font-weight: bolder;
+}
+
+.nav-steps li.finish {
+background-color: #f37463;
+color: #fff;
+}
+.nav-steps li {
+display: inline-block;
+position: relative;
+margin-right: 8px;
+line-height: 18px;
+font-size: 18px;
+list-style: none;
+padding: 12px 32px 10px 45px;
+background: #ddd;
+zoom: 1;
+color: #666;
+}
+
+
+
+</style>
+<script>
+    $(document).ready(function(){
+        var navFlage = $("#get-nav-flage").data('navflage');
+        var newNavFlage = '.'+navFlage;
+        $(newNavFlage).attr('class','finish');
+    });
+</script>

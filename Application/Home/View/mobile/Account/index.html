@@ -1,0 +1,26 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<div class="user_mypurse">
+    <dl>
+      <dd>
+          <h1>总金额</h1>
+            <h2>￥{$data.balance}</h2>
+        </dd>
+        <dd>
+          <h1>可用金额</h1>
+            <h2>￥{$data.use_able}</h2>
+        </dd>
+      
+    </dl>
+    <dl style="border:none; background:none;">
+      <dt><span><a href="{:U('Account/recharge')}">充值</a></span></dt>
+      <dt style="float:right;"><span><a href="{:U('Account/stream_list')}">明细</a></span></dt>
+    </dl>
+    <!-- <dl style="border:none; background:none;">
+      <dt><span><a href="{:U('Account/recharge')}">提现卡</a></span></dt>
+    </dl> -->
+</div>
+</block>

@@ -1,0 +1,106 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+	<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;项目管理 
+	</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<div class="con_btn">
+				<div class="nav-bar">
+					<div class="content">
+						<ul class="menu">
+							<li><a href="{:U('Manage/investlist')}">投资项目</a></li>
+							<li><a href="{:U('Manage/investinquiry')}">询价项目</a></li>
+							<li><a href="{:U('Manage/investlead')}">领投项目</a></li>
+							<li class="active">跟投项目</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 数据列表 -->
+			<div class="data-table">
+				<table class="tt">
+			    <thead>
+					<tr>
+						<th class="">序号</th>
+						<th class="">项目名称</th>
+						<th class="">项目创建人</th>
+						<th class="">我的估值</th>
+						<th class="">投资金额</th>
+						<th class="">投资时间</th>
+						<th class="">操作</th>
+					</tr>
+			    </thead>
+				  <tbody>
+						<volist name="invest" id="vo">
+						<tr>
+				      <td>{$i}</td>
+							<td><a href="{:U('Project/detail?id='.$vo['project_id'])}">{$vo.project_name}</a></td>
+							<td><a href="{:U('MCenter/profile?id='.$vo['uid'])}">{$vo.uid|get_membername}</a>
+							</td>
+							<td>{$vo.project_valuation|change_fund}元</td>
+							<td>{$vo.fund|change_fund}元</td>
+							<td><span>{$vo.create_time|time_format="Y-m-d"}</span></td>
+							<td>
+								<if condition="$vo.status eq 2">
+								<a href="{:U('Manage/cancel?id='.$vo['id'])}" class="invest_cancel">撤消</a>
+								</if>
+			        </td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="page">{$_page}</div>
+			<!-- /分页 -->
+		 </div>
+	</div>
+	</div>
+	</div>
+</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('Manage/investlist')}');
+	$(function() {
+		$(".invest_cancel").click(function() {
+			_this = $(this);
+			$.messageBox({
+				msginfo: "您真的要撤消对该项目的投资吗？再考虑一下吧！{:showface("sad")}",
+				showconfirm:true, 
+				confirm:function() {
+					$.get(_this.attr('href'), function(data) {
+						$.messageBox({
+							msginfo: data.info,
+							showconfirm:false, 
+							cancel: function() {window.location.reload();}
+						}, 'json');
+					}, 'json');
+				}
+			});
+			return false;
+		});
+	});
+
+	</script>
+</block>

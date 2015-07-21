@@ -1,0 +1,342 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <style>
+        .item {
+            background: #fff;
+            clear: both;
+            margin-top: 5px;
+            border: #dddddd solid 1px;
+            padding: 10px;
+        }
+
+        .comments li .img a img {
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .pros {
+            height: auto;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .pros li {
+            width: 50%;
+            height: auto;
+            overflow: hidden;
+            float: left;
+            display: inline;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border-bottom: #eaeaea dashed 1px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        .pros li .img1 {
+            width: 90%;
+            margin: 0 auto;
+            height: 100px;
+        }
+
+        .pros li .img1 img {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .pros li a h2 {
+            font: 14px/27px "微软雅黑";
+            overflow: hidden;
+            height: 27px;
+        }
+
+        /*comments */
+        .item .comments {
+            width: 100%;
+        }
+
+        .item .comments li {
+            padding-bottom: 25px;
+            margin-bottom: 20px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .item .comments li .img {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .item .comments li .img img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .item .comments li .text {
+            padding-right: 10px;
+        }
+
+        .item .comments li .addpost a {
+            position: absolute;
+            color: #858585;
+            right: 5px;
+            top: 10px;
+            border: #a8a8a8 solid 1px;
+            width: 60px;
+            height: 24px;
+            font-size: 14px;
+            text-align: center;
+            line-height: 24px;
+            border-radius: 4px;
+        }
+
+        .item .comments .comment-user-name {
+            width: 73%;
+        }
+
+        .item .comments li h4 {
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .item .comments li p {
+            font: bold 16px/30px "微软雅黑";
+        }
+
+        .item .comments li .reply {
+            background: #f2f2f2;
+            padding: 10px;
+            margin-top: 15px;
+            color: #333;
+            font: 14px/24px "微软雅黑";
+        }
+
+        .item .comments .more {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .item .comments .more a {
+            font: 18px/24px "微软雅黑";
+        }
+
+        .item .c-c {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            padding-right: 16px;
+        }
+
+        .item .c-c textarea {
+            width: 100%;
+            height: 5em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .item .c-c .btn-c-c {
+            color: #858585;
+            border: #a8a8a8 solid 1px;
+            width: 50px;
+            height: 24px;
+            text-align: center;
+            background: #fff;
+            border-radius: 2px;
+        }
+    </style>
+</block>
+<block name="body">
+    <script>
+        !function () {
+            var a = document.documentElement;
+            var b = a.clientWidth / 20;
+            a.style.fontSize = (b > 21 ? 21 : b) + "px"
+        }();
+    </script>
+    <link href="__M_CSS__/notice.css" rel="stylesheet">
+
+    <!--<div class="fl w100 notice_top">
+        <div class="content">
+            <ul>
+
+                <li><a href="{:U('Info/noticelist')}" class="cur">聚募众筹公告列表</a></li>
+            </ul>
+        </div>
+        <div class="navbg"></div>
+    </div>-->
+    <div class="fl w100 mt25 infomation_main">
+        <div class="content">
+            <div class="rightmain">
+                <!--<div class="title">项目公告</div>-->
+                <div class="mainintro">
+                    <div class="titleA">{$info.title}</div>
+                    <div class="titleB" style="font-size:12px;">发布时间：{$info.create_time|time_format='Y-m-d'}&nbsp;&nbsp;&nbsp;来源：{$info.info_from}&nbsp;&nbsp;&nbsp;{$info.view}次阅读</div>
+                    <p>{$info.content}</p>
+                </div>
+
+                <div class="comment">
+                    <div class="font18_hm">
+                        <span style="color:#f35d5d;">名家点评</span>
+                    </div>
+
+                    <div class="comment_mjdp">
+                        <ul>
+                            <foreach name="comments" item="vo">
+                                <li>
+                                    <div class="Avatar">
+                                        <if condition="$vo['face'] eq 0">
+                                            <img src="/Uploads/Picture/Photo/photo_default.png" class="header">
+                                            <else/>
+                                            <img src="{$vo.face|get_cover='path'}" class="header">
+                                        </if>
+                                        <div class="comment_name">{$vo.comment_by}</div>
+                                    </div>
+                                    <div class="Recent_Right"><p class="Recent_content">{$vo.content}</p></div>
+                                    <div class="clear"></div>
+                                </li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="font18_hm">
+                        <span style="color:#f35d5d;">评论留言</span>
+                        <em></em>
+                    </div>
+
+                    <div class="comments close">
+                        <ul>
+                            <foreach name="info.infocomments" item="v">
+                                <li id="comment{$v['id']}">
+                                    <div class="img">
+                                        <a href="{:U('MCenter/profile?id='. $v['comment_user'])}"><img
+                                                src="{$v['comment_user']|get_memberface}"></a>
+                                    </div>
+                                    <div class="text">
+                                        <div class="addpost">
+                                            <a class="btn-slide"
+                                               href="{:U('info/makereply',array('project_id'=>$v['project_id'],'reply_id'=>$v['id']))}">回复</a>
+                                        </div>
+                                        <h2 class="comment-user-name">{$v['comment_user']|get_membername}</h2>
+
+                                        <notempty name="v.parent">
+                                            <volist name="v.parent" id="vo">
+                                                <div class="pllist clearfix reply">
+                                                    {$vo.comment_user|get_membername}说：{$vo.content}
+                                                </div>
+                                            </volist>
+                                        </notempty>
+                                        <p>{$v.content}</p>
+                                    </div>
+                                    <div class="c-c"><input type="hidden" class="comment_id"
+                                                            value="{$v.id}"><textarea></textarea><br>
+                                        <button class="btn-c-c">回复</button>
+                                    </div>
+                                </li>
+                            </foreach>
+
+                        </ul>
+                        <notempty name="info.infocomments">
+                            <div class="more">
+                                <a href="{:U('Info/morecomment/pid/'.$info['id'])}">查看更多评论</a>
+                            </div>
+                        </notempty>
+                    </div>
+
+                </div>
+
+                <div class="item rec-proj">
+                    <div class="font18_hm">
+                        <span style="color:#f35d5d;">推荐项目</span>
+                        <em></em>
+                    </div>
+                    <div class="project close">
+                        <ul class="pros">
+                            <foreach name="recomendList['project']" item="v">
+                                <li>
+                                    <a href="{:U('project/detail?id='.$v['id'])}" title="聚募股权众筹">
+                                        <div class="img1">
+                                            <img src="{$v['cover']|get_cover='path'}" alt="{$v.project_name}股权众筹">
+                                        </div>
+                                        <h2>{$v.project_name}</h2>
+                                    </a>
+                                </li>
+                            </foreach>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footnav">
+                <div class="f">
+                    <a href="{:U('info/postcomment/pid/'.$info['id'])}">评论留言</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var projectId = location.href.match(/id\/(\d+)\.html/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        var config = {projectCommentAPI: '/info/comment/'};
+
+        $('.btn-slide').click(function () {
+            location.hash = $(this).parents('.text').parent().attr('id');
+            $(this).parents('.text').next().slideToggle().find('textarea').focus();
+            return false;
+        });
+
+        $('.btn-c-c').click(function () {
+            var $textarea = $(this).parent().find('textarea'),
+                    commentId = $textarea.prev().val();
+
+            var data = {
+                project_id: projectId,
+                content: $textarea.val(),
+                reply_id: commentId
+            };
+            if (data.content.trim()) {
+                $.post(config.projectCommentAPI, data, function (data) {
+                    showCommentComment(data);
+                    $textarea.val('');
+                });
+            } else {
+                layer.open({
+                    content: '请输入评论内容',
+                    style: 'text-align:center; border:none;',
+                    time: 2
+                });
+                $textarea.focus();
+            }
+            return false;
+        });
+
+        function showCommentComment(data) {
+            location.reload();
+        }
+
+        /*详情页展开*/
+        $('.font18_hm em').click(function () {
+            bd = $(this).parent().parent().find('.close');
+            if (bd.is(':visible')) {
+                bd.slideUp();
+                bd.parent().addClass('closed');
+            }
+            else {
+                bd.slideDown();
+                bd.parent().removeClass('closed');
+            }
+        });
+    </script>
+</block>
+
+
+
+

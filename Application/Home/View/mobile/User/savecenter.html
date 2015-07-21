@@ -1,0 +1,59 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<section id="user_main">
+  <div class="user_ad">
+    <div class="user_di">
+      <ul>
+        <li>低</li>
+        <li>中</li>
+        <li>高</li>
+      </ul>
+    </div>
+    <div class="progress_container"><div class="progress_bar tip" title="100%"></div></div>
+  </div>
+  <div class="user_ad">
+    <div class="user_phone">
+    <empty name="phone">
+      <h1>绑定手机：未绑定</h1>
+      <p><a href="{:U('changephone')}">绑定</a></p>
+    <else />
+      <h1>绑定手机：{$phone}</h1>
+      <p><a href="{:U('changephone')}">修改</a></p>
+    </empty>
+      
+    </div>
+  </div>
+  <div class="user_ad">
+    <div class="user_phone">
+      <h1>登录密码：单向加密</h1>
+      <p><a href="{:U('changepwd')}">修改</a></p>
+    </div>
+  </div>
+  <div class="user_ad">
+    <div class="user_phone">
+    <empty name="userauth">
+      <h1>实名认证：未认证</h1>
+      <!-- 已认证不可修改，未认证点击认证 -->
+      <p><a href="{:U('realname')}">立即验证</a></p>
+    <else />
+      <h1>实名认证：已认证</h1>
+      <!-- 已认证不可修改，未认证点击认证 -->
+      <p><a href="{:U('realname')}">查看</a></p>
+    </empty>
+    </div>
+  </div>
+</section>
+</block>
+<block name="script">
+<script type="text/javascript" src="__M_JS__/jquery.tips.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var percent = $('.progress_bar').attr('title');
+  $(".progress_bar").animate({width:percent},1000);
+  $(".tip").tipsy({gravity:'s',fade:true});
+});
+</script>
+</block>

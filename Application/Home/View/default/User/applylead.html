@@ -1,0 +1,98 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/validform.css" />
+</block>
+<block name="submenu">
+    <ul>
+        <li><a href="{:U('User/detail')}">个人资料</a></li>
+        <!-- <li><a href="{:U('User/profile')}">修改密码</a></li> -->
+        <li class="cur"><a href="{:U('User/applylead')}">申请领投</a></li>
+        <li><a href="{:U('User/addrlist')}">配送地址</a></li>
+        <li><a href="{:U('User/savecenter')}">安全中心</a></li>
+    </ul>
+</block>
+<block name="detail">
+    <div class="userright ri">
+      <form action="{:U()}" method="POST" class="form">
+        <ul class="list">
+            <li>
+                <h4>申请领投人</h4>
+                <if condition="empty($userauth)">
+                <elseif condition="$userauth.status eq 0"/>
+                  <small>申请已提交， 请等待审核。</small>
+                <elseif condition="$userauth.status eq 1" />
+                  <small>申请被拒绝(<span>{$describe}</span>)。</small>
+                </if>
+                <div class="border1 f14">“领投人机制”是将每一个众筹项目的投资人划分为一个领投人与若干个跟投人，项目领投人是由具备领投资格的投资人提出申请，并由投资人共同选举产生。项目领投人代表全体投资人承担项目的管理职责，包括不限于项目尽职调查、投资条款谈判、签订投资协议、投后管理等事宜，项目领投人在履行上述管理事宜后，可按照协议获得项目超额收益分成。</div>
+            </li>
+            <li>
+              <h4>请选择领投行业</h4>
+                <div class="hy">
+                <foreach name="industry" item="v">
+                <label class="checkbox inline">
+                  <input datatype="max3" nullmsg="请选择领投行业" type="checkbox" name="focus[]" value="{$v.id}" <in name="v.id" value="$userdetail['focus']">checked="checked"</in>>{$v.name}</label>
+                </foreach>
+                </div>
+            </li>
+            <li>
+                <h4>个人简介</h4>
+                <div><textarea name="resume" class="border1" style="width:735px; resize:none; height:150px; font-size:14px">{$userdetail.resume}</textarea></div>
+                <p style="width:500px; color:#999;">要求写明个人求学、工作、创业、投资简历。请具体到起止年月、学校专业学历、公司名称部门职务、投资过企业名称等等，便于我们做真实性背景调查，否则将不予以受理。</p>
+            </li>
+            <li><div id="errormessage"></div></li>
+            <li><input name="" type="submit" value="保存更新" class="c2">
+            </li>
+        </ul>
+      </form>
+
+    </div>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+$("#aaa").on('click',function(event) {
+  layer.alert('处理成功！', 1 , 
+  function(){window.location.reload();});
+});
+  $(function() {
+    $(".form").Validform({
+      datatype:{"max3":function(gets,obj,curform,regxp){
+        var atmax=3,
+          numselected=curform.find("input[name='"+obj.attr("name")+"']:checked").length;
+          
+        if(numselected==0){
+          return false;
+        }else if(numselected>atmax){
+          return "最多只能选择"+atmax+"项！";
+        }
+        return  true;
+      }},
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text("");
+      if (o.type == 3) {
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+        objtip.show();
+      } else {
+        objtip.hide();
+      }
+    }, ajaxPost: true,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 9, function(){window.location.reload();});
+      } else {
+        var index = layer.alert(data.info, 8, function() {
+          if (data.url != '') {
+            window.location.href=data.url;
+          } else {
+            layer.close(index);
+          }
+        });
+      }
+    }
+  });
+});
+</script>
+</block>

@@ -1,0 +1,59 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/validform.css" />
+</block>
+<block name="submenu">
+    <ul>
+        <li><a href="{:U('User/detail')}">个人资料</a></li>
+        <li><a href="{:U('User/applylead')}">申请领投</a></li>
+        <li><a href="{:U('User/addrlist')}">配送地址</a></li>
+        <li class="cur"><a href="{:U('User/savecenter')}">安全中心</a></li>
+    </ul>
+</block>
+<block name="detail">
+  <div class="userright ri">
+    <if condition="$userauth.status neq 9">
+      <div class="savestep_y mt20">
+        安全等级：<div class="savestep_detail"><i style="width:66%;"></i><div class="bg"></div></div><b>中</b>
+      </div>
+      <else />
+      <div class="savestep_g mt20">
+        安全等级：<div class="savestep_detail"><i style="width:100%;"></i><div class="bg"></div></div><b>高</b>
+      </div>
+    </if>
+      <div class="savestep2 cl">
+        <dl>
+            <dd>
+                <div><img src="__IMG__/safety_09.jpg" class="c1"><b>实名认证</b><br>
+                <if condition="$userauth.status eq 9"><img src="__IMG__/safety_12.jpg" class="c2"> 已认证 <else /><img src="__IMG__/safety_12.jpg" class="c2"> 未认证 </if><a href="{:U('User/realname')}" id="popup1" data-w="500px" data-h="300px" class="poplight"><if condition="$userauth.status eq 9"> 查看 <else /> 马上认证 </if></a></div>
+                  <div class="tips">认证成功后可进行股权项目投资</div>
+              </dd>
+              <dd>
+                <div><img src="__IMG__/safety_06.jpg" class="c1"><b>登录密码</b><br><img src="__IMG__/safety_12.jpg" class="c2"> 已保障 <a href="{:U('User/changepwd')}" id="popup2" data-w="500px" data-h="340px" class="poplight">修改密码</a></div>
+                  <div class="tips">您已享受会员  保障服务</div>
+              </dd>
+              <dd class="last">
+                <div><img src="__IMG__/safety_03.jpg" class="c1"><b>手机 <font style="color:#a2a2a2"><notempty name="phone">({$phone})</font></b><br><img src="__IMG__/safety_12.jpg" class="c2"> 已绑定 <a href="{:U('User/changephone')}" data-w="500px" data-h="340px" id="popup5" class="poplight">更换手机号码</a><else /><a href="{:U('User/changephone')}" data-w="500px" data-h="340px" id="popup5" class="poplight">绑定手机</a></notempty></div>
+                  <div class="tips">您可享有手机相关服务</div>
+              </dd>
+          </dl>
+      </div>
+  </div>
+<div id="dialog" style="display:none"></div>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+$(function() {
+  $(".poplight").click(function() {
+    var _this = $(this);
+    $("#dialog").load($(this).attr('href'), function() {
+      $.layer({type:1, title:false,area : [_this.attr('data-w'),_this.attr('data-h')], page:{dom:"#dialog"}, fadeIn:300});
+    });
+    return false;
+  });
+});
+</script>
+
+</block>

@@ -1,0 +1,114 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__CSS__/validform.css" rel="stylesheet" type="text/css">
+</block>
+
+<block name="body">
+
+<section id="jm_main">
+  <div class="jm_login">
+  <form method="post" class="form" action="{:U()}">
+    <ul>
+      <li>
+          <div class="text">
+              <i class="user"></i>
+                <input type="text" name="mobile" id="phoneNo" datatype="n11-11" nullmsg="请输入手机号码" maxlength="11" errormsg="手机号码必须为11位数字" placeholder="请输入手机号">
+            </div>
+        </li>
+      <li>
+          <div class="text">
+              <i class="mail"></i>
+                <input name="code" placeholder="验证码" datatype="n" nullmsg="请输入验证码" maxlength="6" type="text" placeholder="短信验证码" >
+                <input href="{:U('sendsms')}" type="button" value="获取验证码" class="getcode" id="cellcode_send">
+            </div>
+        </li>
+      <li>
+          <div class="text">
+              <i class="lock"></i>
+                <input name="password" type="password" placeholder="请输入新密码" datatype="*6-16" nullmsg="请输入新密码" errormsg="新密码至少6个字符，最多16个字符">
+            </div>
+        </li>
+        <li>
+          <div class="error-box"><span id="errormessage"></span></div>
+        </li>
+    </ul>
+    <input name="" type="submit" class="btn" value="确定修改">
+    </form>
+  </div>
+</section>
+</block>
+
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+$(function(){
+  $("ul li input").each(function(){
+      $(this).click(function(){
+          $(this).parent().removeClass('text').addClass('text errorAnimate');
+          $(this).parent().parent().siblings().children().removeClass('errorAnimate');
+      })
+  });
+
+  $('form').Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      o.obj.parents("div").removeClass('errorAnimate');
+      objtip.text('');
+      if (o.type == 3) {
+        o.obj.parents("div").addClass('errorAnimate');
+        objtip.text(msg);
+      }
+    }, ajaxPost: true,
+    beforeSubmit:showWaiting,
+    callback: function(data) {
+      if (data.status == 1) {
+        window.location.href=data.url;
+      }
+    }});
+});
+
+  var longtime = 0;
+  var id;
+  $("#cellcode_send").click(function() {
+    var phone = $('#phoneNo').val();
+    if (longtime > 0) {return false;}
+    showWaiting();
+    $.post($(this).attr('href'), {'phone':phone, 'ischeck':1}, function(data) {
+      if (data.status == 1) {
+        longtime = 120;
+        $('#cellcode_send').val('请稍等'+ longtime +'秒');
+        // 倒计时
+        id = setInterval(uptime, 1000);
+      } else {
+        alert(data.info);
+      }
+    });
+    return false;
+  });
+
+  function uptime() {
+    $('#cellcode_send').val('请稍等'+ longtime +'秒');
+    longtime = longtime - 1;
+    if (longtime <= 0) {
+      clearInterval(id);
+      $('#cellcode_send').val('获取验证码');
+    }
+  }
+
+    $(function(){
+      $(".login-form").Validform({tiptype:3, 
+        ajaxPost:true,
+        beforeSubmit:showWaiting,
+        callback:function(data){
+          if (data.status == '1') {
+            alert(data.info);
+            window.location.href = data.url;
+          } else {
+            $('.errormsg').html(data.info);
+          }
+        }
+      });
+    });
+  </script>
+</block>

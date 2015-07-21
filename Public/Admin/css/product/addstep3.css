@@ -1,0 +1,48 @@
+
+.common_tit .common_tit_name {
+font-size: 22px;
+font-family: 'microsoft yahei';
+padding: 0 20px;
+font-weight: normal;
+color: #444;
+}
+
+.module_con {
+color: #666;
+}
+
+.module_item {
+border-bottom: 1px dashed #e3e3e3;
+padding: 10px 0;
+}
+
+.module_item h4.borno {
+	border: 0;
+	font-size: 16px;
+}
+.module_item h4 {
+font-family: "Microsoft Yahei";
+font-weight: normal;
+font-size: 16px;
+margin: 0 40px 15px;
+border-bottom: 1px dashed #ccc;
+line-height: 30px;
+}
+
+.module_item {
+border-bottom: 1px dashed #e3e3e3;
+padding: 10px 0;
+}
+/* .module_item dl dd input{
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #ccc;
+	margin-right: 5px;
+	padding-left: 5px;
+
+} */
+
+.module_item dl dd label{
+	/*float: left;*/
+}

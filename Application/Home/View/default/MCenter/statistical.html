@@ -1,0 +1,101 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;认投统计
+	</div>
+	<div class="">
+		<div class="bs-docs-example" style="border: none;">
+			<h2>项目融资统计</h2>
+			<div>
+				<table class="table table-bordered">
+				<tr>
+					<td colspan ="3" >
+						<h3>项目名称：
+							<a href="{:U('Project/detail?id='.$fund['id'])}">{$fund.project_name}</a>
+						</h3>
+					</td>
+				</tr>
+					<tr>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>融资金额</h4></div>
+							<div class="project-fund-top"><h3>{$fund.need_fund|change_fund} 元</h3></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>已融金额</h4></div>
+							<div class="project-fund-top"><h3>{$fund.has_fund|change_fund} 元</h3></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4></h4></div>
+							<div class="project-fund-top"><h3></h3></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="ids">
+				<button class="btn ajax-post confirm" target-form="ids" url="{:U('setStatus?Model=Message&status=2&type=-1')}">批量接受</button>
+    		</div>
+    
+			<!-- 数据列表 -->
+			<div class="data-table">
+				<table class="tt">
+				    <thead>
+				        <tr>
+						<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+						<th class="">序号</th>
+						<th class="">投资人</th>
+						<th class="">角色</th>
+						<th class="">金额</th>
+						<th class="">项目状态</th>
+						<th class="">操作</th>
+						</tr>
+				    </thead>
+				    <tbody>
+						<volist name="investor" id="vo">
+							<tr>
+					      <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.investorid}" /></td>
+								<td>{$i} </td>
+								<td>{$vo.investor_id|get_membername}</td>
+								<td>{$vo.lead_type_text}</td>
+								<td><span>{$vo.fund|change_fund}元</span></td>
+								<td>{$vo.status_text}
+								</td>
+								<td>
+									<a href="{:U('Project/detail?id='.$vo['id'])}">接受</a>
+									<a href="{:U('Project/detail?id='.$vo['id'])}">拒绝</a>
+				        </td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="page">{$_page}</div>
+			<!-- /分页 -->
+		</div>
+	</div>
+	</div>
+	</div>
+</section>
+</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript">
+	
+	//导航高亮
+	highlight_subnav('{:U('MCenter/project')}');
+
+	</script>
+</block>

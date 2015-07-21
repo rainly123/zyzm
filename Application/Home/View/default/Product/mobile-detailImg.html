@@ -1,0 +1,54 @@
+<extend name="Base/mobile-common"/>
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/mobile_common.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/mobile_index.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/mobile_product_img.css">
+</block>
+
+<block name="side">
+</block>
+<block name="body">
+	<div class="pd-b50">
+    <div class="title-box">
+    <a href="{:U('viewdetail?pid='.$id)}" class="icon btn-goback"></a>
+        <h4 class="h4-title"><strong>{$name}</strong></h4>
+                    <p> <?php print date('Y/m/d',$start_time); ?>-<?php print date('Y/m/d',$start_time+86400*$days); ?>火热筹款中</p>
+            </div>
+    <div class="initiater-box">
+        <div class="gridbox">
+            <div class="headpic">
+          		<img src="{$uid|get_memberface}" alt="">
+     			<span></span>
+            </div>
+            <div class="grid-1">
+                <h4>  {$uid|get_membername}
+                    <i class="icon i-approve"></i> <i class="icon i-medal"></i>
+                </h4>
+                <p>
+
+                </p>
+                
+            </div>
+        </div>
+    </div>
+    <div class="detail-box">
+        <p><img alt="" src="{$mobile_img|get_cover='path'}"></p>
+		<p>{$resultInfo['content']}</p>
+    </div>
+</div>
+
+</block>
+<block name="script">
+
+    <script type="text/javascript" src="__JS__/product/viewdetail.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/colorbox.css">
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<script type="text/javascript">
+		$.get('{:U("Pages/productInvestor?pid=".$pid)}', function(data) {
+			$(".supporter-box").html(data.html);
+			// $("#investor-count").html(data.count);
+		}, 'json');
+	</script>
+</block>

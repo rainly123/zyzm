@@ -1,0 +1,182 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+</block>
+<block name="body">
+<include file="edit_header" />
+	<style type="text/css">
+		.value-money:after{
+			content: "元";
+		}
+
+    	input, button, select {outline: none;}
+	#date {font-size: 14px;color: #999;}
+	.modal .control-label {width: 100px;}
+	.modal .controls {margin-left: 120px;}
+	.modal .form-actions {padding-left: 120px;}
+	.modal-header {font-size: 18px; line-height: 40px;height: 40px; padding: 0px 15px; background-color: #f0f0f0;}
+	.input-append input{
+		padding: 0;
+	width: 150px;
+	margin: 0;
+	height: 30px;
+		}
+	.input-append .add-on{
+		top: 2px;
+		right: 29px;
+	}
+
+	.input-append .add-on, .input-prepend .add-on {
+display: inline-block;
+width: auto;
+height: 20px;
+min-width: 16px;
+padding: 4px 5px;
+font-size: 14px;
+font-weight: normal;
+line-height: 20px;
+text-align: center;
+text-shadow: 0 1px 0 #fff;
+background-color: #eee;
+border: 1px solid #ccc;}
+    </style>
+	<div class="">
+		<div class="clearfix">
+			<div class="">
+			<form action="{:U('project/editFinancingInfo')}" class="form-horizontal" method="post">
+
+				<input type="hidden" name="id" value="{$projectid}">
+
+				<input type="hidden" name="fund_id" value="{$fund.id}">
+				<div class="under-line">
+					<div class="com-info">
+						<h3 class="sub-title">融资需求</h3>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">项目估值</label>
+						<div class="controls">
+							<div class="input-append">
+								<input type="number" class="account" value="{$fund.project_valuation|round=2}" id="project_valuation" name="fund[project_valuation]">
+								<span class="add-on">元</span>
+							</div>
+							<span class="help-inline"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">预融资金额</label>
+						<div class="controls">
+							<div class="input-append">
+								<input type="number" class="account" id="need_fund" value="{$fund.need_fund|round=2}" name="fund[need_fund]">
+								<span class="add-on">元</span>
+							</div>
+							<span class="help-inline"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">最低跟投金额</label>
+						<div class="controls">
+							<div class="input-append">
+								<input type="number" class="account" id="follow_fund" value="{$fund.follow_fund|round=2}" name="fund[follow_fund]">
+								<span class="add-on">元</span>
+							</div>
+							<span class="help-inline"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">到账方式</label>
+						<div class="controls">
+							<select name="fund[to_way]">
+								<option value="">请选择到账方式</option>
+								<foreach name="to_way" item="v">
+									<option value="{$v.id}" <if condition="$fund[to_way] eq $v[id]">selected </if> >{$v.name}</option>
+								</foreach>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">股东特权</label>
+						<div class="controls">
+							<textarea name="fund[extra]" class="span4" rows="5" maxlength="150">{$fund.extra}</textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">附加资源</label>
+						<div class="controls">
+							<input type="text" class="span4" value="{$fund.add_source}" name="fund[add_source]">
+						</div>
+					</div>
+				</div>
+				<div class="under-line">
+					<div class="com-info">
+						<h3 class="sub-title">资金用途</h3>
+					</div>
+					<div class="control-group">
+						<label for="" class="control-label">资金用途</label>
+						<div class="controls">
+							<textarea rows="5" class="span4" name="fund[use_to]">{$fund.use_to}</textarea>
+						</div>
+					</div>
+				</div>
+						<input type="submit" class="btn btn-large btn-primary" value="提交">
+
+				</form>
+			</div>
+			
+		</div>
+	</div>
+
+
+</block>
+
+<block name="script">
+  <script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script>
+	highlight_subnav('{:U('Project/index')}');
+
+	$('input[type="number"]').keyup(function() {
+		this.value=this.value.replace(/\D/g,'');
+	});
+
+	// $("form").submit(function() {
+	// 	var self = $(this);
+	// 	$.post(self.attr("action"), self.serialize(), success, "json");
+	// 	return false;
+	// 	function success(data){
+	// 		if(data.status){
+	// 			$.messageBox({
+	// 				msginfo: '恭喜！项目信息填写完成，是否马上申请上线审核', 
+	// 				showconfirm: true, 
+	// 				confirm:function() {
+	// 					$.get("{:U('Project/online?id=' . $project_id)}", function(data) {
+	// 						if (data.status) {
+	// 							window.location.href = data.url;
+	// 						}	
+	// 					});
+	// 				},
+	// 				cancel : function() {
+	// 					window.location.href = data.url;
+	// 				}
+	// 			});
+	// 		} else {
+	// 			$.messageBox({
+	// 				msginfo: data.info
+	// 			});
+	// 		}
+	// 	}
+	// });
+	$("#confirm").click(function() {
+		$.get("{:U('Project/online?id=' . $project_id)}", function(data) {
+			if (data.status) {
+				window.location.href = data.url;
+				$("#confirm").hide();	
+			}	
+		});
+	});
+	$('#goback1').click(function() {
+		window.location.href = $(this).attr('href');
+		return false;
+	});
+	</script>
+</block>

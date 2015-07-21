@@ -1,0 +1,225 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__CSS__/validform.css" rel="stylesheet">
+    <link href="__STATIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="__STATIC__/uploadify/uploadify.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/th.css">
+</block>
+<block name="body">
+    <div id="server-data" style="display: none;">
+        <input name="projectId" value="{$pid}">
+        <input name="successUrl" value="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">
+    </div>
+    <div class="body-bg">
+        <div class="body">
+            <div class="breadcrumbs">
+                <a href="/">首页</a> >
+                <a href="{:U('MCenter/index')}">用户中心</a> >
+                <a href="{:U('MCenter/pj_support')}">股权众筹</a> >
+                <a href="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">投后管理</a>
+            </div>
+            <div class="panel">
+                <div class="header">
+                    <span class="title-label">投后管理</span>
+                    <span class="title"><a href="/Project/detail/id/{$pid}.html">{$projecttitle}</a></span>
+                    <button class="btn btn-back">返回</button>
+                </div>
+                <div class="tab-title-box">
+                    <div class="tab-title-list">
+                        <div class="tab-title active"><a href="{:U('ProjectAfterInfo/fundedmanagelist')}">项目进度</a></div>
+                    </div>
+                </div>
+                <div class="tab-content-box">
+                    <form method="post" action="{:U('/projectAfterInfo/addProjectAfterInfo')}">
+                        <input type="hidden" name="project_id" value="{}">
+
+                        <ul class="add">
+                            <li>
+                                <label for="title">标题</label>
+                                <input name="title" type="text" class="title" id="title" datatype="*1-40"
+                                       nullmsg="请输入标题" maxlength="40" errormsg="标题最多40个字符" value="">
+                            </li>
+                            <li>
+                                <label for="content">内容</label>
+                            <textarea id="content" name="content" datatype="*" nullmsg="请输入内容"
+                                      errormsg="请输入内容"></textarea>
+                            </li>
+                            <li class="attachment-box hidden">
+                                <div class="attachment">
+                                    <span id="filename"></span>
+                                    <a id="attachment-link" href="#" target="_blank">（查看附件）</a>
+                                    <a id="delete-attachment" class="delete-attachment" title="删除附件" href="#">x</a>
+                                </div>
+                            </li>
+                            <li class="upload-box">
+                                <div id="uploader-list" class="uploader-list"></div>
+                                <label>上传附件</label>
+                                <!--<button id="picker" class="btn">选择文件</button>-->
+                                <input type="file" name="attachment-upload" id="attachment-upload">
+                                <!--<button id="start-upload" class="btn">开始上传</button>-->
+                            </li>
+                            <li class="btn-box">
+                                <input type="hidden" name="id" value="{$detail.id}">
+                                <input type="hidden" id="status" name="status" value="0">
+                                <button id="btn-save" class="btn btn-save" data-status="0">保存草稿</button>
+                                <button id="btn-publish" class="btn btn-publish" data-status="1">直接发布</button>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__STATIC__/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" src="__STATIC__/umeditor/umeditor.min.js"></script>
+    <script src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script>
+        var serverData = {};
+        $('#server-data').children().each(function () {
+            var $this = $(this);
+            serverData[$this.attr('name')] = $this.val()
+        });
+        var id = location.pathname.match(/\/id\/(\d+)/);
+        id = id && id[1];
+
+        var um = UM.getEditor('content', {
+            initialFrameWidth: 908,
+            initialFrameHeight: 250
+        });
+
+        !function () {
+            if (id) {
+                $.getJSON('/projectAfterInfo/getProjectAfterInfodetail', {id: id}).then(function (json) {
+                    if (json.success) {
+                        var info = json.info;
+                        $('#title').val(info.title);
+                        $('#filename').text(info.filename);
+                        if (info.attachment) {
+                            $('.attachment-box').removeClass('hidden');
+                            $('.upload-box').addClass('hidden');
+                        }
+                        $('#attachment-link').attr('href', info.attachment);
+                        setTimeout(function () {
+                            um.setContent(info.content);
+                        }, 0);
+
+                    }
+                })
+            }
+            var $form = $('form');
+            $('.btn-back').click(function () {
+                history.back();
+                return false;
+            });
+            $('.btn-new').click(function () {
+                var href = $(this).data('href');
+                if (href) location.href = href
+            });
+            $('#delete-attachment').click(function () {
+                $.post('/projectAfterInfo/removeatttachment', {id: id}).then(function (json) {
+                    if (json.success) {
+//                        layer.msg(json.info, 2, -1);
+                        $('.attachment-box').addClass('hidden');
+                        $('.upload-box').removeClass('hidden');
+                    } else {
+                        layer.msg(json.info || '未知错误', 3, -1);
+                    }
+                });
+                return false;
+            });
+
+            var valid = $form.Validform({
+                tiptype: 3,
+                ajaxPost: true,
+                beforeSubmit: function () {
+                    return false;
+                }
+            });
+
+            var $upload = $('#attachment-upload');
+            var getFormData = function () {
+                var data = {
+                    project_id: serverData.projectId,
+                    title: $('#title').val(),
+                    content: $('#content').val(),
+                    status: $('#status').val()
+                };
+                if (id) {
+                    data.id = id
+                }
+                return data
+            };
+            var successCallback = function (json, file) {
+                if (typeof json === 'string') {
+                    try {
+                        json = JSON.parse(json)
+                    } catch (e) {
+                    }
+                }
+                if (json.success) {
+                    if (file.name) {
+                        $('.attachment-box').removeClass('hidden');
+                        $('#filename').text(file.name);
+                        $('#attachment-link').attr('href', json.url);
+                        $('#attachment-upload-queue').empty();
+                        $('.upload-box').addClass('hidden');
+                        if (!id && json.id) {
+                            id = json.id
+                        }
+                    } else {
+                        layer.msg(json.info, 2, -1);
+                        setTimeout(function () {
+                            location.href = serverData.successUrl;
+                        }, 1000);
+                    }
+                } else {
+                    layer.msg(json.info || '未知错误', 3, -1);
+                    $submitButtons.removeAttr('disabled')
+                }
+            };
+            $upload.uploadify({
+                'fileObjName': 'pdf',
+                'auto': true,
+                'swf': '/Public/static/uploadify/uploadify.swf',
+                'uploader': $form.attr('action'),
+                'fileSizeLimit': '2049KB',
+                'fileTypeExts': '*.pdf;',
+                'fileTypeDesc': '只允许上传 PDF 文件',
+                'buttonText': '浏览文件',
+                'queueSizeLimit': 1,
+                'multi': false,
+                'onUploadStart': function (file) {
+                    var formData = getFormData();
+                    formData.filename = file.name;
+                    formData.status = 0;
+                    $upload.uploadify('settings', 'formData', formData);
+                },
+                'onUploadSuccess': function (file, data, response) {
+                    successCallback(data, file);
+                }
+            });
+
+            var $submitButtons = $('.btn-box .btn').click(function () {
+                $('#status').val($(this).data('status'));
+                $('form').submit();
+                return false;
+            });
+            $form.submit(function () {
+                if (valid.check()) {
+                    $submitButtons.attr('disabled', 'disabled');
+                    $.post($form.attr('action'), getFormData(), successCallback, 'json');
+                }
+                /*var attachmentLength = $('#attachment-upload-queue').children().length;
+                 if (attachmentLength) { // 有附件
+                 $upload.uploadify('upload');
+                 } else { // 没有附件*/
+                /*}*/
+                return false;
+            })
+        }();
+
+    </script>
+</block>

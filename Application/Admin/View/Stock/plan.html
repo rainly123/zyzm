@@ -1,0 +1,90 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>申购列表</h2>
+	</div>
+		<div class="cf">
+			<div class="fl">
+          <a class="btn" href="{:U('addplan?pid='.$pid)}">新 增</a>
+    	</div>
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+	<div class="data-table table-striped">
+<table class="">
+    <thead>
+    <tr>
+		<th class="">编号</th>
+		<th class="">计划名称</th>
+		<th class="">申购日期</th>
+		<th class="">总份额</th>
+		<th class="">投资金额</th>
+		<th class="">退回金额</th>
+		<th class="">收益金额</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i}</td>
+			<td>{$vo.name}</td>
+			<td><span>{$vo.purchasedate|time_format="Y-m-d"}</span></td>
+			<td>{$vo.total_amount} 元</td>
+			<td>{$vo.freeze_amount} 元</td>
+			<td>{$vo.over_amount} 元</td>
+			<td>{$vo.rate_amount} 元</td>
+			<td><span>
+				<if condition="$vo.is_freeze eq 0">
+					资金未冻结
+				<elseif condition="$vo.is_freeze eq 1"/>
+					资金已冻结
+				<elseif condition="$vo.is_freeze eq 2"/>
+					已完成
+				</if>
+			</span></td>
+			<td>
+				<eq name="vo.status" value="0">
+					<a class="ajax-get confirm" href="{:U('changeplan?status=1&id='.$vo['id'])}">发布</a> |
+				<else />
+					<a class="ajax-get confirm" href="{:U('changeplan?status=2&id='.$vo['id'])}">完成</a> |
+				</eq>
+			
+				<a href="{:U('Stock/addplan?id='.$vo['id'])}">编辑</a> |
+				<a href="{:U('Stock/planlist?id='.$vo['id'])}" alt='申购计划'>申购明细</a> |
+				
+				<if condition="$vo.is_freeze eq 0">
+					<a href="{:U('freeze?id='.$vo['id'].'&pid='.$vo['pid'])}" class="ajax-get confirm" alt='排队资金归入总账'>资金冻结</a> |
+					
+				<elseif condition="$vo.is_freeze eq 1"/>
+					<a href="{:U('unfreeze?id='.$vo['id'].'&pid='.$vo['pid'])}" class="ajax-get confirm" alt='排队资金归入总账'>解冻</a> |
+				</if>
+
+		<!-- 		<a href="{:U('investorlist?id='.$vo['id'])}">投资人</a> |{$vo.type } -->
+
+			</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="11" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<link rel="stylesheet" href="__CSS__/colorbox.css">
+	<script type="text/javascript">
+		$(".manage").colorbox();
+	</script>
+</block>

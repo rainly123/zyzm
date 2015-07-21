@@ -1,0 +1,93 @@
+<extend name="Base/mobile-common"/>
+
+<block name="header">
+    <link rel="stylesheet" type="text/css" href="__CSS__/product/mobile_common.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/ProductOrder/mobile_info.css">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+        <!-- <link rel="stylesheet" type="text/css" href="__CSS__/ProductOrder/info.css"> -->
+            <link rel="stylesheet" type="text/css" href="__CSS__/ProductOrder/common.css">
+    <style type="text/css">
+	    .module_wrap{
+	    	margin-bottom: 20px;	
+	    }
+	    .module_item{
+	    	text-align: center;
+	    }
+	    .next_action{
+	    	font-size: 15px;
+	    	margin: 20px;
+	    }
+	    .next_action p{
+	    	float: left;
+	    }
+	    .link2{
+	    	float: left;
+	
+		}
+	    .next_action_box{
+	    	text-align: center;
+	    	margin: 0 auto;
+	    	margin:0 35% 0 35%;
+
+	    }
+    </style>
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+<style type="text/css">
+input{
+    /*-webkit-appearance: none; */
+}    
+</style>
+	<div class="module_wrap mt20 content">
+
+	        <div class="module_con">
+		        <div class="module_item" style="border-bottom: 0px dashed #e3e3e3;">
+			        <h1>恭喜您！支付成功</h1>
+			        <h1>您可以：<a href="/">回到首页</a>&nbsp;&nbsp;或者&nbsp;&nbsp;<a href="{:U('Product/index')}">浏览更多项目</a></h1>
+		        </div>
+		     
+	        </div>
+
+	</div>
+</block>
+<block name="script">
+
+<script type="text/javascript" src="__JS__/productOrder/info.js"></script>
+  <script type="text/javascript">
+  	$(document).ready(function(){
+         //更多按钮
+
+        $(".ui-more-min").click(function(){
+            $(".info-min").fadeToggle(function(){
+                $(".info-all").fadeToggle();
+                
+            });
+
+            var currentStatus = $(".more-btn span").text();
+            if (currentStatus=="更多") {
+                $(this).addClass("min-btn");
+                  $(".more-btn span").html("收起");
+                  $(".more-btn").removeClass("more-btn");
+            }else{
+                 $(".min-btn span").html("更多");
+                $(".min-btn").addClass("more-btn");
+                  $(".min-btn").removeClass("min-btn");
+            };
+        });
+        $(".choice_label_btn").click(function(){
+            var addresstype = $(this).data("addresstype");
+            if (addresstype != "createAddress") {
+                $(".choice_label_btn").css('background','white');
+                $(".addrList").attr('checked',false);
+
+                $(this).children('.addrList').attr('checked','checked');
+                $(this).css('background','#a4cc43');
+            }
+        });
+  	});
+  </script>
+</block>

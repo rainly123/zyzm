@@ -1,0 +1,407 @@
+.jumbotron {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+    background: #378503;
+    background: -moz-linear-gradient(45deg, #1F221F 0%, #0CA818 100%);
+    background: -webkit-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    background: -o-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    background: -ms-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    background: linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1F221F', endColorstr='#0CA818',GradientType=1 );
+    -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+}
+
+
+.onethink.pagination {
+  margin: 20px 0;
+}
+
+.onethink.pagination div {
+  display: inline-block;
+  *display: inline;
+  margin-bottom: 0;
+  margin-left: 0;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  *zoom: 1;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.onethink.pagination div > a {
+  display: inline;
+}
+
+.onethink.pagination div >  a,
+.onethink.pagination div >  span {
+  float: left;
+  padding: 4px 12px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-left-width: 0;
+}
+
+
+.onethink.pagination div > .current {
+  background-color: #f5f5f5;
+  color: #999999;
+  cursor: default;
+}
+
+
+.onethink.pagination div > :first-child  {
+  border-left-width: 1px;
+  -webkit-border-bottom-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.onethink.pagination div > :last-child  {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+
+
+/* page.class.php 分页类 bootstrap样式 */
+.onethink.pagination-large div >  a,
+.onethink.pagination-large div >  span {
+    padding: 11px 19px;
+    font-size: 17.5px;
+}
+.onethink.pagination-large div > :first-child  {
+    -webkit-border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    -webkit-border-top-left-radius: 6px;
+    border-top-left-radius: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -moz-border-radius-topleft: 6px;
+}
+.onethink.pagination-large div > :last-child {
+    -webkit-border-top-right-radius: 6px;
+    border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomright: 6px;
+}
+.onethink.pagination-mini div > li:first-child {
+    -webkit-border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+    border-top-left-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-topleft: 3px;
+}
+.onethink.pagination-mini div > :last-child {
+    -webkit-border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+}
+.onethink.pagination-small div >  a,
+.onethink.pagination-small div >  span {
+    padding: 2px 10px;
+    font-size: 11.9px;
+}
+.onethink.pagination-mini div > a,
+.onethink.pagination-mini div > span {
+    padding: 0 6px;
+    font-size: 10.5px;
+}
+
+.onethink.add-topic{
+    padding:30px 0;
+    border:1px solid #ececec;
+    border-radius: 5px;
+}
+
+.onethink .form-horizontal .controls {
+    margin-left: 70px;
+}
+
+.onethink .form-horizontal .control-label {
+    width: 50px;
+    padding-top:0;
+}
+
+body {
+    font-family: "微软雅黑","Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.bs-docs-sidebar > ul:nth-child(n+2){
+    margin-top:12px;
+}
+
+form .ke-container{
+    margin-bottom:12px;
+}
+
+.main-content {
+    font-size:16px;
+}
+
+.bs-docs-sidenav > li > a.btn {
+    display: block;
+    width: 190px \9;
+    margin: 0 0 -1px;
+    padding: 11px 14px;
+    border: 1px solid #e5e5e5;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*bootstrap的修补、圆角边框，还原成直角*/
+input[type='text'], input[type='password'], 
+.uneditable-input, select, textarea {
+  border-radius: 0;
+  -webkit-border-radius: 0;
+}
+/*错误显示式样*/
+#Validform_msg {
+  display: none;
+}
+
+/*时间轴式样 start*/
+.timeline {
+  vertical-align:top;
+  margin-bottom: 0px;
+}
+.timeline-left{
+  margin-top: -10px;
+  padding-right: 10px;
+}
+
+.timeline-middle {
+  color: #ff00ff;
+  font-size: 20px;
+}
+.timeline-right {
+  margin-left: -25px;
+  border-left: #000 solid;
+  border-width: thin;
+  font-size: 15px;
+  margin-top: -10px;
+  padding-left: 35px;
+  padding-bottom: 17px;
+  display: inline-block;
+}
+/*时间轴式样 end*/
+.form-horizontal .control-group {
+  margin-bottom: 10px;
+}
+hr {
+  margin: 10px 0 20px;
+}
+/** 宣传图片添加 start **/
+.ace-thumbnails {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul {
+  margin-top: 0;
+  margin-bottom: 10px;
+  display: block;
+  list-style-type: disc;
+}
+.ace-thumbnails > li {
+  float: left;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin: 2px;
+  font-size: 20px;
+  width: 200px;
+  height: 150px;
+  border: solid 2px #e0e0e0;
+}
+li {
+  display: list-item;
+}
+.ace-thumbnails > li > .tools-top {
+  position: absolute;
+  background-color: rgba(255,255,255,0.75);
+  text-align: center;
+  vertical-align: middle;
+  transition:all .2s ease;
+  width: auto;
+  height: 28px;
+  left: 0px;
+  right: 0;
+  top: -30px;
+  bottom: auto;
+}
+li:hover >.tools-top{
+  top: 0;
+}
+li:hover {
+  border-color: #222;
+}
+.tools-top > a {
+  display: inline-block;
+  padding: 8px 0;
+}
+.tools-top > .right {
+  float: right;
+  padding-right: 12px;
+}
+/** 宣传图片添加 end **/
+
+/** ADD 20140910**/
+.con_point {
+    background: none repeat scroll 0 0 #FFFFC4;
+    border: 1px solid #CCCCCC;
+    color: #666666;
+    line-height: 25px;
+    margin-bottom: 15px;
+    padding: 15px 30px;
+    text-align: center;
+}
+
+.f_ora {
+    color: #FF6600;
+}
+
+.f_18 {
+    font-size: 18px;
+}
+.upload-img-box .upload-pre-item {
+    border: 1px solid #CCCCCC;
+    cursor: pointer;
+    max-height: 120px;
+    overflow: hidden;
+    padding: 1px;
+    text-align: center;
+    transition: all 0.3s linear 0s;
+    width: 120px;
+}
+
+.con_tit {
+    color: #0099FF;
+    font-size: 26px;
+    height: 70px;
+    padding: 15px 0 0 75px;
+}
+
+.con_btn {
+    background: url("../img/member_bg2.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 50px;
+    margin-bottom: 35px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.switch {
+    float: left;
+    padding-right: 20px;
+}
+
+.switch li {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #F7F7F7;
+    border-color: #CCCCCC #CCCCCC -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    color: #666666;
+    cursor: pointer;
+    float: left;
+    font-size: 20px;
+    height: 47px;
+    line-height: 47px;
+    margin-right: 7px;
+    overflow: hidden;
+    padding: 0 27px;
+    text-align: center;
+}
+.switch .on {
+    background: url("../img/member_bg2.png") repeat scroll 0 50px #FFFFFF;
+    border-left: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    border-top: 3px solid #0091CE;
+    color: #0099FF;
+    height: 42px;
+    line-height: normal;
+    padding-top: 8px;
+}
+.switch a {
+    color: #666666;
+}
+
+
+.con_btn_r {
+    float: right;
+    margin-top: 10px;
+}
+
+
+
+.btn_1 {
+    background: none repeat scroll 0 0 #0099FF;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 5px 17px 6px;
+}
+
+/* = 表格（默认有斑马条纹）
+------------------------------------------ */
+.data-table {
+	margin: 10px 0;
+}
+.data-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.data-table caption {
+    height: 30px;
+    line-height: 30px;
+    font-weight: 700;
+}
+.data-table thead th,
+.data-table tbody td {
+    padding:8px;
+    height: 19px;
+    line-height: 19px;
+    font-weight: 400;
+}
+.data-table thead th {
+    text-align: left;
+    color:#fff;
+    background-color: #353535;
+}
+.data-table tbody tr {
+	background-color: #fefefe;
+	color: #686868;
+}
+.data-table tbody tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+/* 复选框的列宽 */
+.row-selected {
+    width: 15px;
+}
+
+

@@ -1,0 +1,74 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/header.css" rel="stylesheet" type="text/css">
+<style>
+.btn_agree {background:#72C2E1; color:#FFF;font-size:2em;margin:15px; display:block;padding:13px 20px;text-align:center;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
+.agreement1 {font-size: 1em;color:#72C2E1;text-decoration:underline;}
+</style>
+</block>
+
+<block name="body">
+<div class="agreement">
+	<h1>领投说明</h1>
+	<div class="agreement_txt" style="position: relative;">
+		<div style="padding-bottom:20px;font-size:14px">
+				<h3>关于领投</h3>
+				<p>1.每个股权类众筹项目只有一个领投人。</p>
+				<p>2.在聚募网上申请取得领投人资格（通过聚募实名认证，是取得领投人资格的前提），才能申请项目领投。</p>
+				<p>3.在项目投资结束前任何时间项目方都可以在所有申请的领投人中选择确认一个成为项目的最终领投人。</p>
+			</div>
+			<div style="padding-bottom:20px;font-size:14px">
+				<h3>领投人的权利</h3>
+				<p>1.享受本次投资收益部分10%的管理收入。</p>
+				<p>2.作为投资代表履行股东对公司除分红权外的一切合法权益。</p>
+			</div>
+			<div style="padding-bottom:20px;font-size:14px">
+				<h3>领投人的义务</h3>
+				<p>1.领投人需形成书面的投资理由并在众筹网站上进行展示。</p>
+				<p>2.领投人应积极参与项目的沟通，并协调跟投人和项目方的沟通。</p>
+				<p>3.在投后管理中领投人需充当投资人和项目方的沟通桥梁。</p>
+				<p>4.领投人作为投资人代表，需起到代表投资人发表意见、做好投后管理工作。</p>
+			</div>
+			<div style="font-size:16px">更多信息请点击 <a href="{:U('Info/show?key=lead')}" class="agreement1">领投规则</a></div>
+	</div>
+		<if condition="$isread neq true">
+		<div>
+			<form action="{:U('agree')}" class="form-horizontal" method="post">
+				<input type="hidden" name="id" value="{$id}">
+				<p class="text-center"><a href="{:U('Project/leader?id='.$id)}" class="btn_agree">继  续</a></p>
+			</form>
+		</div>
+		</if>
+</div>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+$('input[name="agree"]').change(function() {
+		var count = $("input:checked").length;
+		if (count <= 0 ) {
+			$(".btn-agree").attr('disabled', 'disabled');
+		} else {
+			$(".btn-agree").removeAttr('disabled');
+		}
+	});
+	$("form").submit(function() {
+		var count = $("input:checked").length;
+		if (count <= 0) {
+			alert('您必须同意并接受投风险申明书', 1);
+			return false;
+		}
+		var form = $(this);
+		$.post(form.attr('action'), form.serialize(), function(data) {
+			if (data.status == "1") {
+				alert(data.info);
+				window.location.href = data.url;
+			} else {
+				alert(data.info);
+				window.location.href = data.url;
+			}
+		});
+		return false;
+	});
+</script>
+</block>

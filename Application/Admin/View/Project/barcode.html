@@ -1,0 +1,74 @@
+<extend name="Public/base"/>
+
+<block name="body">
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>项目二维码</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+    <input type="hidden" name="id" value="{$project.id}">
+        <div class="form-item">
+            <label class="item-label">项目名称：{$project.project_name}</label>
+        </div>
+        <div class="form-item">
+            <label class="item-label">二维码：<span class="check-tips"></span></label>
+            <div class="controls">
+              <input type="file" id="upload_picture_barcode">
+              <input type="hidden" name="barcode_id" id="cover_id_barcode"/>
+              <input type="hidden" name="barcode" id="cover_id_barcode_path"/>
+              <div class="upload-img-box">
+                <notempty name="project.barcode">
+                <div class="upload-pre-item"><img src="{$project.barcode}"/></div>
+                </notempty>
+              </div>
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+//导航高亮
+highlight_subnav('{:U('Project/stage')}');
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_barcode").uploadify({
+  "height"          : 30,
+  "swf"             : "__STATIC__/uploadify/uploadify.swf",
+  "fileObjName"     : "download",
+  "buttonText"      : "上传图片",
+  "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+  "width"           : 120,
+  'removeTimeout'   : 1,
+  'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+  "onUploadSuccess" : uploadPicture,
+  'onFallback' : function() {
+      alert('未检测到兼容版本的Flash.');
+  }
+});
+
+function uploadPicture(file, data){
+  var data = $.parseJSON(data);
+  var src = '';
+  if(data.status){
+    $("#cover_id_barcode").val(data.id);
+      src = data.url || '__ROOT__' + data.path;
+      $('#cover_id_barcode_path').val(src);
+      $("#cover_id_barcode").parent().find('.upload-img-box').html(
+        '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+      );
+    } else {
+      updateAlert(data.info);
+      setTimeout(function(){
+            $('#top-alert').find('button').click();
+            // $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+                  }
+                </script>
+</block>

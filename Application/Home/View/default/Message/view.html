@@ -1,0 +1,140 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+	<div class="mcenter-right" id="mcenter-right">
+		<div class="ShowPath">
+			<if condition="$type eq 'newpm'" >
+				您现在的位置： 用户中心&nbsp;&gt;&nbsp;消息中心&nbsp;&gt;&nbsp;收件箱 &nbsp;&gt;&nbsp;查看消息 
+			<else />
+				您现在的位置： 用户中心&nbsp;&gt;&nbsp;消息中心&nbsp;&gt;&nbsp;发件箱 &nbsp;&gt;&nbsp;查看消息 
+			</if>
+			<input type="hidden" id="type" value="{$type}">
+		</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<div class="con_tit f_blue f_20">查看消息</div>
+	
+			<div id="comments">
+				<div class="comment" style="border-bottom: 1px solid #E2E2E2;padding: 10px 10px;" data-user="{$message.user_name}" id="item">
+					<input type="hidden" name="comment_id" value="{$message.id}">
+					<div class="row-fluid" id="base-comment">
+						<div class="span1">
+							<img class="thumbnail" src="{$message.photo_url}" alt="">
+							<!-- todo 用户头像获取 -->
+						</div>
+						<div class="span11">
+							<div class="row-fluid">
+								<div class="message-writer pull-left" style="padding:10px 0" id="username">{$message.user_name}</div>
+								<div class="pull-left muted" style="padding: 10px" id="when">{$message.add_time|time_format}</div>
+							</div>
+							<div>
+								<div id="comment_info">{$message.content}</div>
+							</div>
+		
+						</div>
+					</div>
+				</div>
+								
+				<foreach name="rmessages" item="v">
+				<div class="comment" style="border-bottom: 1px solid #E2E2E2;padding: 10px 10px;" data-user="{$v.user_name}" id="{$v.user_name}">
+					<input type="hidden" name="comment_id" value="{$v.id}">
+					<div class="row-fluid" id="base-comment">
+						<div class="span1">
+							<img class="thumbnail" src="{$v.photo_url}" alt="">
+							<!-- todo 用户头像获取 -->
+						</div>
+						<div class="span11">
+							<div class="row-fluid">
+								<div class="message-writer pull-left" style="padding:10px 0" id="username">{$v.user_name}</div>
+								<div class="pull-left muted" style="padding: 10px" id="when">{$v.add_time|time_format}</div>
+							</div>
+							<div>
+								<div id="comment_info">{$v.content}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</foreach>
+		
+			</div>	
+		
+		<if condition="$type eq 'outbox' ">
+		          <div class="control-group">
+	            <div class="controls">
+	              <button class="btn" onclick="javascript:history.back(-1);">返回</button>
+	            </div>
+	          </div>
+		<else />
+			<div>
+				<form class="login-form form-horizontal" action="{:U('Message/send')}" method="post">
+		          <div class="control-group" >
+		            <div class="controls" style="display:none;">
+			            <input type="text" id="inputname" class="span3" value="{$message.user_name}" name="username">
+		            </div>
+		          </div>
+		          <div class="control-group">
+		            <label class="control-label" for="textareaContent">内容</label>
+		            <input type="hidden" name="msg_id" value="{$message.id}">
+		            
+		            <div class="controls">
+		              <textarea id="con" class="inp4" style="width:450px; height:120px;" rows="5" placeholder="请输入内容" errormsg="请填写100字以内的内容" nullmsg="请输入内容" datatype="*1-100" name="describe"></textarea>
+		              <span class="help-inline Validform_checktip"></span>
+		              
+		            </div>
+		          </div>
+		          <div class="control-group">
+		            <div class="controls">
+		
+		              <button type="submit" class="btn">回复</button>
+		              <button class="btn" onclick="javascript:history.back(-1);">返回</button>
+		            </div>
+		          </div>
+		        </form>
+		        </div>	
+        	</if>
+        </div>
+	</div>
+	</div>
+	</div>
+</section>
+</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		var arr=document.getElementById("type").value;
+
+		if(arr=='newpm'){
+			//导航高亮
+			highlight_subnav('{:U('Message/newpm')}');
+		}else{
+			//导航高亮
+			highlight_subnav('{:U('Message/outbox')}');
+		}
+
+	      $(".login-form").Validform({tiptype:3, 
+	        ajaxPost:true,
+	        callback:function(data){
+	          if (data.status == '1') {
+	          	alert(data.info);
+	            window.location.reload();
+	          } else {
+	            $('.back_error').html(data.info);
+	            $(".reloadverify").click();
+	          }
+	        }
+	      });
+	});
+	</script>
+</block>

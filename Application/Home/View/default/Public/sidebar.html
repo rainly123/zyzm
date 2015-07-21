@@ -1,0 +1,103 @@
+		<div id="sidebar" class="sidebar">
+			<div class="subtop">
+				<div class="subimg1">
+					<if condition="get_memberface() eq ''">
+						<img src="/Uploads/Picture/Photo/photo_default.png">
+					<else/>
+						<img src="{:get_memberface()}">
+					</if>
+				</div>
+				<div class="subtitle">
+					<P>{:get_nickname()}</P>
+					<P style="font-size: 12px;font-weight:normal;">{:get_userauth()}</P>
+				</div>
+			</div>
+
+			<div id="subnav" class="subnav">
+
+				<div id="personal"> 
+					<h3>
+						<span class="iconheader" style="background-image: url(__IMG__/personal.png);"></span>
+						个人资料
+						<i class="icon"></i>
+					</h3>
+					<ul class="side-sub-menu" style="display: none;" >
+						<li class="">
+							<a class="item" href="{:U('User/profile')}">修改密码</a>
+						</li>
+						<li class="">
+							<a class="item" href="{:U('User/detail')}">个人信息</a>
+						</li>
+						<!-- <li class="">
+							<a class="item" href="{:U('User/applyLead')}">申请领投人</a>
+						</li> -->
+					</ul>
+				</div>
+				<div id="message"> 
+					<h3>
+						<span class="iconheader" style="background-image: url(__IMG__/message.png);"></span>
+						消息中心 &nbsp;<span class="badge badge-important" name="msgcount"></span>
+						<i class="icon"></i>
+					</h3>
+					<ul class="side-sub-menu" style="display: none;">
+						<li class="">
+							<a class="item" href="{:U('Message/send')}">发送新消息</a>
+						</li>
+						<li class="">
+							<a class="item" href="{:U('Message/newpm')}">收件箱(<span name="msgcount"></span>)</a>
+						</li>
+						<li class="">
+							<a class="item" href="{:U('Message/outbox')}">发件箱</a>
+						</li>
+					</ul>
+				</div>
+				<div id="project">
+					<h3>
+						<span class="iconheader" style="background-image: url(__IMG__/project.png);"></span>
+						项目管理
+						<i class="icon"></i>
+					</h3>
+					<ul class="side-sub-menu" style="display: none;">
+						<li class="">
+							<a class="item" href="{:U('Manage/foundlist')}">项目管理(创业)</a>
+						</li>
+						<li class="">
+							<a class="item" href="{:U('Manage/investlist')}">项目管理(投资)</a>
+						</li>
+						<li class="">
+							<a class="item" href="{:U('Manage/myCrowdfunding')}">实物众筹</a>
+						</li>
+						<li class="">
+							<a class="item" href="{:U('MCenter/attach')}">收藏项目</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+		    	$(document)
+              var $window = $(window);
+              $window.resize(function(){
+                  $("#sidebar").css("min-height", $window.height() - 250);
+              }).resize();
+
+	            /* 左边菜单显示收起 */
+	            $("#subnav").on("click", "h3", function(){
+	  
+	                var $this = $(this);
+	                $this.find(".icon").toggleClass("icon-fold");
+	                $this.next().slideToggle("fast").siblings(".side-sub-menu:visible").
+	                      prev("h3").find("i").addClass("icon-fold").end().end().hide();
+	                
+	            });
+
+					$.get('{:U('message/news')}', function(data) {
+						if (data.status== "1") {
+							$("span[name='msgcount']").html(data.count);
+						}
+					}, 'json');
+	            
+	            $("#subnav h3 a").click(function(e){e.stopPropagation()});
+			</script>
+			
+		</div>

@@ -1,0 +1,45 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__CSS__/validform.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<form class="ui-form" action="{:U('querycard')}" method="post">
+<input type="hidden" name="merOrderId" value="{$merOrderId}">
+<div class="user_paymoney">
+    <dl>
+        <dt><h1>银行卡号</h1></dt>
+        <dd><input name="cardNo" datatype="n1-30" nullmsg="请输入银行卡号" errormsg="请输入正确的银行卡号" type="text" class="txt_phone" placeholder="请输入银行卡号" ></dd>
+    
+    </dl>
+  <div class="error-box">
+    <span id="errormessage"></span>
+  </div>
+   <div style="margin-top:20px;">
+    <input type="submit" class="btn" value="确定">
+    </div>
+</div>
+</form>
+</block>
+<block name="script">
+<script src="__STATIC__/Validform_v5.3.2.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+  $('form').Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.text('');
+      if (o.type == 3) {
+        objtip.text(msg);
+      }
+    }, ajaxPost: true,
+    beforeSubmit:showWaiting,
+    callback: function(data) {
+      if (data.status == 1) {
+        window.location.href=data.url;
+      }
+    }}); 
+});
+
+</script>
+</block>

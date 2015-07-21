@@ -1,0 +1,79 @@
+<style type="text/css">
+	.ui-name{
+	margin-top: 6px;
+	font-size: 13px;
+	}
+</style>
+<div style="width:600px">
+  <form class="addfund-form form-horizontal" action="{:U('Tea/updatefund?id='.$id)}" method="post">
+    <div class="register_title" style="width:300px">投资信息</div>
+      <div class="control-group">
+        <label class="control-label" for="inputname">投资人姓名</label>
+        <input type="hidden" name="type" value="5">
+        <div class="controls">
+          	<div class="ui-name">{$name}</div>
+        </div>
+      </div>
+		<div class="control-group">
+			<label class="control-label">手机号码</label>
+			<div class="controls">
+				<input type="text" name="phone" class="span3" placeholder="手机号码" maxlength="15" value="{$handlePhone}">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">投资金额</label>
+			<div class="controls">
+				<input type="text" name="fund" class="span3" placeholder="投资金额" maxlength="10" value="{$fund}">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">投资日期</label>
+			<div class="controls">
+				<input type="text" name="pay_date" class="span3" placeholder="投资日期" maxlength="10" id="fund_day" value="{$pay_date}" readonly>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">地址</label>
+			<div class="controls">
+				<input type="text" name="address" class="span3" placeholder="地址" maxlength="10" id="address" value="{$handleRemarks}"
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">支付方式</label>
+			<div class="controls">
+				<label class="radio inline"><input type="radio" name="type" <?php $type==1?print 'checked':print''; ?> value="1">微店</label>
+				<label class="radio inline"><input type="radio" name="type" value="2" <?php $type==2?print 'checked="checked"':print''; ?>>支付宝</label>
+				<label class="radio inline"><input type="radio" name="type" value="3" <?php $type==3?print 'checked':print''; ?>>银行转账</label>
+				<label class="radio inline"><input type="radio" name="type" value="4" <?php $type==4?print 'checked':print''; ?>>微信</label>
+			</div>
+		</div>
+
+	<div class="control-group">
+    <div class="controls">
+    <button type="submit" class="login_btn" id="btnsubmit" style="font-size:18px">确认</button>
+    </div>
+  </div>
+  </form>
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	<link href="__STATIC__/datetimepicker/css/datetimepicker_normal.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+		$('#fund_day').datetimepicker({
+	    format: 'yyyy-mm-dd',language:"zh-CN", minView:2,
+	    pickerPosition:"bottom-left", endDate:new Date(), autoclose:true
+	  });
+
+	  $("#btnsubmit").click(function() {
+	  	var form = $('.addfund-form');
+	  	$.post(form.attr('action'), form.serialize(), function(data) {
+	  		$.messageBox({msginfo:data.info, cancel:function() {
+	  			window.location.reload();
+	  		}});
+	  	}, 'json');
+	  	$.colorbox.close();
+
+	  	return false;
+	  });
+
+  </script>
+</div>

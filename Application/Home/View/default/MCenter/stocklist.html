@@ -1,0 +1,84 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/validform.css" />
+</block>
+<block name="submenu">
+  <ul>
+    <li class=><a href="{:U('MCenter/stock')}">我的基金</a></li>
+    <li class="cur"><a href="#">交易记录</a></li>
+  </ul>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+  <div class="border1 zc clearfix" style="text-align:left">
+    <div style="float:left;margin-left:30px; margin-top:5px;">
+		基金名称:<em>{$stock.name}</em>
+    </div>
+  </div>
+  <div class=" mt20">
+    <div class="top">
+    <table>
+      <tr>
+      	<th>序号</th>
+        <th>交易类型</th>
+		<th>交易时间</th>
+        <th>成交净值</th>
+        <th>份额</th>
+        <th>金额</th>
+        <th>状态</th>
+      </tr>
+      <volist name="stocklist" id="vo">
+      <tr>
+    	<td>{$i}</td>
+    	<td>{$vo.type_text}</td>
+    	<td>{$vo.create_time|time_format="Y-m-d H:i:s"}</td>
+    	<td>{$vo.assets}</td>
+	    <td>{$vo.operation_fund}</td>
+	    <td>¥{:round($vo['amount'],2)}</td>
+	    <td><if condition="$vo.status eq 0"> 未支付 <else/> {$vo.state_text} </if></td>
+      </tr>
+      </volist>
+    </table>
+  </div>
+</div>
+
+<div id="dialog" style="display:none;"></div>
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+$('.error_info').click(function() {
+  layer.alert($(this).data('info'));
+  return false;
+});
+// 指定左侧选中菜单
+var submenu = "{:U('MCenter/stock')}";
+
+// 弹窗控制
+$(document).ready(function(){
+  $(".poplight").click(function() {
+    var _this = $(this);
+    $("#dialog").load($(this).attr('href'), function() {
+      $.layer({type:1, title:false,area : [_this.attr('data-w'),_this.attr('data-h')], page:{dom:"#dialog"}, fadeIn:300});
+    });
+    return false;
+  });
+
+  $(".d-stream").click(function() {
+    var _this = $(this);
+
+    layer.confirm('您确定要删除该记录吗？', function(){
+      $.get(_this.attr('href'), function(data) {
+        if (data.status == 1) {
+          layer.alert(data.info, 9, function(){window.location.reload();});
+        } else {
+          layer.alert(data.info, 1);
+        }
+      });
+    });
+    return false;
+  });
+});
+</script>
+</block>

@@ -1,0 +1,180 @@
+<extend name="Public/base"/>
+
+<block name="style">
+<link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/project/preview.css">
+	<link rel="stylesheet" href="__CSS__/colorbox.css" />
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+</block>
+<block name="body">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+<include file="edit_header" />
+	<div class="">
+		<div class=" clearfix">
+			<div class="">
+				<form action="{:U('Project/editDatum')}" class="form-horizontal" method="post">
+					<input type="hidden" name="id" value="{$projectid}">
+					<div class="under-line">
+						<div class="com-info">
+							<h3 class="sub-title">宣传图片 
+							</div>
+				    </h3>
+
+				     <input type="file" id="upload_picture_logo">
+							<input type="hidden" id="project_img_val" name="project[cover]" value="{$cover}" datatype="*" nullmsg="请上传项目图片">
+			                <div class="upload-img-box">
+								<img src="{$cover|get_cover='path'}" alt="" width="100%">
+			                </div>
+							<span class="pull-left" >建议尺寸(690*520)</span>
+
+			            <script type="text/javascript">
+			            //上传图片
+			            /* 初始化上传插件 */
+			            $("#upload_picture_logo").uploadify({
+			                "height"          : 30,
+			                "swf"             : "__STATIC__/uploadify/uploadify.swf",
+			                "fileObjName"     : "download",
+			                "buttonText"      : "上传图片",
+			                "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+			                "width"           : 120,
+			                'removeTimeout'   : 1,
+			                'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+			                "onUploadSuccess" : uploadPicture,
+			                'onFallback' : function() {
+			                    alert('未检测到兼容版本的Flash.');
+			                }
+			            });
+			            function uploadPicture(file, data){
+			                var data = $.parseJSON(data);
+			            	      	uploadPhoto(data);
+			            }
+			            </script>
+
+
+							<div class="clearfix" style="padding-top:20px">
+			        	<ul class="ace-thumbnails clearfix">
+			        	<foreach name="temp" item="v">
+				        	<li class="pull-left">
+										<img src="{$v.info_key|get_cover='path'}" width="200px" alt="">
+										<input type="hidden" name="temp[]" value="{$v.info_key}" class="pathid">
+										<div class="tools-top">
+											<a href="javascript:void(0)" class="moveleft">
+												<i class="icon-arrow-left"></i></a>
+											<a href="javascript:void(0)" class="moveright">
+												<i class="icon-arrow-right"></i></a>
+											<a href="javascript:void(0)" class="remove right">
+												<i class="icon-remove"></i></a>
+										</div>
+									</li>
+			        	</foreach>
+			        	</ul>
+		        	</div>
+						</div>
+					</div>
+					<div class="under-line">
+						<div class="com-info">
+							<h3 class="sub-title">相关视频</h3>
+							<div class="clearfix" style="padding-top:20px">
+				        <input type="text" name="temp-move" value="{$temp_move}" class="span6" placeholder="只支持优酷、土豆视频">
+			        </div>
+						</div>
+					</div>
+					<div>
+						<input type="submit" class="btn btn-large btn-primary" value="提交">
+					</div>
+				</form>
+			</div>
+			
+		</div>
+	</div>
+	<ul style="display:none;">
+		<li class="image-temp">
+		<img src="" alt="">
+		<input type="hidden" name="temp[]" class="pathid">
+		<div class="tools-top">
+			<a href="javascript:void(0)" class="moveleft"><i class="icon-arrow-left"></i></a>
+			<a href="javascript:void(0)" class="moveright"><i class="icon-arrow-right"></i></a>
+			<a href="javascript:void(0)" class="remove right"><i class="icon-remove"></i></a>
+		</div>
+	</li>
+	</ul>
+</block>
+
+<block name="script">
+
+	<script>
+	highlight_subnav('{:U('Project/index')}');
+
+	function uploadPhoto(data){
+    var src = '';
+    if(data.status){
+    	var clone = $(".image-temp").clone(true);
+    	clone.find('.pathid').val(data.id);
+    	clone.removeClass('image-temp')
+      src = data.url || '__ROOT__' + data.path;
+    	clone.find('img').attr('src', src);
+    	$(".ace-thumbnails").append(clone);
+    	clone.show('500');
+    } else {
+      alert('上传失败');
+    }
+	}
+	$(".moveright").click(function() {
+		var my =$(this).parents("li");
+		var next = $(my).next('li');
+  	
+  	if (next != null && next.is('li')) {
+			$(my).hide('500', function() {
+  		
+    		$(next).after($(my));	
+    		$(my).show('500');
+    	});
+	  }
+  });
+
+	// 宣传图片位置调整(往前调整)
+	$(".moveleft").click(function() {
+		var my = $(this).parents("li");
+  	var prev = $(my).prev("li");
+  	if (prev != null && prev.is('li')) {
+			$(my).hide('500', function() {
+  			$(prev).before($(my));
+    		$(my).show('500');
+			});
+  	}
+	});
+
+	// 宣传图片删除
+	$(".remove").click(function() {
+		var my = $(this).parents("li");
+		$(my).hide('500', function() {
+			$(my).remove();
+		});
+	});
+	
+	$("form").submit(function(){
+		var self = $(this);
+		var length = $(".ace-thumbnails li").length;
+		if (length == 0) {
+			alert('请至少添加一张宣传图片。');
+			return false;
+		}
+		$.post(self.attr("action"), self.serialize(), success, "json");
+		return false;
+
+		function success(data){
+			if(data.status){
+				window.location.href = data.url;
+			} else {
+				alert(data.info);
+			}
+		}
+	});
+
+	$('#goback1').click(function() {
+		window.location.href = $(this).attr('href');
+		return false;
+	});
+	</script>
+</block>

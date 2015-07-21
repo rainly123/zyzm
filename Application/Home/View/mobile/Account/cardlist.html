@@ -1,0 +1,78 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/validform.css" />
+</block>
+<block name="submenu">
+  <ul>
+    <li><a href="{:U('Account/index')}">资产动态</a></li>
+    <li class="cur"><a  href="{:U('Account/cardlist')}">银行卡管理</a></li>
+  </ul>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+  <div class="bankbox clearfix">
+    <div class="banktitle">提现卡</div>
+    <volist name="cards" id="vo">
+ 		<dd id="latestCard">
+ 			<span class="user-drawings-bank-num">尾号{:substr($vo[cardno], -4)}</span>
+ 			<div class="banknm">{$vo.bank_name}</div>
+ 			<div class="tstext">
+	 			<a href="{:U('Account/delcard?type=1&id='.$vo['id'])}">删除</a>
+	 		</div>
+ 		</dd>
+ 		</volist>
+		<dd id="addBankBtn" class="user-drawings-add-bank">
+	    <a href="{:U('Account/addcards')}" data-w="500px" data-h="450px" class="poplight">
+	    <span class="user-drawings-add-bank-txt">添加银行卡</span>
+	    </a>
+	  </dd>
+  </div>
+  <notempty name="quickcards">
+	<div class="bankbox clearfix">
+	  <div class="banktitle">快捷支付卡</div>
+	  <volist name="quickcards" id="vo">
+	 	<dd id="latestCard"> 
+	 		<span class="user-drawings-bank-num"><eq name="vo.cardtype" value="0">信用卡<else/>借记卡</eq> | 尾号{:substr($vo[cardno], -4)}</span>
+	 		<img src="{$vo.normal_logo}"> 
+	 		<div class="tstext">
+				<a href="{:U('Account/delcard?type=2&id='.$vo['id'])}">删除</a>
+	 		</div>
+	 	</dd>
+		</volist>
+	</div>
+	</notempty>
+</div>
+
+<div id="dialog" style="display:none;"></div>
+</block>
+<block name="script">
+<script src="__STATIC__/layer/layer.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+// 指定左侧选中菜单
+var submenu = "{:U('Account/index')}";
+
+// 弹窗控制
+$(document).ready(function(){
+  $(".poplight").click(function() {
+    var _this = $(this);
+    $("#dialog").load($(this).attr('href'), function() {
+      $.layer({type:1, title:false,area : [_this.attr('data-w'),_this.attr('data-h')], page:{dom:"#dialog"}, fadeIn:300});
+    });
+    return false;
+  });
+
+  $(".tstext a").click(function() {
+  	var _this = $(this);
+  	layer.confirm('您确定要删除改银行卡吗？', function(){
+  		$.get(_this.attr('href'), function(data) {
+  			if (data.status == 1) {window.location.reload();}
+  			else {layer.alert(data.info, 1);}
+  		});
+  	});
+  	return false;
+  });
+});
+</script>
+</block>

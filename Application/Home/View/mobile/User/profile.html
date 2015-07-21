@@ -1,0 +1,74 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+		<section>
+		<div class="usercontent clearfix">
+			<include file="Public/sidebar"/>
+			<div class="mcenter-right" id="mcenter-right">
+				<div class="ShowPath">
+					您现在的位置： 用户中心&nbsp;&gt;&nbsp;个人资料&nbsp;&gt;&nbsp;修改密码 
+				</div>
+				<div>
+					<div class="bs-docs-example" style="border: none;">
+				        <form class="login-form" action="{:U()}" method="post">
+				          <div class="control-group">
+				            <label class="control-label" for="inputPassword">原密码</label>
+				            <div class="controls">
+				              <input type="password" id="inputPassword"  class="span3" placeholder="请输入密码"  errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="old">
+				            </div>
+				          </div>
+				          <div class="control-group">
+				            <label class="control-label" for="inputPassword">新密码</label>
+				            <div class="controls">
+				              <input type="password" id="inputPassword"  class="span3" placeholder="请输入密码"  errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+				            </div>
+				          </div>
+				          <div class="control-group">
+				            <label class="control-label" for="inputPassword">确认密码</label>
+				            <div class="controls">
+				              <input type="password" id="inputPassword" class="span3" placeholder="请再次输入密码" recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请填确认密码" datatype="*" name="repassword">
+				            </div>
+				            <div class="controls Validform_checktip text-warning"></div>
+				          </div>
+				          <div class="control-group">
+				            <div class="controls">
+				              <button type="submit" class="btn">提 交</button>
+				            </div>
+				          </div>
+				        </form>
+					</div>
+				</div>
+			</div>
+			</div>
+		</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript">
+		//导航高亮
+    	highlight_subnav('{:U('User/profile')}');    	
+
+    	$("form").submit(function(){
+    		var self = $(this);
+    		$.post(self.attr("action"), self.serialize(), success, "json");
+    		return false;
+
+    		function success(data){
+    			if(data.status){
+    				$.messageBox({msginfo:data.info, cancel:function(){
+    					window.location.href = data.url;
+    				}});
+    			} else {
+    				$.messageBox({msginfo:data.info, cancel:null});
+    			}
+    		}
+    	});
+	</script>
+</block>

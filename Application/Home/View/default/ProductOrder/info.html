@@ -1,0 +1,197 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<link rel="stylesheet" type="text/css" href="__CSS__/usercenter.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+	<div class="fl w100 mt25 order">
+	<div class="content border1">
+		<header class="cl">
+			<b style=" background:none; text-indent:0;">{$productList.name}</b>
+			<span><a href="javascript:history.back(-1);">返回</a></span>
+		</header>
+		<form id="product_add"  method="Post" class="redound-edith" action="{:U()}">
+        <article class="order_1">
+        	<h3>确认你的回报内容</h3>
+             <div class="mt25 confirm cl">
+             	<dl><dt>支持金额</dt><dd style="color:#72c2e5; font-size:28px;">￥{$productPriceList.amount}</dd></dl>
+                <dl><dt style="padding-top:10px;">购买数量</dt><dd>
+                	<div class="number">
+						<input type="button" value="-" onclick="opera('val', false);" class="low">
+						<input type="text" id="val" name ="count" value = "1" class="c3"/>
+						<input type="button" value="+" onclick="opera('val', true);" class="up">
+					</div>
+                </dd></dl>
+                <dl><dt>选择的回报</dt><dd>￥{$productPriceList.amount} <br><span style="color:#999;">{$productPriceList.content}</span></dd></dl>
+                <dl><dt>备注</dt><dd>
+                	<textarea name="remarks" id="remarks" cols="" rows="" style="width:300px; height:100px; resize:none; padding:2px; border:1px solid #cccccc; border-radius:3px;"></textarea>
+                </dd></dl>
+                
+<!--                 <if condition="$productPriceList['is_share'] eq 3">    
+	                <dl>
+	                	<dt>验证码</dt>
+	                	<dd>
+	                		<div class="number">
+	                		<input style="width:40%;margin:0;" type="text" class="c3" id="shareno" name="shareno">
+	                		</div>
+	                		
+	                	</dd>
+	                </dl>
+                </if> -->
+
+             </div>
+             <div class="adresslist mt25 cl">
+                 <ul>
+                 <notempty name="addressList">
+				      <volist name="addressList" id="vo">
+				      <li id="{$vo.id}" <eq name="vo.status" value="1"> class="cur"</eq>><table><tr>
+				        <td width="70px">{$vo.name}</td>
+				        <td width="100px">{:getProvinceCity($vo['province'],$vo['city'])}</td>
+				        <td width="200px">{$vo.address}</td>
+				        <td width="40px">{$vo.postno}</td>
+				        <td width="80px">{$vo.phone}</td>
+				        <td>
+				          <a href="{:U('User/modify_addr?id='.$vo['id'])}" class="modify_addr">修改</a> |
+				          <a href="{:U('User/deleteaddr?addId='.$vo['id'])}" class="delete_addr">删除</a></td>
+				      </tr></table></li>
+				      	<input type="hidden" name="address_id" id="address_id" value='<eq name="vo.status" value="1">{$vo.id}</eq>'>
+				      </volist>
+				      
+				      <else/>
+				      <input type="hidden" name="address_id" id="address_id" value="">
+				      
+			      </notempty>
+			    </ul>
+                   <a href="{:U('User/modify_addr')}" id="addnew" class="mt15 cl btn-slide" style="text-decoration:none;">增加一个新地址 >></a>
+
+                </div>
+            <div class="goto mt25">
+            	<input type="hidden" name="customid" id="customid" value="{$customid}">
+                <input type="hidden" name="priceId" id="priceId" value="{$priceId}">
+            	<input type="hidden" name="is_share" id="is_share" value="{$productPriceList['is_share']}">
+            	<input type=button class="btn_red2" value="下一步">
+            </div>
+        </article>
+        </form>
+	</div>
+	 <div id="dialog" style="display:none"></div>
+</div>
+	
+
+</block>
+<block name="script">
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+	<script type="text/javascript" src="__JS__/jQselect.js"></script>
+
+	<script type="text/javascript">
+
+		$("#addnew, .modify_addr").on('click', function() {
+			  $("#dialog").html("");
+			  $("#dialog").load($(this).attr('href'));
+			  $.layer({type:1, title:false,area : ['553px','455px'], page:{dom:"#dialog"}, fadeIn:300});
+			  return false;
+		});
+		
+		$(".delete_addr").click(function() {
+			  if (!confirm('您确定要删除该条记录吗？')) {return false;}
+			  $.get($(this).attr('href'), function(data) {
+			    if (data.status == 1) {
+			      layer.alert(data.info, 1, function() {window.location.reload();});
+			    } else {
+			      layer.alert(data.info, 5);
+			    }
+			  });
+			  return false;
+		});
+
+		$(".adresslist li").click(function() {
+			$(".adresslist li").removeClass('cur');
+			
+			$(this).addClass('cur');
+			$('#address_id').val($(this).attr("id"));
+			
+		});
+	
+		//下一步
+		$(".btn_red2").click(function(){
+			var address_id = $('#address_id').val();
+			var count = $('#val').val();
+			var remarks = $('#remarks').val();
+			var is_share = $('#is_share').val();
+			var shareno ='';
+			var customid ='';
+			var priceId=$('#priceId').val();
+			if (isNaN(count) || count <= 0) {
+				alert('请填写购买数量，数量需要大于零。');
+				return false;
+			};
+			
+			if(address_id==''){
+				alert('请选择一个收货地址');
+				return false;
+			}
+			
+/* 			if(is_share=='3'){
+				if($('#shareno').val()==''){
+					alert('请输入验证码');
+					return false;
+				}else{
+					shareno = $('#shareno').val();
+				}
+			} */
+			if(is_share=='3'){
+				if($('#customid').val()==''){
+					alert('参数不对');
+					return false;
+				}else{
+					customid = $('#customid').val();
+				}
+			}
+
+
+	        $.ajax({
+	             type: "post",
+	             dataType: "json",
+	             data: {address_id:address_id, count:count,remarks:remarks,is_share:is_share,customid:customid,priceId:priceId},
+	             success: function(data){
+	 				if (data.status == "1") {
+						window.location.href = data.url;	
+						return false;
+					}else{
+						alert(data.info);
+						return false;
+					};
+	        	}
+	         });
+		});
+		
+		function opera(x, y) {
+			var rs = new Number(document.getElementById(x).value);
+			var r   = /^\+?[1-9][0-9]*$/;　　//正整数   
+  
+			if(!r.test(rs)){  
+				alert('请输入整数');
+				document.getElementById(x).focus();
+				return false;
+			}	
+					
+			if (y) {
+				document.getElementById(x).value = rs + 1;
+			} else {
+				if(rs<2){
+					alert('购买数量必须大于1');
+					document.getElementById(x).focus();
+					return false;
+				}
+				
+				document.getElementById(x).value = rs - 1;
+			}
+		}
+		
+	</script>
+</block>

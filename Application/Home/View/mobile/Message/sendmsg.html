@@ -1,0 +1,37 @@
+<extend name="Base/common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__M_CSS__/login.css" />
+</block>
+<block name="body">
+<section id="data_main">
+	<form action="{:U('Message/sendmsg?id='.$id)}" method="post" id="message-form">
+	    <div style="margin:10px 0;font-size:1.4em">
+	    	<div style="margin-bottom:10px;color:#999">收件人：<span style="color:#72c2e5">{$id|get_membername}</span></div>
+        <div class="comment_cont">
+            <textarea style="width:98%; padding:1%; border:none;font:16px/27px '微软雅黑';border:1px solid #999" name="content" rows="5"></textarea>
+        </div>
+
+        <div class="comment_btn" style="padding-top:10px">
+            <button class="btn btn-primary">发送</button>
+        </div>
+    </div>
+	</form>
+</section>
+</block>
+<block name="script">
+	<script>
+		$("#message-form").submit(function(){
+  		var self = $(this);
+  		$.post(self.attr("action"), self.serialize(), function(data) {
+  			if (data.status == 1) {
+          alert(data.info);
+          window.location.href = data.url;
+        } else {
+          alert(data.info);
+          if (data.url) {window.location.href=data.url;}
+        }
+  		}, "json");
+  		return false;
+  	});
+	</script>
+</block>

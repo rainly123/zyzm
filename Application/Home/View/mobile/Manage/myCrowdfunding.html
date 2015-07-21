@@ -1,0 +1,188 @@
+<extend name="Base/common" />
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/manage/myCrowdfunding.css">
+</block>
+
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+	<section>
+	<div class="usercontent clearfix">
+		<include file="Public/sidebar"/>
+		<div class="mcenter-right" id="mcenter-right">
+			<div class="ShowPath">
+			您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;实物众筹
+			</div>
+			<div class="bs-docs-example" style="border: none;">			
+			<!-- 数据列表 -->
+			<div class="data-table">
+				<ul class="nav nav-tabs" id="product_nav">
+					<li class="active">
+						<a href="#supportProductLi" data-toggle="tab">支持的项目</a>
+					</li>
+					<li>
+						<a href="#myProductLi" data-toggle="tab">发起的项目</a>
+					</li>
+					<li class="launch_product" >
+						<a href="{:U('Product/create')}" target="_blank" >发起一个项目</a>
+					</li>
+				</ul>
+			
+				<div class="tab-content">
+				  <div class="tab-pane active" id="supportProductLi">
+					<!-- 数据列表 -->
+					<div class="data-table">
+						<table class="tt">
+						    <thead>
+							    <tr>
+								<th class="">项目名称</th>
+								<th class="">进度</th>
+								<th class="">结束日期</th>
+								<th class="">支付状态</th>
+								<th class="">实付金额</th>
+								<th class="">幸运号</th>
+								<th class="">操作</th>
+								</tr>
+						    </thead>
+						    <tbody>
+								<volist name="supportList" id="vo">
+									<tr>
+										<td>
+											<a href="{:U('Product/viewdetail?pid='.$vo['id'])}" target="_blank">{$vo.name}</a>
+											<br/>
+											<span><b>订单号：</b>{$vo.customid}</span>
+										</td>
+										<td><?php print round($vo['finish_amount']/$vo['required_amount'],2)*100; ?>%</td>
+										
+										<td><span><?php print date('Y年m月d日',$vo['start_time']+86400*$vo['days']); ?></span></td>
+										<td>
+										<!-- 状态 回报相关id（0:购买成功、1:支付成功、-1:撤消 -2没有购买名额了） -->
+											<if condition="$vo['status'] eq 0"> 购买成功
+												<elseif condition="$vo['status'] eq 1"/>支付成功
+												<elseif condition="$vo['status'] eq -1"/>已撤销
+												<elseif condition="$vo['status'] eq -2"/>无购买名额
+											</if>
+										</td>
+										<td>￥<?php print $vo['amount']+ $vo['post_amount'];?></br>(邮费：￥{$vo.post_amount})</td>
+										<td>{$vo.luckno}</td>
+										<td>
+										<div class="btn-group">
+											<if condition="$vo['status'] eq 0">
+												<a class="btn btn-warning btn-small" href="{:U('ProductOrder/confirm?customId='.$vo['customid'])}" >支付</a>
+												<a class="IxD-revocation btn btn-warning btn-small btn-danger" data-url="{:U('ProductOrder/revocation?customId='.$vo['customid'])}" >撤销</a>
+											<elseif condition="$vo['status'] eq 1"/>
+											</if>
+										</div>
+						                </td>
+									</tr>
+								</volist>
+							</tbody>
+					    </table>
+					</div>
+				  </div>
+
+				  <div class="tab-pane" id="myProductLi">
+				  		<!-- 数据列表 -->
+						<div class="data-table">
+							<table class="tt">
+							    <thead>
+								    <tr>
+										<th class="">项目名称</th>
+										<th class="">进度</th>
+										<th class="">结束日期</th>
+										<th class="">审核状态</th>
+									<!-- 	<th class="">筹资上限</th> -->
+										<th class="">已筹资金额</th>
+										<th class="">操作</th>
+									</tr>
+							    </thead>
+							    <tbody>
+									<volist name="myProductList" id="vo">
+										<tr>
+											<td>
+												<a href="{:U('Product/viewdetail?pid='.$vo['id'])}" target="_blank">{$vo.name}</a>
+											</td>
+											<td>{:round($vo['finish_amount']/$vo['amount'],2) * 100}%</td>
+											<td><span>{:time_format($vo['start_time']+86400*$vo['days'])}</span></td>
+											<td>
+											<!-- 状态（0：普通、1：申请发布、2：不通过、9：审核通过） -->
+												<if condition="$vo['status'] eq 0"> 未提交
+													<elseif condition="$vo['status'] eq 1"/>申请发布
+													<elseif condition="$vo['status'] eq 2"/>不通过
+													<elseif condition="$vo['status'] eq 9"/>审核通过
+												</if>
+											</td>
+<!-- 											<td>
+											<if condition="$vo['top_amount'] neq 0">
+												￥{$vo.top_amount}
+											<else/>
+												不限
+											</if>
+											</td> -->
+											<td>{$vo['finish_amount']}</td>
+											<td>
+												<div class="btn-group">
+													<if condition="$vo['status'] eq 0">
+														<a class="btn btn-small btn-warning IXD-sumitproject" data-url="{:U('product/review?status=1&id=' . $vo['id'])}">提交项目</a>
+													</if>
+													<if condition="$vo['status'] eq 9">
+														<a class="btn btn-small" href="{:U('Manage/myCrowdfundingOrder?pid='.$vo[id])}" target="_blank">查看订单</a>
+													</if>
+													
+													<a class="btn btn-small" href="{:U('Product/addstep1?pid='.$vo[id].'&reviseStatus=true')}" target="_blank">修改</a>
+													<a class="btn btn-small" href="{:U('Product/viewdetail?pid='.$vo['id'])}" target="_blank">预览</a>
+												</div>
+									        </td>
+										</tr>
+									</volist>
+								</tbody>
+						    </table>
+						</div>
+				  </div>
+				  <!-- <div class="tab-pane" id="myConcernProjectLi">
+					  myConcernProjectLi
+				  </div> -->
+				</div>
+
+				<div class="page">{$_page}</div>
+			</div>
+			</div>
+
+	</div>
+	</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<link rel="stylesheet" type="text/css" href="__CSS__/colorbox.css">
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<script src="__JS__/Manage/myCrowdfunding.js"></script>
+	<script type="text/javascript">
+		//导航高亮
+		highlight_subnav('{:U('Manage/myCrowdfunding')}');
+		$(document).ready(function(){
+			$(".IXD-sumitproject").click(function(){
+				$.post($(this).data('url'),function(data){
+					if (data.status) {
+						alert(data.info);
+						window.location.reload();
+					}else{
+						alert(data.info);
+						return false;
+					};
+				});
+			});
+		});
+	</script>
+</block>

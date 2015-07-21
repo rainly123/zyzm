@@ -1,0 +1,42 @@
+<style>
+	.leader{margin:20px 40px;}
+	.pj-title{font-size:20px; margin-bottom: 20px}
+	.pj-title span{font-weight: bold; color:#666;}
+	.leader input[type='text'] {padding: 5px;margin-left: 10px; width: 200px}
+	.leader .btn-parent {margin: 30px 70px;}
+</style>
+<div class="leader">
+	<p class="pj-title">项目名称：<span>{$project.project_name}</span></p>
+	<form action="{:U()}" method="post">
+		<input type="hidden" name="id" value="{$project.id}">
+		<div>所属机构：
+			<select name="oid" id="J_group">
+	     		<option value="0">请选择项目阶段</option>
+				<option value="-1">撤消</option>
+				<option value="1">预热</option>
+				<option value="2">认投</option>
+				<option value="4">合投</option>
+				<option value="5">等待付款</option>
+				<option value="8">募资失败</option>
+				<option value="9">募资成功</option>
+			</select>
+				
+		</div>
+		
+		<div class="btn-parent"><input type="submit" value="确定" class="btn" id="leader-conform"></div>
+	</form>
+</div>
+<script>
+	$("#leader-conform").click(function() {
+		var form = $(this).parents('form');
+		$.post(form.attr('action'), form.serialize(), function(data) {
+			alert(data.info);
+			if (data.status == 1) {
+				$.colorbox.close();
+				window.location.reload();
+			}
+		});
+		return false;
+	});
+
+</script>

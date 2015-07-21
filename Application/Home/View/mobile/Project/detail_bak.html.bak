@@ -1,0 +1,545 @@
+<extend name="Base/common"/>
+
+<block name="style">
+<link href="__CSS__/detail.css" rel="stylesheet">
+</block>
+<block name="body">
+<div class="fl w100 mainwrap mt25">
+  <div class="content" id="detail">
+  <div class="bread"><a href="/">首页</a>　> <a href="{:U('List/index')}">股权项目</a>　> {$project.project.project_name}</div>
+    <div class="topinfo mt15 cl">
+      <div class="img fl">
+        <div class="noimg"><img src="{$project.project.cover|get_cover='path'}" alt="{$project.project.project_name}"></div>
+      </div>
+      <div class="infos ri">
+        <h4>{$project.project.project_name}</h4>
+        <p class="sintro"> {$project.project.abstract} </p>
+          <dl class="rzxx cl"><dd>
+            <span>{$project.fund.need_fund|change_fund}</span>融资目标额
+            <i>
+              <a onmouseover="ddd('aa', 'show');" onmouseout="ddd('aa', 'hide');" ><img src="__IMG__/icon_i.jpg"></a>
+              <div class="intro2" style=" display:none;" id="aa">
+                <em></em>
+                项目估值：{$project.fund.final_valuation|change_fund}元
+              </div>
+            </i>
+          </dd>
+          <dd><span>{$project.fund.follow_fund|change_fund}元</span>起投额</dd>
+          <dd><span>{$project[fund][scale] > 100 ? 100 :$project[fund][scale]}%</span>已完成</dd></dl>
+          <div class="savestep_detail cl">
+            <i style="width:{$project[fund][scale] > 100 ? 100 :$project[fund][scale]}%;"></i>
+            <div class="bg"></div>
+          </div>
+          <div class="cz cl">
+            <div class="zan">
+              <a href="#" class="c2">{$project['project']['attach_count']}</a>
+              <a href="#" class="c3">{$project.project.com_count}</a>
+            </div>
+            <div class="wytz"><a id="" href="{:U('project/follow?id='.$project['project']['id'])}">我要投资</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="tagsbar">
+        <a class="city">{:getDistrict($project['project']['province'])}/{:getDistrict($project['project']['city'])}</a>
+      </div>
+      <div class="intro_detail mt20">
+        <div class="xm fl">
+          <div class="smenu cl">
+            <ul>
+              <li id="one1" onclick="setTab('one',1,5)" class="cur">项目主页</li>
+              <li id="one2" onclick="setTab('one',2,5)">商业模式</li>
+              <li id="one3" onclick="setTab('one',3,5)">投资者<em>(<?php echo sizeof($project['investor']); ?>)</em></li>
+              <li id="one4" onclick="setTab('one',4,5)">项目动态</li>
+              <li id="one5" onclick="setTab('one',5,5)">项目评论<em>({$project.project.com_count})</em></li>
+            </ul>
+          </div>
+          <div class="hover" id="con_one_1" style="display: block;">
+            <div class="c11 borbm">
+              <table><tr>
+                <td>公司名称：{$project['project']['company_name']}</td>
+                <td>所处阶段: {$project.project.step|get_code_name}</td>
+              </tr>
+              <tr>
+                <td>公司地址：<span>{:getDistrict($project['project']['province'])}</span><span>{:getDistrict($project['project']['city'])}</span></td>
+                <td>团队人数：{$project['project']['member_count']}人</td>
+              </tr>
+              <tr>
+                <td>项目网址：{$project['project']['project_url']}</td>
+                <td>所属行业：{$project.project.industry|get_code_name}</td>
+              </tr></table>
+            </div>
+            <div class="c11 borbm crbl">
+              <table><tr>
+                <td><img src="__IMG__/icon_xmdetail_01.png">出让股权比例：{$project.fund.rate_fund|change_fund}%</td>
+                <td><img src="__IMG__/icon_xmdetail_02.png">项目估值：{$project.fund.final_valuation|change_fund}</td>
+              </tr></table>
+            </div>
+            <div class="c11 mintro">
+              <p>{$project.info.description}</p>
+            <notempty name="project.temp">
+            <div id="DB_gallery">
+              <div class="DB_imgSet">
+                <div class="DB_imgWin">
+                  <img src="{:get_cover($project['temp'][0]['info_key'], 'path')}" alt="" style="display: inline;"></div>
+                <div class="DB_page" style="display:none"><span class="DB_current">0</span>-<span class="DB_total">0</span></div>
+                <div class="DB_prevBtn" style="display: none;"><img src="__IMG__/img/prev_off.png" alt=""></div>
+                <div class="DB_nextBtn"><img src="__IMG__/img/next_off.png" alt="图片相册"></div>
+              </div>
+              <div class="DB_thumSet">
+                <ul class="DB_thumMove">
+                  <volist name="project.temp" id="v">
+                  <li><a href="{$v.info_key|get_cover='path'}"><img src="{$v.info_key|get_cover='path'}" alt="图片相册"></a></li>
+                  </volist>
+                </ul>
+                <div class="DB_thumLine" style="left: 0px;"></div>
+              </div>
+              <div class="DB_prevPageBtn" style="display: none;"><img src="__IMG__/img/prev_page.png" alt="上一页"></div>
+              <div class="DB_nextPageBtn"><img src="__IMG__/img/next_page.png" alt="下一页"></div>
+              <div class="DB_prevPageBtn2"><img src="__IMG__/img/prev_page.png" alt="上一页"></div>
+              <div class="DB_nextPageBtn2"><img src="__IMG__/img/next_page.png" alt="下一页"></div>
+            </div>
+            </notempty>
+          </div>
+          <div class="c11 mintro">
+            <h4 class="c2"><i></i>团队介绍</h4>
+            <div class="tab-cell" id="pj_team">
+              <div class="t1">
+                <div class="more-title">股东团队</div>
+                  <div>
+                    <table class="tt">
+                      <thead>
+                        <tr>
+                          <th>姓名</th>
+                          <th>职务</th>
+                          <th>所占股份</th>
+                          <th>是否全职</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <foreach name="project.team" item="v">
+                        <eq name="v.member_type" value="0">
+                        <tr>
+                          <td>{$v.name}</td>
+                          <td>{$v.postion}</td>
+                          <td>{$v.shares}%</td>
+                          <td><eq name="v.full_job" value="1">全职<else/>兼职</eq></td>
+                        </tr>
+                        </eq>
+                      </foreach>
+                      </tbody>
+                    </table>
+                    <div class="t-info">
+                    <foreach name="project.team" item="v">
+                      <eq name="v.member_type" value="0">
+                      <notempty name="v.member_info">
+                      <div class="t-title"><b>◆ 股东成员 <span>{$v.name}</span> 介绍</b></div>
+								      <span style="font-size:14px">{$v.member_info}</span>
+                      </notempty>
+                      </eq>
+                    </foreach>
+                    </div>
+                  </div>
+                </div>
+                <div class="t1">
+                  <div class="more-title">非股东团队
+                  </div>
+                  <div>
+                    <table class="tt">
+                      <thead>
+                        <tr>
+                          <th>姓名</th><th>职务</th><th>是否全职</th><th>入职时间</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <foreach name="project.team" item="v">
+                        <neq name="v.member_type" value="0">
+                        <tr>
+                            <td>{$v.name}</td><td>{$v.postion}</td>
+                            <td><eq name="v.full_job" value="1">全职<else/>兼职</eq></td>
+                            <td>{$v.in_time|time_format='Y-m-d'}</td>
+                        </tr>
+                        </neq>
+                      </foreach>
+                      </tbody>
+                    </table>
+                    <div class="t-info">
+                      <foreach name="project.team" item="v">
+                        <neq name="v.member_type" value="0">
+                        <notempty name="v.member_info">
+                          <div class="t-title"><b>◆ 非股东成员 <span>{$v.name}</span> 介绍</b></div>
+								          <span style="font-size:14px">{$v.member_info}</span>
+                        </notempty>
+                        </neq>
+                      </foreach>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="c11 mintro xmjs" id="con_one_2" style="display: none;">
+            <notempty name="project.info.plan">
+              <h4 class="c2"><i></i>公司未来规划</h4>
+              <div>{$project.info.plan}</div>
+              </notempty>
+
+              <notempty name="project.info.custom">
+              <h4 class="c2"><i></i>目标客户</h4>
+              <div> {$project.info.custom}</div>
+              </notempty>
+
+              <notempty name="project.info.avantages">
+              <h4 class="c2"><i></i>竞争优势</h4>
+              <div>{$project.info.avantages}</div>
+              </notempty>
+
+              <notempty name="project.info.yingli_mode">
+              <h4 class="c2"><i></i>盈利模式</h4>
+              <div>{$project.info.yingli_mode}</div>
+              </notempty>
+            </div>
+            <div class="c11 mintro tzz" id="con_one_3" style="display: none;">
+              <ul class="cats">
+                <li><b>| 分类</b></li>
+                <li><a href="#">全部</a></li>
+                <li><a href="#" class="cur">按时间</a></li>
+                <li><a href="#">按金额</a></li>
+              </ul>
+              <ul class="tzzlist cl">
+                <foreach name="lists" item="vo">
+                  <div class="inv-cell">
+                    <div class="img-face pull-left">
+                        <a href="{:U('MCenter/profile?id='.$vo['investor_id'])}" target="_blank"><img src="{$vo.investor_id|get_memberface}" alt=""></a>
+                    </div>
+                    <div class="inv-info">
+                        <p><a href="{:U('MCenter/profile?id='.$vo['investor_id'])}" target="_blank"><b>{$vo.investor_id|get_membername}</b></a><eq name="vo.lead_type" value="9"><small>领投人</small></eq></p>
+                        <p><a href="{:U('Message/sendmsg?id='.$vo['investor_id'])}" name="sendmessage">发私信</a></p>
+                        <p>投资金额:<em>{$vo.fund|round=2}</em>元</p>
+                    </div>
+                  </div>
+                </foreach>
+                <li><dl>
+                    <dd class="img"><img src=""></dd>
+                    <dd class="detail">
+                      <div class="from"><b>用户名称</b></div>
+                      <div class="d">投资金额：20000元</div>
+                    </dd>
+                    <dd class="date">跟投时间：2015-01-29</dd>
+                </dl></li>
+              </ul>
+              <ul class="pages">
+                <li class="cur"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">&gt;</a></li>
+                <li><a href="#">&gt;&gt;</a></li>
+              </ul>
+            </div>
+            <div class="c11 mintro xmdt" id="con_one_4" style="display: none;">
+              <h4 class="c2"><i></i>项目动态</h4>
+              <div class="content border1">
+                <div class="dtmain cl">
+                <ul class="addDynamic">
+                  <form  name="dynamic" id="dynamic" method="post" action="{:U('project/dynamicInfoAdd')}">
+                    <input type="hidden" name="project_id" value="{$project.project.id}">
+                        <li><label>标题</label>
+                          <input name="project_dynamic_title" type="text" class="c1" >
+                        </li>
+                        <li><span class="addpic"></span><label>内容</label>
+                          <input name="project_dynamic_content" type="text" class="c1" ></li>
+                        <li> <input name="project_dynamic_access" type="text" class="c1" ></li>
+                        <li><input type="submit" value="发布"></li>
+                        </form>
+                        <foreach name="dynamicInfo" item="vo">
+                          <li><dl>
+                            <dt> {$vo.create_time|time_format='Y-m-d'}</dt>
+                            <dd>
+                              <b>{$vo.title}</b>
+                              <p>{$vo.content}</p>
+                            </dd>
+                          </dl></li>
+                        </foreach>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="c11 mintro xmpl" id="con_one_5" style="display: none;">
+                  <h4 class="c2"><i></i>项目评论</h4>
+                  <div class="c11 mintro xmpl" id="con_one_3" style="display: block;"><!--注意：下方与之前的详情页有点不同-->
+                    <header>还可以输入140字</header><!--注意：增加项-->
+                      <ul class="mes">
+                        <li>
+                          <div id="replyw" class="reply" style="margin-top:10px;"><!--注意：改变上边距为10-->
+                            <textarea name="" cols="" rows="" class="border1" style="width:100%; height:200px;"></textarea>
+                          <a href="#">评论</a> </div>
+                        </li></ul>
+                        <ul class="mes">
+                          <volist name="project.comment" id="v">
+                            <li><dl>
+                              <dd class="img"><img src="{$v.comment_user|get_memberface}" alt="众筹用户"></dd>
+                              <dd class="detail">
+                                <div class="from"><b>{$v.comment_user|get_membername}</b>{$v.create_time|change_date}</div>
+                                <div class="d">{$v.content}</div>
+                                <div id="panel" class="reply" style="display:none;">
+                                  <textarea name="" cols="" rows="" class="border1" style="width:100%;"></textarea>
+                                  <a href="#" class="btn-slide">评论</a>
+                                </div>
+                              </dd>
+                              <dd class="cz"><a href="#" class="btn-slide">回复</a><a href="#" class=" mt5">删除</a></dd><!--注意：增加删除-->
+                              <dd>
+                              <ul>
+                              <notempty name="v.old_content">
+                                <div class="pllist">
+                                  <li>{$v.old_user|get_membername}说：{$v.old_content}</li>
+                                        </div>
+                                    </notempty>
+
+                                  </ul>
+                                </dl></li>
+                                </volist>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="c11 mintro">
+                        <h4 class="c2"><i></i>推荐项目</h4>
+                        <div class="tjxm_body">
+                            <div class="bx_wrap">
+                                <!--  	<a href="/" class="prev">上一个</a>
+                                     <a href="/" class="next">下一个</a> -->
+                                <div class="bx_container" style="position: relative; width: 630px; overflow: hidden;">
+                                    <ul id="tjxm" style="width: 999999px; position: relative; left: -198px;">
+
+                                        <foreach name="recomendList['project']" item="v">
+                                            <li>  
+                                                <a href="{:U('project/detail?id='.$v['id'])}" title="聚募股权众筹"> 
+                                                    <img src="{$v['cover']|get_cover='path'}"  style="float: left; list-style: none; margin-right: 20px;width:198px;height:123px;" alt="{$v.project_name}股权众筹">{$v.project_name} 
+                                                </a>  
+                                            </li>
+                                        </foreach>
+
+                                        <foreach name="recomendList['product']" item="v">
+                                            <li>  
+                                                <a href="{:U('product/viewdetail/pid/'.$v['id'])}" title="聚募实物众筹"> 
+                                                    <img src="{$v['home_img']|get_cover='path'}"  style="float: left; list-style: none; margin-right: 20px;width:198px;height:123px;" alt="{$v.name}实物众筹">{$v.name} 
+                                                </a>  
+                                            </li>
+                                        </foreach>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="other ri">
+                    <div class="df">
+                        <div class="maps">
+                            <div id="container" style="min-width:198px;height:198px"></div>
+                        </div>
+                        <div class="gotodf"><a href="#?w=880" rel="popup2" class="poplight">我来打分</a></div>
+                        <div id="popup2" class="popup_block">
+                            <!-- <iframe src="打分页.html" width="880" height="600" frameborder="0" scrolling="no"></iframe> -->
+                        </div>
+                        <div class="fqr cl"><a href="{:U('MCenter/profile?id='. $project['project']['uid'])}"><img src="{$project.project.uid|get_memberface}" alt="众筹项目发起人" class="header"><b>{$project.project.uid|get_membername}</b></a>发起人</div>
+                        <div class="ranges" style="display:none;">
+                            <ul>
+                                <li>
+                                    <h2>团队</h2>
+                                    <div class="input">
+                                        <input type="range" name="points" value="50" min="0" max="100">
+                                        <label><span id="n1"></span>%</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h2>市场</h2>
+                                    <div class="input">
+                                        <input type="range" name="points" value="50" min="0" max="100">
+                                        <label><span id="n2"></span>%</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h2>创意</h2>
+                                    <div class="input">
+                                        <input type="range" name="points" value="50" min="0" max="100">
+                                        <label><span id="n3"></span>%</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h2>盈利能力</h2>
+                                    <div class="input">
+                                        <input type="range" name="points" value="50" min="0" max="100">
+                                        <label><span id="n4"></span>%</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h2>项目评估</h2>
+                                    <div class="input">
+                                        <input type="range" name="points" value="50" min="0" max="100">
+                                        <label><span id="n5"></span>%</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ew">
+                        <h4>扫码进入项目讨论群</h4>
+                        <img src="{$project.project.barcode}"> </div>
+                    <div class="ew">
+                        <h4>特殊回报</h4>
+                        <p>{$project.fund.extra}</p>
+                    </div>
+                    <div class="ew">
+                        <h4>其他要求</h4>
+                        <p>{$project.fund.add_source}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</block>
+<block name="script">
+<script type="text/javascript" src="__JS__/addons.js"></script>
+<script type="text/javascript" src="__JS__/highcharts.js"></script>
+<script type="text/javascript" src="__JS__/exporting.js"></script>
+<script type="text/javascript" src="__JS__/highcharts-more.js"></script>
+<script type="text/javascript" src="__JS__/detail.js"></script>
+<script type="text/javascript" src="__JS__/jquery.DB_gallery.js"></script>
+<script type="text/javascript">
+  // 项目图片轮播
+  $('#DB_gallery').DB_gallery({
+    thumWidth:110,thumGap:8,thumMoveStep:4,moveSpeed:300,fadeSpeed:500});
+  // 评分显示用数据
+  var userScores = [43000, 19000, 60000, 35000, 17000];
+	$.get('{:U("Pages/investor?pid=".$project["project"]["id"])}', function(data) {
+		$("#investlist").html(data.html);	
+		$("#investor-count").html(data.count);
+	}, 'json');
+
+
+
+	function pageChange() {
+		$('#pagectrl .first,#pagectrl .num,#pagectrl .next,#pagectrl .end,#pagectrl .prev').click(function() {
+			$.get($(this).attr('href'), function(data) {
+				$("#investlist").html(data.html);	
+				$("#investor-count").html(data.count);
+			}, 'json');
+			return false;
+		});
+	}
+
+		// 回复(显示恢复输入框)
+		$(".msg-action a").click(function() {
+			$(this).parent().hide();
+			var comment = $(this).parents(".msg-cell").find('.msg-info');
+			var reply = $('.com-reply');
+			$(comment).append(reply);
+			$(reply).find("#user_comment").val("");
+			$(reply).show(400);
+			return false;
+		});
+		// 发表评论
+		$("#btnSend, #btnSend1").click(function() {
+			var comment;
+			if ($(this).attr('id') == 'btnSend') {
+				comment = $("#comment1");
+			} else {
+				comment = $("#comment2");
+			}
+			if (comment.val() == '') {
+				alert('请先填写评论内容。');
+				return false;
+			}
+			var data = {
+				project_id: $("#project_id").val(),
+				content : comment.val(),
+				reply_id : 0
+			};
+			$.post($(this).attr('href'), data, function(data) {
+				addNew(data);
+				comment.val("");
+				alert('评论发表成功。');
+			});
+			return false;
+		});
+
+		// 添加新的内容
+		function addNew(data) {
+			var cell = $(".templete .msg-cell").clone(true);
+			$(cell).find('#comment_id').val(data.id);
+			$(cell).find('#face').attr('src', data.user_face);
+			$(cell).find('#user_name').html(data.user_name);
+			$(cell).find('#date').html(data.date);
+			var floot = Number($("#com_count").html()) + 1;
+			$(cell).find('#floot').html(floot + 'F');
+			$("#com_count").html(floot);
+			$(cell).find('#content').html(data.content);
+			if (data.old_user) {
+				$(cell).find('#old_user').html(data.old_user);
+				$(cell).find('#old_content').html(data.old_content);
+			} else {
+				$(cell).find('.msg-base').remove();
+			}
+			$(".msg-list").prepend(cell);
+		}
+		// 回复信息
+		$("#btn_reply").click(function() {
+			var cell = $(this).parents(".msg-cell");
+			if ($(cell).find("#user_comment").val() == '') {
+				alert('请填写回复内容。');
+				return false;
+			}
+			var data = {
+				project_id: $("#project_id").val(),
+				content : $(cell).find("#user_comment").val(),
+				reply_id : $(cell).find('#comment_id').val(),
+				old_user: $(cell).find('header span:first').html(),
+				old_content: $(cell).find('#cont').html()
+			};
+			
+			$.post("{:U('project/comment')}", data, function(data) {
+				var reply = $('.com-reply');
+				$(reply).parents('.msg-cell').find('.msg-action').show();
+				$(reply).hide(400);
+				addNew(data);
+			});
+		});
+
+		$("#btn_cancel").click(function() {
+			$('.com-reply').hide();
+			$(this).parents(".msg-cell").find('.msg-action').show();
+		});
+
+		$('.menu li a').click(function(){
+			$(this).parents('.menu').find('li').removeClass('active');
+			$(this).parents('li').addClass('active');
+			var tab = $(this).attr('href');
+			$(".tab-cell").removeClass('active');
+			$(tab).addClass('active');
+			return false;
+		});
+
+		$("#btnAttach").click(function() {
+			$.get('{:U("project/attach?id=". $project["project"]["id"])}', function(data) {
+				if (data.status == 1) {
+					if (data.attach_status == 0) {
+						$('#btnAttach').val('收藏项目');
+					} else {
+						$('#btnAttach').val('已收藏');
+					}
+				} else {
+					$.messageBox({
+              msginfo:data.info,
+              cancel: function() {
+              	window.location.href = "{:U('User/login')}";
+              }
+            });
+				}
+			});
+		});
+	</script>
+</block>

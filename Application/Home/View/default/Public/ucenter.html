@@ -1,0 +1,157 @@
+<div class="fl w100 usertopbar">
+    <div class="content cl">
+        <div class="fl">
+        <span class="avatar">
+            <img id="avatar-img" src="{:get_memberface()}">
+            <span class="avatar-change">修改头像</span>
+        </span>
+            <b>{:get_membername(is_login())}</b>
+        </div>
+        <div class="ri">
+            <a href="{:U('Message/index')}" class="xx">消息</a>
+        </div>
+    </div>
+</div>
+<div class="fl w100 usermain mt15">
+    <div class="content">
+        <div class="tabs cl">
+            <block name="submenu"></block>
+        </div>
+        <div class="maincontent cl">
+            <div class="userleft fl">
+                <ul>
+                    <li><em id="c1"></em><a href="{:U('MCenter/pj_support')}">股权众筹</a></li>
+                    <li><em id="c2"></em><a href="{:U('MCenter/pr_support')}">实物众筹</a></li>
+                     <li><em id="c6"></em><a href="{:U('MCenter/stock')}">基金管理</a></li>
+                    <li><em id="c3"></em><a href="{:U('Account/index')}">账户管理</a></li>
+                    <li class="cur"><em id="c4"></em><a href="{:U('User/detail')}">个人中心</a></li>
+                    <li><em id="c5"></em><a href="{:U('Message/index')}">消息管理</a></li>
+                </ul>
+            </div>
+            <block name="detail"></block>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="__STATIC__/Jcrop/css/jquery.Jcrop.min.css">
+
+
+<div class="up-pic-box" id="up-pic-box" style="">
+    <input type="file" id="download" class="up-avatar" name="download">
+    <label class="up-pic-label" for="download">上传图片</label>
+    <div id="crop-box">
+        <img id="crop-img" src="/Public/Home/images/tiny.png">
+    </div>
+    <div class="up-box-footer">
+        <button id="up-avatar-submit">确定</button>
+        <button id="up-avatar-cancel">取消</button>
+    </div>
+    <form id="change-photo-form" action="{:U('User/changePhoto')}" method="post">
+        <input type="hidden" id="avatar-id" name="photo" value="">
+        <input type="hidden" id="x" name="x" value="">
+        <input type="hidden" id="y" name="y" value="">
+        <input type="hidden" id="w" name="w" value="">
+        <input type="hidden" id="h" name="h" value="">
+        <!--<input type="hidden" id="sw" name="sw">
+        <input type="hidden" id="sh" name="sh">-->
+        <input type="hidden" name="flag" value="1">
+        <input type="hidden" id="basepath" name="basepath" value="/Uploads/Picture/Photo/552521d06b169.jpg">
+    </form>
+</div>
+<script src="__STATIC__/Jcrop/js/jquery.Jcrop.min.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+<script>
+    var upAvatarLayerId = 0;
+    $('.usertopbar .avatar').click(function () {
+        var offsetTop = Math.round(($(window).height() - 470) / 2);
+        if (offsetTop < 0) offsetTop = 0;
+        upAvatarLayerId = $.layer({
+            type: 1,
+            title: "上传头像",
+            offset: [offsetTop + 'px', ''],
+            area: ['562px', '470px'],
+            page: {dom: '#up-pic-box'}
+        });
+    });
+    var clearCoords = function (c) {
+        $('#x').val("");
+        $('#y').val("");
+        $('#w').val("");
+        $('#h').val("");
+    };
+    var updateCoords = function (c) {
+        $('#x').val(c.x);
+        $('#y').val(c.y);
+        $('#w').val(c.w);
+        $('#h').val(c.h);
+    };
+    var jcrop_api;
+    $('.up-avatar').change(function () {
+        $.upload({
+            url: '{:U("File/uploadPhoto")}',
+            fileName: 'download',
+            dataType: 'json',
+            accept: '.jpg,.jpeg,.png,.gif',
+            // 上传之前回调,return true表示可继续上传
+            onSend: function () {
+                return true;
+            },
+            // 上传之后回调
+            onComplate: function (json) {
+                jcrop_api && jcrop_api.destroy();
+                var $img = $('#crop-img');
+                $img.css({
+                    'width': 'auto',
+                    'height': 'auto'
+                });
+                $img.attr('src', json.path);
+                $img.on('load', function () {
+                    $img.Jcrop({
+                        aspectRatio: 1,
+                        bgColor: '#eee',
+                        boxWidth: 542,
+                        boxHeight: 328,
+                        setSelect: [0, 0, 100, 100],
+                        onSelect: updateCoords,
+                        onRelease: clearCoords
+                    }, function () {
+                        jcrop_api = this;
+                    });
+                });
+                $('#avatar-id').val(json.id);
+                $('#basepath').val(json.path);
+            }
+        });
+    });
+    $('#up-avatar-submit').click(function () {
+        if (!$('#avatar-id').val()) {
+            layer.tips('请上传照片', $('#download').get(0), {
+                guide: 2,
+                style: ['background-color:#0FA6D8; color:#fff; font-size:14px;', '#0FA6D8'],
+                time: 2
+            });
+            return false;
+        }
+        var $form = $("#change-photo-form");
+        var success = function (json) {
+            if (json.status) {
+                layer.close(upAvatarLayerId);
+                $('#avatar-img').attr('src', json.photo_url);
+                layer.msg(json.info, 2, 9);
+            } else {
+                alert(json);
+            }
+        };
+        $.ajax({
+            type: 'POST',
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            success: success,
+            error: function () {
+                //console.log(arguments)
+            }
+        });
+    });
+    $('#up-avatar-cancel').click(function () {
+        layer.close(upAvatarLayerId);
+    })
+</script>

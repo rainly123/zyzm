@@ -1,0 +1,31 @@
+<div style="width:600px">
+	<div>
+		<h3>支付信息</h3>
+		<table style="font-size:16px">
+			<tr>
+				<td style="width:200px;text-align:right">账户名称：</td>
+				<td style="width:400px">{$fund.username}</td>
+			</tr>
+			<tr>
+				<td style="width:200px;text-align:right">关联证件：</td>
+				<td style="width:400px">{$fund.certno}</td>
+			</tr>
+			<tr>
+				<td style="width:200px;text-align:right">联系手机：</td>
+				<td style="width:400px">{$fund.mobile}</td>
+			</tr>
+			<tr>
+				<td style="width:200px;text-align:right">银行卡号：</td>
+				<td style="width:400px">{$fund.acctno}</td>
+			</tr>
+			<tr>
+				<td style="width:200px;text-align:right">支付金额：</td>
+				<td style="width:400px">{$investor.fund|number_format=2} 元</td>
+			</tr>
+			<tr>
+				<td style="width:200px"></td>
+				<td style="width:400px; padding:10px 0"><a class="btn btn-primary" href="{:U('Account/pay?id='.$investor['id'])}">确认支付</a></td>
+			</tr>
+		</table>
+	</div>
+</div>

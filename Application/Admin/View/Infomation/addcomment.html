@@ -1,0 +1,123 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<div class="main-title cf">
+		<h2>新增评论</h2>
+	</div>
+	<!-- 标签页导航 -->
+<div class="tab-wrap">
+	<div class="tab-content">
+	<!-- 表单 -->
+	<form id="form" action="{:U()}" method="post" class="form-horizontal">
+		<!-- 基础文档模型 -->
+		<div class="form-item cf">
+			<label class="item-label">评论人<span class="check-tips"></span></label>
+			<div class="controls">
+				<input type="text" class="text input-large" name="comment_by" value="{$info.comment_by}">
+			</div>
+		</div>
+		
+		<div class="form-item cf">
+			<label class="item-label">头像<span class="check-tips"></span></label>
+			<div class="controls">
+				<input type="file" id="upload_picture_face">
+				<input type="hidden" name="face" id="cover_id_face" value="{$info['face']}"/>
+				<div class="upload-img-box">
+					<notempty name="info['face']">
+						<div class="upload-pre-item"><img src="{$info['face']|get_cover='path'}"/></div>
+					</notempty>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-item cf">
+			<label class="item-label">评论时间<span class="check-tips"></span></label>
+			<div class="controls">
+          		 <input type="text" name="comment_time" class="text time" value="{$info.comment_time|time_format}" placeholder="请选择日期" />
+			</div>
+		</div>
+		
+		<div class="form-item cf">
+			<label class="item-label">内容<span class="check-tips"></span></label>
+			<div class="controls">
+				<label class="textarea">
+             		<textarea name="content">{$info.content}</textarea>
+           			{:hook('adminArticleEdit', array('name'=>'content','value'=>$info['content']))}
+        		</label>
+			</div>
+		</div>
+		
+		<div class="form-item cf">
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<a class="btn btn-return" href="{:U('Infomation/comment?id='.$pid)}">返 回</a>
+			<input type="hidden" name="id" value="{$info.id|default=''}"/>
+			<input type="hidden" name="pid" value="{$pid}"/>
+		</div>
+	</form>
+	</div>
+</div>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+
+	//上传图片
+	/* 初始化上传插件 */
+	$("#upload_picture_face").uploadify({
+	    "height"          : 30,
+	    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+	    "fileObjName"     : "download",
+	    "buttonText"      : "上传图片",
+	    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+	    "width"           : 120,
+	    'removeTimeout'	  : 1,
+	    'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+	    "onUploadSuccess" : uploadPicture{$field.name},
+	    'onFallback' : function() {
+	        alert('未检测到兼容版本的Flash.');
+	    }
+	});
+	function uploadPicture{$field.name}(file, data){
+		var data = $.parseJSON(data);
+		var src = '';
+	    if(data.status){
+	    	$("#cover_id_face").val(data.id);
+	    	src = data.url || '__ROOT__' + data.path
+	    	$("#cover_id_face").parent().find('.upload-img-box').html(
+	    		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
+	    	);
+	    } else {
+	    	updateAlert(data.info);
+	    	setTimeout(function(){
+	            $('#top-alert').find('button').click();
+	            $(that).removeClass('disabled').prop('disabled',false);
+	        },1500);
+	    }
+	}
+
+	$('#submit').click(function(){
+		$('#form').submit();
+	});
+
+	$(function(){
+		//导航高亮
+	    highlight_subnav("{:U('Infomation/index')}");
+		
+	    $('.time').datetimepicker({
+	        format: 'yyyy-mm-dd hh:ii',
+	        language:"zh-CN",
+	        minView:2,
+	        autoclose:true
+	    });
+	    showTab();
+	
+	
+	});
+</script>
+</block>

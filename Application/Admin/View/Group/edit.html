@@ -1,0 +1,58 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>修改机构信息</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">名称<span class="check-tips">（机构名称，必填）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="name" value="{$info.name}">
+            </div>
+        </div>
+       	<div class="form-item">
+            <label class="item-label">简称<span class="check-tips">（机构简称，选填）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="short_name" value="{$info.short_name}">
+            </div>
+        </div>
+ 		<div class="form-item">
+            <label class="item-label">联系人<span class="check-tips">（选填）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="link_man" value="{$info.link_man}">
+            </div>
+        </div>
+    	<div class="form-item">
+            <label class="item-label">联系电话<span class="check-tips">（选填）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="link_tel" value="{$info.link_tel}">
+            </div>
+        </div>
+    	<div class="form-item">
+            <label class="item-label">联系地址<span class="check-tips">（选填）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="link_address" value="{$info.link_address}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">备注<span class="check-tips"></span></label>
+            <div class="controls">
+                <textarea rows="" cols="" name="remarks" class="textarea input-large">{$info.remarks}</textarea>
+            </div>
+        </div>
+       
+        <div class="form-item">
+        	<input type="hidden" name="id" value="{$info.id|default=''}">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav("{:U('Group/index')}");
+    </script>
+</block>

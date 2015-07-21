@@ -1,0 +1,36 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+<block name="body">
+    <link href="__CSS__/style.css" rel="stylesheet">
+
+    <div id="server-data" style="display:none;">
+        <input type="hidden" name="noticelist" value="{$noticelist}">
+        <input type="hidden" name="newslist" value="{$newslist}">
+    </div>
+    <div class="fl w100 mt25 notice_main">
+        <div class="content">
+
+            <div class="rightmain">
+                <div class="title">项目公告</div>
+                <div class="mainintro p-news-list">
+                    <ul>
+                        <foreach name="lists" item="v">
+                            <li class="item" data-id="{$v.id}">
+                                <a href="{:U('Info/infomation?id='.$v['id'])}" title="新闻资讯">{$v.title}</a><em>{$v.create_time|time_format='Y-m-d'}</em></a>
+                            </li>
+                        </foreach>
+                    </ul>
+                    <div id="pagectrl" class="pagectrl">
+                        {$Pages}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__JS__/red-dot.js"></script>
+    <script>
+        redDot.init('news')
+    </script>
+</block>

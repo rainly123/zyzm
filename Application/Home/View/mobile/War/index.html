@@ -1,0 +1,510 @@
+<extend name="Base/common"/>
+
+<block name="header">
+<!--[if IE]><!-->
+<meta name="renderer" content="ie-stand">
+ <!--<![endif]-->
+ 
+	<link rel="stylesheet" type="text/css" href="__CSS__/war/index.css">
+	<style type="text/css">
+		.wwactiveleft{
+	background-color:#ed401e;
+	color: red;
+}	
+	</style>
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+
+<div class="ui_banner">
+   <img src="__IMG__/war/banner.png" />
+</div>
+<div class="main">
+
+	   <div class="">
+			<h1 class="latest report" style="text-align: center;">押注未来</h1>
+			<h2 class="latest report" style="text-align: center; color:#999">明珠怯了，<span style="color:red">你敢吗？</span></h2>
+			<div class="ui-meter">
+				<div class="ui-linear-leaf">
+					
+				<div>
+					<h3 class="ui-num">人气指数</h3>
+					<p class="ui-num-people ui-num-people-left">{$warLeft.count}</p>
+
+					<div class="ui-rectangles ui-rectangles-left" style="height:{$barGraph.left}px;"></div>
+					<p class="ui-num ui-count">支持总额</p>
+					<h3 class="ui-support-amount">￥ <span class="ui-support-amount-detail">{$warLeft.amount}</span></h3>
+
+					<button href="#myModal" role="button" data-toggle="modal" class="bt-modal ui-support-button ui-support-button-left" id="bt-left" 
+data-object="董明珠" data-ccount="{$warLeft.count}" data-aamount="{$warLeft.amount}" data-dbobject="d"
+					>我要支持</button>
+				</div>
+				</div>
+
+
+				<div class=" ui-linear-leaf-center ">
+					
+					<img src="__IMG__/war/talk.png" style="width:600px;height:162px;">
+					<div id="ui-echarts"  style="height:230px;"></div>
+					<br/>
+
+					<p style="float:left;color:#ed401e;width:35%;font-size:30px;text-align:right;">{$pieCharts.left}%</p>
+					<p class="ui-who"  style="width: 30%;float: left;margin-top: 40px;">
+						<span style="">才是最后的赢家</span>
+					<br/><br/>
+					由你来决定
+					</p>
+					<p style="float:left;color:#18a0d2;width:35%;font-size: 30px;text-align:left;">{$pieCharts.right}%</p>
+
+				</div>
+
+
+				<div class=" ui-linear-leaf ui-linear-leaf-right-positon">
+					<h3 class="ui-num">人气指数</h3>
+					<p class="ui-num-people ui-num-people-right">{$warRight.count}</p>
+					<div class="ui-rectangles ui-rectangles-right" style="height:{$barGraph.right}px;"></div>	
+					<p class="ui-num ui-count">支持总额</p>
+					<h3 class="ui-support-amount-right">￥ <span class="ui-support-amount-detail-right">{$warRight.amount}</span></h3>
+
+					<button href="#myModal" role="button" data-toggle="modal" 
+						class="bt-modal ui-support-button ui-support-button-right"
+						data-object="雷军" data-ccount="{$warRight.count}" data-aamount="{$warRight.amount}" data-dbobject="l">我要支持</button>
+				</div>
+			</div>
+
+			<div class="ui-comment">
+				<div class="ui-one-comment">
+					<h4>评论</h4>
+					<div class="ui-one-comment-list">
+					<empty name="listComment">
+			           	<p class="">没有留言</p>
+			    	<else />
+						<ul>
+				    		<foreach name="listComment" item="vo" >
+							<li><p class="ui-comment-item">
+								<if condition="$vo[support] eq 雷军">
+									<span style="color:#18a0d2;">【雷】</span><span style="font-weight: bold;">{$vo.name}：</span><span class="">{$vo.content}</span>	
+								<else />
+									<span style="color:#ed401e;">【董】</span><span style="font-weight: bold;">{$vo.name}：</span><span class="">{$vo.content}</span>
+								</if>
+							</p></li>
+				           	</foreach>
+						</ul>
+			       </empty>
+
+					</div>
+					<div style="clear:both"></div>
+				</div>
+
+			<form id="ui-fffrom" method="POST" action="">
+				<div class="ui-one-comment">
+					<h4>昵称</h4>
+					<input type="text" name="name" placeholder="默认匿名" style="height:30px;" class="ui-comment-right-marginleft ui-form-height ui-one-comment-form"></input>
+					
+					<h4 style="margin-left:15px;width:90px;">选择支持</h4>
+					<select name="support" datatype="*" class="ui-form-height" nullmsg="必须选择支持">
+		              <option value="">请选择支持</option>
+		              <option value="董明珠">董明珠</option>
+		              <option value="雷军">雷军</option>
+		            </select>
+
+				</div>
+
+				<div class="ui-one-comment ui-one-comment-textarea">
+					<h4>我说</h4>
+					<textarea name="content" datatype="*" rows="3" placeholder="支持TA大声说出来！" class="ui-one-comment-form2 ui-comment-right-marginleft ui-form-height"></textarea>
+					<input type="submit" class="ui-comment-right-marginleft ui-one-comment-input ui-support-button ui-form-height ui-support-button-left" style="width:113px" value="发表评论"></input>
+					<div style="clear:both"></div>
+				</div>
+
+
+				<div style="clear:both"></div>
+			</form>
+			</div>
+			
+			<div class="row">
+			  <div class="span7">
+			  	<h1 class="h1_bottom">事件回顾</h1>
+			  	<embed wmode="opaque" src="http://static.video.qq.com/TPout.swf?vid=n0123qhe29p&auto=0" allowFullScreen="true" quality="high" width="100%" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" style="z-index:-1000;"></embed>
+
+			  	<h1 class="h1_bottom" style="margin-top:30px;">最新资讯</h1>
+			  	<ul class="ui_newinfo" style="font-size:16px;">
+				  <li><a href="http://www.p5w.net/news/biz/201502/t20150211_951365.htm">董明珠：我和雷军一个在水上一个在路上 是两路人</a>
+				  		<span class="muted">2015-02-11 09:30</span>
+				  </li>
+				  <li><a href="http://news.mydrivers.com/1/353/353925.htm">细数雷军和董明珠的爱恨情仇</a>
+				  		<span class="muted">2014-12-16 08:25</span>
+				  </li>
+				  <li><a href="http://digi.163.com/14/1214/16/ADEIH5R200162OUT.html">董明珠：雷军和我打赌没意义 比专利我赢了</a>
+				  		<span class="muted">2014-12-16 08:25</span>
+				  </li>
+				  <li><a href="http://news.mydrivers.com/1/353/353442.htm">雷军回应与董明珠10亿豪赌：再过一两年格力就输了</a>
+				  		<span class="muted">2014-11-21 08:31</span>
+				  </li>
+				  <li><a href="http://news.mydrivers.com/1/353/353442.htm">雷军回应“小米是骗子”：董明珠认输了</a>
+				  		<span class="muted">2014-12-15 12:38</span>
+				  </li>
+				  <li><a href="http://www.huxiu.com/article/24598/1.html">董明珠雷军10亿赌局是怎么设的？</a>
+				  		<span class="muted">2013-12-12 23:01</span>
+				  </li>
+				</ul>
+			  </div>
+			  <div class="span3" style="float:right">
+			  	<h1 class="h1_bottom">活动介绍</h1>
+			  	<div class="ui-panel" style="padding:15px;font-size:14px;height:310px">
+			  		<p>
+			  			&nbsp;&nbsp;&nbsp;&nbsp;如今我们有幸身处互联网风起云涌的大时代，王健林、马云约战传统商业和电商；董阿姨、雷布斯较劲工业的未来模式。在这样一个伟大的时代我们怎能只是观战！公羊会发起大家一起挑战未来，你眼中的未来工业是董阿姨眼中的扎实传统模式还像雷布斯一样贴近用户、抓住用户就能抓住一切！</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;公羊会，发起公益挑战：押注未来！如董雷赌局约定结束时，支持方获胜的支持金额将全部返还；反之，支持金额将全部捐助公羊会公益大学项目。</p>
+			  		
+
+				<div style="clear:both"></div>
+
+			  	</div>
+			  </div>
+			</div>
+	       
+			<!-- bannnnnnnnner -->
+	       <img src="__IMG__/war/bottom_banner.png" width="100%" style="width: 100%;">
+
+	       <div>
+				  <div>
+			  	<h1 class="h1_bottom">活动发起</h1>
+			  	<div class="clearfix">
+			  		<img src="__IMG__/war/gongyang.png" style="width:150px;float:left" class="activity_support2">
+			  		<img src="__IMG__/war/gongyang1.jpg" style="height:150px;float:left" alt="activity_support2">
+			  		<span style="font-size:25px;margin-left:15px;font-weight:bolder;float:left:line-height:60px;">公羊会 <br><span style="font-size:16px;font-weight:normal;margin-left:15px;">杭民政局登记号：0001</span></span>
+			  	</div>
+			  	<div style="font-size:14px;margin:10px 0">
+			  		<p style="text-indent:1.2em">公羊队成立于2009年5月 ，全称：浙江省公羊会公益救援促进会。是公羊会下属的一支专门开展突发性城市应急救援，户外山林山难应急救援，国家次生灾害抗险救援，以及城市走失失智老人搜寻救助的民间公益救援队伍。</p>
+			  		<p style="text-indent:1.2em">宗旨：救危助难，为社会出力；扶弱帮困，为政府分忧。</p>
+			  		<p style="text-indent:1.2em">拥有400多名经过严格挑选、培训考核，具体扎实的相关救援知识及实战经验的志愿者。</p>
+			  		<p style="text-indent:1.2em">在汶川，在玉树，在雅安，在余姚，在鲁甸，在景谷在一次次巨大自然灾害救援行动中，一直冲锋在前。</p>
+			  		<p style="text-indent:1.2em">此外，公羊队除了执行应急救援行动以外，每年向社区居民及户外爱好者、学生进行百余次应急救援安全知识培训及常见意外伤害急救处理实际操作培训。同时，也组织开展助老、助孤、帮残、济困、助学和赈灾等社会公益帮扶活动。</p>
+			  	</div>
+			  </div>
+			</div>
+        </div>
+	          
+	 
+	 
+	 <div class="clearfix"></div>
+	 </div>
+
+
+	 <!-- 弹框 -->
+<!-- Button to trigger modal -->
+
+ 	<!-- Modal -->
+<div id="messageBox" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="messageTitle" aria-hidden="true" data-keyboard="false">
+  <div class="modal-header" style="background: white;">
+    <button type="button" class="close" data-dismiss="modal" id="messageClose1" aria-hidden="true">×</button>
+    <b id="messageTitle">提示信息</b>
+  </div>
+  <div class="modal-body">
+    <p id="messagebody1"  style="margin:0;"><span id="messagebody" style='vertical-align: bottom;'></span></p>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="border-radius: 7px;z-index:5000000;">
+<style type="text/css">
+
+</style>
+  <div class="modal-header" style="background: white;">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: 9px;">×</button>
+    <h3 id="myModalLabel" style="margin-top: 8px">选择支持项目</h3>
+  </div>
+  <div class="modal-body" id ="aa">
+    <div style="width:470px;" class="form-horizontal">
+    	
+		  <div class="control-group">
+		    <label class="control-label" for="inputEmail">支持对象</label>
+		    <div class="controls">
+		      	<div class="ui-object font14 marbottommmm wwfont-color font18" style="color:#;">ffff</div>
+		      	<div class="btn-group" style="float:right;backgrond:none;color:#969696;">
+				  <div class="active btn" href="#ui-suuamount" data-toggle="tab">支持金额</div>
+				  <div class="btn" href="#ui-supeople" data-toggle="tab">支持人气</div>
+				</div>
+				<!-- <ul class="mynav  btn-group" >
+				  <li class=""><a class="" href="#ui-suuamount" data-toggle="tab" style="border-right: 1px solid rgb(207, 205, 205);">支持金额</a></li>
+				  <li class=""><a href="#ui-supeople" data-toggle="tab">支持人气</a></li>
+				</ul> -->
+		    </div>
+		  </div>
+
+
+<div id="myTabContent" class="tab-content">
+
+	  <!-- 金额 弹框-->
+  <div class="tab-pane fade in active" id="ui-suuamount">
+<form action="{:U('War/saveSupport')}"  id="ui-supportttform" method="POST">
+		  <div class="control-group">
+		    <label class="control-label" for="inputEmail">现在状态</label>
+		    <div class="controls">
+		       <div class="marbottommmm">支持人气&nbsp;&nbsp;<span class="ui-ccount wwfont-color font18">777</span>
+		       	&nbsp;&nbsp;&nbsp;支持金额	<span class="wwfont-color font18">￥
+		       	<span class="ui-suamount ui-aamount">100000</span></span>
+		       </div>
+		    </div>
+		  </div>
+
+		  <div class="control-group">
+		    <label class="control-label" for="inputEmail">对TA说</label>
+		    <div class="controls">
+		      <textarea  name="say" datatype="*" id="inputEmail" style="width:96%"></textarea>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputPassword">支持金额</label>
+		    <div class="controls">
+		      <div class="input-append" >
+			      <input type="text" datatype="n" name="amount" id="inputPassword" placeholder="输入支持金额">
+				</div>
+		    </div>
+		  </div>
+		<div class="control-group">
+		    <label class="control-label"></label>
+		    <div class="controls">
+		      <div class="input-append" >
+			      <input type="hidden" name="object" class="ui-dbobject" value="">
+			      <input type="hidden" name="type" class="ui-type" value="2">
+
+				  <input id="btn-getcash" type="submit" class="ui-comment-right-marginleft ui-one-comment-input ui-support-button ui-support-button-left" style="height:30px;width:100px;margin-left:30px;" value="支持TA"></input>
+				</div>
+		    </div>
+		  </div>
+		  
+		</form>
+	  </div>
+	  <!-- 人气 弹框-->
+	  <div class="tab-pane fade" id="ui-supeople">
+	<form action="{:U('War/saveSupport')}"  id="ui-supportttform-people" method="POST">
+			  <div class="control-group">
+			    <label class="control-label" for="inputEmail">现在状态</label>
+			    <div class="controls">
+			       <div class="marbottommmm">支持人气&nbsp;&nbsp;<span class="ui-ccount wwfont-color font18">777</span>
+			       	&nbsp;&nbsp;&nbsp;支持金额	<span class="wwfont-color font18">￥
+			       	<span class="ui-suamount ui-aamount">100000</span></span>
+			       </div>
+			    </div>
+			  </div>
+
+			  <div class="control-group">
+			    <label class="control-label" for="inputEmail">对TA说</label>
+			    <div class="controls">
+			      <textarea  name="say" datatype="*" id="inputEmail" style="width:96%"></textarea>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="inputPassword"></label>
+			    <div class="controls">
+			      <div class="input-append" style="text-align:center;">
+				      <input type="hidden" name="object" class="ui-dbobject" value="">
+				      <input type="hidden" name="type" class="ui-type" value="1">
+
+					  <!-- <button class="ui-comment-right-marginleft ui-one-comment-input ui-support-button ui-support-button-left" type="button" style="height:30px;width:100px;margin-left:30px;">下一步</button> -->
+					  <input type="submit" class="ui-comment-right-marginleft ui-one-comment-input ui-support-button ui-support-button-left" style="height:30px;width:100px;margin-left:30px;" value="支持TA"></input>
+					</div>
+			    </div>
+			  </div>
+			</form>
+	  </div>
+	</div> <!-- myTabContent end -->
+
+    </div>
+    <p>说明</p>
+    <p class="muted" style="margin-left:20px;">无论支持哪位，时代会给我们答案，此次活动仅供娱乐，一旦支付将无法返还本金。</p>
+  </div>
+
+</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+
+	<script src="__STATIC__/echarts/build/dist/echarts-all.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			$("#ui-fffrom").Validform({tiptype:3,
+				ajaxPost:true,
+				callback:function(data) {
+					if(data.status){
+						alert(data.info)
+						window.location.reload();
+					} else {
+						alert(data.info);
+					}
+				}
+			});
+			
+			$("#ui-supportttform").Validform({tiptype:3,
+				ajaxPost:true,
+				callback:function(data) {
+					if(data.status == 1){
+						//alert(data.info)
+						$("#myModal").modal('hide');
+						$('#messagebody').html(data.info);
+						$('#messageBox').modal('show');
+				
+						//window.location.reload();
+					} else {
+						alert(data.info);
+						if (data.status == -1) {
+							window.location.href = data.url;
+						}
+					}
+				}
+			});
+			
+			$("#ui-supportttform-people").Validform({tiptype:3,
+			ajaxPost:true,
+				callback:function(data) {
+					if(data.status){
+						alert(data.info)
+						window.location.reload();
+					} else {
+						alert(data.info);
+					}
+				}
+			});
+
+                var myChart = echarts.init(document.getElementById('ui-echarts'));
+                var option = {
+                    tooltip : {
+				        formatter: "{a} <br/>{b} : {c}%"
+				    },
+				    toolbox: {
+				        show : false,
+				        feature : {
+				            mark : {show: true},
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    series : [
+				        {
+				            name:'最新战报',
+				            type:'gauge',
+				            startAngle: 180,
+				            endAngle: 0,
+				            center : ['50%', '90%'],    // 默认全局居中
+				            radius : ['50%',200],
+				            // radius : [200, '175%'],
+				            // 半径，支持绝对值（px）和百分比，百分比计算比，min(width, height) / 2 * 75%， 
+							// 传数组实现环形图，[内半径，外半径]
+				            axisLine: {            // 坐标轴线
+				                lineStyle: {       // 属性lineStyle控制线条样式
+				                    width: 200,
+				                    color: [
+							            [0.2, '#2ec7c9'],
+							            [0.8, '#5ab1ef'],
+							            [1, '#d87a80']
+							        ], 
+				                }
+				            },
+				            axisTick: {            // 坐标轴小标记
+				            	show: false,
+				                splitNumber: 10,   // 每份split细分多少段
+				                length :12,        // 属性length控制线长
+				            },
+				            splitLine:{
+				            	show: false,	
+				            },
+				            axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+				                formatter: function(v){
+				                    switch (v+''){
+				                        // case '10': return '低';
+				                        // case '50': return '中';
+				                        // case '90': return '高';
+				                        default: return '';
+				                    }
+				                },
+				                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+				                    color: '#fff',
+				                    fontSize: 15,
+				                    fontWeight: 'bolder'
+				                }
+				            },
+				            pointer: {
+				                width:50,
+				                length: '90%',
+				                color: 'rgba(255, 255, 255, 0.8)'
+				            },
+				            title : {
+				                show : false,
+				                offsetCenter: [0, '-60%'],       // x, y，单位px
+				                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+				                    color: '#fff',
+				                    fontSize: 30
+				                }
+				            },
+				            detail : {
+				                show : true,
+				                backgroundColor: 'rgba(0,0,0,0)',
+				                borderWidth: 0,
+				                borderColor: '#ccc',
+				                width: 50,
+				                height: 40,
+				                offsetCenter: [0, -40],       // x, y，单位px
+				                // formatter:'{value}%',
+				                formatter:'谁',
+				                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+				                    fontSize : 50,
+				                    color:'#636363',
+				                    margin:'150px 0 0 0'
+				                }
+				            },
+				            data:[{value: 50, name: '占比'}]
+				        }
+				    ]
+                }
+                // 为echarts对象加载数据 
+                option.series[0].data[0].value = <?php print $pieCharts['right'] ;?>;
+                myChart.setOption(option,true);
+
+		
+			$(".bt-modal").click(function(){
+				//console.log('vvvvvvvvvvv');
+				$(".ui-object").text();
+				$(".ui-object").text($(this).data('object'));
+	
+				$(".ui-ccount").text();
+				$(".ui-ccount").text($(this).data('ccount'));
+	
+				$(".ui-aamount").text();
+				$(".ui-aamount").text($(this).data('aamount'));
+	
+				$(".ui-dbobject").val();
+				$(".ui-dbobject").val($(this).data('dbobject'));
+				
+				oobject = $(this).data('dbobject');
+				$.get('{:U('war/getNewCountAmount')}',function(data){
+					// console.log(data[oobject].count);
+					// // console.log(data.oobject.count);
+					// console.log(oobject);
+					$(".ui-ccount").text();
+					$(".ui-ccount").text(data[oobject].count);
+					
+					$(".ui-aamount").text();
+					$(".ui-aamount").text(data[oobject].amount);
+				},'json');
+
+				// $(".ui-type").val();
+				// type = 2; //默认
+				// $(".ui-type").val(type);
+			});
+
+			$("[data-toggle='tab']").click(function(){
+				$("[data-toggle='tab']").removeClass('active');
+				$(this).addClass("active");
+			});
+
+
+	}); /*$(document).ready(function(){ end*/
+    </script>
+</block>

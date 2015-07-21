@@ -1,0 +1,71 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+<link href="__CSS__/validform.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<form id="form-changepwd" method="POST" action="{:U()}">
+<section id="user_main">
+  <div class="jm_login">
+    <ul>
+      <li>
+          <div class="text" style="left: 0px;">
+              <i class="user"></i>
+                <input name="old" type="password" placeholder="请输入原密码" errormsg="密码为6-20位" nullmsg="请输入原登陆密码" datatype="*6-20" >
+            </div>
+        </li>
+  
+      <li>
+          <div class="text">
+              <i class="lock"></i>
+                <input name="password" type="password" placeholder="请输入新密码" errormsg="密码为6-20位" nullmsg="请输入新密码" datatype="*6-20">
+            </div>
+        </li>
+      <li>
+          <div class="text">
+              <i class="lock"></i>
+                <input recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请输入确认密码" datatype="*" name="repassword" type="password" placeholder="请再次输入新密码">
+            </div>
+        </li>
+        <li>
+          <div class="error-box">
+            <span id="errormessage"></span>
+          </div>
+        </li>
+    <input type="submit" class="btn" value="确定修改">
+    </ul>
+  </div>
+    
+</section>
+</form>
+</block>
+<block name="script">
+<script type="text/javascript" src="__JS__/sms.js"></script>
+<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+$(function() {
+  $("ul li input").each(function(){
+    $(this).click(function(){
+      $(this).parent().removeClass('text').addClass('text errorAnimate');
+      $(this).parent().parent().siblings().children().removeClass('errorAnimate');
+    })
+  });
+  $("#form-changepwd").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      objtip.html("");
+      if (o.type == 3) {
+        objtip.text(msg);
+      }
+    }, ajaxPost: true,
+    beforeSubmit:showWaiting,
+    callback: function(data) {
+      if (data.status == 1) {
+        alert(data.info);
+        window.location.href=data.url;
+      }
+    }
+  });
+});
+</script>
+</block>

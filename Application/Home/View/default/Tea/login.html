@@ -1,0 +1,68 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="body">
+<section>
+	<div class="register_content clearfix">
+		<div class="register_left">
+	    <form class="login-form form-horizontal" action="{:U()}" method="post">
+	      <div class="register_title">用户登录</div>
+        <div class="control-group">
+        	<input type="hidden" name="id" value="{$id}">
+          <label class="control-label" for="inputEmail"><a class="red">*</a>用户名：</label>
+          <div class="controls">
+            <input type="text" id="inputEmail" class="span3" placeholder="请输入用户名" name="username">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputPassword"><a class="red">*</a>密码：</label>
+          <div class="controls">
+            <input type="password" id="inputPassword"  class="span3" placeholder="请输入密码"  errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+          </div>
+        </div>
+				<div class="control-group error">
+					<div class="controls">
+						<span class="help-inline errormsg"></span>
+					</div>
+				</div>
+				<div class="control-group">
+          <div class="controls">
+	          <button type="submit" class="login_btn">登 陆</button>  
+          </div>
+        </div>
+			</form>		
+		</div>
+		<div class="register_right">
+		  <div class="dividing_line"></div>
+		  <div class="register_remind">
+				<span class="register_attention">没有账号?立即注册</span>
+				<p style="margin: 15px 0 50px 50px;">
+				<a class="register_a" href="{:U('register?id='.$id)}">注册</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+</block>
+
+<block name="side"> </block>
+<block name="script">
+	<script type="text/javascript">
+  	$("form").submit(function(){
+  		var self = $(this);
+  		$.post(self.attr("action"), self.serialize(), success, "json");
+  		return false;
+
+  		function success(data){
+  			if(data.status){
+          	$.messageBox({msginfo:data.info, cancel:function(){
+          		window.location.href = data.url;	
+          	}});
+  			} else {
+  				self.find(".errormsg").html(data.info);
+  			}
+  		}
+  	});
+	</script>
+</block>

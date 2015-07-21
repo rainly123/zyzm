@@ -1,0 +1,189 @@
+#head_top{
+	padding:0 10px 0 10px;
+}
+.cover{
+	width: 100%;
+}
+.cover img{
+	width: 100%;
+	vertical-align: middle;
+}
+
+.bd-b {
+border-bottom: 1px solid #d0cfcf;
+}
+.pd-0-10 {
+padding: 0 10px;
+}
+.bd-b {
+border-bottom: 1px solid #c5c5c5;
+}
+.detail-a {
+display: block;
+margin: 10px 0;
+}
+a {
+text-decoration: none;
+color: #333;
+}
+.detail-a .h4-title {
+line-height: 2em;
+}
+.h4-title {
+font-size: 16px;
+}
+.detail-a .h4-title .more-r {
+margin-top: 9px;
+}
+.more-r {
+width: 14px;
+height: 15px;
+background-position: -60px -90px;
+vertical-align: text-bottom;
+}
+
+p {
+font-size: 12px;
+color: #666;
+line-height: 1.5em;
+word-break: break-all;
+}
+
+.progress-box {
+overflow: hidden;
+}
+
+.progrestate-b.s-ing {
+background: #a4cc43;
+}
+.progrestate-b {
+margin-bottom: 10px;
+}
+.progrestate, .progrestate-b {
+width: 60px;
+height: 20px;
+line-height: 20px;
+font-size: 12px;
+color: #fff;
+position: relative;
+border-radius: .25em;
+text-align: center;
+}
+
+.progrestate, .progrestate-b {
+width: 60px;
+height: 20px;
+line-height: 20px;
+font-size: 12px;
+color: #fff;
+position: relative;
+border-radius: .25em;
+text-align: center;
+}
+
+.progress-box .progresnum {
+margin-top: 4px;
+}
+.progresnum {
+font-size: 16px;
+color: #a4cc43;
+margin: 0 0 8px;
+}
+.progressbar {
+width: 100%;
+height: 8px;
+border-radius: 4px;
+background: #ddd;
+}
+
+.progressbar .progressing {
+height: 100%;
+border-radius: 4px;
+background: #a4cc43;
+width: 100%;
+}
+
+.zc-datum {
+padding: 10px 0;
+}
+.gridbox {
+display: box;
+display: -ms-box;
+display: -webkit-box;
+display: flex;
+display: -ms-flex;
+display: -webkit-flex;
+width: 100%;
+}
+
+.grid-3 {
+flex: 3;
+-ms-flex: 3;
+-webkit-flex: 3;
+box-flex: 3;
+-ms-box-flex: 3;
+-webkit-box-flex: 3;
+}
+
+.zc-datum strong {
+font-size: 16px;
+color: #474e5d;
+line-height: 18px;
+}
+.grid-2 {
+flex: 2;
+-ms-flex: 2;
+-webkit-flex: 2;
+box-flex: 2;
+-ms-box-flex: 2;
+-webkit-box-flex: 2;
+}
+
+.gridbox {
+display: box;
+display: -ms-box;
+display: -webkit-box;
+display: flex;
+display: -ms-flex;
+display: -webkit-flex;
+width: 100%;
+}
+
+.zc-list li {
+background: #fff;
+margin-top: 10px;
+}
+
+.btn-oncern a, .btn-praise a {
+display: block;
+width: 100%;
+height: 100%;
+line-height: 38px;
+text-align: center;
+font-size: 14px;
+}
+
+
+.btn-oncern, .btn-praise{
+	width: 50%;
+border: 1px solid #d0cfcf;
+height: 38px;
+margin-bottom: 10px;
+list-style-type: none;
+}
+
+.btn-oncern i {
+background-position: -30px -60px;
+margin-right: 10px;
+}
+.btn-oncern i, .btn-praise i {
+width: 30px;
+height: 20px;
+vertical-align: text-bottom;
+}
+
+
+.choice_price{
+	background: #f4f4f4;
+	padding: 5px;
+}

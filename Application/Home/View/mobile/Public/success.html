@@ -1,0 +1,28 @@
+<extend name="Base/common" />
+<block name="style">
+<assign name="pageTitle" value="提示信息" />
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content tips_box">
+		<div class="tip_img2"></div>
+	    <div class="tip_text tip_text2">
+		<p class="tip_wz"><?php echo($message); ?></p>
+		<p><a id="href" href="<?php echo($jumpUrl); ?>">点击跳转</a> </p>
+		</div>
+	</div>
+	<script type="text/javascript">
+(function(){
+var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+var interval = setInterval(function(){
+	var time = --wait.innerHTML;
+	if(time <= 0) {
+	location.href = href;
+ 		clearInterval(interval);
+};
+ }, 1000);
+ })();
+</script>
+</div>
+</block>

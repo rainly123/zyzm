@@ -1,0 +1,54 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+<block name="submenu">
+<ul>
+  <li class="cur"><a href="{:U('Message/index')}">我的私信</a></li>
+  <li><a href="{:U('Message/system')}">系统通知</a></li>
+</ul>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+  <ul class="mes">
+    <volist name="messages" id="vo">
+    <li><dl>
+      <dd class="img"><img src="{$vo.from_id|get_memberface}"></dd>
+      <dd class="detail">
+        <div class="from"><b>{$vo.from_id|get_membername}</b> ({$vo.add_time|time_format='Y-m-d H:m'})</div>
+        <div class="d">{$vo.content}</div>
+      </dd>
+      <dd class="cz"><a href="{:U('Message/sendmsg?id='.$vo['from_id'])}" class="btn-reply" data-w="600px" data-h="360px">回复</a>
+      <a href="{:U('setStatus?Model=Message&type=-1&status=2&ids='.$vo['id'])}" class="btn-delete">删除</a></dd>
+    </dl></li>
+    </volist>
+  </ul>
+</div>
+<div id="dialog" style="display:none"></div>
+</block>
+<block name="script">
+<script type="text/javascript">
+  // 指定左侧选中菜单
+  var submenu = "{:U('Message/index')}";
+
+$(document).ready(function(){
+  $(".btn-reply").click(function() {
+    var _this = $(this);
+    $("#dialog").load($(this).attr('href'), function() {
+      $.layer({type:1, title:false,area : [_this.attr('data-w'),_this.attr('data-h')], page:{dom:"#dialog"}, fadeIn:300});
+    });
+    return false;
+  });
+  $(".btn-delete").click(function() {
+    $.get($(this).attr('href'), function(data){
+      if (data.status == 1) {
+        layer.alert(data.info, 9, function(){window.location.reload();});
+      } else {
+        layer.alert(data.info, 8);
+      }
+    });
+    return false;
+  });
+});
+</script> 
+</block>

@@ -1,0 +1,200 @@
+<extend name="Base/mobile-common"/>
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/mobile_common.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/product/mobile_index.css">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+	<div class="cover">
+		<if condition="$stage eq 1">
+			<img data-pinit="registered" src="{$hot_img|get_cover='path'}" alt="" class="cover-img" >
+		<else />
+			<img data-pinit="registered" src="{$mobile_img|get_cover='path'}" alt="" class="cover-img" >
+		</if>
+
+	</div>
+
+	<div class="detail" id="head_top">
+		<div class="pd-0-10 bd-b">
+            <a href="{:U('Product/detailImg?pid='.$pid)}" class="detail-a" style="min-height:80px;">
+                <h4 class="h4-title">
+                {$name}
+                <!-- <i class="more-r ui-arrow" >></i> -->
+                <i class="icon more-r fr"></i>
+                </h4>
+                <p class="ui-abstract">{$abstract}....</p>
+            </a>
+            <div class="knowmore">
+				<a href="{:U('Product/detailImg?pid='.$pid)}" class="detail-a" style="min-height:80px;">
+	            	项目详情
+	            </a>
+            </div>
+            <div class="progress-box">
+                <div class="progrestate-b s-ing fr">
+					<if condition="$status eq 0"> 未申请
+					<elseif condition="$status eq 1"/>申请中
+					<elseif condition="$status eq 2"/>不通过
+					<elseif condition="($status eq 9) and ($stage eq 0)"/>等待上线
+					<elseif condition="($status eq 9) and ($stage eq 1)"/>预热中
+					<elseif condition="($status eq 9) and ($stage eq 2)"/>火热筹款中
+					<elseif condition="($status eq 9) and ($stage eq 8)"/>众筹失败
+					<elseif condition="($status eq 9) and ($stage eq 9)"/>众筹成功
+                    </if>
+                </div>
+                <div class="progresnum">{$finish_progress_num}%
+                <if condition="$finish_progress_num gt 100">
+                    <span class="label label-success">已超募</span>            
+				</if>
+                </div>
+                <div class="progressbar">
+                    <div class="progressing" style="width: {$finish_progress_bar}%"></div>
+                </div>
+            </div>
+            <div class="gridbox zc-datum">
+                <div class="grid-3">
+                    <strong>￥{$finish_amount}</strong>
+                    <p>已筹集</p>
+                </div>
+                <div class="grid-2">
+                    <strong>{$resultSupport}</strong>
+                    <p>支持人数</p>
+                </div>
+                <div class="grid-2">
+                        <strong>  <?php  $currDay = (time()-$start_time)/86400;  print $days - floor($currDay) ;?> 天</strong>
+                    <p>剩余时间</p>
+                </div>
+            </div>
+            <ul class="gridbox">
+                <li class="grid-1 btn-oncern"><a id="a_focus" href="javascript:;" data-url="{:U("Product/focus?pid=".$pid)}" id="a_focus"><i class="icon"></i>已关注<span>（{$like_record}）</span></a></li>
+                <input type="hidden" id="user_pin" value="undefined">
+                <input type="hidden" id="project_id" value="2017">
+            </ul>
+        </div>
+        <div class="choice_price">
+	        <h2 class="h2-title">选择回报</h2>
+        </div>
+        <ul class="return-list">
+        <foreach name="resultPrice" item="vo" >
+        	<li>
+            <div class="gridbox supportbox">
+                <div class="grid-2 supp-price">
+          			支持￥{$vo.amount}
+                </div>
+                <div class="grid-2">
+	              	<if condition="($status eq 9) and ($stage eq 2)">
+		           		<if condition="$vo[count] eq 0">
+				       		<a href="{:U('productOrder/info?priceId='.$vo['id'])}" class="btn btn-red fr">去支持</a>
+						<else/>
+		               		<?php if(($vo['count']-$vo['sell_count']) < 1):?>
+			                    <button type="button" class="btn btn-red fr" disabled="true">已售罄</button>
+			               	<?php else:?>
+								<a href="{:U('productOrder/info?priceId='.$vo['id'])}" class="btn btn-red fr">去支持</a>
+							<?php endif;?> 
+		                </if>
+		        	</if>
+                </div>
+                
+                                        	<!-- Modal -->
+<div id="messageBox" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="messageTitle" aria-hidden="true" data-keyboard="false">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" id="messageClose1" aria-hidden="true">×</button>
+    <b id="messageTitle">提示信息</b>
+  </div>
+  <div class="modal-body">
+    <p id="messagebody1"><span id="messagebody" style='vertical-align: bottom;'></span></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+            </div>
+
+            <div class="info-min">
+                <p>{$vo.content|nl2br}</p>
+                   <!-- <img data-pinit="registered" height="64" width="64" src="{$vo.image|get_cover='path'}" alt="" class="cover-img" style="width:80px;"> -->
+                <p>配送费用：
+                     <if condition="$vo[post_amount] eq 0">
+						免运费
+                    <else/>
+                    	{$vo.post_amount}
+                	</if> </p>
+                <p>预计回报发送时间：项目成功结束后{$vo.afterday}天内</p>
+            </div>
+            <div class="gridbox supportfoot">
+                <div class="grid-1">
+                <div class="grid-2">
+            	<if condition="$vo[count] eq 0">
+                	<span style="color:red">{$vo.sell_count}位</span> 支持者(无限额)
+                <else/>
+                	<span style="color:red">{$vo.sell_count}位</span> 支持者(剩余<span style="color:red"><?php print $places=$vo['count']-$vo['sell_count'];  ?>位</span>)
+            	</div>
+            	</if>
+
+            </div>
+        </div></li>
+        </foreach>
+        </ul><!-- return-list end -->
+
+		 <div class="recommend">
+            <div class="choice_price" style="border-bottom:1px solid #d0cfcf;">
+            <h2 class="h2-title">推荐项目</h2>
+            </div>
+            <div class="layout">
+                <ul class="goods-list youlike">
+                    <foreach name="projects" item="project" >
+                        <li>
+                        <a class="" href="{:U('Project/detail?id='.$project['id'])}">
+                            
+                            <div class="ui-recommend-item">
+                                <img src="{$project.cover|get_cover='path'}" class="goods-pic ui-recommend-item-box">
+                                <h5 class="h5-title " style="padding:10px 0;" class="text-center">
+                                    {$project.project_name}
+                                </h5>
+                            </div>
+                        </a>
+                        </li>
+                    </foreach>
+                </ul>
+            </div>
+        </div><!--  recommend end -->
+
+
+		<div class="clearfix"></div>
+	</div><!--  detail end -->
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.upload.js"></script>
+	<script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="__JS__/product/viewdetail.js"></script>
+    <link rel="stylesheet" type="text/css" href="__CSS__/colorbox.css">
+  
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<script type="text/javascript">
+	//$(".popup").colorbox(); // 跟投按钮处理
+		$.get('{:U("Pages/productInvestor?pid=".$pid)}', function(data) {
+			$(".supporter-box").html(data.html);
+			// $("#investor-count").html(data.count);
+		}, 'json');
+	
+  		$('.btn-red').click(function() {
+            var infoUrl = $(this).attr('href');
+
+            $.get($(this).attr('href'), null, function(data) {
+                if (data.status == '0') {
+                    $('#messagebody').html(data.info);
+                    $('#messageBox').modal('show');
+                } else {
+                    window.location.href=infoUrl;
+	               
+					// $('#inputfund').html('');
+					// $('#followModal').modal('show');
+				}
+			});
+			return false;
+		}); 
+	</script>
+</block>

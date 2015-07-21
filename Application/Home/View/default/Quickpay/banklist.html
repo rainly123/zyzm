@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <meta content="www.dreammove.cn" name="author">
+    <link href="__CSS__/quickpay.css" rel="stylesheet" type="text/css" />
+     <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="__STATIC__/layer/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/common.js"></script>
+<!-- 	<script type="text/javascript" src="__JS__/public.js"></script> -->
+    <title>中瀛智募 - 中瀛智募 </title>
+</head>
+<body class="buyBtn" style="background:#eeeeee;">
+<header class="top_header">
+<a class="nav_btn" href="javascript:history.go(-1);"><img src="__IMG__/quickpay/arrow.png"></a>
+    <span >快捷支付银行卡管理</span>
+</header>
+		<div class="bankList">
+			<ul>
+        		<foreach name="banklist" item="p">
+					<li>
+                        <a href="{:U('Quickpay/quickpay?id='. $p['id'] . '&merorderid='.$merorderid)}">
+                            <img src="__IMG__/quickpay/pay/{$p.logo}">
+                            <h3>{$p.banknm}</h3>
+                            <p>尾号{$p.storablecardno|substr=6}</p>
+                            <img src="__IMG__/quickpay/small_arrow.png" class="arrow">
+                        </a>
+                    </li>
+				</foreach>
+         	</ul>
+		</div>
+
+<div class="p2p_bankcards_quick" id="cardlist">
+	<div class="bankcard add-bankcard-btn">
+		<div class="plus">
+        	<div class="h_line"></div><div class="v_line"></div>
+		</div>
+         <a href="{:U('Quickpay/banklist?merorderid='.$merorderid)}">添加快捷支付银行卡</a>
+    </div>
+ </div>
+
+</body>
+</html>
+

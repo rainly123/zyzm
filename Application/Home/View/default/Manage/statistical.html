@@ -1,0 +1,108 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+<block name="submenu">
+    <ul>
+        <li><a href="{:U('MCenter/pj_support')}">支持的项目</a></li>
+        <li class="cur"><a href="{:U('MCenter/pj_create')}">发起的项目</a></li>
+        <li><a href="{:U('MCenter/pj_attach')}">收藏的项目</a></li>
+    </ul>
+ <span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+<div class="bs-docs-example" style="border: none;">
+			<div class="rctj_box">
+				<table class="table table-bordered">
+				<tr>
+					<td colspan ="3" >
+						<h3>项目名称：
+							<a href="{:U('Project/detail?id='.$fund['id'])}">{$fund.project_name}</a>
+							<input type="hidden" class="ids" name="pid" value="{$fund.id}" id="pid">
+						</h3>
+					</td>
+				</tr>
+					<tr>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>融资金额</h4></div>
+							<div class="project-fund-top"><h3><span class="money_num">{$fund.need_fund|change_fund} </span>元</h3></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>已融金额</h4></div>
+							<div class="project-fund-top"><h3><span class="money_num">{$fund.has_fund|change_fund} </span>元</h3></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>已支付金额</h4></div>
+							<div class="project-fund-top"><h3><span class="money_num">{$fund.pay_fund|change_fund} </span>元</h3>
+							<input type="hidden" id="agreefund" value="{$fund.pay_fund}"></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- 数据列表 -->
+			<div class="data-table">
+				<table class="tt">
+				    <thead>
+				        <tr>
+						<th class="">序号</th>
+						<th class="">投资人</th>
+						<if condition="$fund.stage eq 2">
+							<th class="">他的估值</th>
+						<else />
+						<th class="">投资人身份</th>
+						</if>
+						<th class="">金额</th>
+						<th class="">项目状态</th>
+						<th class="">操作</th>
+						</tr>
+				    </thead>
+				    <tbody>
+						<volist name="investor" id="vo">
+							<tr>
+								<td>{$i} </td>
+								<td>{$vo.investor_id|get_membername}</td>
+								<if condition="$fund.stage eq 2">
+									<td>{$vo.project_valuation|change_fund}</td>
+								<else />
+									<td>{$vo.lead_type_text}</td>
+								</if>
+								<td><span>{$vo.fund|change_fund}元</span>
+								<input type="hidden" name="fund" value="{$vo.fund}"></td>
+								<td>{$vo.status_text}
+								</td>
+								<td>
+								<notempty name="vo.others">
+									<a href="javascript:void(0);" data-toggle="popover" class="see-button" data-placement="left" data-content="{$vo.others|default='无'}" data-original-title="附加帮助">其他资源</a>
+								</notempty>
+								<if condition="$fund.stage egt 4">
+									<eq name="vo.status" value="2"> 
+									<a href="{:U('Manage/agree?id='.$vo['investorid'])}" class="agree" data-user="{$vo.investor_id|get_membername}">接受</a>
+									</eq>
+									<eq name="vo.status" value="3">
+										<a href="{:U('Manage/agreecancel?id='.$vo['investorid'])}" class="agreecancel" data-user="{$vo.investor_id|get_membername}">撤消</a>
+									</eq>
+								</if>
+				        </td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="page">{$_page}</div>
+			<!-- /分页 -->
+		</div>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+  // 指定左侧选中菜单
+  var submenu = "{:U('MCenter/pj_support')}";
+  
+	$(".see-button").click(function(){
+		alert($(this).attr("data-content"));
+	});
+  
+</script>
+</block>

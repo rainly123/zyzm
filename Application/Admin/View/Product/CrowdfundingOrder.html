@@ -1,0 +1,76 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$myProduct.name}</h2>
+
+	</div>
+		<!-- <a href="javascript:history.go(-1);">返回</a> -->
+				<hr/>
+				<p>到账金额 : {$listSum} (不包含邮费)</p>
+	<!-- 数据列表 -->
+	<empty name="list">
+			当前没有人购买
+		<else />
+		<div class="data-table">
+			<table class="tt">
+			    <thead>
+				    <tr>
+					<th class="">订单号</th>
+					<th class="">价格</th>
+					<th class="">邮费</th>
+					<th class="">购买时间</th>
+					<th class="">用户名</th>
+					<th class="">收货人</th>
+					<th class="">付款状态</th>
+					<th class="">备注</th>
+					<th class="">操作</th>
+					</tr>
+			    </thead>
+			    <tbody>
+
+					<volist name="list" id="vo" key="k" >
+						<tr>
+							<td>{$vo.id}</td>
+							<td>￥{$vo.amount}</td>
+							<td>￥{$vo.post_amount}</td>
+							<td><?php print date('Y年m月d日 H:i:s',$vo['create_time']); ?></td>
+							<td>{$vo.uid|get_membername}</td>
+							<td>{$vo.myname}</td>
+							<td>
+							<!-- 状态 回报相关id（0:购买成功、1:支付成功、-1:撤消 -2没有购买名额了） -->
+								<if condition="$vo['status'] eq 0"><span class="label">购买成功未支付</span>
+									<elseif condition="$vo['status'] eq 1"/><span class="label label-success">已支付</span>
+									<elseif condition="$vo['status'] eq 2"/><span class="label label-warning">支付成功金额不足</span>
+									<elseif condition="$vo['status'] eq -1"/><span class="label label-warning">已撤销</span>
+									<elseif condition="$vo['status'] eq -2"/><span class="label label-inverse">无购买名额</span>
+								</if>
+							</td>
+							<td>{$vo.remarks}</td>
+							<td>
+								<if condition="$vo['status'] eq 0">
+					                <a class="ajax-get confirm" href="{:U('product/customStatusChange?status=1&id=' . $vo['id'])}">改为已支付</a>
+								</if>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+		    </table>
+		</div>
+		</empty> 
+
+	<!-- 数据列表 end -->
+    <div class="page">
+        {$page}
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+    $(function(){
+	
+	})
+</script>
+</block>

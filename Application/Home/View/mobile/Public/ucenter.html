@@ -1,0 +1,25 @@
+<div class="fl w100 usertopbar">
+	<div class="content cl">
+    <div class="fl"><span><img src="{:get_memberface()}"></span><b>{:getmembername(is_login())}</b></div>
+    <div class="ri">
+      <a href="#" class="gr">个人资料</a><a href="#" class="xx">消息</a>
+    </div>
+  </div>
+</div>
+<div class="fl w100 usermain mt15">
+  <div class="content">
+    <div class="tabs cl"><block name="submenu"></block></div>
+    <div class="maincontent cl">
+      <div class="userleft fl">
+      	<ul>
+        	<li><em id="c1"></em><a href="{:U('MCenter/pj_support')}">股权众筹</a></li>
+        	<li><em id="c2"></em><a href="{:U('MCenter/pr_support')}">实物众筹</a></li>
+        	<li><em id="c3"></em><a href="{:U('Account/index')}">账户管理</a></li>
+        	<li class="cur"><em id="c4"></em><a href="{:U('User/detail')}">个人中心</a></li>
+        	<li><em id="c5"></em><a href="{:U('Message/index')}">消息管理</a></li>
+        </ul>
+      </div>
+      <block name="detail"></block>
+    </div>
+  </div>
+</div>

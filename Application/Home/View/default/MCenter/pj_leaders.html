@@ -1,0 +1,82 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+<block name="submenu">
+    <ul>
+        <li><a href="{:U('MCenter/pj_support')}">支持的项目</a></li>
+        <li class="cur"><a href="{:U('MCenter/pj_create')}">发起的项目</a></li>
+        <li><a href="{:U('MCenter/pj_attach')}">收藏的项目</a></li>
+    </ul>
+ <span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+<table>
+  <thead>
+  <tr>
+    <th width="60">昵称</th>
+    <th width="60">真实姓名</th>
+    <th>手机号码</th>
+    <th>领投金额</th>
+    <th>状态</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <volist name="leaders" id="vo">
+  <tr>
+    <td><a href="{:U('MCenter/profile?id='.$vo['uid'])}">{$vo.uid|get_membername}</a></td>
+    <td>{$vo.real_name}</td>
+    <td>{$vo.phone}</td>
+    <td>{$vo.fund|round=2} 元</td>
+    <td><if condition="$vo.status eq 1">已接受<elseif condition="$vo.status eq 0"/>待认可<else />拒绝</if></td>
+    <td class="cz">
+      <a href="#" class="message" data-msg="{$vo.message}">领投逻辑</a>
+      <if condition="$vo.status eq 0">
+        <a href="{:U('agreeleader?id='.$vo['id'])}" class="agree">接受</a>
+      </if>
+    </td>
+  </tr>
+  </volist>
+  </tbody>
+</table>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+// 指定左侧选中菜单
+var submenu = "{:U('MCenter/pj_support')}";
+
+$(function() {
+  $(".message").click(function() {
+    var _this = $(this);
+    var msg = _this.data('msg');
+
+    $.layer({type: 1,
+    shade: [0],
+    area: ['auto', 'auto'],
+    title: false,
+    border: [0],
+    page: {html : '<div style="padding:10px;background:#eee;width:500px;border:1px solid green;border-radius:3px"> '+msg + '</div>'}});
+
+    return false;
+  });
+
+  $(".agree").click(function() {
+    var _this = $(this);
+    if (!confirm('您确定要执行改操作吗？')) {return false;}
+    $.get(_this.attr('href'), function(data) {
+      if (data.status == 1) {
+        alert(data.info);
+        window.location.reload();
+      } else {
+        alert(data.info);
+      }
+    });
+    return false;
+  });
+});
+
+</script>
+</block>

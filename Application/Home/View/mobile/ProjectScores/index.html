@@ -1,0 +1,253 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+    <link href="__M_CSS__/jquery.range.css" rel="stylesheet">
+    <style>
+        .canvas{ width:400px !important; height:400px !important;}
+        .maps{ float:left;}
+        .ranges{
+            float: left;
+            width: 98%;
+        }
+        .ranges li{
+            margin-bottom:10px;
+        }
+        .ranges .input{
+            position:relative; margin-top:10px;
+        }
+        .ranges .input label{
+            position:absolute; right:0px; top:-30px; color:#000; font-weight:bold; font-size:14px;
+        }
+        .ranges input{
+            width:100%; background:#f1f1f1; border-radius:5px;
+        }
+        .ranges input[type=range].slider{
+            background:red;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            margin-top: 2px;
+            height:10px;
+            background-color: #f1f1f1;
+            border-radius: 3px;
+            width: 100%;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            cursor: pointer;
+            top: 1px;
+            height: 30px;
+            width: 30px;
+            background:url('__M_IMG__/images/range_hand.png') no-repeat 0 0;
+            border:none;
+        }
+        .dorate .addmsg{
+            margin-top:40px;
+        }
+        .dorate .addpost{
+            border:#dddddd solid 1px; margin-top:20px; border-radius:5px;
+        }
+        .dorate .addpost textarea{
+            width:100%; border:none;
+        }
+        input.sub{ background:#53b2e3; width:100px;
+            border: medium none;
+            color: #fff;
+            cursor: pointer;
+            float: none;
+            font-size: 16px;
+            padding:10px 30px;
+            border-radius:3px;font-family:"微软雅黑", "黑体", "宋体";}
+        .slider-container .scale ins {
+            font-size: 0;
+        }
+
+    </style>
+
+</block>
+<block name="body">
+    <script type="text/javascript" src="__M_JS__/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="__M_JS__/jquery.range.js"></script>
+    <script src="__M_JS__/notice.js"></script>
+    <form method="post" action="/ProjectScores/saveScores">
+        <input id="input-project-id" type="hidden" name="project_id" value={$projectID} />
+
+        <div class="dorate">
+            <div class="head">
+                {$project.project_name}
+            </div>
+            <div class="body">
+                {$project.abstract}
+
+                <div class="maps">
+
+                    <!--<canvas id="canvas" height="450" width="450"></canvas>-->
+                    <div id="canvas" style="min-width:320px;height:320px"></div>
+                </div>
+                <div class="ranges">
+                    <ul>
+                        <li>
+                            <h2>团队</h2>
+                                <div class="input">
+                                    <div class="demo-output">
+                                        <input class="single-slider" name="group" type="hidden" value="<empty name='user_score.group'>50<else/>{$user_score.group}</empty>" min="0" max="100">
+                                    </div>
+                                <label><span id="n1"></span>分</label>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>市场</h2>
+                            <div class="input">
+                                <div class="demo-output">
+                                    <input class="single-slider" name="market" type="hidden"  value="<empty name='user_score.market'>50<else/>{$user_score.market}</empty>" min="0" max="100">
+                                </div>
+                                <label><span id="n2"></span>分</label>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>竞争</h2>
+                            <div class="input">
+                                <div class="demo-output">
+                                    <input class="single-slider" name="creative" type="hidden"  value="<empty name='user_score.creative'>50<else/>{$user_score.creative}</empty>" min="0" max="100">
+                                </div>
+                                <label><span id="n3"></span>分</label>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>盈利</h2>
+                            <div class="input">
+                                <div class="demo-output">
+                                    <input class="single-slider" name="profitablity" type="hidden"  value="<empty name='user_score.profitablity'>50<else/>{$user_score.profitablity}</empty>" min="0" max="100">
+                                </div>
+                                <label><span id="n4"></span>分</label>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>创意</h2>
+                            <div class="input">
+                                <div class="demo-output">
+                                    <input class="single-slider" name="evaluation" type="hidden"  value="<empty name='user_score.evaluation'>50<else/>{$user_score.evaluation}</empty>" min="0" max="100">
+                                </div>
+                                <label><span id="n5"></span>分</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="addmsg">
+                    <h2>项目留言</h2>
+                    <div class="addpost">
+                        <textarea name="comments" cols="" rows="" class="c2" >{$user_score.comments}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ratebtn">
+            <a href="#" id="btn-submit">提交评分</a>
+        </div>
+        <empty name="user_score">
+        </empty>
+        <!--教学-->
+        <div class="rateguide">
+            <div class="img"></div>
+        </div>
+        <!--//教学-->
+    </form>
+
+    <script type="text/javascript" src="__M_JS__/highcharts.js"></script>
+    <script type="text/javascript" src="__M_JS__/exporting.js"></script>
+    <script type="text/javascript" src="__M_JS__/highcharts-more.js"></script>
+    <script>
+
+
+        $(function(){
+            var chart;
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo : 'canvas',
+                    polar: true,
+                    type: 'line'
+                },
+                colors: ['#7cb5ec', '#f7a35c', '#8085e9',
+                    '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                plotOptions: {
+                    area: {
+                        fillOpacity: 0.1
+                    }
+                },
+                credits: {enabled:false},
+                exporting: {enabled:false},
+                title: {text:'', x: -80},
+                pane: {size: '80%'},
+
+                xAxis: {
+                    categories: ['团队', '市场', '竞争', '盈利','创意'],
+                    tickmarkPlacement: 'on',
+                    lineWidth: 0
+                },
+
+                yAxis: {
+                    gridLineInterpolation: 'polygon',
+                    lineWidth: 0,
+                    min: 0,
+                    max: 100
+                },
+
+
+                series: [{
+                    name: '综合评分',
+                    data: [50,50,50,50,50],
+                    pointPlacement: 'on'
+                }]
+            });
+
+            function drawChart(){
+                var data = [parseInt($('#n1').text()),parseInt($('#n2').text()),parseInt($('#n3').text()),parseInt($('#n4').text()),parseInt($('#n5').text())];
+                chart.series[0].setData(data,true,true,true);
+
+            }
+
+            $('.single-slider').jRange({
+                from: 0,
+                to: 100,
+                step: 1,
+                scale: [0,100],
+                format: '%s',
+                width: '97%',
+                showLabels: false,
+                onstatechange:function() {/*初始化*/
+                    $('.single-slider').each(function(){
+                        $(this).parent().next().find('span').html($(this).val());
+                    });
+                    drawChart();
+                }
+            });
+
+            /*初始化*/
+            $('.ranges input').each(function(){
+                $(this).parents().next().find('span').html($(this).val());
+            });
+
+            drawChart();
+            $('#btn-submit').click(function(){
+                var $form = $('form');
+                $.post($form.attr('action'), $form.serialize(), function(data) {
+                    var projectId = $('#input-project-id').val();
+                    if (data.status == 1) {
+                        $.notice(data.info, function(){
+                            location.href = '/Project/detail/id/' + projectId + '.html?r=' + Math.random();
+                        });
+                    } else {
+                        $.notice(data.info, function(){
+                            location.href = '/Project/detail/id/' + projectId + '.html?r=' + Math.random();
+                        });
+                    }
+
+                }, 'json');
+                return false;
+            });
+        })
+    </script>
+
+</block>

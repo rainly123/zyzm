@@ -1,0 +1,49 @@
+<div class="addcards popup_content">
+  <div class="top"><header><b>添加银行卡</b></header></div>
+  <form id="form-addcards" method="POST" action="{:U()}">
+    <ul class="list mt20">
+      <li><dl><dt>银行：</dt>
+        <dd><input name="bank_name" type="text" value="" class="c1" datatype="*1-20" maxlength="24" nullmsg="请输入银行名称" errormsg="银行名称最多20个字符"></dd>
+        </dl></li>
+      <li><dl><dt>开户城市：</dt>
+        {:hook('J_China_City', array('province'=>$detail['province'], 'city'=>$detail['city']))}
+      </dl></li>
+      <li><dl><dt>开户行：</dt>
+        <dd><input name="sub_name" type="text" value="" class="c1" id="sub_name" datatype="*1-30" maxlength="35" nullmsg="请输入开户行" errormsg="开户行最多30个字符"></dd>
+      </dl></li>
+      <li><dl><dt>银行卡号：</dt>
+        <dd><input name="cardno" type="text" class="c1" id="cardno" datatype="n1-30" maxlength="35" nullmsg="请输入银行卡号" errormsg="银行卡号最多30个字符"></dd></dl>
+      </li>
+      <li><dl><dt>确认银行卡号：</dt>
+        <dd><input name="recardno" type="text" value="" class="c1" id="recardno" datatype="n1-30" maxlength="35" nullmsg="请输入确认卡号" errormsg="两次输入的银行卡号不一致" recheck="cardno" ></dd></dl>
+      </li>
+      <li><dl><dt></dt>
+        <dd><div id="errormessage"></div></dd></dl>
+      </li>
+      <li><dl><dt>&nbsp;</dt>
+        <dd><input name="" type="submit" value="确定" class="c3"><input name="" type="button" value="取消" class="c4"></dd>
+      </dl></li>
+    </ul>
+  </form>
+</div>
+<script type="text/javascript">
+$(function() {
+  $("#form-addcards").Validform({
+    tiptype: function(msg, o, cssctl) {
+      var objtip = $("#errormessage");
+      if (o.type == 2) {
+        objtip.hide();
+      } else {
+        objtip.show();
+      }
+      cssctl(objtip, o.type);
+      objtip.text(msg);
+    }, ajaxPost: true,
+    callback: function(data) {
+      if (data.status == 1) {
+        layer.alert(data.info, 1, function(){window.location.reload();});
+      }
+    }
+  });
+});
+</script>

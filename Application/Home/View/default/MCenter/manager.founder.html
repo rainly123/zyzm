@@ -1,0 +1,157 @@
+<extend name="Base/common" />
+<block name="header">
+	<style>
+		.refuse {
+			display: none;
+		}
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+		<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;项目管理
+	</div>
+	<div>
+		<div class="bs-docs-example" style="border: none;">
+			<div class="con_btn">
+				<div class="nav-bar">
+					<div class="content">
+						<ul class="menu">
+							<li <if condition="$mtype eq 'project' "> class="active" <else/> class=""</if>>
+								<a href="{:U('MCenter/project')}">创建的项目</a>
+							</li>
+							<li <if condition="$mtype eq 'inquiry' "> class="active" <else/> class=""</if>>
+								<a href="{:U('MCenter/founder_inquiry')}">询价的项目</a>
+							</li>
+							<li <if condition="$mtype eq 'lintou' "> class="active" <else/> class=""</if>>
+								<a href="{:U('MCenter/founder_lintou')}">领投的项目</a>
+							</li>
+							<li <if condition="$mtype eq 'gentou' "> class="active" <else/> class=""</if>>
+								<a href="{:U('MCenter/founder_gentou')}">跟投的项目</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		
+			<!-- 数据列表 -->
+			<div class="data-table">
+				<table class="tt">
+				    <thead>
+				        <tr>
+						<th class="">序号</th>
+						<th class="">项目名称</th>
+						<th class="">项目投资人</th>
+						<th class="">他的估值</th>
+						<th class="">估值时间</th>
+						<th class="">状态</th>
+						<th class="">操作</th>
+						</tr>
+				    </thead>
+				    <tbody>
+						<volist name="projects" id="vo">
+						<tr>
+				      <td>{$i} </td>
+							<td>{$vo.project_name}</td>
+							<td><a href="{:U('MCenter/profile?id='.$vo['investor_id'])}">{$vo.investor_id|get_membername}</a></td>
+							<td><if condition="$mtype eq 'gentou'"> 
+								 <else />{$vo.project_valuation|change_fund}元</if></td>
+							<td><span>{$vo.create_time|time_format}</span></td>
+							<td>
+								<if condition="$mtype eq 'gentou' "> 	
+								 <else />
+									<if condition="$vo.status eq 9 "> 已接受
+									<elseif condition="$vo.status eq 1 "/> 未认可
+									<elseif condition="$vo.status eq 2 "/> 已认可
+									<elseif condition="$vo.status eq 3 "/> 已确认投资
+									<elseif condition="$vo.status eq 4 "/> 已支付
+									 <else /> 已拒绝</if>
+								</if>
+							</td>
+							<td>
+								<if condition="$vo.status eq 9 or $mtype eq 'gentou'"> 
+									<a href="{:U('Project/detail?id='.$vo['id'])}">查看</a>
+									<a href="{:U('MCenter/dofreeze?status=3&id='.$vo['investor_id'].'&investorid='.$vo['investorid'].'&valuation='.$vo['project_valuation'].'&name='.$vo['project_name'])}">资金冻结</a>
+								<elseif condition="$vo.status eq 1 "/> 
+									<a href="{:U('MCenter/accept?status=2&id='.$vo['investorid'].'&mtype='.$mtype)}">许可</a>
+									<a href="javascript:;" name="btn-refuse">拒绝</a>
+								<elseif condition="$vo.status eq 2 "/> 
+									<a href="{:U('Project/detail?id='.$vo['id'])}">查看</a>
+								<elseif condition="$vo.status eq 3 "/> 
+									<a href="{:U('Project/detail?id='.$vo['id'])}">查看</a>
+								<elseif condition="$vo.status eq 4 "/> 
+									<a href="{:U('Project/detail?id='.$vo['id'])}">查看</a>
+								 <else />
+								 	<a href="javascript:;" name="btn-refuse">拒绝理由</a>
+								</if>
+	
+								<div class="rowfluid refuse">
+									<div class="span2">
+										<form action="{:U('MCenter/refuse?status=0&id='.$vo['investorid'].'&mtype='.$mtype)}" method="post" id="form-refuse">
+											
+											<div class="control-group">
+												<div class="controls">
+													<textarea name="refuse_reason" class="span">{$vo.refuse_reason}</textarea>
+												</div>
+											</div>
+											<div class="control-group">
+												<div class="controls" style="text-align:right">
+													<button class="btn btn-primary">确定</button>
+													<button class="btn" name="btn-cannel">取消</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+			                </td>
+						</tr>
+						</volist>
+					</tbody>
+				    </table>
+		
+			</div>
+			<!-- 分页 -->
+			<div class="page">{$_page}</div>
+			<!-- /分页 -->
+		</div>
+	</div>
+		</div>
+		</div>
+</section>
+	</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('MCenter/project')}');
+	$(function(){
+	      
+			$("#form-refuse").submit(function() {
+				var self = $(this);
+				$.post(self.attr("action"), self.serialize(), success, "json");
+				return false;
+			});
+			
+			$("a[name='btn-refuse']").click(function() {
+				//$(".refuse").hide();
+				$(this).hide();
+				$(this).next('.refuse').show();
+			});
+			
+			$("button[name='btn-cannel']").click(function() {
+				$(this).parents('.refuse').hide();
+				$(this).parents('.refuse').prev().show();
+				return false;
+			});;   
+	});
+	</script>
+</block>

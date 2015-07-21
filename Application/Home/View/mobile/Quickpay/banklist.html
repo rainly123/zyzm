@@ -1,0 +1,27 @@
+<extend name="Base/common" />
+<block name="style">
+<link href="__M_CSS__/login.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<div class="user_pay">
+<ul>
+  <foreach name="banklist" item="p">
+  <li><a href="{:U('Quickpay/quickpay?id='. $p['id'] . '&merorderid='.$merorderid)}">
+    <img src="__IMG__/quickpay/pay/{$p.logo}">
+    <h1>{$p.banknm}</h1>
+    <h2>尾号{$p.storablecardno|substr=6}</h2>
+  </a></li>
+  </foreach>
+
+  <ol>
+    <img src="__M_IMG__/img32.jpg">
+    <h1><a href="{:U('Quickpay/banklist?merorderid='.$merorderid)}">添加快捷支付银行卡</a></h1>
+  </ol>
+  <ol>
+    <h1 style="margin-left:20px"><a href="{:U('Pay/offline?merorderid='.$merorderid)}">线下支付方式</a></h1>
+  </ol>
+</ul>
+</div>
+</block>
+<block name="script">
+</block>

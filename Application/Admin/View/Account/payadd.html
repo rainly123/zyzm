@@ -1,0 +1,44 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>线下充值</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <input type="hidden" name="uid" value="{$data.id}">
+        <div class="form-item">
+            <label class="item-label">真是姓名: <span class="info">{$data.name}</span></label>
+        </div>
+        <div class="form-item">
+            <label class="item-label">手机号码: <span class="info">{$data.phone}</span></label>
+        </div>
+        <div class="form-item">
+            <label class="item-label">充值金额: </label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="amount" value="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">备注</label>
+            <div class="controls">
+                <textarea name="remarks" id="" cols="50" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+<style>
+span.info {font-size:16px;font-weight:bolder;color:#aa3882;}
+p.info {margin-left: 40px;}
+p.info span {font-size: 16px;font-weight: bolder;color: #aa3882;}
+</style>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Account/index')}');
+    </script>
+</block>

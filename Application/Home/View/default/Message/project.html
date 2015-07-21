@@ -1,0 +1,43 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+<block name="submenu">
+<ul>
+  <li><a href="{:U('Message/index')}">我的私信</a></li>
+  <li class="cur"><a href="{:U('Message/project')}">项目通知</a></li>
+  <li><a href="{:U('Message/system')}">系统通知</a></li>
+</ul>
+</block>
+<block name="detail">
+<div class="userright2 ri">
+  <ul class="zt">
+    <li class="cur"><a href="#">全部</a></li>
+    <li><a href="#">未读</a></li>
+    <li><a href="#">已读</a></li>
+  </ul>
+  <ul class="mes">
+    <li><dl>
+      <dd class="detail">
+        <div class="from"><b>项目名称</b> (2015-1-22 16:00)</div>
+        <div class="d">信息内容信息</div>
+        <div id="panel" style="display:none;" class="moreinfo">信息内容信息内信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容容信息内容信息内容信息内容信息内容信息内容信息内容信息内容</div>
+      </dd>
+      <dd class="cz"><a href="#">删除</a><br><a href="#" class="btn-slide">展开</a></dd>
+    </dl></li>
+    <li><dl>
+      <dd class="detail">
+        <div class="from"><b>项目名称</b> (2015-1-22 16:00)</div>
+          <div class="d">信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容信息内容</div>
+      </dd>
+      <dd class="cz"><a href="#">删除</a><br><a href="#">展开</a></dd>
+    </dl></li>
+  </ul>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+  // 指定左侧选中菜单
+  var submenu = "{:U('Message/index')}";
+</script>
+</block>

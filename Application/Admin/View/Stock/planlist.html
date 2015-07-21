@@ -1,0 +1,84 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>申购列表明细</h2>
+	</div>
+		<div class="cf">
+			<div class="fl">
+          <a class="btn" href="{:U('addplanlist?pid='.$pid)}">新 增</a>
+    	</div>
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+	<div class="data-table table-striped">
+<table class="">
+    <thead>
+    <tr>
+		<th class="">编号</th>
+		<th class="">股票代码</th>
+		<th class="">股票简称</th>
+		<th class="">申购日期</th>
+		<th class="">发行价</th>
+		<th class="">申购数</th>
+		<th class="">申购金额</th>
+		<th class="">中签数</th>
+		<th class="">中签金额</th>
+		<th class="">收益额</th>
+		<th class="">收益率</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$i}</td>
+			<td>{$vo.shareid}</td>
+			<td>{$vo.sharename}</td>
+			<td><span>{$vo.purchasedate|time_format="Y-m-d"}</span></td>
+			<td>{$vo.price} 元</td>
+			<td>{$vo.purchase_count}</td>
+			<td>{$vo.purchase_amount}</td>
+			<td>{$vo.real_count}</td>
+			<td>{$vo.real_amount} 元</td>
+			<td>{$vo.net_value} 元</td>
+			<td>{$vo.rate} %</td>
+			<td><span>{$vo.status_text}</span></td>
+			<td>
+				<a href="{:U('Stock/addplanlist?id='.$vo['id'])}">编辑</a> |
+				<if condition="$vo.status eq 0">
+					<a href="{:U('purchase?id='.$vo['id'].'&pid='.$vo['pid'])}" class="manage" alt="申购金额">申购金额</a> |
+					
+				<elseif condition="$vo.status eq 1"/>
+					<a href="{:U('real?id='.$vo['id'].'&pid='.$vo['pid'])}" class="manage" alt="中签结果">中签结果</a> |
+					
+				<elseif condition="$vo.status eq 2"/>
+					<a href="{:U('share?id='.$vo['id'].'&pid='.$vo['pid'])}" class="manage" alt="收益">收益</a> |
+				</if>
+
+				<a href="{:U('ipolist?id='.$vo['id'])}">投资人</a>	
+			</td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="11" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<link rel="stylesheet" href="__CSS__/colorbox.css">
+	<script type="text/javascript">
+		$(".manage").colorbox();
+	</script>
+</block>

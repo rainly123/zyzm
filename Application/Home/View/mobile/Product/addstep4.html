@@ -1,0 +1,35 @@
+<extend name="Base/common"/>
+
+<block name="header">
+	<link href="__CSS__/style.css" rel="stylesheet">
+</block>
+
+<block name="side">
+</block>
+
+<block name="body">
+          <div class="form">
+          <ul class="center"> 
+          <li><h2>项目名称：{$product.name}</h2></li>
+          <li><img src="__IMG__/end.png" width="66" height="126"></li>
+          <h3>您的项目信息填写完成！是否立即申请上线审核？</h3>
+          <li class="center ">
+            <a href="{:U('product/review?status=1&id='. $pid)}" class="online"><input type="button" class="s" value="确认提交审核"></a>
+          </li>
+          </ul></div>
+
+</block>
+<block name="script">
+	<script type="text/javascript">
+		$(".online").click(function() {
+			$.get($(this).attr('href'), function(data) {
+				if(data.status==1){
+					window.location.href = data.url;
+				}else{
+					alert(data.info);
+				}
+			});
+			return false;
+		});
+	</script>
+</block>

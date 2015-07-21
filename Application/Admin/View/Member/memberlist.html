@@ -1,0 +1,122 @@
+<extend name="Public/base" />
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/colorbox.css">
+</block>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>用户列表</h2>
+	</div>
+	<div class="cf">
+
+    <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="nickname" class="search-input" value="{:I('nickname')}" placeholder="请输入用户昵称或者ID">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('memberlist')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="">UID</th>
+		<th class="">昵称</th>
+		<th class="">积分</th>
+		<th class="">登录次数</th>
+		<th class="">最后登录时间</th>
+		<th class="">最后登录IP</th>
+		<th class="">激活状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="_list">
+			<volist name="_list" id="vo">
+			<tr>
+				<td>{$vo.id} </td>
+				<td>{$vo.nickname}</td>
+				<td>{$vo.score}</td>
+				<td>{$vo.login}</td>
+				<td><span>{$vo.last_login_time|time_format}</span></td>
+				<td><span>{:long2ip($vo['last_login_ip'])}</span></td>
+				<td>{$vo.status_text}</td>
+				<td>
+					<div class="btn-group ">
+						<a href="{:U('realname?id='.$vo['id'])}" class="btn realname">实名认证</a>
+					</div>
+			    </td>
+			</tr>
+			</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script src="__JS__/jquery.colorbox-min.js"></script>
+	<script type="text/javascript">
+
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    //导航高亮
+    highlight_subnav('{:U('Member/memberlist')}');
+
+    //激活 禁用
+	var resultStatus = null;
+	$('.ui-switch').click(function(){
+		var textPrompt = $(this).text();
+		if (textPrompt == '禁用') {
+			if (confirm("是否启用本账户")) {
+				resultStatus = true;
+			};
+		}else{
+			if (confirm("是否禁用本账户")) {
+				resultStatus = true;
+			};
+		};
+
+		if (resultStatus == true) {
+			$.get($(this).data("url"),function(data){
+				if (data.status == true) {
+					alert('修改成功');
+					window.location.reload();
+				}else{
+					alert('修改失败');
+				};
+			});
+		};
+	});
+
+	// 改变密码
+	$(".realname").colorbox();
+	</script>
+</block>

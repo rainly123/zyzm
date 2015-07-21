@@ -1,0 +1,74 @@
+.wyl_res {
+height: 200px;
+background: #f3ffec;
+border-top: 2px solid #7abd54;
+margin: 20px;
+padding: 35px 100px;
+position: relative;
+font-family: "Microsoft Yahei";
+}
+
+.wyl_res i {
+width: 41px;
+height: 32px;
+background-image: url("i/succ.png");
+background-position: 0 0;
+background-repeat: no-repeat;
+position: absolute;
+left: 44px;
+top: 38px;
+display: inline-block;
+}
+
+.wyl_res p.w_tit {
+color: #7abd54;
+font-size: 18px;
+}
+.wyl_res p {
+line-height: 30px;
+font-size: 14px;
+}
+
+.wyl_res p {
+line-height: 30px;
+font-size: 14px;
+}
+
+.w_mt {
+margin-top: 20px;
+}
+.wyl_res p span {
+width: 100px;
+height: 30px;
+}
+
+.wyl_res p span.goCenter a {
+width: 100px;
+height: 30px;
+border-radius: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border: 1px solid #dedbdb;
+text-align: center;
+line-height: 30px;
+color: #666;
+display: inline-block;
+background: #f1f1f1;
+}
+.wyl_res p span.goCenter a {
+width: 100px;
+height: 30px;
+border-radius: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border: 1px solid #dedbdb;
+text-align: center;
+line-height: 30px;
+color: #666;
+display: inline-block;
+background: #f1f1f1;
+}
+.wyl_res p span.goBack a {
+color: #005ea7;
+margin: 0 10px;
+}

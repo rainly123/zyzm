@@ -1,0 +1,58 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>项目信息</h2>
+
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+<table class="">
+    <thead>
+        <tr>
+		<th class="">编号</th>
+		<th class="">项目名称</th>
+    <th class="">发起人</th>
+		<th class="">创建时间</th>
+		<th class="">投资人数</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+			<td>{$vo.id} </td>
+			<td>{$vo.project_name}</td>
+      <td>{$vo.uid|get_membername}</td>
+			<td><span>{$vo.create_time|time_format}</span></td>
+			<td>{$vo.follow}</td>
+			<td>{$vo.stage_text}</td>
+			<td><a href="{:U('update?id='.$vo['id'])}" class="btn btn-sync">同步</a></td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+<link rel="stylesheet" href="__CSS__/colorbox.css" />
+<script src="__JS__/jquery.colorbox-min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".btn-sync").colorbox();
+})
+</script>
+</block>

@@ -1,0 +1,75 @@
+<extend name="Base/uc-common" />
+<block name="style">
+<link rel="stylesheet" type="text/css" href="__CSS__/user.css" />
+</block>
+<block name="submenu">
+<ul>
+    <li><a href="{:U('MCenter/pr_support')}">支持的项目</a></li>
+    <li class="cur"><a href="{:U('MCenter/pr_create')}">发起的项目</a></li>
+    <li><a href="{:U('MCenter/pr_attach')}">收藏的项目</a></li>
+</ul>
+<span class="rtlink"><a href="{:U('Project/create')}" class="fq">+ 发起项目</a></span>
+</block>
+<block name="detail">
+	<div class="userright2 ri">
+		<h2>{$myProduct.name}</h2>
+      	<p class="ui-top-info">到账金额 : {$listSum} (不包含邮费)
+            <a href="{:U('Manage/exploadMyCrowdfundingOrder?pid='.$pid)}" class="btn btn-primary ui-export-order">导出订单信息</a>
+            <!-- 真实姓名、手机号码、购买数量、金额、邮费、地址 -->
+  		</p>
+	 	<div class="data-table">
+              <div class="ckdd">
+				<table class="tt">
+				    <thead>
+					    <tr>
+						<th width="7%" class="">序号</th>
+						<th width="18%" class="">订单号</th>
+						<th width="13%" class="">价格</th>
+						<th width="7%" class="">名字</th>
+						<th width="16%" class="">地址</th>
+						<th width="11%" class="">购买时间</th>
+						<th width="10%" class="">幸运号</th>
+						<th width="11%" class="">付款状态</th>
+						</tr>
+				    </thead>
+				    <tbody>
+				    	<volist name="list" id="vo" key="k" >
+						<tr>
+							<td>{$k}</td>
+							<td><a href="{:U('Manage/orderinfo?id='.$vo['id'])}">{$vo.id}</a></td>
+							<td><span>￥{$vo['amount']}</span>
+								<span>(邮费：￥{$vo['post_amount']})</span>
+							</td>
+								<td>{$customAddress[$vo['address_id']]['name']} <br/>
+									{$customAddress[$vo['address_id']]['phone']}</td>
+								<td>
+									{$customAddress[$vo['address_id']]['province']|getProvinceCity=$customAddress[$vo['address_id']]['city']} <br>{$customAddress[$vo['address_id']]['address']}
+								</td>
+								<td>
+									<span>{$vo['create_time']|time_format='Y-m-d'}</span>
+									<span>{$vo['create_time']|time_format='H:i:s'}</span>
+								</td>
+								<td>{$vo['luckno']}</td>
+								<td>
+									<!-- 状态 回报相关id（0:购买成功、1:支付成功、-1:撤消 -2没有购买名额了） -->
+									<if condition="$vo['status'] eq 0"><span class="label">已购买</span>
+										<elseif condition="$vo['status'] eq 1"/><span class="label label-success">已支付</span>
+										<elseif condition="$vo['status'] eq 2"/><span class="label label-warning">支付成功金额不足</span>
+										<elseif condition="$vo['status'] eq -1"/><span class="label label-warning">已撤销</span>
+										<elseif condition="$vo['status'] eq -2"/><span class="label label-inverse">无购买名额</span>
+									</if>
+								</td>
+							</tr>
+							</volist>					
+						</tbody>
+			    	</table>
+                </div>
+			</div>
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+  // 指定左侧选中菜单
+  var submenu = "{:U('MCenter/pr_support')}";
+</script>
+</block>

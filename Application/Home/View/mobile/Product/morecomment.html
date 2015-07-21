@@ -1,0 +1,81 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__M_CSS__/header.css" rel="stylesheet">
+    <link href="__M_CSS__/project.css" rel="stylesheet">
+    <script src="__M_JS__/jquery.easing.1.3.js"></script>
+
+</block>
+<block name="body">
+    <div class="detail">
+        <div class="item">
+            <div class="body">
+
+                <div class="comments">
+                    <ul>
+                        <volist name="comments" id="v">
+                            <li>
+                                <div class="img">
+                                    <a href="{:U('MCenter/profile?id='. $v['comment_user'])}"><img
+                                            src="{$v['comment_user']|get_memberface}" alt="众筹用户"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="addpost"><a class="btn-slide"
+                                                            href="{:U('product/makereply',array('project_id'=>$v['project_id'],'reply_id'=>$v['id']))}">回复</a>
+                                    </div>
+                                    <h2>{$v['comment_user']|get_membername}</h2>
+                                    <notempty name="v.parent">
+                                            <volist name="v.parent" id="vo">
+                                            <div class="pllist clearfix reply">
+                                                {$vo.comment_user|get_membername}说：{$vo.content}
+                                            </div>
+                                            </volist>
+                                        </notempty>
+                                    <p>{$v.content}</p>
+                                </div>
+                                <div class="c-c">
+                                	<input type="hidden" class="comment_id" value="{$v.id}"><textarea></textarea><br>
+                                    <button class="btn-c-c">回复</button>
+                                </div>
+                                <dd>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var projectId = location.href.match(/id\/(\d+)\.html/);
+        projectId = parseInt(projectId && projectId[1]) || 0;
+        var config = {
+            projectCommentAPI: '/product/comment/'
+        };
+
+        $('.btn-slide').click(function () {
+            $(this).parents('.text').next().slideToggle();
+            return false;
+        });
+
+        $('.btn-c-c').click(function () {
+            var $textarea = $(this).parent().find('textarea'),
+                    commentId = $textarea.prev().val();
+
+            var data = {
+                project_id: projectId,
+                content: $textarea.val(),
+                reply_id: commentId
+            };
+            $.post(config.projectCommentAPI, data, function (data) {
+                showCommentComment(data);
+                $textarea.val('');
+            });
+            return false;
+        });
+
+        function showCommentComment(data) {
+            location.reload();
+        }
+    </script>
+</block>
+

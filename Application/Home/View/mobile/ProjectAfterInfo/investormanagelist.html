@@ -1,0 +1,233 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__CSS__/th.css">
+</block>
+<block name="body">
+    <div id="server-data" style="display:none;">
+        <input name="projectId" value="{$pid}">
+    </div>
+    <div class="body-bg">
+        <div class="body">
+            <div class="breadcrumbs">
+                <a href="/">首页</a> >
+                <a href="{:U('MCenter/index')}">用户中心</a> >
+                <a href="{:U('MCenter/pj_support')}">股权众筹</a> >
+                <a href="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">投后管理</a>
+            </div>
+            <div class="panel">
+                <div class="header">
+                    <span class="title-label">投后管理</span>
+                    <span class="title"><a href="/Project/detail/id/{$pid}.html">{$projecttitle}</a></span>
+                    <button class="btn btn-back">返回</button>
+                </div>
+                <div class="tab-title-box">
+                    <div class="tab-title-list">
+                        <div class="tab-title"><a href="{:U('ProjectAfterInfo/fundedmanagelist?pid='.$pid)}">项目进度</a>
+                        </div>
+                        <div class="tab-title active"><a
+                                href="{:U('ProjectAfterInfo/investormanagelist?pid='.$pid)}">股东列表</a></div>
+                    </div>
+                </div>
+                <div class="tab-content-box">
+                    <table>
+                        <thead>
+                        <tr>
+                            <td>序号</td>
+                            <td>类型</td>
+                            <td>真实姓名</td>
+                            <td>投资金额(元)</td>
+                            <td>占股比例</td>
+                            <td>私信</td>
+                        </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        <tr>
+                            <td colspan="6" class="loading">loading...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dialog" style="display: none;" class="layer_pageContent">
+        <div style="padding:20px 40px;">
+            <form action="/Message/sendmsg/id/_id_.html" method="post" id="message-form">
+                <div class="control-group">
+                    <label class="control-label">发送给</label>
+                    <div class="controls pageusername"><span class="help-block"><b id="msg-target-name"></b></span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="control-group">
+                    <textarea name="content" class="srk_box" rows="5" id="msg-content"></textarea>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-send-msg" type="submit">发送</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script src="__STATIC__/template.js"></script>
+    <script id="investor-tr" type="text/html">
+        {{each investors as iv idx}}
+        <tr data-id="{{iv.id}}">
+            <td>{{startIndex + idx + 1}}</td>
+            <td>{{iv.lead_type}}</td>
+            <td class="user-name"><a href="/MCenter/profile/id/{{iv.id}}.html">{{iv.nickname}}</a></td>
+            <td>{{iv.fund}}</td>
+            <td>{{iv.percent}}%</td>
+            <td class="btn-msg"></td>
+        </tr>
+        {{/each}}
+    </script>
+    <script>
+        var serverData = {};
+        !function () {
+            $('#server-data').children('input').each(function () {
+                var $this = $(this);
+                serverData[$this.attr('name')] = $this.val()
+            })
+        }();
+        var config = {
+            'getInvestorsAPI': '/projectAfterInfo/getinvestormanagelist'
+        };
+        var pagination = function () {
+            var that = {
+                fetchIndex: 1,
+                fetching: false,
+                totalPage: 0,
+                investorIndex: 0
+            };
+
+            return that;
+        }();
+        var buildDOM = function (info) {
+            $('.loading').remove();
+            var estimatefund = info.estimatefund;
+            for (var i = 0, len = info.investors.length; i < len; i++) {
+                var iv = info.investors[i];
+                info.investors[i]['percent'] = Number(iv.fund / estimatefund * 100).toFixed(2);
+                info.investors[i]['fund'] = Math.round(iv.fund)
+            }
+            var html = template('investor-tr', {
+                investors: info.investors,
+                estimateFund: info.estimatefund,
+                startIndex: pagination.investorIndex
+            });
+            pagination.fetchIndex += 1;
+            pagination.totalPage = info.last_page;
+            pagination.investorIndex = info.page * info.per_page;
+            if (pagination.fetchIndex > pagination.totalPage) {
+                var percent = Number(info.raisedfund / info.estimatefund * 100).toFixed(2);
+                html += '<tr class="sum"><td colspan="3">合计</td><td>' + info.raisedfund + '</td><td>' + percent + '%' + '</td><td></td></tr>';
+            } else {
+                html += '<tr class="loading"><td colspan="6">loading...</td></tr>'
+            }
+            $('#table-body').append(html);
+            bindMsgBtnEvent();
+        };
+        fetchData = function () {
+            if (pagination.fetching) {
+                return false;
+            }
+            pagination.fetching = true;
+            $.getJSON(config.getInvestorsAPI, {
+                pid: serverData.projectId,
+                page: pagination.fetchIndex
+            }).then(function (json) {
+                pagination.fetching = false;
+                if (json.success === true) {
+                    var info = json.info;
+                    if (Object.prototype.toString.call(info.investors) === "[object Array]" && info.investors.length) {
+                        buildDOM(info)
+                    } else {
+                        $('#table-body').html('<tr><td colspan="6">暂无投资人</td></tr>');
+                    }
+                } else {
+
+                }
+            }, function () {
+                pagination.fetching = false;
+            })
+        };
+        fetchData();
+
+        var bindMsgBtnEvent = function () {
+            $('.btn-msg').click(function () {
+                var $tr = $(this).parent();
+                openSendMsgForm($tr.data('id'), $tr.find('.user-name').text())
+            })
+        };
+        var openSendMsgForm = function (uid, targetName) {
+            var $form = $('#dialog').find('form'),
+                    sendMsgAPI = $form.attr('action');
+            $form.attr('action', sendMsgAPI.replace('_id_', uid));
+            $('#msg-target-name').html(targetName);
+            $.layer({
+                type: 1,
+                title: false,
+                area: ['600px', '360px'],
+                page: {dom: "#dialog"},
+                fadeIn: 300
+            });
+        };
+        var buildPageDOM = function (items, currentPage) {
+            if (currentPage == null) {
+                currentPage = 1
+            }
+            $('.page-box').pagination({
+                items: items,
+                itemsOnPage: itemsOnPage,
+                currentPage: currentPage,
+                prevText: '<<',
+                nextText: '>>',
+                onPageClick: function (pageNumber, event) {
+                    getFollows($('.friend-view .curr-tab').data('name'), pageNumber);
+                }
+            });
+        };
+        $("#message-form").submit(function () {
+            var $this = $(this);
+            var content = $('#msg-content').val();
+            if (content == '') {
+                layer.alert('消息内容不能为空。', 8);
+                return false;
+            }
+            $.post($this.attr("action"), $this.serialize(), "json").then(function (json) {
+                if (json.status == 1) {
+                    layer.alert(json.info, 9, function () {
+                        window.location.reload();
+                    });
+                } else {
+                    layer.alert(json.info, 8);
+                }
+            });
+            return false;
+        });
+
+        $('.btn-back').click(function () {
+            history.back();
+            return false;
+        });
+        $('.btn-new').click(function () {
+            var href = $(this).data('href');
+            if (href) location.href = href
+        });
+
+
+        $(window).scroll(function () {
+            var $loading = $('.loading');
+            if ($loading.length === 0) {
+                $(window).unbind();
+                return
+            }
+            if ($loading.offset().top < $(window).scrollTop() + document.documentElement.clientHeight) {
+                fetchData()
+            }
+        })
+    </script>
+</block>

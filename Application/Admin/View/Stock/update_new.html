@@ -1,0 +1,48 @@
+<div style="height:200px;width:400px;padding:30px">
+<style>
+	.label-title {width: 120px;text-align: right;display: inline-block;}
+	.comment-span {display:block;margin-left:120px;}
+</style>
+	<div style="margin:15px"><label  class="label-title">指定合计日：</label>
+		<input type="text" id="setday" name="setday" class="text date" placeholder="请选择日期" />
+		<span class="comment-span">提示：当前交易日往前推两个交易日</span>	
+	</div>
+	<input type="hidden" name="id" id="id" value="{$id}">
+	<div style="padding-left:84px"><button class="btn" href="{:U('update_new')}" id="btn-over">确定</button></div>
+</div>
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+<script>
+	$('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        endDate:new Date(),
+        autoclose:true
+    });
+
+	$('#btn-over').click(function() {
+		var id = $('#id').val();
+		var setday = $('#setday').val();
+		
+		if(setday==''){
+			alert('请指定日期');
+			return false;
+		}
+		
+		
+		$.post($(this).attr('href'), {'id':id, 'setday':setday}, function(data) {
+			if (data.status == '1') {
+				alert(data.info);
+				window.location.reload();
+			} else {
+				alert(data.info);
+			}
+		});
+		return false;
+	});
+</script>

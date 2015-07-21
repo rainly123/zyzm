@@ -1,0 +1,164 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__M_CSS__/login.css">
+    <link rel="stylesheet" href="__M_CSS__/header.css">
+    <link rel="stylesheet" href="__M_CSS__/obj_project.css">
+    <style>
+        .low, .up {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            border: none;
+            background: #eee;
+        }
+
+        .c3 {
+            display: inline-block;
+            width: 100px;
+            height: 30px;
+            border: none;
+            background: #eee;
+        }
+
+        .center {
+            width: 170px
+        }
+
+        .docast .item .infos ul li {
+            width: 49%
+        }
+
+        .ptitle {
+            font-size: 20px;
+            font-weight: bolder;
+            padding: 10px 5px;
+        }
+    </style>
+</block>
+<block name="body">
+    <form action="{:U('project/leader')}" id="form-inquiry" method="post" class="form-horizontal">
+        <input type="hidden" name="id" value="{$project.id}">
+
+        <div class="docast apply-leader-page">
+            <div class="ptitle">{$project.project_name}</div>
+            <div class="item">
+                <div class="head">
+                    <span>融资信息</span>
+                </div>
+                <div class="body">
+                    <div class="infos">
+                        <ul>
+                            <li>
+                                <h4>目标金额</h4>
+
+                                <h2>{$project.need_fund|change_fund}元</h2>
+                            </li>
+                            <li>
+                                <h4>起投金额</h4>
+
+                                <h2>{$project.follow_fund|round} 元</h2>
+                            </li>
+                        </ul>
+                        <input type="hidden" id="follow_fund" value="{$project.follow_fund}">
+                        <input type="hidden" id="need_fund" value="{$project.need_fund}">
+                        <input type="hidden" id="valuation" value="{$project.final_valuation}">
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="body">
+                    <div class="title">
+                        <span class="t2">领投金额</span>
+                    </div>
+                    <div class="addon">
+                        <div class="center">
+                            <div id="d" class="Spinner">
+                                <a class="Decrease" onclick="opera('#myfund', false);"
+                                   href="javascript:void(0)"><i>-</i></a>
+                                <input class="Amount" id="myfund" value="{$project.follow_fund|round=0}" datatype="n"
+                                       maxlength="7" nullmsg="请输入投资金额" errormsg="投资金额必须为数字" name="fund"
+                                       autocomplete="off" maxlength="7">
+                                <a class="Increase" onclick="opera('#myfund', true);" href="javascript:void(0)"><i>+</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="body">
+                    <div class="title">
+                        <span class="t3">投资理由</span>
+                    </div>
+                    <div class="addpost">
+                        <textarea name="message" cols="" rows="4" style="font-size:14px;padding:3px;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="castbtn">
+            <a href="#" id="btn-invest">申请领投</a>
+        </div>
+    </form>
+</block>
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script type="text/javascript">
+        $('#btn-invest').click(function () {
+            $(this).parents('form').submit();
+        });
+        function opera(x, y) {
+            var rs = new Number($(x).val());
+            if (isNaN(rs)) {
+                rs = 0;
+            }
+            if (y) {
+                rs = rs + 1000;
+            } else {
+                rs = rs - 1000;
+            }
+            $(x).val(checkFund(rs));
+        }
+
+        function checkFund(v) {
+            var min_follow = new Number($('#follow_fund').val());
+            var max_follow = new Number($('#need_fund').val());
+            var valuation = new Number($('#valuation').val());
+
+            // 投资金额处理为1000的倍数
+            v = Math.ceil(v / 1000) * 1000;
+            if (v > max_follow) {
+                v = max_follow;
+            } else if (v < min_follow) {
+                v = min_follow;
+            }
+            // 计算股份占比
+            var rate = (Math.round(v * 1000000 / valuation) / 10000);
+            $("#hasrate").html(rate);
+            return v;
+        }
+        $('#myfund').blur(function () {
+            var rs = new Number($("#myfund").val());
+            if (isNaN(rs)) {
+                rs = 0;
+            }
+            $("#myfund").val(checkFund(rs));
+        });
+
+        $('#form-inquiry').Validform({
+            tipSweep: true,
+            tiptype: function (msg, o, cssctl) {
+                if (o.type == 3) {
+                    alert(msg, 1);
+                }
+            }, ajaxPost: true,
+            callback: function (data) {
+                if (data.status == 1) {
+                    alert(data.info);
+                    window.location.href = data.url;
+                }
+            }
+        });
+    </script>
+</block>

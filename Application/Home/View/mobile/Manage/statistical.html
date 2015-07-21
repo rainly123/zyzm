@@ -1,0 +1,186 @@
+<extend name="Base/common" />
+<block name="header">
+</block>
+
+<block name="style">
+	<link rel="stylesheet" type="text/css" href="__CSS__/colorbox.css">
+	<style type="text/css">
+/*	#cboxContent{
+		background:#ddd;
+		border:1px solid black;
+	}*/
+	</style>
+</block>
+
+<block name="body">
+<div class="main">
+	<div class="content">
+<section>
+<div class="usercontent clearfix">
+<include file="Public/sidebar"/>
+<div class="mcenter-right" id="mcenter-right">
+	<div class="ShowPath">
+		您现在的位置： 用户中心&nbsp;&gt;&nbsp;项目管理&nbsp;&gt;&nbsp;认投统计
+	</div>
+	<div class="">
+		<div class="bs-docs-example" style="border: none;">
+			<div>
+				<table class="table table-bordered">
+				<tr>
+					<td colspan ="3" >
+						<h3>项目名称：
+							<a href="{:U('Project/detail?id='.$fund['id'])}">{$fund.project_name}</a>
+							<input type="hidden" class="ids" name="pid" value="{$fund.id}" id="pid">
+						</h3>
+					</td>
+				</tr>
+					<tr>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>融资金额</h4></div>
+							<div class="project-fund-top"><h3>{$fund.need_fund|change_fund} 元</h3></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>已融金额</h4></div>
+							<div class="project-fund-top"><h3>{$fund.has_fund|change_fund} 元</h3></div>
+						</td>
+						<td width="33%">
+							<div class="project-fund-bottom"><h4>已支付金额</h4></div>
+							<div class="project-fund-top"><h3>{$fund.pay_fund|change_fund} 元</h3>
+							<input type="hidden" id="agreefund" value="{$fund.pay_fund}"></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- 数据列表 -->
+			<div class="data-table">
+				<table class="tt">
+				    <thead>
+				        <tr>
+						<th class="">序号</th>
+						<th class="">投资人</th>
+						<if condition="$fund.stage eq 2">
+							<th class="">他的估值</th>
+						<else />
+						<th class="">投资人身份</th>
+						</if>
+						<th class="">金额</th>
+						<th class="">项目状态</th>
+						<th class="">操作</th>
+						</tr>
+				    </thead>
+				    <tbody>
+						<volist name="investor" id="vo">
+							<tr>
+								<td>{$i} </td>
+								<td>{$vo.investor_id|get_membername}</td>
+								<if condition="$fund.stage eq 2">
+									<td>{$vo.project_valuation|change_fund}</td>
+								<else />
+									<td>{$vo.lead_type_text}</td>
+								</if>
+								<td><span>{$vo.fund|change_fund}元</span>
+								<input type="hidden" name="fund" value="{$vo.fund}"></td>
+								<td>{$vo.status_text}
+								</td>
+								<td>
+								<notempty name="vo.others">
+								<a href="javascript:void(0);" data-toggle="popover" class="see-button" data-placement="left" data-content="{$vo.others|default='无'}" data-original-title="附加帮助">其他资源</a>
+								</notempty>
+								<if condition="$fund.stage egt 4">
+									<eq name="vo.status" value="2"> 
+									<a href="{:U('Manage/agree?id='.$vo['investorid'])}" class="agree" data-user="{$vo.investor_id|get_membername}">接受</a>
+									</eq>
+									<eq name="vo.status" value="3">
+										<a href="{:U('Manage/agreecancel?id='.$vo['investorid'])}" class="agreecancel" data-user="{$vo.investor_id|get_membername}">撤消</a>
+									</eq>
+								</if>
+				        </td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="page">{$_page}</div>
+			<!-- /分页 -->
+		</div>
+	</div>
+	</div>
+	</div>
+</section>
+</div>
+</div>
+</block>
+
+<block name="side"></block>
+<block name="script">
+	<script type="text/javascript" src="__JS__/jquery.colorbox-min.js"></script>
+	<script type="text/javascript">
+	//导航高亮
+	highlight_subnav('{:U('Manage/foundlist')}');
+
+	$(".agree").click(function() {
+		var _this = $(this);
+		$.messageBox({msginfo:'您确定要接受'+_this.attr('data-user') +'的认投吗？', 
+			showconfirm:true, confirm:function() {
+				$.get(_this.attr('href'), {pid:$("#pid").val()},function(data) {
+
+					if (data.status == '9') {
+						$.messageBox({msginfo:data.info, showconfirm:true, confirm:function(){
+							$.get(_this.attr('href'), {pid:$("#pid").val(), over:1},function(data) {
+								$.messageBox({showconfirm:false,msginfo: data.info, cancel:function(){
+									window.location.reload();}});
+							});
+						}});
+					} else {
+						$.messageBox({showconfirm:false,msginfo: data.info, cancel:function(){
+							window.location.reload();
+						}});	
+					}
+				});
+
+			}});
+		return false;
+	});
+	$(".agreecancel").click(function() {
+		var _this = $(this);
+		$.messageBox({msginfo:'您确定要撤消'+_this.attr('data-user') +'的认投吗？', 
+			showconfirm:true, confirm:function() {
+				$.get(_this.attr('href'), function(data) {
+					$.messageBox({showconfirm:false,msginfo: data.info, cancel:function(){ window.location.reload();}});	
+				});
+			}});
+		return false;
+	});
+
+	$("#agreeMore").click(function() {
+		var form = $(".ids");
+		var _this = $(this);
+    var nead_confirm=false;
+		form.each(function(k,v){
+	    if(v.type=='checkbox' && v.checked==true){
+	        nead_confirm = true;
+	    }});
+
+    if (!nead_confirm) {
+    	$.messageBox({showconfirm:false,msginfo: '您还没有选择要接受的对象。'});
+    	return false;
+    }
+
+    $.messageBox({msginfo:'您确定要接受选中的投资人的认投吗？', 
+			showconfirm:true, confirm:function() {
+				$.post(_this.attr('url'),form.serialize(), function(data) {
+					$.messageBox({showconfirm:false,msginfo: data.info, cancel:function(){
+						if (data.status == '1')
+							window.location.reload();
+					}});
+				});
+
+			}});
+
+		return false;
+	});
+
+	$(".see-button").popover({trigger:'hover'});
+	</script>
+</block>
