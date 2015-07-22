@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Home\Controller;
-use User\Api\UserApi;
+use User\Api\UserApi; 
 use Think\Image;
 use Think\Log;
 
