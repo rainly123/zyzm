@@ -40,7 +40,7 @@ return array(
     'DB_NAME'   => 'zyzm', // 数据库名
     'DB_USER'   => 'root', // 用户名
   //  'DB_PWD'    => 'sadamu',  // 密码
-    'DB_PWD'    => 'e5656zyzm',  // 密码
+    'DB_PWD'    => 'e5656.zyzm',  // 密码
     'DB_PORT'   => '3306', // 端口
     'DB_PREFIX' => 'jm_', // 数据库表前缀
 
