@@ -141,7 +141,6 @@ class BasePay
      * return 远程输出的数据
      */
     function getHttpResponsePOST($url, $cacert_url, $para, $input_charset = '') {
-
         if (trim($input_charset) != '') {
             $url = $url."_input_charset=".$input_charset;
         }

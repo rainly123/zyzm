@@ -6,7 +6,7 @@ namespace zhifubao\model;
  * Date: 2015/7/21
  * Time: 15:15
  */
- class DoPay
+ class IndexPay
  {
 
  }

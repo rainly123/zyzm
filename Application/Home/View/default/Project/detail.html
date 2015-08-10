@@ -43,15 +43,28 @@
                             </i>
                         </dd>
                         <dd><span>{$project.fund.follow_fund|change_fund}元</span>起投额</dd>
-                        <dd><span><eq name="project.project.stage" value="1">0
+                        <dd><span><eq name="project.project.stage" value="1">
+                            {$project.fund.has_fund|change_fund}
                             <else/>
                             {$project.fund.has_fund|change_fund}
-                        </eq>元</span>已投额
+                        </eq>元</span>
+                            <eq name="project.project.stage" value="1">
+                                已认投额
+                                <else/>
+                                已投额
+                            </eq>
                         </dd>
-                        <dd><span><eq name="project.project.stage" value="1">0
-                            <else/>
-                            {$project[fund][scale]}
-                        </eq>%</span>已完成
+                        <dd><span>
+                            <eq name="project.project.stage" value="1">
+                                {$project[fund][scale]}
+                                <else/>
+                                {$project[fund][scale]}
+                            </eq>%</span>
+                            <eq name="project.project.stage" value="1">
+                                认投已完成
+                                <else/>
+                                已完成
+                            </eq>
                         </dd>
                     </dl>
                     <div class="savestep_detail cl">
@@ -68,16 +81,20 @@
                                class="c2 btn-heart <eq name='project.project.attach_status' value='0'>heart</eq>">{$project['project']['attach_count']}</a>
                             <a href="#" title="评论" class="c3 btn-comment">{$project.project.com_count}</a>
                             <a href="#" title="浏览" class="btn-eye">{$project.project.read_record}</a>
+                            <!--<div class="wytz">-->
+                                <!--<a id="btnFollow" href="{:U('project/follow?id='.$project['project']['id'])}">我要投资</a>-->
+                            <!--</div>-->
                         </div>
                         <eq name="project[project][stage]" value="4">
-                            <div class="wytz"><a id="btnFollow"
-                                                 href="{:U('project/follow?id='.$project['project']['id'])}">我要投资</a>
+                            <div class="wytz">
+                                <a id="btnFollow" href="{:U('project/follow?id='.$project['project']['id'])}">我要投资</a>
                             </div>
                         </eq>
 
                         <if condition="($project[project][stage] eq 1) AND ($project[project][vote_leader] eq 0)">
-                            <div class="leader"><i></i><a
-                                    href="{:U('project/leader_info?id='.$project['project']['id'])}">领投人虚位以待</a></div>
+                            <div class="leader"><i></i>
+                                <a href="{:U('project/follow?id='.$project['project']['id'])}">领投人虚位以待</a>
+                            </div>
                         </if>
                     </div>
                 </div>
@@ -381,7 +398,7 @@
                     <a href="{:U('User/forget')}" title="忘记密码" class="link-forget" style="">忘记密码?</a></div>
                 <button class="btn btn-login">登 录</button>
                 <div class="social-login-box">
-                <!--    <a href="#" title="微信二维码登陆" class="btn-wx-login">微信二维码登陆</a> -->
+                    <!--    <a href="#" title="微信二维码登陆" class="btn-wx-login">微信二维码登陆</a> -->
                 </div>
 
             </div>
@@ -400,7 +417,7 @@
 
                 <button class="btn btn-next disabled" disabled="disabled">注 册</button>
                 <div class="social-login-box">
-              <!--      <a href="#" title="微信二维码登陆" class="btn-wx-login">微信二维码登陆</a>		-->
+                    <!--      <a href="#" title="微信二维码登陆" class="btn-wx-login">微信二维码登陆</a>		-->
                 </div>
 
             </div>
@@ -580,7 +597,7 @@
                     if (data.status == 1) {
                         fetchComments();
                         /*showCommentComment(data, user, content);
-                        $textarea.val('');*/
+                         $textarea.val('');*/
                     } else {
                         layer.alert(data.info, 8);
                     }

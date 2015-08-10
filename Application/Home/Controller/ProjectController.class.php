@@ -460,7 +460,7 @@ class ProjectController extends HomeController {
             $this->assign('recomendFundingProjectList',$recomendFundingProjectList);
             $this->assign('recomendList',$recomendList);
             $this->assign('dynamicInfo',$dynamicInfo);
-                 $this->assign('commentshow',$commentshow);
+            $this->assign('commentshow',$commentshow);
             $this->assign('uid',is_login());
             $this->assign('team',$team);
 		}
@@ -473,7 +473,6 @@ class ProjectController extends HomeController {
   public function mobiledynamic(){
       $id = $_GET['pid'];
       $dynamicInfo =  D('ProjectDynamicInfo')->getPublishedDynamicInfoByPID($id);
-
       $this->assign('dynamic',$dynamicInfo);
       $this->assign('pageTitle',"项目动态");
       $this->assign('puid',M('Project')->where('id='.$id)->field('uid')->find());
@@ -740,9 +739,11 @@ class ProjectController extends HomeController {
 		$project = D('ProjectFundView')->where(array('p.id'=>$id))->find();
 		if (!$project) {
 			$this->error('项目不存在！');
-		} else if ($project['stage'] != 4) { //非询价认投期
-			$this->error('该项目不处于快速合投期间，不能进行该操作。');
-		} else if ($project['uid'] == $uid) {
+		}
+//        else if ($project['stage'] != 4) { //非询价认投期
+//			$this->error('该项目不处于快速合投期间，不能进行该操作。');
+//		}
+        else if ($project['uid'] == $uid) {
 			$this->error('不允许项目发起人，对自己的项目进行投资。');
 		}
 		$inve = M('ProjectInvestor')->where(array('project_id'=>$id, 'investor_id'=>$uid))->select();
@@ -826,7 +827,7 @@ class ProjectController extends HomeController {
 			$investor['update_id'] = $uid;
 			$investor['status'] = 4;
 
-			M('ProjectInvestor')->add($investor);
+			M('ProjectInvestor')->add($investor);   //todo 添加到投资列表，但状态是未付款
 			M('ProjectFund')->where('project_id='.$id)->setInc('has_fund',$investor['fund']);
 			M('ProjectFund')->where('project_id='.$id)->setInc('agree_fund',$investor['fund']);
 			// 发送系统消息(通知项目方有人跟投)
@@ -1409,6 +1410,7 @@ class ProjectController extends HomeController {
 		}
 
   	if (IS_GET) {
+//        $this->assign('pid',$pid);
   		$this->project = $project;
   		$this->display('leader');
   	} else {
@@ -1430,7 +1432,7 @@ class ProjectController extends HomeController {
 
 			$data['status'] = 0;
 			$data['create_time'] = NOW_TIME;
-			M('ProjLeader')->add($data);
+//			M('ProjLeader')->add($data);//todo 添加领头人列表
 
 			$investor['step'] = $project['stage'];
 			$investor['project_valuation'] = $project['project_valuation'];
@@ -1445,7 +1447,7 @@ class ProjectController extends HomeController {
 			$investor['update_id'] = $uid;
 			$investor['status'] = 4;
 
-			M('ProjectInvestor')->add($investor);
+			M('ProjectInvestor')->add($investor);//todo 添加投资金额列表
 			M('ProjectFund')->where('project_id='.$pid)->setInc('has_fund',$investor['fund']);
 			M('ProjectFund')->where('project_id='.$pid)->setInc('agree_fund',$investor['fund']);
 
@@ -1457,8 +1459,9 @@ class ProjectController extends HomeController {
 
 			$content = $ulink . '申请领投了您的'. $plink . '项目';
 			D('Message')->send(0,$project['uid'],'', $content, 3);
-
-			$this->success('领投申请已经成功，请等待项目方同意。'.showface('hand'), U('MCenter/pj_support'));
+//            $id=I('get.id');
+            $this->success('恭喜您，跟投成功！现在，去签署一下代持协议吧！'.showface('hand'), U('Agreement/touzi?id='.$pid));
+//			$this->success('领投申请已经成功，请等待项目方同意。'.showface('hand'), U('MCenter/pj_support'));
   	}
   }
 

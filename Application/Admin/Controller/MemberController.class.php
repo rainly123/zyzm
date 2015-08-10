@@ -113,19 +113,14 @@ class MemberController extends AdminController {
 	public function applyLead() {
 		$id = $_GET['id'];
 		if (IS_POST) {
-
 			$investor_status = I('capacity');
 			$describe = I('describe');
-
 			//获取user_auth对应的key
 			$authid = 3;
 			$auth = M('user_auth')->where(array('uid'=>$id,'auth_id'=>$authid))->find();
-				
 			$date['id']=$id;
 			$date['is_investor']=$investor_status;
-			
 			$userauth['id'] =$auth['id'];
-			
 			if($investor_status==3){
 				$msg='审核通过';
 				$userauth['status'] =9;
@@ -142,7 +137,6 @@ class MemberController extends AdminController {
 			
 			$this->success($msg, U('index'));
 		} else {
-			
 			$data = M('UsersDetail')->find($id);
 			$this->industry = get_code('industry');
 			$this->user = M('Users')->find($id);

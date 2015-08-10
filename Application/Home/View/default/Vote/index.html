@@ -1,0 +1,106 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/detail.css" rel="stylesheet">
+    <link href="__CSS__/quicklogin.css" rel="stylesheet">
+    <style>
+        .button{
+            margin-top: 25px;
+            margin-bottom: 45px;
+            text-align: center;
+            position: relative;
+            margin-left: 120px;}
+        .button a{
+            color: #2c2c2c;
+            padding: 8px 25px;
+            border-radius: 4px;
+            border: 1px solid #C2C2C2; }
+        .button span{
+            position: absolute;
+            margin: 4px 0 0 -20px;
+        }
+        .zan{
+            background: url("__IMG__/zan.png") no-repeat;
+            width: 15px;
+            height: 15px;
+        }
+    </style>
+</block>
+
+<block name="body">
+    <input type="hidden" id="pid" value="{$pid}">
+    <!--团队成员介绍-->
+    <volist name="leaderInfo" id="vo">
+        <div class="xmms" style=" width: 990px;margin: 0 auto;padding-top: 30px;padding-left: 250px">
+            <div class="fl2" style="margin-left: 35px; float: none"><img src="{$vo.photo_url}" ></div>
+            <ul class="fr2">
+                <li>姓名：{$vo.name}</li>
+                <li>住址：{$vo.address}</li>
+                <li>
+                    成员简介：{$vo.resume}
+                </li>
+            </ul>
+            <div style="clear:both"></div>
+            <div class="button">
+                <a name="dianzan" action="do" pid="{$vo.pid}" uid="{$vo.uid}" href="#"><span class="zan"></span></span><d uid="{$vo.uid}">我要投票</d>({$vo.voit_count})</a>
+            </div>
+        </div>
+    </volist>
+    <!--团队成员介绍-->
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        var pid=$("#pid").val();
+        $.ajax({
+            type:'post',
+            url:"{:U('Vote/cancleZan')}",
+            data:{pid:pid},
+            success:function(data)
+            {
+              $("d[uid='"+data+"']").empty();
+              $("d[uid='"+data+"']").append("取消赞");
+              $("a[uid='"+data+"']").attr('action','cancle');
+            }
+        })
+
+        $("a[name='dianzan']").click(function () {
+            var pid=$(this).attr('pid');
+            var uid=$(this).attr('uid');
+            var action=$(this).attr('action');
+            var url="{:U('Vote/vote')}";
+            if(action=='cancle')
+            {
+                url="{:U('Vote/docancle')}"
+            }
+            $.ajax({
+                type:'post',
+                url:url,
+                dataType:'json',
+                data:{
+                    pid:pid,
+                    leader_id:uid
+                },
+                success:function(data){
+//                    alert(data);
+                    if(data.status)
+                    {
+                        layer.alert(data.message);
+                        setTimeout("refresh()",1000);
+                    }
+                    else
+                    {
+                        layer.alert(data.message);
+                    }
+
+                }
+            })
+            return false;
+        })
+
+
+        var refresh=function(){
+            location.reload();
+        }
+    </script>
+</block>

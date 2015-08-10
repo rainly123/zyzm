@@ -26,6 +26,10 @@ class HomeController extends Controller {
     parent::__construct();
 
   }
+  function getCurrentTime()
+  {
+      return date('y-m-d h:i:s',time());
+  }
 
   protected function _initialize(){
     /* 读取站点配置 */
