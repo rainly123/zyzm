@@ -11,7 +11,6 @@
         <input type="hidden" name="noticelist" value="{$noticelist}">
         <input type="hidden" name="newslist" value="{$newslist}">
     </div>
-
     <div class="banner-section">
         <div class="banner-container">
             <foreach name="bannerList" item="vo">
@@ -25,8 +24,7 @@
         <div class="next"></div>
     </div>
 
-
- <!-- 成就条	-->
+    <!-- 成就条	-->
     <div class="achievement-box">
         <div class="mid01 cl">
             <dl>
@@ -42,8 +40,7 @@
             </dl>
         </div>
     </div>
-
- <!--成就条位置 -->
+    <!--成就条位置 -->
     <script>
         !function () {
             var getW = function () {
@@ -121,13 +118,12 @@
             </div>
         </div>
     </div>
-
     <!-- 合投项目 -->
     <div class="proj-section now">
         <div class="header">
             <a class="more" href="{:U('List/index',array('type'=>0,'status'=>1,'p'=>1))}">MORE</a>
         </div>
-        <div class="sub-header">嗯，开投了，没下架就能投投投！</div>
+        <div class="sub-header">嗯，全面开投了，没下架就能投投投！</div>
         <div class="proj-container">
             <volist name="project.rapid" id="vo">
                 <div class="proj-box clearfix">
@@ -174,7 +170,6 @@
 
         </div>
     </div>
-
     <!-- 预热项目 -->
     <div class="proj-section preheat">
         <div class="header">
@@ -187,7 +182,13 @@
                     <div class="img-box"><a href="{:U('project/detail?id='.$vo['id'])}">
                         <img class="img" src="{$vo.cover|get_cover='path'}"></a>
                         <if condition="$vo.leader_id eq 0">
-                            <div class="leader"><a href="{:U('project/leader_info?id='.$vo['id'])}">寻找领投人</a></div>
+                            <div class="leader">
+                                <if condition="$vo['has_fund']/$vo['need_fund'] LT 0.5 ">
+                                    <a href="{:U('project/leader_info?id='.$vo['id'])}">寻找领投人</a>
+                                    </else>
+                                    <a href="{:U('Vote/index?id='.$vo['id'])}" target="_blank">票选领投人</a>
+                                </if>
+                            </div>
                         </if>
                     </div>
                     <div class="detail-box">
@@ -235,6 +236,7 @@
             </a>
         </div>
     </div>
+
     <?php endif ?>
 
     <!-- 成功项目 -->
@@ -305,7 +307,7 @@
                 <i></i>
                 <span>官方微信</span>
             </a>
-          <div class="float-panel">
+            <div class="float-panel">
                 <img class="qr-img" alt="中瀛智募微信号" width="148" height="157" src="/Public/Home/images/weixin.jpg">
                 <div class="tri"></div>
                 <p>微信关注<span style="color: #72C2E5;">【中瀛智募】</span></p>

@@ -48,9 +48,16 @@
               <textarea name="message" style="font-size:14px" maxlength="500" class="d"></textarea>
           </div>
           <div class="agree">
-              <label for="agree"><input name="agree" id="agree" type="checkbox" value="1" checked>我同意并遵守投资规则</label>
+              <label for="agree">
+                  <div class="agree">
+                      <label for="agree"><input name="agreePay" id="agreePay" type="checkbox" value="1" checked>我同意并遵守投资规则</label>
+                      <a href="{:U('Info/show?key=follow')}" target="_blank">《跟投规则》</a><a href="{:U('Info/show?key=fenpei')}" target="_blank">《投资利益分配规则》</a>
+                      <a href="{:U('Info/show?key=after')}" target="_blank">《投后管理规则》</a>
+                  </div>
+                  <input name="agree" id="agree" type="checkbox" value="1" checked>我同意并遵守投资规则</label>
           </div>
           <div>
+              <input type="hidden" name="pid" value="{$pid}">
               <input type="submit" value="提交领投申请" class="s">
           </div>
         </div>
@@ -103,9 +110,15 @@ $('#form-inquiry').Validform({
   }, ajaxPost: true,
   beforeSubmit: function() {
 		var agree = $('#agree:checked').length;
-		if (agree == 0) { 
+        var agreePay=$('#agreePay:checked').length;
+		if (agree == 0||agreePay==0) {
 			layer.alert('为了保障您的权益，请阅读并接受相关投资协议后，继续您的投资旅程。');
-			return false;}
+			return false;
+        }
+//        else if(agreePay==0)
+//        {
+//            layer.alert('为了保障您的权益，请阅读并接受相关投资协议后，继续您的投资旅程。');
+//        }
   },
   callback:function(data) {
   	if (data.status == 1) {

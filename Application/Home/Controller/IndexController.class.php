@@ -97,7 +97,6 @@ class IndexController extends HomeController {
             $this->pageTitle = '';
             $bannerList = M('Banner')->where(array('status' => array('EQ', 0)))->order('sort asc,id desc')->select();
             $this->assign('bannerList',$bannerList);
-
             $mobileList = recommendMobileFoundings();
             unset($mobileList['stock']);
             $this->assign('mobileList',$mobileList);
@@ -107,14 +106,18 @@ class IndexController extends HomeController {
         $this->assign('newslist',$newslist);
         if(!is_login())
         {
-            $this->redirect('User/login');
+            $this->display('Index/logo');
         }
         else
         {
             $this->display();
         }
 
+
+
+
     }
+
 
     /**
      * 手机端 首页咨询内容资讯页面
