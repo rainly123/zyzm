@@ -24,7 +24,7 @@ class ListController extends HomeController {
             }elseif($status ==2){
                 $projectsList = D('Project')->getAllSuccessedProjectsInfo();
             }else{
-            	$projectsList = D('Project')->getAllWarmupProjectsInfo();
+                $projectsList = D('Project')->getAllWarmupProjectsInfo();
             }
 
         }
@@ -82,7 +82,14 @@ class ListController extends HomeController {
 //        die();
         $this->type = $type;
         $this->status = $status;
-        $this->display();
+        if(!is_login())
+        {
+            $this->redirect('User/login');
+        }
+        else
+        {
+            $this->display();
+        }
     }
 
     function mobileproject(){
@@ -97,10 +104,10 @@ class ListController extends HomeController {
         }else{
             $projectsList = D('Project')->getAllSuccessedProjectsInfo();
         }
-      //  D('Project')->addProjectsFundInfo($projectsList);
+        //  D('Project')->addProjectsFundInfo($projectsList);
         //返回跳转
         $this->assign("backurl",U('Index/index'));
-        
+
         $this->assign('pageTitle',"股权众筹列表");
         $this->assign('projectsList',$projectsList);
         $this->display();
