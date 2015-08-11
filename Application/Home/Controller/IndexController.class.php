@@ -104,14 +104,17 @@ class IndexController extends HomeController {
 
         $this->assign('noticelist',$noticelist);
         $this->assign('newslist',$newslist);
-        if(is_login())
-        {
-            $this->display();
-        }
-        else
+
+        if(!is_login())
         {
             $this->redirect('User/login');
         }
+        else
+        {
+            $this->display();
+        }
+
+
 
 
     }

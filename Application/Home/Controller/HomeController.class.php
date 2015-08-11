@@ -49,9 +49,9 @@ class HomeController extends Controller {
     	} else {
 				//$this->backurl = $_SERVER['HTTP_REFERER'];
     	}
-    	
     	//echo $this->backurl;
     }
+
   }
 
 	/* 用户登录检测 */

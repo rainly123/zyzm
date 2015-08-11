@@ -8,12 +8,19 @@ use Think\Controller;
  * Date: 2015/7/10
  * Time: 16:11
  */
-class PubwelfareController extends Controller
+class PubwelfareController extends HomeController
 {
     function  index()
     {
 //        $this->pageTitle = "中瀛智募—中瀛众创";
         $this->assign('pageTitle','中瀛智募—中瀛众创');
-        $this->display();
+        if(!is_login())
+        {
+            $this->redirect('User/login');
+        }
+        else
+        {
+            $this->display();
+        }
     }
 }
