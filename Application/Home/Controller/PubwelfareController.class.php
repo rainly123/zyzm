@@ -14,13 +14,6 @@ class PubwelfareController extends HomeController
     {
 //        $this->pageTitle = "中瀛智募—中瀛众创";
         $this->assign('pageTitle','中瀛智募—中瀛众创');
-        if(!is_login())
-        {
-            $this->redirect('User/login');
-        }
-        else
-        {
-            $this->display();
-        }
+        $this->must();
     }
 }

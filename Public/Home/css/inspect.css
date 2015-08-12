@@ -1,0 +1,47 @@
+.s-inspect .submit-bar button,.s-real-ident .submit-bar button,body{font-family:"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif}
+html{box-sizing:border-box}
+*,:after,:before{box-sizing:inherit}
+body{background-color:#fdfdfd}
+.foot{display:none}
+.s-inspect,.s-real-ident{font-size:14px;line-height:2.2}
+.s-inspect .s-wrap,.s-real-ident .s-wrap{background:#fff;max-width:960px;margin:30px auto 90px;padding:10px 30px 30px;border:1px solid #ddd;border-radius:5px}
+.s-inspect h2,.s-real-ident h2{text-align:center;position:relative}
+@media (max-width:480px){.s-inspect h2,.s-real-ident h2,.topbar{display:none}
+}
+.s-inspect h2:after,.s-real-ident h2:after{content:'';width:100%;height:1px;background:#ddd;position:absolute;top:50%;left:0}
+.s-inspect h2 span,.s-real-ident h2 span{display:inline-block;*display:inline;*zoom:1;background:#fff;padding:0 30px;position:relative;z-index:2}
+.s-inspect h3,.s-real-ident h3{font-weight:400}
+.s-inspect dt,.s-real-ident dt{margin:1.2em 0 .8em}
+.s-inspect dd,.s-real-ident dd{display:inline-block;*display:inline;*zoom:1}
+.s-inspect .fixed-width dd,.s-real-ident .fixed-width dd{width:200px}
+.s-inspect .no-indent,.s-real-ident .no-indent{margin-left:0}
+.s-inspect .agree a,.s-real-ident .agree a{color:#499FF8}
+.s-inspect .agree a:hover,.s-real-ident .agree a:hover{color:#1b87f6}
+.s-inspect label,.s-real-ident label{margin-left:24px;margin-right:24px}
+.s-inspect label>div,.s-real-ident label>div{margin-right:5px;top:-1px}
+.s-inspect input,.s-real-ident input{margin-right:5px}
+.s-inspect .last-checkbox,.s-real-ident .last-checkbox{margin-top:30px}
+.s-inspect .submit-bar,.s-real-ident .submit-bar{margin-top:20px;margin-bottom:20px;text-align:center}
+.s-inspect .submit-bar button,.s-real-ident .submit-bar button{background:#499FF8;color:#fff;padding:.4em 2.5em;border:none;font-size:18px;border-radius:4px;cursor:pointer}
+.s-inspect .submit-bar button:focus,.s-inspect .submit-bar button:hover,.s-real-ident .submit-bar button:focus,.s-real-ident .submit-bar button:hover{background-color:#1b87f6;outline:0}
+.s-inspect .submit-bar button:active,.s-real-ident .submit-bar button:active{background-color:#086fd8;outline:0;box-shadow:inset 0 3px 5px rgba(0,0,0,.125)}
+.s-inspect .submit-bar button[disabled],.s-real-ident .submit-bar button[disabled]{color:#333;background-color:#fff;border:1px solid #ccc;pointer-events:none;cursor:not-allowed;box-shadow:none;opacity:.65;filter:alpha(opacity=65)}
+.s-real-ident{font-size:16px;line-height:1.5}
+.s-real-ident h2{font-weight:400;margin-top:30px;margin-bottom:66px}
+.s-real-ident form{max-width:360px;margin-left:auto;margin-right:auto}
+.s-real-ident label{margin:20px 0 10px;display:block}
+.s-real-ident input{width:100%;padding:.8em;font-size:inherit;border:1px solid #ccc;border-radius:4px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}
+.s-real-ident input:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px #499EF8}
+.s-real-ident input.error{border-color:#e4393c}
+.s-real-ident input.error:focus{box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px #e4393c}
+.s-real-ident input.success{border-color:#91bbb8}
+.s-real-ident .submit-bar{margin-top:25px}
+.s-real-ident .submit-bar button{padding-top:.6em;padding-bottom:.6em}
+.s-real-ident .icon{display:inline-block;*display:inline;*zoom:1;vertical-align:middle;margin-right:.4em}
+.s-real-ident .icon-card{background:url(../images/icon-identity-card.png);width:34px;height:25px;margin-right:15px}
+.s-real-ident .icon-guard{background:url(../images/icon-guard.png);width:16px;height:20px}
+.s-real-ident .icon-wechat{background:url(../images/icon-wechat.png);width:25px;height:21px}
+.s-real-ident .helper{margin-top:80px;padding-top:30px;padding-bottom:30px;text-align:center;font-size:13px;border-top:1px dashed #ddd}
+.msg{color:#a94442;background-color:#f2dede;padding:15px;margin-bottom:20px;border:1px solid #ebccd1;border-radius:4px;line-height:1.5}
+.msg .close{float:right;font-size:21px;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:.2;filter:alpha(opacity=20);cursor:pointer}
+.msg .close:hover{opacity:.5;filter:alpha(opacity=50)}

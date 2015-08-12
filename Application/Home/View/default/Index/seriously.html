@@ -1,0 +1,160 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/inspect.css" rel="stylesheet">
+
+    <link href="__CSS__/blue.css" rel="stylesheet">
+    <link href="__CSS__/layer.css" rel="stylesheet">
+
+</block>
+<block name="body">
+    <!--实名认证-->
+    <div class="s-real-ident">
+        <div class="s-wrap">
+            <h2><span><i class="icon icon-card"></i>实名认证</span></h2>
+            <form action="">
+                <div class="msg" style="display:none;">
+                    <span id="msg"></span>
+                    <b class="close">×</b>
+                </div>
+                <div class="ctrl-group">
+                    <label for="">真实姓名：</label>
+                    <input type="text" name="realname">
+                </div>
+                <div class="ctrl-group">
+                    <label for="">身份证号码：</label>
+                    <input name="card_id">
+                </div>
+
+                <div class="submit-bar">
+                    <button type="button" id="btn-submit"><i class="icon icon-guard"></i>提交认证</button>
+                </div>
+
+
+            </form>
+            <div class="helper">
+                温馨提示：如遇到实名认证问题请联系客服。客服电话：0571-86858285，微信号：jumu86858285（周一至周五9:00~18:00）
+            </div>
+        </div>
+    </div>
+    <!--实名认证-->
+</block>>
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
+    <script>
+        var api = {
+            checkAuth: '/project/checkAuth',
+            authentication: '/user/realnameapi'
+        };
+        var authLayerId = 0;
+
+        $('#confirm').click(function () {
+            $.getJSON(api.checkAuth).then(function (json) {
+                if (!json.success) {
+                    authLayerId = $.layer({
+                        type: 1,
+                        area: ['450px', '450px'],
+                        title: false,
+                        page: {dom: '#auth'}
+                    });
+                } else {
+                    $('#form-inquiry').submit();
+                }
+            });
+            return false
+        });
+        $('#btn-submit').click(function () {
+            var _data = {
+                name: $("input[name='realname']").val(),
+                card_id: $("input[name='card_id']").val()
+            };
+            var $btnAuth = $("#btn-submit");
+            $btnAuth.attr('disabled', 'disabled').addClass('disabled').text('正在处理中, 请稍候...');
+            $.post(api.authentication, _data, function (json) {
+                if (json.success) {
+                    layer.msg(json.info, 2, -1);
+                    location.href="{:U('Index/index')}";
+//                    $btnAuth.attr('value','认证成功');
+//                    setTimeout(function () {
+//                        layer.close(authLayerId)
+//                    }, 300);
+//                    $('#form-inquiry').submit();
+                } else {
+                    $btnAuth.removeAttr('disabled').removeClass('disabled').text('认证失败, 请重试');
+                    layer.msg(json.info, 2, -1);
+                }
+            })
+        });
+        function opera(x, y) {
+            var rs = new Number($(x).val());
+            if (isNaN(rs)) {
+                rs = 0;
+            }
+            if (y) {
+                rs = rs + 1000;
+            } else {
+                rs = rs - 1000;
+            }
+            $(x).val(checkFund(rs));
+        }
+
+        function checkFund(v) {
+            var min_follow = new Number($('#follow_fund').val());
+            var max_follow = new Number($('#need_fund').val());
+            var valuation = new Number($('#valuation').val());
+
+            // 投资金额处理为1000的倍数
+            v = Math.ceil(v / 1000) * 1000;
+            if (v > max_follow) {
+                v = max_follow;
+            } else if (v < min_follow) {
+                v = min_follow;
+            }
+            // 计算股份占比
+            var rate = (Math.round(v * 1000000 / valuation) / 10000);
+            $("#hasrate").html(rate);
+            return v;
+        }
+        $('#myfund').blur(function () {
+            var rs = new Number($("#myfund").val());
+            if (isNaN(rs)) {
+                rs = 0;
+            }
+            $("#myfund").val(checkFund(rs));
+        });
+
+        $(".apply_leader").click(function () {
+            var _this = $(this);
+            if (_this.hasClass('active')) {
+                $('#leader_type').val(0);
+                _this.removeClass('active');
+            } else {
+                _this.addClass('active');
+                $('#leader_type').val(1);
+            }
+        });
+
+        $('#form-inquiry').Validform({
+            tipSweep: true,
+            tiptype: function (msg, o, cssctl) {
+                if (o.type == 3) {
+                    layer.alert(msg, 1);
+                }
+            }, ajaxPost: true,
+            beforeSubmit: function () {
+                var agree = $('#agree:checked').length;
+                if (agree == 0) {
+                    layer.alert('为了保障您的权益，请阅读并接受相关投资协议后，继续您的投资旅程。');
+                    return false;
+                }
+            },
+            callback: function (data) {
+                if (data.status == 1) {
+                    layer.alert(data.info, 9, function () {
+                        window.location.href = data.url;
+                    });
+                }
+            }
+        });
+    </script>
+</block>

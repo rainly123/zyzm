@@ -104,14 +104,8 @@ class IndexController extends HomeController {
 
         $this->assign('noticelist',$noticelist);
         $this->assign('newslist',$newslist);
-        if(!is_login())
-        {
-            $this->display('Index/logo');
-        }
-        else
-        {
-            $this->display();
-        }
+
+        $this->must();
 
 
 

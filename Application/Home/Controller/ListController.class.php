@@ -82,14 +82,7 @@ class ListController extends HomeController {
 //        die();
         $this->type = $type;
         $this->status = $status;
-        if(!is_login())
-        {
-            $this->redirect('User/login');
-        }
-        else
-        {
-            $this->display();
-        }
+        $this->must();
     }
 
     function mobileproject(){

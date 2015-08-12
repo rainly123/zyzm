@@ -27,6 +27,29 @@ class HomeController extends Controller {
 
   }
 
+
+  protected function must()
+  {
+      if(!is_login())
+      {
+          $this->display('Index/logo');
+      }
+      else  //已登录
+      {
+          //是否实名认证
+          $thisProject = D('Project');
+          $validateUser = $thisProject->checkAuth();
+          if(!$validateUser['success']){    //跳转至实名认证
+              $this->display('Index/seriously');
+          }
+          else
+          {
+              $this->display();
+          }
+
+      }
+  }
+
   protected function _initialize(){
     /* 读取站点配置 */
     $config = api('Config/lists');
