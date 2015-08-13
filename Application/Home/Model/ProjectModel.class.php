@@ -236,6 +236,10 @@ Class ProjectModel extends Model{
 		$project['fund'] = M('ProjIndex')->where($where)->order('is_top desc, create_time desc')->select();
 		$where['stage'] = self::STAGE_NORMAL;
 		$project['normal'] = M('ProjIndex')->where($where)->order('is_top desc, create_time desc')->select();
+        $result= $this->leaderCount($project['normal']);
+//        print_r($result);
+//        die();
+        $project['normal']=$result;
 		$where['stage'] = self::STAGE_FINISH;
 		$project['finish'] = M('ProjIndex')->where($where)->order('is_top desc, create_time desc')->limit(6)->select();
 		//$where1 = array('stage' => array('lt', 8));
@@ -243,6 +247,25 @@ Class ProjectModel extends Model{
 		
 		return $project;
 	}
+
+    /**
+     * @param $project
+     * 申请领头人数量
+     */
+    function leaderCount($projectNormal)
+    {
+        $result=null;
+         foreach($projectNormal as $val)
+         {
+             $where=array('pid'=>$val['id']);
+             $projLeader=M('ProjLeader');
+             $LeaderCount=$projLeader->where($where)->count();
+             $val['leaderCount']=$LeaderCount;
+             $result[]=$val;
+         }
+        return $result;
+
+    }
 
     public function addProjectStatis(&$project){
         $project['comment'] = M('CommentReply')->order('create_time desc')->where(array('project_id'=>$project['id']))->select();

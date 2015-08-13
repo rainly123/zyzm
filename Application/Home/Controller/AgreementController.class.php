@@ -16,7 +16,7 @@ class AgreementController extends HomeController {
 			$this->redirect('User/login');
 		}
 
-		$id = $_GET['id'];
+		$id=$_GET['id'];
 		if (!$id) {
 			$this->error('未指定相关项目.');
 		}
