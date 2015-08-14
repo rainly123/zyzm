@@ -1,0 +1,127 @@
+*{
+    outline:none;}
+
+img{
+    border:none;}
+.fl{
+    float:left;}
+.fr{
+    float:right;}
+a{
+    text-decoration:none;
+    color:#2E2E2E;}
+.clearfix{
+    clear:both;}
+ul{
+    list-style:none;}
+
+.public_content{
+    margin-top: 100px;}
+.public_up{
+    margin-top: -20px;
+    height: 180px;
+
+    /*background: url(../images/public.jpg) no-repeat;*/
+}
+.fund{
+    height: 100px;
+    clear: both;
+    margin: 0 auto;
+    width: 990px;
+    text-align: center;}
+.fund h1,h2{
+    display:inline-block;
+    float:right;
+    clear:both;}
+.fund a{
+    font-family:"Times New Roman", Symbola, serif;
+    color: #999;}
+.public_buttom{
+    height: 60px;
+    clear: both;
+    margin: 0 auto;
+    width: 990px;
+    text-align: center;}
+.public_buttom a{
+    width:100px;
+    height:50px;
+    font-size:22px;
+    color:#666;
+    border-radius:4px;
+    border: 1px solid #C2C2C2;
+    display: block;
+    margin:auto;
+    float: right;
+    line-height: 50px;
+    }
+.public_buttom a:hover{
+    background-color: #43a2ec;
+    color:#fff;
+    border:none;}
+
+
+
+.public {
+    height:auto;
+    margin: 0 auto;
+    width: 1000px;}
+
+.public_input{
+    margin-top: 8px;
+    float:left;
+    width:450px;
+    height:auto;
+    background-color: #f1f1f1;}
+.public_output{
+    margin-top: 8px;
+    float: right;
+    width: 450px;
+    height:auto;
+    background-color: #f1f1f1;}
+.public_input h1,.public_output h1{
+    background-color: #43a2ec;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    margin:0;
+    margin-top: auto;}
+
+.pulic_list,.pulic_list_out{
+    height: auto;
+    width: 450px;
+    overflow: hidden;
+   }
+.list_hover{
+    float:right;
+    margin-right:22px;}
+.list_hover:hover{
+    color: #43a2ec;}
+.pulic_list ul li{
+    color:#2E2E2E;
+    height:40px;
+    list-style:none;
+    width:130px;
+
+    float:left;
+    padding:0;
+   }
+.pulic_list_out ul li{
+    color:#2E2E2E;
+    height:40px;
+    list-style:none;
+    width: 390px;
+    margin-left: -20px;
+    float:left;}
+.pulic_list_out ul li a:hover{
+    color: #43a2ec;}
+
+
+.public_action a{float:left;font-size: 25px;font-family: 宋体}
+.public_action_content {clear: both;}
+.public_action em{float: right}
+.public_title { float: right;margin-right: 20px;text-align:center;}
+
+
+
+

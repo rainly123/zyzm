@@ -1,0 +1,38 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+<block name="body">
+    <link href="__CSS__/style.css" rel="stylesheet">
+
+    <div id="server-data" style="display:none;">
+        <input type="hidden" name="noticelist" value="{$noticelist}">
+        <input type="hidden" name="newslist" value="{$newslist}">
+    </div>
+    <div class="fl w100 mt25 notice_main">
+        <div class="content">
+
+            <div class="rightmain">
+                <div class="title">募捐公告 <a style="float: right;font-size: 15px;">已募集资金总额：&nbsp;{$suminfo.sum_input}</a></div>
+                <div class="mainintro p-news-list">
+                    <ul>
+                        <volist name="list1" id="vo">
+                            <li>
+                                <a>
+                                {$vo.nickname}
+                                捐献了{$vo.fund}元
+                                <em>{$vo.create_time}</em>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                    <div id="pagectrl" class="pagectrl">
+                        {$Pages}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</block>

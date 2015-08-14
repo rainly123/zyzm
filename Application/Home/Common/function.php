@@ -430,4 +430,17 @@ function update_pr_dolist($uid,$type) {
 			
 	}
 }
+/**
+ * 公益前台资金总额
+ */
+function get_sum_public(){
+    $pb_input = M('public_input')->sum('fund');
+    $pb_output= M('public_output')->sum('fund');
+
+    $total = number_format($pb_input - $pb_output);
+    $data['sum_input'] = number_format($pb_input)."元";
+    $data['sum_output'] = number_format($pb_output)."元";
+    $data['sum_fund'] =$total."元" ;
+    return $data;
+}
 

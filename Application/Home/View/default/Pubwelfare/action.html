@@ -1,0 +1,31 @@
+<extend name="Base/common"/>
+
+<block name="header">
+</block>
+<block name="body">
+    <link href="__CSS__/style.css" rel="stylesheet">
+    <link href="__CSS__/public.css" rel="stylesheet"/>
+
+    <div id="server-data" style="display:none;">
+        <input type="hidden" name="noticelist" value="{$noticelist}">
+        <input type="hidden" name="newslist" value="{$newslist}">
+    </div>
+    <div class="fl w100 mt25 notice_main">
+        <div class="content">
+
+            <div class="rightmain">
+                <div class="title">公益活动</div>
+
+                <div class="public_action">
+                    <!--<a>{$info[title]}</a>-->
+                    <em>活动时间：{$info[action_time]}</em>
+                </div>
+                <div class="public_action_content">
+                {$info[content]}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</block>

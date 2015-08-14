@@ -1,0 +1,57 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>公益活动</h2>
+    </div>
+    <div class="cf">
+        <div class="fl">
+            <a class="btn" href="{:U('add')}">新 增</a>
+            <!--<button class="btn list_sort" url="{:U('sort',array('cate_id'=>$cate_id,'pid'=>I('pid',0)),'')}">排序</button>-->
+        </div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="">ID</th>
+                <th class="">标题</th>
+                <th class="">金额</th>
+                <th class="">活动时间</th>
+                <th class="">创建时间</th>
+                <th class="">创建人</th>
+                <th class="">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="info">
+                <volist name="info" id="vo">
+                    <tr>
+                        <td>{$vo.id} </td>
+                        <td>{$vo.title}</td>
+                        <td>{$vo.fund}</td>
+                        <td>{$vo.action_time}</td>
+                        <!--<td><a href="{:U('view?id='.$vo['id'])}" class="confirm">{$vo.title}</a></td>-->
+                        <td>{$vo.create_time}</td>
+                        <td>{$vo.create_id}</td>
+                        <td>
+                            <a href="{:U('Pubwelfare/edit?id='.$vo['id'])}" class="confirm">编辑</a> |
+                            <a href="{:U('Pubwelfare/del?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+                <else/>
+                <td colspan="5" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+
