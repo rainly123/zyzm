@@ -1432,7 +1432,7 @@ class ProjectController extends HomeController {
 
 			$data['status'] = 0;
 			$data['create_time'] = NOW_TIME;
-//			M('ProjLeader')->add($data);//todo 添加领头人列表
+//			M('ProjLeader')->add($data);//todo 添加领头人列表,付款成功后再添写入数据库中
 
 			$investor['step'] = $project['stage'];
 			$investor['project_valuation'] = $project['project_valuation'];
@@ -1446,7 +1446,6 @@ class ProjectController extends HomeController {
 			$investor['update_time'] = NOW_TIME;
 			$investor['update_id'] = $uid;
 			$investor['status'] = 4;
-
 			M('ProjectInvestor')->add($investor);//todo 添加投资金额列表
 			M('ProjectFund')->where('project_id='.$pid)->setInc('has_fund',$investor['fund']);
 			M('ProjectFund')->where('project_id='.$pid)->setInc('agree_fund',$investor['fund']);
@@ -1459,8 +1458,7 @@ class ProjectController extends HomeController {
 
 			$content = $ulink . '申请领投了您的'. $plink . '项目';
 			D('Message')->send(0,$project['uid'],'', $content, 3);
-//            $id=I('get.id');
-            $this->success('恭喜您，跟投成功！现在，去签署一下代持协议吧！'.showface('hand'), U('Agreement/touzi?id='.$pid));
+            $this->success('恭喜您，跟投成功！现在，去签署一下协议吧！'.showface('hand'), U('Agreement/touzi?id='.$pid));
 //			$this->success('领投申请已经成功，请等待项目方同意。'.showface('hand'), U('MCenter/pj_support'));
   	}
   }
