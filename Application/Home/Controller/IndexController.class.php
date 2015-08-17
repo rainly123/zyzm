@@ -105,6 +105,7 @@ class IndexController extends HomeController {
         $this->assign('noticelist',$noticelist);
         $this->assign('newslist',$newslist);
 
+
         $this->must();
 
 

@@ -19,10 +19,7 @@ ul{
     margin-top: 100px;}
 .public_up{
     margin-top: -20px;
-    height: 180px;
-
-    /*background: url(../images/public.jpg) no-repeat;*/
-}
+    height: 180px;}
 .fund{
     height: 100px;
     clear: both;
@@ -58,9 +55,6 @@ ul{
     background-color: #43a2ec;
     color:#fff;
     border:none;}
-
-
-
 .public {
     height:auto;
     margin: 0 auto;
@@ -98,15 +92,16 @@ ul{
 .list_hover:hover{
     color: #43a2ec;}
 .pulic_list ul li{
+    font-family: Arial, "微软雅黑";
     color:#2E2E2E;
     height:40px;
     list-style:none;
     width:130px;
-
     float:left;
     padding:0;
    }
 .pulic_list_out ul li{
+    font-family: Arial, "微软雅黑";
     color:#2E2E2E;
     height:40px;
     list-style:none;

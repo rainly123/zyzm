@@ -25,7 +25,6 @@ class ProjectScoresController extends HomeController {
 
     public function saveScores(){
         $userID = is_login();
-
         if(!$this->isScored($_POST['project_id'])){
             $data = array(
                 'user_id'=> $userID,
@@ -57,15 +56,15 @@ class ProjectScoresController extends HomeController {
             $this->error('你已打分, 请勿重复提交.');
         }
 
-
     }
+
     public function getUserScore($id){
         return M('projects_score')->where(array('project_id' => $id,'user_id'=>is_login()))->find();
     }
+
     public function getScores($id){
         $scores = M('projects_score')->where(array('project_id' => $id))->select();
         $averageScore = array();
-
         foreach($scores as $score){
             $averageScore['group'] = $averageScore['group']+ $score['group'];
             $averageScore['market'] = $averageScore['market']+ $score['market'];

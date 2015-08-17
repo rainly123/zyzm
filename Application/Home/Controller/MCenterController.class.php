@@ -15,7 +15,6 @@ use Home\Model\MessageModel;
  *  
  */
 class MCenterController extends HomeController {
-
 	/* 消息首页 */
 	public function index() {
     $this->pj_count = M('ProjectInvestor')->where(array('investor_id'=>is_login(), 'status'=>9))->count();
