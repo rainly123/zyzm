@@ -16,62 +16,89 @@ ul{
     list-style:none;}
 
 .public_content{
-    margin-top: 100px;}
-.public_up{
-    margin-top: -20px;
-    height: 180px;}
+    background-position: center;
+    margin-top:68px;
+    height: 1000px;
+}
+
+.bannercont{
+    margin-top:78px;
+    width:1920px;
+    height:400px;
+    display:block;}
 .fund{
-    height: 100px;
-    clear: both;
-    margin: 0 auto;
-    width: 990px;
-    text-align: center;}
-.fund h1,h2{
-    display:inline-block;
-    float:right;
-    clear:both;}
+    height:60px;
+    margin:0 auto;
+    margin-top:50px;
+    text-align:center;
+    width: 1000px;}
 .fund a{
+    margin-top: 10px;
+    float: left;
     font-family:"Times New Roman", Symbola, serif;
     color: #999;}
 .public_buttom{
-    height: 60px;
-    clear: both;
-    margin: 0 auto;
-    width: 990px;
-    text-align: center;}
+    height:60px;
+    clear: right;
+    margin:0 auto;
+    margin-top: -10px;
+    text-align: center;
+    width: 1000px;}
 .public_buttom a{
     width:100px;
     height:50px;
     font-size:22px;
     color:#666;
     border-radius:4px;
-    border: 1px solid #C2C2C2;
-    display: block;
+    border:1px solid #C2C2C2;
+    display:block;
     margin:auto;
-    float: right;
-    line-height: 50px;
-    }
+    float:right;
+    line-height:50px;}
 .public_buttom a:hover{
-    background-color: #43a2ec;
+    background-color:#43a2ec;
     color:#fff;
     border:none;}
 .public {
     height:auto;
-    margin: 0 auto;
-    width: 1000px;}
+    margin:0 auto;
+    margin-top: 10px;
+    width:1000px;}
 
 .public_input{
     margin-top: 8px;
     float:left;
     width:450px;
-    height:auto;
-    background-color: #f1f1f1;}
+    height:850px;}
+
+.left1{
+    float:left;
+    width:170px;
+    margin-left: -15px;
+    height:800px;}
+.left2{
+    float:left;
+    width:170px;
+    height:800px;;}
+.left3{
+    float:left;
+    width:110px;
+    height:800px;}
+
+.left1 ul li,.left2 ul li,.left3 ul li{
+    list-style: none;
+    margin-left: -9px;
+    font-family: Arial, "微软雅黑";
+    color: #2E2E2E;
+    font-size: 14px;
+    height: 40px;}
+
 .public_output{
     margin-top: 8px;
     float: right;
     width: 450px;
-    height:auto;
-    background-color: #f1f1f1;}
+    height:800px;
+    background-color: #fff;}
 .public_input h1,.public_output h1{
     background-color: #43a2ec;
     color: #fff;
@@ -81,42 +108,31 @@ ul{
     margin:0;
     margin-top: auto;}
 
-.pulic_list,.pulic_list_out{
-    height: auto;
+.pulic_list_out{
+    height: 800px;
     width: 450px;
-    overflow: hidden;
-   }
+    overflow: hidden;}
 .list_hover{
     float:right;
     margin-right:22px;}
 .list_hover:hover{
     color: #43a2ec;}
-.pulic_list ul li{
-    font-family: Arial, "微软雅黑";
-    color:#2E2E2E;
-    height:40px;
-    list-style:none;
-    width:130px;
-    float:left;
-    padding:0;
-   }
 .pulic_list_out ul li{
-    font-family: Arial, "微软雅黑";
-    color:#2E2E2E;
+
     height:40px;
     list-style:none;
-    width: 390px;
+    width: 420px;
     margin-left: -20px;
     float:left;}
+.pulic_list_out ul li a{
+    font-family: Arial, "微软雅黑";
+    font-size: 14px;
+    height:40px;
+}
 .pulic_list_out ul li a:hover{
     color: #43a2ec;}
-
 
 .public_action a{float:left;font-size: 25px;font-family: 宋体}
 .public_action_content {clear: both;}
 .public_action em{float: right}
 .public_title { float: right;margin-right: 20px;text-align:center;}
-
-
-
-

@@ -2,43 +2,60 @@
 <block name="header" >
     <link href="__CSS__/home.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="__CSS__/public.css" />
+
 </block>
 <block name="side">
 </block>
 <block name="body">
 
     <div class="public_content">
+            <div class="bannercont" >
+                <img src="../Public/Home/images/a1.jpg">
+            </div>
         <!--资金池-->
-        <div class="public_up">
             <div class="fund">
-                <h1>资金池:<a>{$suminfo.sum_fund}</a></h1><br>
-                <h2>已募集善款总额:<a>{$suminfo.sum_input}</a> </h2>
-            </div>
+                <h1><a>资金池:{$suminfo.sum_fund}&nbsp;&nbsp;&nbsp;已募集善款总额:{$suminfo.sum_input}</a></h1>
             <!--募捐-->
-            <div class="public_buttom">
-                <a href="#">我要募捐</a>
+                    <div class="public_buttom">
+                    <a href="#">我要募捐</a>
+                    </div>
+
             </div>
 
-
-
-        </div>
         <div class="clearfix"></div>
         <!--公告-->
         <div class="public">
             <div class="public_input">
                 <h1>公益募集</h1>
-                <div class="pulic_list">
-                    <ul>
-                        <volist name="list1" id="vo">
-                            <li>{$vo.nickname}</li>
-                            <li>捐献了 {$vo.fund}元</li>
-                            <li style="float: right; margin-right: -15px">{$vo.create_time}</li>
-                        </volist>
-                    </ul>
-                    <div class="clear"></div>
+                <div class="">
+                    <div class="left1">
+                        <ul>
+                            <volist name="list1" id="vo">
+                                <li>{$vo.nickname}</li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <div class="left2">
+                        <ul>
+                            <volist name="list1" id="vo">
+                                <li>捐献了 {$vo.fund}元</li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <div class="left3">
+                        <ul>
+                            <volist name="list1" id="vo">
+                                <li>{$vo.create_time}</li>
+                            </volist>
+                        </ul>
+                    </div>
                 </div>
+                    <div class="clear"></div>
                 <a href="pubwelfarelist.html" class="list_hover">更多详情</a>
             </div>
+
+
+
             <div class="public_output"><h1>公益捐助</h1>
                 <div class="pulic_list_out">
                     <ul>
@@ -61,3 +78,4 @@
 
 
 </block>
+
