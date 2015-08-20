@@ -119,78 +119,82 @@
                     <div class="bank-select">
                         <div class="tab">
                             <ul class="clearfix">
-                            <li class="active"><a id="tab-normal" href="#tab-content1">网银支付</a></li>
-                                <li><a id="tab-quick" href="#tab-content2">快捷支付</a></li>
+                                <!--<li class="active"><a id="tab-normal" href="#tab-content1">网银支付</a></li>-->
+                                <!--<li><a id="tab-quick" href="#tab-content2">快捷支付</a></li>-->
                                 <li class="active"><a id="tab-offline" href="#tab-content3">线下支付</a></li>
                             </ul>
                         </div>
                         <div class="tab-list">
-                            <div id="tab-content1" class="tab-content active">
-                                <ul class="banklist clearfix" id="normal-list">
-                                    <volist name="normal" id="vo">
-                                        <li data-code="{$vo.normal_code}"><a>
-                                            <notempty name="vo.normal_logo"><img src="{$vo.normal_logo}"
-                                                                                 alt="{$vo.bank_name}"></notempty>
-                                            <img class="selected" src="__IMG__/banklist/selected.png"></a></li>
-                                    </volist>
-                                </ul>
-                                <div class="btn-list"><a href="{:U('Pay/normalpay?merorderid='.$data['merorderid'])}"
-                                                         class="btn_red2" id="btn-pay1"><span>支 付</span></a></div>
-                            </div>
-                            <div id="tab-content2" class="tab-content">
-                                <div id="step1" class="pay-step active">
-                                    <ul class="banklist clearfix quick-list">
-                                        <volist name="quickpay" id="vo">
-                                            <li><a>
-                                                <notempty name="vo.normal_logo"><img src="{$vo.normal_logo}"
-                                                                                     alt="{$vo.bank_name}">
-                                                    <else/>
-                                                    {$vo.bank_name}
-                                                </notempty>
-                                                <img class="selected" src="__IMG__/banklist/selected.png"></a></li>
-                                        </volist>
-                                        <eq name="data.allow_creditcard" value="1">
-                                            <li class="pay-other">信用卡支付<img class="selected"
-                                                                            src="__IMG__/banklist/selected.png"></li>
-                                        </eq>
-                                    </ul>
-                                    <div class="btn-list"><a
-                                            href="{:U('Pay/quickpay1?merorderid='.$data['merorderid'])}"
-                                            class="btn_red2 pay-next" id="btn-quickpay"><span>下一步</span></a></div>
-                                </div>
-                                <div id="next-content"></div>
-                            </div>
+                            <!--<div id="tab-content1" class="tab-content active">-->
+                            <!--<ul class="banklist clearfix" id="normal-list">-->
+                            <!--<volist name="normal" id="vo">-->
+                            <!--<li data-code="{$vo.normal_code}"><a>-->
+                            <!--<notempty name="vo.normal_logo"><img src="{$vo.normal_logo}"-->
+                            <!--alt="{$vo.bank_name}"></notempty>-->
+                            <!--<img class="selected" src="__IMG__/banklist/selected.png"></a></li>-->
+                            <!--</volist>-->
+                            <!--</ul>-->
+                            <!--<div class="btn-list"><a href="{:U('Pay/normalpay?merorderid='.$data['merorderid'])}"-->
+                            <!--class="btn_red2" id="btn-pay1"><span>支 付</span></a></div>-->
+                            <!--</div>-->
+                            <!--<div id="tab-content2" class="tab-content">-->
+                            <!--<div id="step1" class="pay-step active">-->
+                            <!--<ul class="banklist clearfix quick-list">-->
+                            <!--<volist name="quickpay" id="vo">-->
+                            <!--<li><a>-->
+                            <!--<notempty name="vo.normal_logo"><img src="{$vo.normal_logo}"-->
+                            <!--alt="{$vo.bank_name}">-->
+                            <!--<else/>-->
+                            <!--{$vo.bank_name}-->
+                            <!--</notempty>-->
+                            <!--<img class="selected" src="__IMG__/banklist/selected.png"></a></li>-->
+                            <!--</volist>-->
+                            <!--<eq name="data.allow_creditcard" value="1">-->
+                            <!--<li class="pay-other">信用卡支付<img class="selected"-->
+                            <!--src="__IMG__/banklist/selected.png"></li>-->
+                            <!--</eq>-->
+                            <!--</ul>-->
+                            <!--<div class="btn-list"><a-->
+                            <!--href="{:U('Pay/quickpay1?merorderid='.$data['merorderid'])}"-->
+                            <!--class="btn_red2 pay-next" id="btn-quickpay"><span>下一步</span></a></div>-->
+                            <!--</div>-->
+                            <!--<div id="next-content"></div>-->
+                            <!--</div>-->
                             <div id="tab-content3" class="tab-content active">
                                 <div class="clearfix">
                                     <div class="le">
                                         <p class="offline-tips">特别提示</p>
-                                        <p class="offline-tips-info">为了您的投资权益，请使用本人银行卡或支付宝账户进行线下支付。<br>
-
-                                            线下支付前后可添加中瀛智募微信客服号咨询支付问题。中瀛智募客服微信号：jumu86858285</p>
+                                        <!--<p class="offline-tips-info">为了您的投资权益，请使用本人银行卡或支付宝账户进行线下支付。-->
+                                        <!-- <br>线下支付前后可添加中瀛智募微信客服号咨询支付问题。中瀛智募客服微信号：jumu86858285</p>-->
+                                        <p  class="offline-tips-info">感谢您担任《城市居民互联网保险金融服务平台》项目天使投资人。
+                                            汇款单请注明《互联网保险金融项目往来款》，并拍下水单发私信给蔡远游。按汇款先后顺序决定众筹参与资格。
+                                            蔡远游将统一提供《代持股权合同书》及各附件、股金收据。蔡远游确定为本项目领投人，但投资有风险，请谨慎判断。
+                                            <br><a style="float: right"> 通知人：中瀛智募  </a>   </p>
                                     </div>
-                                    <div class="rt">
-                                        <img src="__IMG__/service_barcode.jpg" alt="" class="barcode">
-                                    </div>
+                                    <!--<div class="rt">-->
+                                    <!--<img src="__IMG__/service_barcode.jpg" alt="" class="barcode">-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="offline-payinfo">
                                     <div class="offline-payway">
                                         <p class="payway-title"><span class="num">1</span><span
-                                                class="title">微信账户</span></p>
-                                        <div class="offline-content">
-                                            <p>账户名称：杭州聚道投资管理有限公司</p>
-                                            <p>支付宝账户：jdtz2015@sina.com <span>（转账备注“项目名称+手机号码”）</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="offline-payway">
-                                        <p class="payway-title"><span class="num">2</span><span
                                                 class="title">银行账户</span></p>
                                         <div class="offline-content">
-                                            <p>开户名称：杭州聚道投资管理有限公司</p>
-                                            <p>开户账户：3301 0401 6000 2243 627
-                                                <span>（打款后请联系客服微信或拨打 0571 - 86858285 确认打款状态）</span></p>
-                                            <p>开户银行： 杭州银行南山支行</p>
+                                            <p>开户名称：华瀚通商（厦门）投资管理有限公司</p>
+                                            <p>开户银行：厦门农村商业银行股份有限公司东渡支行</span></p>
+                                            <p>开户账号：9020110050010000229461</p>
                                         </div>
                                     </div>
+                                    <!--<div class="offline-payway">-->
+                                    <!--<p class="payway-title"><span class="num">2</span><span-->
+                                    <!--class="title">银行账户</span></p>-->
+                                    <!--<div class="offline-content">-->
+                                    <!--<p>开户名称：杭州聚道投资管理有限公司</p>-->
+                                    <!--<p>开户账户：3301 0401 6000 2243 627-->
+                                    <!--<span>（打款后请联系客服微信或拨打 0571 - 86858285 确认打款状态）</span></p>-->
+                                    <!--<p>开户银行： 杭州银行南山支行</p>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
                                     <div class="bank-pay-tip">
                                         在收到您的投资款后，我们会在1~2个工作日内，修改您的投资状态为<i>【已支付】</i>。 再次感谢您的支持。
                                     </div>
@@ -204,16 +208,16 @@
                         <div class="btn-list"><a href="{:U('Pay/usebalance?merorderid='.$data['merorderid'])}" class="btn_red2" id="btn-balance"><span>支 付</span></a></div>
                     </div>
                 </if>
-                <div class="pay-warning">
-                    <p class="pay-title">温馨提醒：</p>
-                    <p>1. 请使用您本人的银行卡进行充值。</p>
-                    <p>2. 您的账户资金将由第三方平台托管。 </p>
-                    <p>3. 为了您的资金安全，请您在充值前完成手机绑定及身份认证。 </p>
-                    <!--<p>4. 充值过程遇到问题，请联系客服，0571 - 86858285</p>-->
-                </div>
+                <!--<div class="pay-warning">-->
+                <!--<p class="pay-title">温馨提醒：</p>-->
+                <!--<p>1. 请使用您本人的银行卡进行充值。</p>-->
+                <!--<p>2. 您的账户资金将由第三方平台托管。 </p>-->
+                <!--<p>3. 为了您的资金安全，请您在充值前完成手机绑定及身份认证。 </p>-->
+                <!--&lt;!&ndash;<p>4. 充值过程遇到问题，请联系客服，0571 - 86858285</p>&ndash;&gt;-->
+                <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
-    </div>
 </block>
 <block name="script">
     <script type="text/javascript" src="__STATIC__/Validform_v5.3.2.js"></script>
