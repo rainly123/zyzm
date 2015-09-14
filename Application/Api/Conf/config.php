@@ -28,5 +28,8 @@ return array(
 		/* SESSION 和 COOKIE 配置 */
 		'SESSION_PREFIX' => 'onethink_home', //session前缀
 		'COOKIE_PREFIX'  => 'onethink_home_', // Cookie前缀 避免冲突
+       /*des解密配置参数*/
+       'key'=>"sq7Chcyu",//密钥
+       'appid'=>'ff8080814fb0bc58014fb0bc58010000'//企业ID
 );
 ?>

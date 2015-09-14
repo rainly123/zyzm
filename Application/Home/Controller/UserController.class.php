@@ -11,6 +11,7 @@ namespace Home\Controller;
 use User\Api\UserApi; 
 use Think\Image;
 use Think\Log;
+use yixinchen\logic\SendSms;
 
 /**
  * 用户控制器
@@ -297,13 +298,15 @@ class UserController extends HomeController {
 				} else if (!$needcheck && $ret <= 0) {
 					$this->error('该手机号码已经注册。');
 				}
-				$code = rand(100000,999999);
-				$mac = md5($phone . $code .C('SMSKEY'));
-				$data = array('phone'=>$phone, 'code'=>$code, 'mac'=>$mac);
-				$url = 'http://'.localhost.'/sms/sendcode.html';
-				$ret = curlPost($url, $data);
-
-				if ($ret) {
+  			    $code = rand(100000,999999);
+//				$mac = md5($phone . $code .C('SMSKEY'));
+//				$data = array('phone'=>$phone, 'code'=>$code, 'mac'=>$mac);
+//				$url = 'http://'.localhost.'/sms/sendcode.html';
+//				$ret = curlPost($url, $data);
+                $Sms=new SendSms();
+                $arrays=$Sms->SendSms($phone,"【中瀛智募】您的短信验证码为：".$code." 验证码将在10分钟后过期");
+                $ret=$arrays["result"];
+				if ($ret==0) {
 					session($phone, $code);
 					$this->success('发送成功');
 				} else {
